@@ -7,6 +7,7 @@ using Sprint0.Interfaces;
 namespace Sprint0
 {
     //changeskkkkk123
+    //make everyone owner = solve problem
     public class Game1 : Game
     {
         private SpriteManager spriteManager;
