@@ -8,7 +8,7 @@ namespace Sprint0
 {
     //changeskkkkk123
     //make everyone owner = solve problem
-    //another demo
+    //another demo 1111
     public class Game1 : Game
     {
         private SpriteManager spriteManager;
