@@ -21,24 +21,45 @@ namespace Sprint0.Classes
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
 
-        private Texture2D staticSpriteTexture;
+       // private Texture2D staticSpriteTexture;
         private Texture2D[] animatedSpriteFrames;
         private Texture2D movingSpriteTexture;
         private Texture2D[] movingAnimatedSpriteFrames;
+        private Rectangle[] sourceRectangles;
+        private Vector2 scale;
+
+        //Link spritesheet[sprint2]:
+        Texture2D LinkSheet;
+
 
         public SpriteManager(GraphicsDevice graphicsDevice, ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
             this.content = content;
 
+        
             LoadTextures();
             SetSprite(SpriteType.Static); // Default to Static Sprite
         }
 
         private void LoadTextures()
         {
+            //Link sheet [sprint2]
+            LinkSheet = content.Load<Texture2D>("zeldaLink");
+            sourceRectangles = new Microsoft.Xna.Framework.Rectangle[2]
+            {
+                //https://pixspy.com/
+               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 1
+               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 2
+            };
+
+            //add a scale for sprites: 
+            scale = new Vector2(2.0f, 2.0f); //2x scale
+
+
             // Load static sprite texture
-            staticSpriteTexture = content.Load<Texture2D>("mario_standing");
+
+            //staticSpriteTexture = content.Load<Texture2D>("mario_standing");
 
             // Load moving sprite texture
             movingSpriteTexture = content.Load<Texture2D>("mario_standing"); // Reuse for moving sprite
@@ -61,7 +82,7 @@ namespace Sprint0.Classes
             switch (type)
             {
                 case SpriteType.Static:
-                    currentSprite = new StaticSprite(staticSpriteTexture);
+                    currentSprite = new StaticSprite(LinkSheet, sourceRectangles, scale);
                     break;
                 case SpriteType.Moving:
                     currentSprite = new MovingSprite(movingSpriteTexture, graphicsDevice.Viewport.Height);

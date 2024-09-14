@@ -6,10 +6,6 @@ using Sprint0.Interfaces;
 
 namespace Sprint0
 {
-    //changeskkkkk123
-    //make everyone owner = solve problem
-    //another demo 1111
-    //ben Helllo
     public class Game1 : Game
     {
         private SpriteManager spriteManager;
@@ -46,6 +42,7 @@ namespace Sprint0
 
             // Load the font
             font = Content.Load<SpriteFont>("File");
+
 
             // Initialize the SpriteManager and load all textures
             spriteManager = new SpriteManager(GraphicsDevice, Content);
