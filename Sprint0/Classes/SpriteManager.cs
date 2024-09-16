@@ -46,11 +46,17 @@ namespace Sprint0.Classes
         {
             //Link sheet [sprint2]
             LinkSheet = content.Load<Texture2D>("zeldaLink");
-            sourceRectangles = new Microsoft.Xna.Framework.Rectangle[2]
+            sourceRectangles = new Microsoft.Xna.Framework.Rectangle[8]
             {
                 //https://pixspy.com/
-               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 1
-               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 2
+               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 1 {down 1}
+               new Microsoft.Xna.Framework.Rectangle(18, 11, 16, 16), //animation frame 2 {down 2}
+               new Microsoft.Xna.Framework.Rectangle(35, 11, 16, 16), //animation frame 2 {right 1}
+               new Microsoft.Xna.Framework.Rectangle(52, 11, 16, 16), //animation frame 2 {right 2}
+               new Microsoft.Xna.Framework.Rectangle(69, 11, 16, 16), //animation frame 2 {up 1}
+               new Microsoft.Xna.Framework.Rectangle(86, 11, 16, 16), //animation frame 2 {up 2}
+               new Microsoft.Xna.Framework.Rectangle(35, 11, 16, 16), //animation frame 2 {left 1}  //gotta flip these horizontally
+               new Microsoft.Xna.Framework.Rectangle(52, 11, 16, 16), //animation frame 2 {left 2}
             };
 
             //add a scale for sprites: 
