@@ -11,7 +11,6 @@ namespace Sprint0.Classes
 {
     public class KeyboardController : IController
     {
-
         private readonly SpriteManager spriteManager;
         private KeyboardState previousState;
 
