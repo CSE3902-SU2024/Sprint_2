@@ -11,41 +11,57 @@ namespace Sprint0.Classes
 {
     public class KeyboardController : IController
     {
+        private Link _link;
         private readonly SpriteManager spriteManager;
-        private KeyboardState previousState;
+        private KeyboardState _previousKeyboardState;
 
-        public KeyboardController(SpriteManager spriteManager)
+        public KeyboardController(Link link)
         {
-            this.spriteManager = spriteManager;
-            previousState = Keyboard.GetState(); // Save the initial keyboard state
+            _link = link;
+            _previousKeyboardState = Keyboard.GetState(); // Save the initial keyboard state
         }
 
         public void Update()
         {
-            KeyboardState currentState = Keyboard.GetState();
+            KeyboardState currentKeyboardState = Keyboard.GetState();
 
-            // Handle key presses on key down (to prevent multiple triggers)
-            if (currentState.IsKeyDown(Keys.D1) && previousState.IsKeyUp(Keys.D1))
+            // Handle movement
+            if (currentKeyboardState.IsKeyDown(Keys.W) || currentKeyboardState.IsKeyDown(Keys.Up))
             {
-                spriteManager.SetSprite(SpriteType.Static);
+                _link.Move(Direction.Up);
             }
-            else if (currentState.IsKeyDown(Keys.D2) && previousState.IsKeyUp(Keys.D2))
+            if (currentKeyboardState.IsKeyDown(Keys.S) || currentKeyboardState.IsKeyDown(Keys.Down))
             {
-                spriteManager.SetSprite(SpriteType.Animated);
+                _link.Move(Direction.Down);
             }
-            else if (currentState.IsKeyDown(Keys.D3) && previousState.IsKeyUp(Keys.D3))
+            if (currentKeyboardState.IsKeyDown(Keys.A) || currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                spriteManager.SetSprite(SpriteType.Moving);
+                _link.Move(Direction.Left);
             }
-            else if (currentState.IsKeyDown(Keys.D4) && previousState.IsKeyUp(Keys.D4))
+            if (currentKeyboardState.IsKeyDown(Keys.D) || currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                spriteManager.SetSprite(SpriteType.MovingAnimated);
+                _link.Move(Direction.Right);
             }
-            else if (currentState.IsKeyDown(Keys.D0) && previousState.IsKeyUp(Keys.D0))
+
+            // Handle attacking 
+            if (IsKeyPressed(currentKeyboardState, Keys.Z) || IsKeyPressed(currentKeyboardState, Keys.N))
             {
-                System.Environment.Exit(0); // Quit the game
+                _link.Attack();
             }
-            previousState = currentState; // Update the previous state
+
+            if (IsKeyPressed(currentKeyboardState, Keys.E))
+            {
+                _link.TakeDamage();
+            }
+
+
+            // Update the previous keyboard state for the next frame
+            _previousKeyboardState = currentKeyboardState;
+        }
+
+        private bool IsKeyPressed(KeyboardState currentKeyboardState, Keys key)
+        {
+            return currentKeyboardState.IsKeyDown(key) && _previousKeyboardState.IsKeyUp(key);
         }
     }
 }

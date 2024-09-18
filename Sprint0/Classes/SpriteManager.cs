@@ -31,6 +31,10 @@ namespace Sprint0.Classes
         //Link spritesheet[sprint2]:
         Texture2D LinkSheet;
 
+        private Direction facingDirection;
+        private Vector2 position;
+        private bool isAttacking;
+
 
         public SpriteManager(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -98,9 +102,9 @@ namespace Sprint0.Classes
                     break;
                 case SpriteType.MovingAnimated:
                     currentSprite = new MovingAnimatedSprite(movingAnimatedSpriteFrames, graphicsDevice.Viewport.Width);
-                    break;
+                   break;
             }
-        }
+         }
 
         public void Update(GameTime gameTime)
         {
