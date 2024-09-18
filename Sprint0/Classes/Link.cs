@@ -14,7 +14,6 @@ namespace Sprint0.Classes
         private Texture2D _texture;
         private Vector2 _position;
         private Direction _facingDirection;
-        private int _health;
         private bool _isAttacking;
 
         public Link(Texture2D texture, Vector2 initialPosition)
@@ -22,7 +21,6 @@ namespace Sprint0.Classes
             _texture = texture;
             _position = initialPosition;
             _facingDirection = Direction.Down;
-            _health = 100;
             _isAttacking = false;
         }
 
@@ -55,7 +53,7 @@ namespace Sprint0.Classes
 
         public void TakeDamage()
         {
-            _health -= 10;
+
         }
 
         public void Update(GameTime gameTime)
@@ -70,8 +68,7 @@ namespace Sprint0.Classes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Logic for drawing the player sprite based on the direction and state
-            spriteBatch.Draw(_texture, _position, Color.White);
+
         }
     }
 }
