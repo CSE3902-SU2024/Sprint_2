@@ -25,7 +25,6 @@ namespace Sprint0.Classes
             _position = initialPosition;
             _facingDirection = Direction.Down;
             _isAttacking = false;
-            _currentState = new LinkFacingRight();  //facing right as default state
         }
 
         public void Move(Direction direction)
@@ -62,17 +61,7 @@ namespace Sprint0.Classes
 
         public void Update(GameTime gameTime)
         {
-            // Update the player state 
-            if (_facingDirection == Direction.Right && isKeyPressed(Keys.Right) {
-                _currentState = State.MoveRight   //bruddas ima need some help with refereces
-            }
-            {
-                
-                
-                
-                // Reset attack flag after attack is done
-                //_isAttacking = false;
-            }
+           
         }
 
         public void Draw(SpriteBatch spriteBatch)

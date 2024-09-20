@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Sprint0.Classes
 {
-    public class LinkStateMachine : IStateMachine //?
+    public class LinkStateMachine : IStateMachine 
     {
         public enum State
         {
@@ -50,59 +50,65 @@ namespace Sprint0.Classes
 
         private void Update(GameTime gametime)
         {
+            throw new NotImplementedException();
 
         }
 
-        void ChangeState(State newState)
+        void IStateMachine.Update(GameTime gameTime)
         {
-            _currentState = newState;
-
-            switch (_currentState)
-            {
-                //i honestly don't know wtf to do here if we have Imove and movement in the Link class
-                case State.Idle:
-
-                    break;
-                case State.MovingUp:
-
-                    break;
-                case State.MovingLeft:
-
-                    break;
-                case State.MovingRight:
-
-                    break;
-                case State.MovingDown:
-
-                    break;
-                case State.AttackingUp:
-                    break;
-                case State.AttackingLeft:
-                    break;
-                case State.AttackingRight:
-                    break;
-                case State.AttackingDown:
-                    break;
-                case State.TakeDamage:
-                    break;
-                case State.UseItem1Up: break;
-                case State.UseItem1Down: break;
-                case State.UseItem1Left: break;
-                case State.UseItem1Right: break;
-                case State.UseItem2Up: break;
-                case State.UseItem2Down: break;
-                case State.UseItem2Left: break;
-                case State.UseItem2Right: break;
-                case State.UseItem3Up: break;
-                case State.UseItem3Down: break;
-                case State.UseItem3Left: break;
-                case State.UseItem3Right: break;
-                
-
-            }
+            throw new NotImplementedException();
         }
 
+        //void ChangeState(State newState)
+        //{
+        //    _currentState = newState;
 
+        //    switch (_currentState)
+        //    {
+        //        //i honestly don't know wtf to do here if we have Imove and movement in the Link class
+        //        case State.Idle:
+
+        //            break;
+        //        case State.MovingUp:
+
+        //            break;
+        //        case State.MovingLeft:
+
+        //            break;
+        //        case State.MovingRight:
+
+        //            break;
+        //        case State.MovingDown:
+
+        //            break;
+        //        case State.AttackingUp:
+        //            break;
+        //        case State.AttackingLeft:
+        //            break;
+        //        case State.AttackingRight:
+        //            break;
+        //        case State.AttackingDown:
+        //            break;
+        //        case State.TakeDamage:
+        //            break;
+        //        case State.UseItem1Up: break;
+        //        case State.UseItem1Down: break;
+        //        case State.UseItem1Left: break;
+        //        case State.UseItem1Right: break;
+        //        case State.UseItem2Up: break;
+        //        case State.UseItem2Down: break;
+        //        case State.UseItem2Left: break;
+        //        case State.UseItem2Right: break;
+        //        case State.UseItem3Up: break;
+        //        case State.UseItem3Down: break;
+        //        case State.UseItem3Left: break;
+        //        case State.UseItem3Right: break;
+
+
+        //    }
     }
+
+
+ 
 
 }

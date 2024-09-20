@@ -8,11 +8,11 @@ namespace Sprint0
 {
     public class Game1 : Game
     {
-        private SpriteManager spriteManager;
+        
         private IController keyboardController;
-        private IController mouseController;
-        private TextSprite creditsTextSprite;
-
+        //private IController mouseController;
+        
+        
         private SpriteFont font;
 
 
@@ -45,17 +45,12 @@ namespace Sprint0
 
 
             // Initialize the SpriteManager and load all textures
-            spriteManager = new SpriteManager(GraphicsDevice, Content);
 
-            // Initialize the KeyboardController and link it to the SpriteManager
-            keyboardController = new KeyboardController(spriteManager);
 
-            mouseController = new MouseController(spriteManager, GraphicsDevice);
 
             // Initialize the TextSprite for credits
-            creditsTextSprite = new TextSprite(font, "Credits\nProgram Made By: Hengkai Zheng\nSprites from: https://www.spriters-resource.com/fullview/176365/",
-                                               new Vector2(200, GraphicsDevice.Viewport.Height - 100), Color.Black);
         }
+         
 
 
         protected override void Update(GameTime gameTime)
@@ -63,15 +58,15 @@ namespace Sprint0
 
 
             // Update the keyboard controller (handles switching between sprites)
-            keyboardController.Update();
+            //keyboardController.Update();
 
-            Link.Update(gameTime);
+            //Link.Update(gameTime);
 
             // Update the mouse controller (handles switching between sprites using mouse)
-            mouseController.Update();
+            //mouseController.Update();
 
             // Update the current active sprite
-            spriteManager.Update(gameTime);
+            //spriteManager.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -84,9 +79,8 @@ namespace Sprint0
             
             _spriteBatch.Begin();
 
-            spriteManager.Draw(_spriteBatch);
+            //spriteManager.Draw(_spriteBatch);
 
-            creditsTextSprite.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
