@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sprint0.Link;
 
 namespace Sprint0.Classes
 {
@@ -15,7 +16,8 @@ namespace Sprint0.Classes
         private Vector2 _position;
         private Direction _facingDirection;
         private bool _isAttacking;
-        private State _currentState;
+
+        public ILinkState _currentState;
 
         public Link(Texture2D texture, Vector2 initialPosition)
         {
@@ -23,6 +25,7 @@ namespace Sprint0.Classes
             _position = initialPosition;
             _facingDirection = Direction.Down;
             _isAttacking = false;
+            _currentState = new LinkFacingRight();  //facing right as default state
         }
 
         public void Move(Direction direction)

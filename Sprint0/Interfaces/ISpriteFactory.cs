@@ -6,7 +6,7 @@ using System;
 namespace Sprint0.Classes
 {
 
-    internal interface ISpriteFactory
+    public interface ISpriteFactory
     {
         void LoadTexture(String sheetName);
 
