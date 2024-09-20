@@ -15,6 +15,7 @@ namespace Sprint0.Classes
         private Vector2 _position;
         private Direction _facingDirection;
         private bool _isAttacking;
+        private State _currentState;
 
         public Link(Texture2D texture, Vector2 initialPosition)
         {
@@ -59,10 +60,15 @@ namespace Sprint0.Classes
         public void Update(GameTime gameTime)
         {
             // Update the player state 
-            if (_isAttacking)
+            if (_facingDirection == Direction.Right && isKeyPressed(Keys.Right) {
+                _currentState = State.MoveRight   //bruddas ima need some help with refereces
+            }
             {
+                
+                
+                
                 // Reset attack flag after attack is done
-                _isAttacking = false;
+                //_isAttacking = false;
             }
         }
 

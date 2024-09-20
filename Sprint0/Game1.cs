@@ -65,6 +65,8 @@ namespace Sprint0
             // Update the keyboard controller (handles switching between sprites)
             keyboardController.Update();
 
+            Link.Update(gameTime);
+
             // Update the mouse controller (handles switching between sprites using mouse)
             mouseController.Update();
 
