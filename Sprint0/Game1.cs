@@ -8,18 +8,14 @@ namespace Sprint0
 {
     public class Game1 : Game
     {
-        
-        private IController keyboardController;
-        //private IController mouseController;
-        
-        
-        private SpriteFont font;
-
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Link _link;
+        private KeyboardController _keyboardController;
+        private LinkSpriteFactory _linkSpriteFactory;
 
-        
+
 
         public Game1()
         {
@@ -30,8 +26,7 @@ namespace Sprint0
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            _keyboardController = new KeyboardController();
 
             base.Initialize();
         }
@@ -40,15 +35,16 @@ namespace Sprint0
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load the font
-            font = Content.Load<SpriteFont>("File");
+            //initalize spritefactory
+            _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "zeldaLink");
 
+            Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
 
-            // Initialize the SpriteManager and load all textures
+            //link texture
+            Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
 
-
-
-            // Initialize the TextSprite for credits
+            //link instance
+            _link = new Link(linkTexture, new Vector2(100, 100), linkFrames);
         }
          
 
@@ -57,16 +53,11 @@ namespace Sprint0
         {
 
 
-            // Update the keyboard controller (handles switching between sprites)
-            //keyboardController.Update();
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
-            //Link.Update(gameTime);
-
-            // Update the mouse controller (handles switching between sprites using mouse)
-            //mouseController.Update();
-
-            // Update the current active sprite
-            //spriteManager.Update(gameTime);
+            _keyboardController.Update();
+            _link.Update(gameTime, _keyboardController);
 
 
             base.Update(gameTime);
@@ -76,13 +67,11 @@ namespace Sprint0
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            
             _spriteBatch.Begin();
-
-            //spriteManager.Draw(_spriteBatch);
-
-
+            _link.Draw(_spriteBatch);
             _spriteBatch.End();
+
+
             base.Draw(gameTime);
         }
     }

@@ -20,24 +20,31 @@ namespace Sprint0.Classes
         }
         public void LoadTexture(String sheetName)
         {
-            link_Sheet = content.Load<Texture2D>(sheetName);
+            try
+            {
+                link_Sheet = content.Load<Texture2D>(sheetName);
+            }
+            catch (ContentLoadException e)
+            {
+                Console.WriteLine($"Error loading content: {e.Message}");
+                throw;
+            }
         }
 
-
-        Rectangle[] ISpriteFactory.CreateFrames()
+        public Rectangle[] CreateFrames()
         {
-            sourceRectangles = new Microsoft.Xna.Framework.Rectangle[]
-            {
+            sourceRectangles = new Rectangle[]
+             {
                 //https://pixspy.com/
-               new Microsoft.Xna.Framework.Rectangle(1, 11, 16, 16), //animation frame 1 {down 1}
-               new Microsoft.Xna.Framework.Rectangle(18, 11, 16, 16), //animation frame 2 {down 2}
-               new Microsoft.Xna.Framework.Rectangle(35, 11, 16, 16), //animation frame 2 {right 1}
-               new Microsoft.Xna.Framework.Rectangle(52, 11, 16, 16), //animation frame 2 {right 2}
-               new Microsoft.Xna.Framework.Rectangle(69, 11, 16, 16), //animation frame 2 {up 1}
-               new Microsoft.Xna.Framework.Rectangle(86, 11, 16, 16), //animation frame 2 {up 2}
-               new Microsoft.Xna.Framework.Rectangle(35, 11, 16, 16), //animation frame 2 {left 1}  //gotta flip these horizontally
-               new Microsoft.Xna.Framework.Rectangle(52, 11, 16, 16), //animation frame 2 {left 2}
-            };
+                new Rectangle(1, 11, 16, 16),   //animation frame 1 {down 1}
+                new Rectangle(18, 11, 16, 16),  //animation frame 2 {down 2}
+                new Rectangle(35, 11, 16, 16),  //animation frame 1 {right 1}
+                new Rectangle(52, 11, 16, 16),  //animation frame 2 {right 2}
+                new Rectangle(69, 11, 16, 16),  //animation frame 1 {up 1}
+                new Rectangle(86, 11, 16, 16),  //animation frame 2 {up 2}
+                new Rectangle(35, 11, 16, 16),  //animation frame 1 {left 1}  //gotta flip these horizontally --> did this
+                new Rectangle(52, 11, 16, 16),  //animation frame 2 {left 2}
+             };
 
             return sourceRectangles;
         }

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Sprint0.Classes
 {
-    public class LinkStateMachine : IStateMachine 
+    public class LinkStateMachine : IStateMachine
     {
         public enum State
         {
@@ -21,23 +21,23 @@ namespace Sprint0.Classes
             MovingRight,
             MovingUp,
             MovingDown,
-            AttackingUp,
-            AttackingDown,
-            AttackingLeft,
-            AttackingRight,
-            TakeDamage,
-            UseItem1Left,
-            UseItem1Right,
-            UseItem1Up,
-            UseItem1Down,
-            UseItem2Left,
-            UseItem2Right,
-            UseItem2Up,
-            UseItem2Down,
-            UseItem3Left,
-            UseItem3Right,
-            UseItem3Up,
-            UseItem3Down,
+            //AttackingUp,
+            //AttackingDown,
+            //AttackingLeft,
+            //AttackingRight,
+            //TakeDamage,
+            //UseItem1Left,
+            //UseItem1Right,
+            //UseItem1Up,
+            //UseItem1Down,
+            //UseItem2Left,
+            //UseItem2Right,
+            //UseItem2Up,
+            //UseItem2Down,
+            //UseItem3Left,
+            //UseItem3Right,
+            //UseItem3Up,
+            //UseItem3Down,
         }
         private Link _link;
         private State _currentState;
@@ -48,67 +48,36 @@ namespace Sprint0.Classes
             _currentState = State.Idle;
         }
 
-        private void Update(GameTime gametime)
+        public void Update(GameTime gametime)   
         {
-            throw new NotImplementedException();
-
+            switch (_currentState)
+            {
+                case State.Idle:
+                    // No movement
+                    break;
+                case State.MovingLeft:
+                case State.MovingRight:
+                case State.MovingUp:
+                case State.MovingDown:
+                    // Movement is handled in the Link class
+                    break;
+            }
         }
 
-        void IStateMachine.Update(GameTime gameTime)
+        public void ChangeState(State newState)
+        {
+            _currentState = newState;
+        }
+
+        public State GetCurrentState()
+        {
+            return _currentState;
+        }
+
+        void IStateMachine.Update(GameTime gameTime) //why do I need this or error?
         {
             throw new NotImplementedException();
         }
-
-        //void ChangeState(State newState)
-        //{
-        //    _currentState = newState;
-
-        //    switch (_currentState)
-        //    {
-        //        //i honestly don't know wtf to do here if we have Imove and movement in the Link class
-        //        case State.Idle:
-
-        //            break;
-        //        case State.MovingUp:
-
-        //            break;
-        //        case State.MovingLeft:
-
-        //            break;
-        //        case State.MovingRight:
-
-        //            break;
-        //        case State.MovingDown:
-
-        //            break;
-        //        case State.AttackingUp:
-        //            break;
-        //        case State.AttackingLeft:
-        //            break;
-        //        case State.AttackingRight:
-        //            break;
-        //        case State.AttackingDown:
-        //            break;
-        //        case State.TakeDamage:
-        //            break;
-        //        case State.UseItem1Up: break;
-        //        case State.UseItem1Down: break;
-        //        case State.UseItem1Left: break;
-        //        case State.UseItem1Right: break;
-        //        case State.UseItem2Up: break;
-        //        case State.UseItem2Down: break;
-        //        case State.UseItem2Left: break;
-        //        case State.UseItem2Right: break;
-        //        case State.UseItem3Up: break;
-        //        case State.UseItem3Down: break;
-        //        case State.UseItem3Left: break;
-        //        case State.UseItem3Right: break;
-
-
-        //    }
     }
-
-
- 
-
 }
+   
