@@ -52,8 +52,10 @@ namespace Sprint0.Classes
                 new Rectangle(111,97,16,28), // Sword Up 2
                 new Rectangle(128,98,16, 28), // Sword up 3
                 new Rectangle(145,106,16, 19), //Sword up 4
-                new Rectangle(94,128,16,23), // Sword down 1
-                new Rectangle(111,128,16,23), // Sword down 2
+                new Rectangle(94,47,16,16), // Sword down 1
+                new Rectangle(111,47,16,27), // Sword down 2
+                new Rectangle(128,47,16,23), // Sword down 3
+                new Rectangle(145,47,16,19), // Sword down 4
                 new Rectangle(35,232,16,16)  //#18 hurt animation              
              };
 
