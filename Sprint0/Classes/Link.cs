@@ -22,6 +22,8 @@ namespace Sprint0.Classes
         private const float MovementSpeed = 100f; // pixels per second
         private Vector2 _scale;
         private bool _isAttackInputHandled;
+        private LinkArrowHandler _arrowHandler;
+
 
 
         public Link(Texture2D texture, Vector2 initialPosition, Rectangle[] sourceRectangles)
@@ -32,6 +34,8 @@ namespace Sprint0.Classes
             _stateMachine = new LinkStateMachine(this);
             _animator = new LinkAnimation(sourceRectangles, _stateMachine, _texture);
             _scale = new Vector2(4.0f, 4.0f);
+            _arrowHandler = new LinkArrowHandler();
+
         }
 
         public void Update(GameTime gameTime, KeyboardController keyboardController)
@@ -76,6 +80,13 @@ namespace Sprint0.Classes
             {
                 _stateMachine.ChangeState(LinkStateMachine.State.TakeDamage);
             }
+            if (keyboardController.IsFirePressed)
+            {
+                _arrowHandler.FireArrow(this, _texture, _sourceRectangles[8]); // Assuming arrow sprite is at index 8
+            }
+
+            // Update arrows
+            _arrowHandler.UpdateArrows(gameTime);
             //animation logic separate from above switch block <-- adding it into that switch block not only delayed animations
             //but delayed how quickly different keys were pressed for switching input
             _animator.Update(gameTime);
@@ -86,6 +97,8 @@ namespace Sprint0.Classes
         public void Draw(SpriteBatch spriteBatch)
         {
           _animator.Draw(spriteBatch, _position, _scale);
+          _arrowHandler.DrawArrows(spriteBatch);
+
 
         }
 
