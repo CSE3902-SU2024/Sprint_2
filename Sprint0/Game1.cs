@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint0.Classes;
 using Sprint0.Interfaces;
+using System.Collections.Generic;
 
 namespace Sprint0
 {
@@ -15,6 +16,9 @@ namespace Sprint0
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
         private AnimatedBlock animatedBlock;
+        private Item Item;
+        int currentItemIndex;
+        KeyboardState previousKeyboardState;
 
 
 
@@ -23,6 +27,7 @@ namespace Sprint0
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
         }
 
         protected override void Initialize()
@@ -30,6 +35,8 @@ namespace Sprint0
             _keyboardController = new KeyboardController();
 
             base.Initialize();
+            
+            currentItemIndex = 0;
         }
 
         protected override void LoadContent()
@@ -58,7 +65,13 @@ namespace Sprint0
             // Put the textures in an array
             Texture2D[] blockTextures = new Texture2D[] { block1, block2, block3 };
 
-            animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100), 0.5f);
+            animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100));
+
+            Texture2D item1 = Content.Load<Texture2D>("DungeonBlock3");
+            Texture2D item2 = Content.Load<Texture2D>("DungeonBlock2");
+
+            Texture2D[] itemList = new Texture2D[] { item1, item2 };
+            Item = new Item(itemList, new Vector2(200, 200), 50f);
         }
          
 
@@ -73,8 +86,9 @@ namespace Sprint0
             _keyboardController.Update();
             _link.Update(gameTime, _keyboardController);
 
-            animatedBlock.Update(gameTime);
+            animatedBlock.Update(gameTime, _keyboardController);
 
+            Item.Update(gameTime, _keyboardController);
 
             base.Update(gameTime);
         }
@@ -86,6 +100,7 @@ namespace Sprint0
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
             animatedBlock.Draw(_spriteBatch);
+            Item.Draw(_spriteBatch);
             _spriteBatch.End();
 
 

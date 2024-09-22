@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
+using Sprint0.Interfaces;
 
 namespace Sprint0;
 
@@ -8,35 +10,45 @@ public class AnimatedBlock
     private Texture2D[] blocks;
     private Vector2 position;
     private int currentBlock;
-    private float timePerBlock;
-    private float timer;
+    //private float timePerBlock;
+    //private float timer;
 
-    public AnimatedBlock(Texture2D[] blockTextures, Vector2 startPosition, float frameDuration)
+    public AnimatedBlock(Texture2D[] blockTextures, Vector2 startPosition)
     {
         blocks = blockTextures;
         position = startPosition;
-        timePerBlock = frameDuration;
+       
         currentBlock = 0;
-        timer = 0f;
+        //timer = 0f;
     }
 
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, KeyboardController keyboardController)
     {
         // Update the timer
-        timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (timer >= timePerBlock)
+        //if (timer >= timePerBlock)
+        //{
+        //    // Move to the next block
+        //    currentBlock++;
+
+        //    // Loop back to the first block if we reached the end
+        //    if (currentBlock >= blocks.Length)
+        //    {
+        //        currentBlock = 0;
+        //    }
+
+        //    timer = 0f; // Reset the timer
+        //}
+
+        if (keyboardController.previousBlock)
         {
-            // Move to the next block
-            currentBlock++;
+            currentBlock = (currentBlock - 1 + blocks.Length) % blocks.Length;
+        }
 
-            // Loop back to the first block if we reached the end
-            if (currentBlock >= blocks.Length)
-            {
-                currentBlock = 0;
-            }
-
-            timer = 0f; // Reset the timer
+        if (keyboardController.nextBlock)
+        {
+            currentBlock = (currentBlock + 1) % blocks.Length;
         }
     }
 
