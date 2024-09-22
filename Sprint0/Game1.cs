@@ -14,6 +14,7 @@ namespace Sprint0
         private Link _link;
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
+        private AnimatedBlock animatedBlock;
 
 
 
@@ -45,6 +46,19 @@ namespace Sprint0
 
             //link instance
             _link = new Link(linkTexture, new Vector2(100, 100), linkFrames);
+
+            //Ben Addition
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Load individual block textures (block1, block2, block3)
+            Texture2D block1 = Content.Load<Texture2D>("DungeonBlock1");
+            Texture2D block2 = Content.Load<Texture2D>("DungeonBlock2");
+            Texture2D block3 = Content.Load<Texture2D>("DungeonBlock3");
+
+            // Put the textures in an array
+            Texture2D[] blockTextures = new Texture2D[] { block1, block2, block3 };
+
+            animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100), 0.5f);
         }
          
 
@@ -59,6 +73,8 @@ namespace Sprint0
             _keyboardController.Update();
             _link.Update(gameTime, _keyboardController);
 
+            animatedBlock.Update(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -69,6 +85,7 @@ namespace Sprint0
 
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
+            animatedBlock.Draw(_spriteBatch);
             _spriteBatch.End();
 
 
