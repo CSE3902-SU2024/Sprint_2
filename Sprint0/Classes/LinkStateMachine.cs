@@ -23,8 +23,8 @@ namespace Sprint0.Classes
             MovingRight,
             MovingUp,
             MovingDown,
-            //AttackingUp,
-            //AttackingDown,
+            SwordAttackUp,
+            SwordAttackDown,
             SwordAttackLeft,
             SwordAttackRight
             //TakeDamage,
@@ -72,7 +72,9 @@ namespace Sprint0.Classes
                     // Movement is handled in the Link class
                     break;
                 case State.SwordAttackRight:
-                    if(!_isAttackTimerRunning)
+                case State.SwordAttackUp:
+                case State.SwordAttackDown:
+                    if (!_isAttackTimerRunning)
                     {
                         ChangeState(State.Idle);
                     }
@@ -86,6 +88,17 @@ namespace Sprint0.Classes
             if (_previousState == State.MovingRight || _currentState == State.MovingRight)
             {
                 _currentState = State.SwordAttackRight;
+            } else if (_previousState == State.MovingLeft || _currentState == State.MovingLeft)
+            {
+                _currentState = State.SwordAttackLeft;
+            }
+            else if (_previousState == State.MovingUp || _currentState == State.MovingUp)
+            {
+                _currentState = State.SwordAttackUp;
+            }
+            else if (_previousState == State.MovingDown || _currentState == State.MovingDown)
+            {
+                _currentState = State.SwordAttackDown;
             }
             _attackTimer.Start();
             _isAttackTimerRunning = true;
