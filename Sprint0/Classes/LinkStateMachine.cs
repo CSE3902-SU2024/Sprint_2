@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Sprint0.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,7 +22,7 @@ namespace Sprint0.Classes
             MovingDown,
             //AttackingUp,
             //AttackingDown,
-            //AttackingLeft,
+            SwordAttackLeft,
             //AttackingRight,
             //TakeDamage,
             //UseItem1Left,
@@ -38,14 +37,17 @@ namespace Sprint0.Classes
             //UseItem3Right,
             //UseItem3Up,
             //UseItem3Down,
+           
         }
         private Link _link;
         private State _currentState;
+        private State _previousState;
 
         public LinkStateMachine(Link link)
         {
             _link = link;
             _currentState = State.Idle;
+            _previousState = State.Idle;
         }
 
         public void Update(GameTime gametime)   
@@ -66,6 +68,10 @@ namespace Sprint0.Classes
 
         public void ChangeState(State newState)
         {
+            if (_currentState != State.Idle)
+            {
+                _previousState = _currentState;
+            }
             _currentState = newState;
         }
 
@@ -73,10 +79,10 @@ namespace Sprint0.Classes
         {
             return _currentState;
         }
-
-        void IStateMachine.Update(GameTime gameTime) //why do I need this or error?
+        
+        public State GetPreviousState()
         {
-            throw new NotImplementedException();
+            return _previousState;
         }
     }
 }

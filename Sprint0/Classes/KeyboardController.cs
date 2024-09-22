@@ -9,6 +9,7 @@ namespace Sprint0.Classes
         public bool IsMovingRight { get; private set; }
         public bool IsMovingUp { get; private set; }
         public bool IsMovingDown { get; private set; }
+        public bool IsLeftSwordAttack { get; private set; }
         public bool previousItem { get; private set; }
         public bool nextItem { get; private set; }
         public bool previousBlock { get; private set; }
@@ -17,11 +18,17 @@ namespace Sprint0.Classes
         {
             KeyboardState state = Keyboard.GetState();
             
-
+            // BASIC MOVEMENT
             IsMovingLeft = state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A);
             IsMovingRight = state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D);
             IsMovingUp = state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W);
             IsMovingDown = state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S);
+
+            // ATTACK
+            IsLeftSwordAttack = state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Z) ||
+                        state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.Z);
+            
+            // ITEMS AND BLOCKS
             previousItem = state.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U);
             nextItem = state.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I);
             previousBlock = state.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T);
