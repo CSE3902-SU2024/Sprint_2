@@ -10,6 +10,7 @@ public class AnimatedBlock
     private Texture2D[] blocks;
     private Vector2 position;
     private int currentBlock;
+    private float scale;
     //private float timePerBlock;
     //private float timer;
 
@@ -17,6 +18,7 @@ public class AnimatedBlock
     {
         blocks = blockTextures;
         position = startPosition;
+        scale = 4.0f;
        
         currentBlock = 0;
         //timer = 0f;
@@ -55,6 +57,6 @@ public class AnimatedBlock
     public void Draw(SpriteBatch spriteBatch)
     {
         // Draw the current block at the specified position
-        spriteBatch.Draw(blocks[currentBlock], position, Color.White);
+        spriteBatch.Draw(blocks[currentBlock], position,null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
     }
 }

@@ -20,7 +20,7 @@
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AnimatedBlock.cs" Link="AnimatedBlock.cs" />
+    <Compile Include="..\AnimatedBlock.cs" Link="Classes\AnimatedBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />

@@ -20,6 +20,7 @@ namespace Sprint0.Classes
         private int itemFrame;
         private float distanceMoved;
         private const float MovementThreshold = 500f;
+        private const float scale = 4.0f;
         public Item(Texture2D[] sprite, Vector2 position, float speed)
         {
             Sprite = sprite;
@@ -58,7 +59,7 @@ namespace Sprint0.Classes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite[itemFrame], Position, Color.White);
+            spriteBatch.Draw(Sprite[itemFrame], Position,null, Color.White , 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }
