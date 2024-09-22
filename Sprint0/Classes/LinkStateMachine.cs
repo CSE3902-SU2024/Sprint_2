@@ -74,6 +74,7 @@ namespace Sprint0.Classes
                 case State.SwordAttackRight:
                 case State.SwordAttackUp:
                 case State.SwordAttackDown:
+                case State.SwordAttackLeft:
                     if (!_isAttackTimerRunning)
                     {
                         ChangeState(State.Idle);
