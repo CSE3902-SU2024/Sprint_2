@@ -46,6 +46,16 @@ namespace Sprint0.Classes
                     case LinkStateMachine.State.MovingRight:
                         _currentFrame = 2 + (_currentFrame + 1) % 2; // Right animation
                         break;
+                    case LinkStateMachine.State.Idle:
+                        switch (_stateMachine.GetPreviousState())
+                        {
+                            case LinkStateMachine.State.MovingRight:
+                                _currentFrame = 2;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
                     case LinkStateMachine.State.MovingUp:
                         _currentFrame = 4 + (_currentFrame + 1) % 2; // Up animation
                         break;
