@@ -84,8 +84,12 @@ namespace Sprint0.Classes
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Vector2 scale)
         {
-            if (_stateMachine.GetCurrentState() == LinkStateMachine.State.MovingLeft || 
-                _stateMachine.GetPreviousState() == LinkStateMachine.State.MovingLeft)
+            if (
+                _stateMachine.GetCurrentState() == LinkStateMachine.State.MovingLeft || 
+                _stateMachine.GetPreviousState() == LinkStateMachine.State.MovingLeft ||
+                _stateMachine.GetPreviousState() == LinkStateMachine.State.SwordAttackLeft ||
+                _stateMachine.GetCurrentState() == LinkStateMachine.State.SwordAttackLeft
+                )
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
