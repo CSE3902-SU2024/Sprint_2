@@ -26,8 +26,8 @@ namespace Sprint0.Classes
             SwordAttackUp,
             SwordAttackDown,
             SwordAttackLeft,
-            SwordAttackRight
-            //TakeDamage,
+            SwordAttackRight,
+            TakeDamage,
             //UseItem1Left,
             //UseItem1Right,
             //UseItem1Up,
@@ -79,6 +79,8 @@ namespace Sprint0.Classes
                     {
                         ChangeState(State.Idle);
                     }
+                    break;
+                case State.TakeDamage:
                     break;
 
               

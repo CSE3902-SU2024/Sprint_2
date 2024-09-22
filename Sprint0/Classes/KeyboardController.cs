@@ -10,6 +10,7 @@ namespace Sprint0.Classes
         public bool IsMovingUp { get; private set; }
         public bool IsMovingDown { get; private set; }
         public bool SwordAttack { get; private set; }
+        public bool TakeDamage { get; private set; }
         public bool previousItem { get; private set; }
         public bool nextItem { get; private set; }
         public bool previousBlock { get; private set; }
@@ -26,6 +27,7 @@ namespace Sprint0.Classes
 
             // ATTACK
             SwordAttack = state.IsKeyDown(Keys.Z);
+            TakeDamage = state.IsKeyDown(Keys.E);
                         
             // ITEMS AND BLOCKS
             previousItem = state.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U);

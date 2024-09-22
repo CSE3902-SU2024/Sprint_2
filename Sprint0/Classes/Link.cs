@@ -72,6 +72,10 @@ namespace Sprint0.Classes
             {
                 _isAttackInputHandled = false;
             }
+            if (keyboardController.TakeDamage)
+            {
+                _stateMachine.ChangeState(LinkStateMachine.State.TakeDamage);
+            }
             //animation logic separate from above switch block <-- adding it into that switch block not only delayed animations
             //but delayed how quickly different keys were pressed for switching input
             _animator.Update(gameTime);

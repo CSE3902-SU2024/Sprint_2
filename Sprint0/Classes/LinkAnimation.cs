@@ -74,6 +74,9 @@ namespace Sprint0.Classes
                     case LinkStateMachine.State.SwordAttackDown:
                         _currentFrame = 16 + (_currentFrame + 1) % 2; // Down animation
                         break;
+                    case LinkStateMachine.State.TakeDamage:
+                        _currentFrame = 18;
+                        break;
                 }
 
                 _frameTimeCounter = 0f;
