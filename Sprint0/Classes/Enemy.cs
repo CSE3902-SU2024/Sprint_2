@@ -49,8 +49,8 @@ namespace Sprint0.Classes
                 timeElapsed = 0f;
             }
 
-            // Logic to handle movement/direction updates can be added here
-            // E.g., position += new Vector2(xSpeed, ySpeed); based on direction
+          
+          
         }
 
         public void ChangeDirection(Direction newDirection)
