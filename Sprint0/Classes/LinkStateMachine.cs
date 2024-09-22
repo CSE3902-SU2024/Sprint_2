@@ -54,7 +54,7 @@ namespace Sprint0.Classes
             _currentState = State.Idle;
             _previousState = State.Idle;
             _attackTimer = new System.Timers.Timer();
-            _attackTimer.Interval = 1100;
+            _attackTimer.Interval = 1000;
             _attackTimer.Elapsed += new ElapsedEventHandler(OnAttackTimerElapsed);
         }
 
