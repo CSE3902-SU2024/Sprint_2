@@ -17,6 +17,7 @@ namespace Sprint0
         private LinkSpriteFactory _linkSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
+        private Enemy enemy;
         int currentItemIndex;
         KeyboardState previousKeyboardState;
 
@@ -37,11 +38,15 @@ namespace Sprint0
             base.Initialize();
             
             currentItemIndex = 0;
+
+             
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            enemy = new Enemy(new Vector2(400, 100));
+            enemy.LoadContent(Content, "boxGhostSpriteSheet");
 
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "zeldaLink");
@@ -88,6 +93,8 @@ namespace Sprint0
 
             animatedBlock.Update(gameTime, _keyboardController);
 
+            enemy.Update(gameTime);
+
             Item.Update(gameTime, _keyboardController);
 
             base.Update(gameTime);
@@ -100,6 +107,7 @@ namespace Sprint0
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
             animatedBlock.Draw(_spriteBatch);
+            enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
             _spriteBatch.End();
 

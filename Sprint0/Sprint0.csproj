@@ -11,6 +11,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Classes\EnemyController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\boxGhostSpriteSheet.gif" />
+    <None Remove="Content\Game Boy Advance - Danny Phantom The Ultimate Enemy - Box Ghost.gif" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
