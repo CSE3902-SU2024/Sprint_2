@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
+using System.Threading;
+using System.Timers;
+
 namespace Sprint0.Classes
 {
     public class LinkStateMachine : IStateMachine
@@ -23,7 +26,7 @@ namespace Sprint0.Classes
             //AttackingUp,
             //AttackingDown,
             SwordAttackLeft,
-            //AttackingRight,
+            SwordAttackRight
             //TakeDamage,
             //UseItem1Left,
             //UseItem1Right,
@@ -42,12 +45,17 @@ namespace Sprint0.Classes
         private Link _link;
         private State _currentState;
         private State _previousState;
+        private System.Timers.Timer _attackTimer;
+        private bool _isAttackTimerRunning;
 
         public LinkStateMachine(Link link)
         {
             _link = link;
             _currentState = State.Idle;
             _previousState = State.Idle;
+            _attackTimer = new System.Timers.Timer();
+            _attackTimer.Interval = 2000;
+            _attackTimer.Elapsed += new ElapsedEventHandler(OnAttackTimerElapsed);
         }
 
         public void Update(GameTime gametime)   
@@ -63,9 +71,27 @@ namespace Sprint0.Classes
                 case State.MovingDown:
                     // Movement is handled in the Link class
                     break;
+                case State.SwordAttackLeft:
+                case State.SwordAttackRight:
+                    if(!_isAttackTimerRunning)
+                    {
+                        ChangeState(_previousState);
+                    }
+                    break;
+
+              
             }
         }
-
+        public void HandleAttack()
+        {
+            if (_previousState == State.MovingRight || _currentState == State.MovingRight)
+            {
+                _currentState = State.SwordAttackRight;
+            }
+            _attackTimer.Start();
+            _isAttackTimerRunning = true;
+                
+        }
         public void ChangeState(State newState)
         {
             if (_currentState != State.Idle)
@@ -83,6 +109,12 @@ namespace Sprint0.Classes
         public State GetPreviousState()
         {
             return _previousState;
+        }
+
+        public void OnAttackTimerElapsed(object source, ElapsedEventArgs e)
+        {
+            _isAttackTimerRunning = false;
+            _attackTimer.Stop();
         }
     }
 }

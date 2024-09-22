@@ -44,6 +44,10 @@ namespace Sprint0.Classes
                 new Rectangle(86, 11, 16, 16),  //animation frame 2 {up 2}
                 new Rectangle(35, 11, 16, 16),  //animation frame 1 {left 1}  //gotta flip these horizontally --> did this
                 new Rectangle(52, 11, 16, 16),  //animation frame 2 {left 2}
+                new Rectangle(94, 77, 15, 15),   // Sword Right 1
+                new Rectangle(111, 78, 26, 14),  // Sword Right 2
+                new Rectangle(139, 78, 22, 14),  // Sword Right 3
+                new Rectangle(163, 77, 18, 15)   // Sword Right 4
              };
 
             return sourceRectangles;

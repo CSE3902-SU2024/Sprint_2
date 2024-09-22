@@ -52,6 +52,9 @@ namespace Sprint0.Classes
                     case LinkStateMachine.State.MovingDown:
                         _currentFrame = (_currentFrame + 1) % 2; // Down animation
                         break;
+                    case LinkStateMachine.State.SwordAttackRight:
+                        _currentFrame = 8 + (_currentFrame - 8 + 1) % 4; 
+                        break;
                 }
 
                 _frameTimeCounter = 0f;

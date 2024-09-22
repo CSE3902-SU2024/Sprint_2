@@ -57,6 +57,10 @@ namespace Sprint0.Classes
                 _stateMachine.ChangeState(LinkStateMachine.State.MovingDown);
                 _position.Y += MovementSpeed * deltaTime;
             }
+            else if(keyboardController.SwordAttack)
+            {
+                _stateMachine.HandleAttack();
+            }
             else
             {
                 _stateMachine.ChangeState(LinkStateMachine.State.Idle);
