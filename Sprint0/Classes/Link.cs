@@ -21,6 +21,7 @@ namespace Sprint0.Classes
         private LinkAnimation _animator;
         private const float MovementSpeed = 100f; // pixels per second
         private Vector2 _scale;
+        private bool _isAttackInputHandled;
 
 
         public Link(Texture2D texture, Vector2 initialPosition, Rectangle[] sourceRectangles)
@@ -57,16 +58,20 @@ namespace Sprint0.Classes
                 _stateMachine.ChangeState(LinkStateMachine.State.MovingDown);
                 _position.Y += MovementSpeed * deltaTime;
             }
-            else if(keyboardController.SwordAttack)
+            else if(keyboardController.SwordAttack && !_isAttackInputHandled)
             {
                 _stateMachine.HandleAttack();
+                _isAttackInputHandled = true;
             }
-            else
+            else if(!_isAttackInputHandled)
             {
                 _stateMachine.ChangeState(LinkStateMachine.State.Idle);
-                //_currentFrame = 0;
             }
 
+            if (_stateMachine.GetCurrentState() == LinkStateMachine.State.Idle && _isAttackInputHandled)
+            {
+                _isAttackInputHandled = false;
+            }
             //animation logic separate from above switch block <-- adding it into that switch block not only delayed animations
             //but delayed how quickly different keys were pressed for switching input
             _animator.Update(gameTime);

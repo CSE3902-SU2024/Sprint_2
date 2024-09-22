@@ -54,7 +54,7 @@ namespace Sprint0.Classes
             _currentState = State.Idle;
             _previousState = State.Idle;
             _attackTimer = new System.Timers.Timer();
-            _attackTimer.Interval = 2000;
+            _attackTimer.Interval = 1200;
             _attackTimer.Elapsed += new ElapsedEventHandler(OnAttackTimerElapsed);
         }
 
@@ -75,7 +75,7 @@ namespace Sprint0.Classes
                 case State.SwordAttackRight:
                     if(!_isAttackTimerRunning)
                     {
-                        ChangeState(_previousState);
+                        ChangeState(State.Idle);
                     }
                     break;
 
