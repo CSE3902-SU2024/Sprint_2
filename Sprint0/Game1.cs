@@ -72,11 +72,9 @@ namespace Sprint0
 
             animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100));
 
-            Texture2D item1 = Content.Load<Texture2D>("DungeonBlock3");
-            Texture2D item2 = Content.Load<Texture2D>("DungeonBlock2");
 
-            Texture2D[] itemList = new Texture2D[] { item1, item2 };
-            Item = new Item(itemList, new Vector2(200, 200), 50f);
+            Item = new Item(new Vector2(200, 200), 50f);
+            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
         }
          
 
