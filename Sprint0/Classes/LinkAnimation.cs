@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace Sprint0.Classes
@@ -46,16 +47,6 @@ namespace Sprint0.Classes
                     case LinkStateMachine.State.MovingRight:
                         _currentFrame = 2 + (_currentFrame + 1) % 2; // Right animation
                         break;
-                    case LinkStateMachine.State.Idle:
-                        switch (_stateMachine.GetPreviousState())
-                        {
-                            case LinkStateMachine.State.MovingRight:
-                                _currentFrame = 2;
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
                     case LinkStateMachine.State.MovingUp:
                         _currentFrame = 4 + (_currentFrame + 1) % 2; // Up animation
                         break;
@@ -66,28 +57,62 @@ namespace Sprint0.Classes
                         _currentFrame = 8 + (_currentFrame - 8 + 1) % 4;
                         if(_currentFrame == 11)
                         {
-                            _currentFrame = 8;
+                            _currentFrame = 2;  
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackLeft:
                         _currentFrame = 8 + (_currentFrame - 8 + 1) % 4;
                         if (_currentFrame == 11)
                         {
-                            _currentFrame = 8;
+                            _currentFrame = 2;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle); 
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackUp:
-                        _currentFrame = 12 + (_currentFrame - 8 + 1) % 4;
-                        if( _currentFrame == 15)
+                        if (_currentFrame < 12 || _currentFrame > 15)
                         {
                             _currentFrame = 12;
                         }
+                        if (_currentFrame == 12)
+                        {
+                            _currentFrame = 13;
+                        }
+                        else if (_currentFrame == 13)
+                        {
+                            _currentFrame = 14;
+                        }
+                        else if (_currentFrame == 14)
+                        {
+                            _currentFrame = 15;
+                        }
+                        else if (_currentFrame == 15)
+                        {
+                            _currentFrame = 4;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
+                        }
                         break;
                     case LinkStateMachine.State.SwordAttackDown:
-                        _currentFrame = 16 + (_currentFrame - 8 + 1) % 4;
-                        if(_currentFrame == 19)
+                        if(_currentFrame < 16 || _currentFrame > 19)
                         {
                             _currentFrame = 16;
+                        }
+                        if (_currentFrame == 16)
+                        {
+                            _currentFrame = 17;
+                        }
+                        else if (_currentFrame == 17)
+                        {
+                            _currentFrame = 18;
+                        }
+                        else if (_currentFrame == 18)
+                        {
+                            _currentFrame = 19;
+                        }
+                        else if (_currentFrame == 19)
+                        {
+                            _currentFrame = 0;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
                         }
                         break;
                     case LinkStateMachine.State.TakeDamage:

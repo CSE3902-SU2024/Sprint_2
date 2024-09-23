@@ -91,6 +91,7 @@ namespace Sprint0.Classes
             if (_previousState == State.MovingRight || _currentState == State.MovingRight)
             {
                 _currentState = State.SwordAttackRight;
+
             } else if (_previousState == State.MovingLeft || _currentState == State.MovingLeft)
             {
                 _currentState = State.SwordAttackLeft;
