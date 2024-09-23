@@ -15,12 +15,10 @@ namespace Sprint0
         private Link _link;
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
-        private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
+        //private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
         private Enemy enemy;
-        int currentItemIndex;
-        KeyboardState previousKeyboardState;
 
 
 
@@ -37,17 +35,12 @@ namespace Sprint0
             _keyboardController = new KeyboardController();
 
             base.Initialize();
-            
-            currentItemIndex = 0;
 
-             
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            enemy = new Enemy(new Vector2(400, 100));
-            enemy.LoadContent(Content, "boxGhostSpriteSheet");
 
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "zeldaLink");
@@ -59,31 +52,19 @@ namespace Sprint0
 
             //link instance
             _link = new Link(linkTexture, new Vector2(100, 100), linkFrames);
-
-            //Ben Addition
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // Load individual block textures (block1, block2, block3)
-            //Texture2D block1 = Content.Load<Texture2D>("DungeonBlock1");
-            //Texture2D block2 = Content.Load<Texture2D>("DungeonBlock2");
-            //Texture2D block3 = Content.Load<Texture2D>("DungeonBlock3");
-
-            // Put the textures in an array
-            //Texture2D[] blockTextures = new Texture2D[] { block1, block2, block3 };
-
-            //animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100));
-
-            //With DungeonBlockSpriteFactory
-            _dungeonBlockSpriteFactory = new DungeonBlockSpriteFactory(GraphicsDevice, Content, "DungeonSheet");
-            Rectangle[] DungeonBlockFrames = _dungeonBlockSpriteFactory.CreateFrames();
+          
 
             //Block texture
-            Texture2D DungeonBlockTexture = Content.Load<Texture2D>("DungeonSheet");
-            animatedBlock = new AnimatedBlock(DungeonBlockTexture, new Vector2(100, 100));
+            animatedBlock = new AnimatedBlock(new Vector2(100, 100));
+            animatedBlock.LoadContent(Content, "DungeonSheet");
 
-
+            //Item texure
             Item = new Item(new Vector2(200, 200), 50f);
             Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
+
+            //enemy texture
+            enemy = new Enemy(new Vector2(400, 100));
+            enemy.LoadContent(Content, "boxGhostSpriteSheet");
         }
          
 

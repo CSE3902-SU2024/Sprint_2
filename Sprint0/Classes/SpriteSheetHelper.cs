@@ -27,5 +27,19 @@ namespace Sprint0.Classes
             Rectangle[] itemList = { heart, clock, diamond, potion };
             return itemList;
         }
+
+        public static Rectangle[] CreateBlockFrames()
+        {
+
+            return new Rectangle[]
+             {
+                 //https://pixspy.com/
+                 new Rectangle(196, 307, 15, 15),
+                 new Rectangle(212, 323, 15, 15),
+                 new Rectangle(212, 272, 15, 15),
+                 new Rectangle(212, 438, 15, 15),
+                 new Rectangle(893, 799, 15, 15),
+             }; 
+        }
     }
 }
