@@ -15,7 +15,7 @@ namespace Sprint0.Classes
     internal class Item
     {
         public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Rectangle[][] SourceRectangles;
         public Vector2 Position { get; set; }
         public Vector2 OriginalPosition { get; set; }
         public float Speed { get; set; }
@@ -23,6 +23,9 @@ namespace Sprint0.Classes
         private float distanceMoved;
         private const float MovementThreshold = 500f;
         private const float scale = 4.0f;
+        private float timePerFrame = 0.5f; // 100ms per frame
+        private float timeElapsed;
+        private int currentFrame;
         public Item(Vector2 position, float speed)
         {
 
@@ -62,12 +65,17 @@ namespace Sprint0.Classes
                 itemFrame = (itemFrame + 1) % SourceRectangles.Length;
             }
 
-
+            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timeElapsed > timePerFrame)
+            {
+                currentFrame = (currentFrame + 1) % SourceRectangles[itemFrame].Length;
+                timeElapsed = 0f;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame], Color.White , 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White , 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }
