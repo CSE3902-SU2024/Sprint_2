@@ -46,16 +46,6 @@ namespace Sprint0.Classes
                     case LinkStateMachine.State.MovingRight:
                         _currentFrame = 2 + (_currentFrame + 1) % 2; // Right animation
                         break;
-                    case LinkStateMachine.State.Idle:
-                        switch (_stateMachine.GetPreviousState())
-                        {
-                            case LinkStateMachine.State.MovingRight:
-                                _currentFrame = 2;
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
                     case LinkStateMachine.State.MovingUp:
                         _currentFrame = 4 + (_currentFrame + 1) % 2; // Up animation
                         break;
@@ -79,17 +69,19 @@ namespace Sprint0.Classes
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackUp:
-                        _currentFrame = 12 + (_currentFrame - 8 + 1) % 4;
+                        _currentFrame = 12 + (_currentFrame - 12 + 1) % 4;
                         if( _currentFrame == 15)
                         {
-                            _currentFrame = 12;
+                            _currentFrame = 4;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackDown:
-                        _currentFrame = 16 + (_currentFrame - 8 + 1) % 4;
+                        _currentFrame = 16 + (_currentFrame - 16 + 1) % 4;
                         if(_currentFrame == 19)
                         {
-                            _currentFrame = 16;
+                            _currentFrame = 0;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
                         }
                         break;
                     case LinkStateMachine.State.TakeDamage:
