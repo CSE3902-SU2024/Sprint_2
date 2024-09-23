@@ -66,14 +66,16 @@ namespace Sprint0.Classes
                         _currentFrame = 8 + (_currentFrame - 8 + 1) % 4;
                         if(_currentFrame == 11)
                         {
-                            _currentFrame = 8;
+                            _currentFrame = 2;  
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle);
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackLeft:
                         _currentFrame = 8 + (_currentFrame - 8 + 1) % 4;
                         if (_currentFrame == 11)
                         {
-                            _currentFrame = 8;
+                            _currentFrame = 2;
+                            _stateMachine.ChangeState(LinkStateMachine.State.Idle); 
                         }
                         break;
                     case LinkStateMachine.State.SwordAttackUp:
