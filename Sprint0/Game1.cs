@@ -15,6 +15,7 @@ namespace Sprint0
         private Link _link;
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
+        private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
         private Enemy enemy;
@@ -63,15 +64,24 @@ namespace Sprint0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load individual block textures (block1, block2, block3)
-            Texture2D block1 = Content.Load<Texture2D>("DungeonBlock1");
-            Texture2D block2 = Content.Load<Texture2D>("DungeonBlock2");
-            Texture2D block3 = Content.Load<Texture2D>("DungeonBlock3");
+            //Texture2D block1 = Content.Load<Texture2D>("DungeonBlock1");
+            //Texture2D block2 = Content.Load<Texture2D>("DungeonBlock2");
+            //Texture2D block3 = Content.Load<Texture2D>("DungeonBlock3");
 
             // Put the textures in an array
-            Texture2D[] blockTextures = new Texture2D[] { block1, block2, block3 };
+            //Texture2D[] blockTextures = new Texture2D[] { block1, block2, block3 };
 
-            animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100));
+            //animatedBlock = new AnimatedBlock(blockTextures, new Vector2(100, 100));
 
+            //With DungeonBlockSpriteFactory
+            _dungeonBlockSpriteFactory = new DungeonBlockSpriteFactory(GraphicsDevice, Content, "DungeonSheet");
+            Rectangle[] DungeonBlockFrames = _dungeonBlockSpriteFactory.CreateFrames();
+
+            //Block texture
+            Texture2D DungeonBlockTexture = Content.Load<Texture2D>("DungeonSheet");
+            animatedBlock = new AnimatedBlock(DungeonBlockTexture, new Vector2(100, 100));
+
+            // items
             Texture2D item1 = Content.Load<Texture2D>("DungeonBlock3");
             Texture2D item2 = Content.Load<Texture2D>("DungeonBlock2");
 

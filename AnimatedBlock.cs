@@ -8,12 +8,14 @@ namespace Sprint0;
 public class AnimatedBlock
 {
     private Texture2D[] blocks;
+    //private Texture2D blocks;
     private Vector2 position;
     private int currentBlock;
     private float scale;
     //private float timePerBlock;
     //private float timer;
 
+    //public AnimatedBlock(Texture2D[] blockTextures, Vector2 startPosition)
     public AnimatedBlock(Texture2D[] blockTextures, Vector2 startPosition)
     {
         blocks = blockTextures;
