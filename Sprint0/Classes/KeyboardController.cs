@@ -17,6 +17,9 @@ namespace Sprint0.Classes
         public bool nextItem { get; private set; }
         public bool previousBlock { get; private set; }
         public bool nextBlock { get; private set; }
+
+        public bool PreviousEnemy { get; private set; }
+        public bool NextEnemy { get; private set; }
         public void Update()
         {
             KeyboardState state = Keyboard.GetState();
@@ -38,6 +41,10 @@ namespace Sprint0.Classes
             nextItem = state.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I);
             previousBlock = state.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T);
             nextBlock = state.IsKeyDown(Keys.Y) && previousState.IsKeyUp(Keys.Y);
+
+            // ENEMY SWITCHING
+            PreviousEnemy = state.IsKeyDown(Keys.O) && previousState.IsKeyUp(Keys.O);  
+            NextEnemy = state.IsKeyDown(Keys.P) && previousState.IsKeyUp(Keys.P);    
 
             previousState = state;
         }

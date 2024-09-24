@@ -25,7 +25,19 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
-#begin boxGhostSpriteSheet.png
+#begin Bosses.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=116,116,116,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Bosses.png
+
+#begin Dungeon.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,7 +47,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:boxGhostSpriteSheet.png
+/build:Dungeon.png
 
 #begin DungeonBlock1.jpg
 /importer:TextureImporter

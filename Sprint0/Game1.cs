@@ -18,7 +18,16 @@ namespace Sprint0
         private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
+        
         private Enemy enemy;
+        private Texture2D bossSpriteSheet;  
+        private Texture2D dungeonSpriteSheet;
+
+         
+
+        private List<Enemy> enemies; 
+        private int currentEnemyIndex = 0;
+
         int currentItemIndex;
         KeyboardState previousKeyboardState;
 
@@ -36,6 +45,8 @@ namespace Sprint0
         {
             _keyboardController = new KeyboardController();
 
+            enemies = new List<Enemy>();
+
             base.Initialize();
             
             currentItemIndex = 0;
@@ -46,8 +57,30 @@ namespace Sprint0
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            enemy = new Enemy(new Vector2(400, 100));
-            enemy.LoadContent(Content, "boxGhostSpriteSheet");
+          
+            bossSpriteSheet = Content.Load<Texture2D>("Bosses");
+            dungeonSpriteSheet = Content.Load<Texture2D>("Dungeon");
+
+            // Create and load the Dragon (from Bosses sheet)
+            Enemy dragon = new Enemy(new Vector2(400, 200))
+            {
+                currentEnemyType = Enemy.EnemyType.Dragon
+            };
+            dragon.LoadContent(Content, "Bosses"); // Load Dragon content (using "Bosses" sheet)
+            enemies.Add(dragon); // Add Dragon to enemies list
+
+            // Create and load the Goriya (from Dungeon sheet)
+            Enemy goriya = new Enemy(new Vector2(400, 200))
+            {
+                currentEnemyType = Enemy.EnemyType.Goriya
+            };
+            goriya.LoadContent(Content, "Dungeon"); // Load Goriya content (using "Dungeon" sheet)
+            enemies.Add(goriya); // Add Goriya to enemies list
+
+            // Set the current enemy to the first one (Dragon)
+            enemy = enemies[currentEnemyIndex];
+
+
 
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "zeldaLink");
@@ -78,8 +111,8 @@ namespace Sprint0
             Rectangle[] DungeonBlockFrames = _dungeonBlockSpriteFactory.CreateFrames();
 
             //Block texture
-            Texture2D DungeonBlockTexture = Content.Load<Texture2D>("DungeonSheet");
-            animatedBlock = new AnimatedBlock(DungeonBlockTexture, new Vector2(100, 100));
+            //Texture2D DungeonBlockTexture = Content.Load<Texture2D>("DungeonSheet");
+            //animatedBlock = new AnimatedBlock(DungeonBlockTexture, new Vector2(100, 100));
 
             // items
             Texture2D item1 = Content.Load<Texture2D>("DungeonBlock3");
@@ -93,16 +126,28 @@ namespace Sprint0
 
         protected override void Update(GameTime gameTime)
         {
-
+           
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+           
+
             _keyboardController.Update();
             _link.Update(gameTime, _keyboardController);
 
-            animatedBlock.Update(gameTime, _keyboardController);
+            // animatedBlock.Update(gameTime, _keyboardController);
 
+            if (_keyboardController.PreviousEnemy)
+            {
+                currentEnemyIndex = (currentEnemyIndex - 1 + enemies.Count) % enemies.Count;
+                enemy = enemies[currentEnemyIndex];
+            }
+            else if (_keyboardController.NextEnemy)
+            {
+                currentEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
+                enemy = enemies[currentEnemyIndex];
+            }
             enemy.Update(gameTime);
 
             Item.Update(gameTime, _keyboardController);
@@ -116,7 +161,7 @@ namespace Sprint0
 
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
-            animatedBlock.Draw(_spriteBatch);
+            //animatedBlock.Draw(_spriteBatch);
             enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
             _spriteBatch.End();
@@ -124,6 +169,7 @@ namespace Sprint0
 
             base.Draw(gameTime);
         }
+         
     }
 }
 
