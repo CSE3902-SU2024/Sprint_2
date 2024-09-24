@@ -99,9 +99,7 @@ namespace Sprint0
             Item = new Item(new Vector2(200, 200), 50f);
             Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
 
-            //enemy texture
-            enemy = new Enemy(new Vector2(400, 100));
-            enemy.LoadContent(Content, "boxGhostSpriteSheet");
+           
         }
          
 
