@@ -116,7 +116,7 @@ namespace Sprint0
             _keyboardController.Update();
             _link.Update(gameTime, _keyboardController);
 
-            // animatedBlock.Update(gameTime, _keyboardController);
+             animatedBlock.Update(gameTime, _keyboardController);
 
             if (_keyboardController.PreviousEnemy)
             {
@@ -141,7 +141,7 @@ namespace Sprint0
 
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
-            //animatedBlock.Draw(_spriteBatch);
+            animatedBlock.Draw(_spriteBatch);
             enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
             _spriteBatch.End();
