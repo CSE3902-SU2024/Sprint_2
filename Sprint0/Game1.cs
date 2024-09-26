@@ -137,7 +137,7 @@ namespace Sprint0
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Gray);
 
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);

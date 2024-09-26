@@ -50,8 +50,8 @@ namespace Sprint0.Classes
         public static Rectangle[][] CreateItemFrames()
         {
             // Define frames based on your sprite sheet dimensions
-            Rectangle[] heart = { new Rectangle(25, 0, 13, 14), new Rectangle(25, 0, 13, 14) };
-            Rectangle[] clock = { new Rectangle(58, 0, 11, 16), new Rectangle(58, 0, 11, 16) };
+            Rectangle[] heart = { new Rectangle(25, 0, 13, 14) , new Rectangle(25, 0, 13, 14) };
+            Rectangle[] clock = { new Rectangle(58, 0, 11, 16) , new Rectangle(58, 0, 11, 16) };
             Rectangle[] diamond = { new Rectangle(72, 0, 8, 16), new Rectangle(72, 16, 8, 16) };
             Rectangle[] potion = { new Rectangle(81, 0, 6, 14), new Rectangle(81, 16, 6, 14) };
             Rectangle[][] itemList = { heart, clock, diamond, potion };
