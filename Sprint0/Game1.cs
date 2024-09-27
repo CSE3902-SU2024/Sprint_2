@@ -88,8 +88,10 @@ namespace Sprint0
             Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
 
             //link instance
-            _link = new Link(linkTexture, new Vector2(100, 100), linkFrames);
-          
+            _link = new Link(linkTexture, new Vector2(400, 300), linkFrames);
+            _keyboardController.SetLink(_link);
+
+
 
             //Block texture
             animatedBlock = new AnimatedBlock(new Vector2(100, 100));
@@ -111,10 +113,10 @@ namespace Sprint0
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-           
 
-            _keyboardController.Update();
-            _link.Update(gameTime, _keyboardController);
+
+            _keyboardController.HandleInput();
+            _link.Update(gameTime);
 
              animatedBlock.Update(gameTime, _keyboardController);
 

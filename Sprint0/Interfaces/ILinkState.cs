@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace Sprint0.Classes
+namespace Sprint0.Interfaces
 {
     public interface ILinkState
     {
         void Draw(SpriteBatch spriteBatch);
-        void setTextureIndex(int index);
+        void Update(GameTime gameTime);
         void TakeDamage();
-        void Update();
         void MoveUp();
         void MoveDown();
         void MoveLeft();

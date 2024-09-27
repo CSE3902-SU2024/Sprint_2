@@ -11,27 +11,27 @@ using Sprint0.Interfaces;
 
 namespace Sprint0.Classes
 {
-    public class LinkDownState : ILinkState
+    public class LinkUpState : ILinkState
     {
         private Link link;
         private float moveSpeed = 3f;
         private int currentFrame;
-        private int CurrentTextureIndex = 0;
         private float frameTime;
-        private const float TIME_PER_FRAME = 0.2f; 
+        private const float TIME_PER_FRAME = 0.2f;
 
-        public LinkDownState(Link link)
+        public LinkUpState(Link link)
         {
             this.link = link;
             currentFrame = 0;
             frameTime = 0;
-            SetTextureIndex(0); 
+            SetTextureIndex(4);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             link.Draw(spriteBatch);
         }
+
         public void Update(GameTime gameTime)
         {
             frameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -45,13 +45,12 @@ namespace Sprint0.Classes
 
         public void MoveUp()
         {
-            link.ChangeState(new LinkUpState(link));
+            link.Position += new Vector2(0, -moveSpeed);
         }
 
         public void MoveDown()
         {
-           link.Position += new Vector2(0, moveSpeed);
-
+            link.ChangeState(new LinkDownState(link));
         }
 
         public void MoveLeft()
@@ -61,7 +60,7 @@ namespace Sprint0.Classes
 
         public void MoveRight()
         {
-             link.ChangeState(new LinkRightState(link));
+            link.ChangeState(new LinkRightState(link));
         }
 
         public void UsePrimary()
