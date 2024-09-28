@@ -19,14 +19,14 @@ namespace Sprint0
         //private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
-        
+
         private Enemy enemy;
-        private Texture2D bossSpriteSheet;  
+        private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
 
-         
 
-        private List<Enemy> enemies; 
+
+        private List<Enemy> enemies;
         private int currentEnemyIndex = 0;
 
         int currentItemIndex;
@@ -39,7 +39,7 @@ namespace Sprint0
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            
+
         }
 
         protected override void Initialize()
@@ -53,7 +53,7 @@ namespace Sprint0
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-          
+
             bossSpriteSheet = Content.Load<Texture2D>("Bosses");
             dungeonSpriteSheet = Content.Load<Texture2D>("Dungeon");
 
@@ -73,13 +73,13 @@ namespace Sprint0
             goriya.LoadContent(Content, "Dungeon"); // Load Goriya content (using "Dungeon" sheet)
             enemies.Add(goriya); // Add Goriya to enemies list
 
-            Enemy staflos= new Enemy(new Vector2(400, 200))
+            Enemy staflos = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Stalfos
             };
-            staflos.LoadContent(Content, "Dungeon");  
-            enemies.Add(staflos);  
-             
+            staflos.LoadContent(Content, "Dungeon");
+            enemies.Add(staflos);
+
             Enemy Keese = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Keese
@@ -119,17 +119,43 @@ namespace Sprint0
             Item = new Item(new Vector2(200, 200), 50f);
             Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
 
-           
+
         }
-         
+
+
+        public void Reset()
+        {
+            enemy = enemies[0];
+            currentEnemyIndex = 0;
+
+            Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
+
+            //link texture
+            Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
+
+            //link instance
+            _link = new Link(linkFrames, linkTexture);
+            _keyboardController = new KeyboardController(_link);
+            //Block texture
+            animatedBlock = new AnimatedBlock(new Vector2(100, 100));
+            animatedBlock.LoadContent(Content, "DungeonSheet");
+
+            //Item texure
+            Item = new Item(new Vector2(200, 200), 50f);
+            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
+
+        }
 
 
         protected override void Update(GameTime gameTime)
         {
            
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+                Reset();
 
            
 
