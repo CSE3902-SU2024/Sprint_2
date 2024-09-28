@@ -56,13 +56,23 @@ namespace Sprint0.Classes
             };
         }
 
-        public static Rectangle[] CreateFrames()
+        public static Rectangle[] CreateKeeseFrames()
         {
             return new Rectangle[]
             {
-            new Rectangle(291, 15, 5, 8),   // Boomerang Frame 1
-            new Rectangle(299, 15, 8, 8),// Boomerang Frame 2
-            new Rectangle(308, 17, 8, 5),  // Boomerang Frame 3
+            new Rectangle(183, 11, 16, 16),    
+            new Rectangle(200, 11, 16, 16), 
+            
+            };
+        }
+
+        public static Rectangle[] CreateGelFrames()
+        {
+            return new Rectangle[]
+            {
+            new Rectangle(1, 11, 8, 16),
+            new Rectangle(10, 11, 8, 16),
+
             };
         }
         public static Rectangle[][] CreateItemFrames()

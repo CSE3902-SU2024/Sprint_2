@@ -80,6 +80,20 @@ namespace Sprint0
             staflos.LoadContent(Content, "Dungeon");  
             enemies.Add(staflos);  
              
+            Enemy Keese = new Enemy(new Vector2(400, 200))
+            {
+                currentEnemyType = Enemy.EnemyType.Keese
+            };
+            Keese.LoadContent(Content, "Dungeon");
+            enemies.Add(Keese);
+
+            Enemy Gel = new Enemy(new Vector2(400, 200))
+            {
+                currentEnemyType = Enemy.EnemyType.Gel
+            };
+            Gel.LoadContent(Content, "Dungeon");
+            enemies.Add(Gel);
+
             enemy = enemies[currentEnemyIndex];
 
 
