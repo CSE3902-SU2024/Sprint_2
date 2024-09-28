@@ -48,16 +48,21 @@ namespace Sprint0.Classes
             else if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 _link.MoveRight();
-            } 
+            }
 
             if (state.IsKeyDown(Keys.Z))
             {
                 _link.SwordAttack();
             }
-            if (state.IsKeyDown(Keys.D1))
+            else if (state.IsKeyDown(Keys.D1))
             {
                 _link.ArrowAttack();
             }
+            else if (state.IsKeyDown(Keys.D2))
+            {
+                _link.UseBoomerang();
+            }
+
 
             if (state.IsKeyDown(Keys.E))
             {

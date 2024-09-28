@@ -75,7 +75,7 @@ namespace Sprint0.Player
         }
         public void UseBoomerang()
         {
-
+            _link.currentState = new BoomerangRight(_link);
         }
         public void UseBomb()
         {
