@@ -87,5 +87,10 @@ namespace Sprint0.Player
             _link.Damaged = true;
         }
 
+        public void UseArrow()
+        {
+
+        }
+
     }
 }
