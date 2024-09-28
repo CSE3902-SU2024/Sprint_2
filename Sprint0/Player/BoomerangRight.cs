@@ -13,43 +13,82 @@ namespace Sprint0.Player
         private int weaponFrame;
         private int remainingFrames;
         private int rotations;
+        private int boomerangStage;
         private Vector2 _weaponPosition;
+        private Boolean _return;
 
         public BoomerangRight(Link link)
         {
             _link = link;
+            _return = false;
             linkFrame = 9;
             weaponFrame = 20;
             rotations = 0;
+            boomerangStage = 0;
             remainingFrames = _link.framesPerBoomerang;
-            _weaponPosition.X = _link._position.X + 13 * _link._scale.X;
+            _weaponPosition.X = _link._position.X + 20 * _link._scale.X;
             _weaponPosition.Y = _link._position.Y + 6 * _link._scale.Y;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
-
-            _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
-
+            switch (boomerangStage)
+            {
+                case 0:
+                    _link.DrawWeapon(_spriteBatch, 20, false, false, _weaponPosition);
+                    break;
+                case 1:
+                    _link.DrawWeapon(_spriteBatch, 21, false, false, _weaponPosition);
+                    break;
+                case 2:
+                    _link.DrawWeapon(_spriteBatch, 22, false, false, _weaponPosition);
+                    break;
+                case 3:
+                    _link.DrawWeapon(_spriteBatch, 22, true, false, _weaponPosition);
+                    break;
+                case 4:
+                    _link.DrawWeapon(_spriteBatch, 21, true, true, _weaponPosition);
+                    break;
+                case 5:
+                    _link.DrawWeapon(_spriteBatch, 20, true, true, _weaponPosition);
+                    break;
+                case 6:
+                    _link.DrawWeapon(_spriteBatch, 22, false, true, _weaponPosition);
+                    break;
+                default:
+                    break;
+            }
+            if (_return)
+            {
+                _weaponPosition.X += _link.boomerangSpeed;
+            } else if (!_return){
+                _weaponPosition.X -= _link.boomerangSpeed;
+            }
         }
         public void Update()
         {
             if (--remainingFrames <= 0)
             {
-                if (weaponFrame == 20)
+                if (!_return)
                 {
-                    weaponFrame = 21;
+                    boomerangStage++;
                 }
-                else if (weaponFrame == 21)
+                else if (_return)
                 {
-                    weaponFrame = 22;
+                    boomerangStage--;
                 }
-                else if (weaponFrame == 22)
+
+                if(_return && boomerangStage <= 0)
                 {
-                    weaponFrame = 20;
                     linkFrame = 2;
                     _link.currentState = new LinkRight(_link);
+                }
+                
+   
+                if(boomerangStage >= 7)
+                {
+                    _return = true;
                 }
                 remainingFrames = _link.framesPerBoomerang;
             }

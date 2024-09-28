@@ -63,7 +63,7 @@ namespace Sprint0.Classes
 
                 new Rectangle (65,189,5,8),       //20 BOOMERANG 1
                 new Rectangle (73,189,8,8),       //21 BOOMERANG 2
-                new Rectangle (82,191,8,5),       //22 BOOMERANG 3
+                new Rectangle (82,189,8,8),       //22 BOOMERANG 3
 
                 new Rectangle (129,185,8,16),       //23 BOMB 1
 
