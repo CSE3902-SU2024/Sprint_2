@@ -120,7 +120,7 @@ namespace Sprint0
                 Exit();
 
 
-
+            _keyboardController.Update();
             _keyboardController.HandleInput();
             _link.Update(gameTime);
 
