@@ -84,7 +84,7 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
-            //currentState.UseBomb();
+            currentState.UseBomb();
         }
         public void TakeDamage()
         {
