@@ -13,8 +13,6 @@ namespace Sprint0.Classes
         public bool IsMovingDown { get; private set; }
         public bool SwordAttack { get; private set; }
         public bool TakeDamage { get; private set; }
-        public bool IsFirePressed { get; private set; }
-
         public bool previousItem { get; private set; }
         public bool nextItem { get; private set; }
         public bool previousBlock { get; private set; }
@@ -61,6 +59,9 @@ namespace Sprint0.Classes
             else if (state.IsKeyDown(Keys.D2))
             {
                 _link.UseBoomerang();
+            } else if (state.IsKeyDown(Keys.D3))
+            {
+                _link.UseBomb();
             }
 
 
@@ -71,10 +72,7 @@ namespace Sprint0.Classes
 
 
 
-            // ATTACK
-            SwordAttack = state.IsKeyDown(Keys.Z);
-            TakeDamage = state.IsKeyDown(Keys.E);
-            IsFirePressed = state.IsKeyDown(Keys.D1); // Use Space to fire arrows
+           
 
 
             // ITEMS AND BLOCKS

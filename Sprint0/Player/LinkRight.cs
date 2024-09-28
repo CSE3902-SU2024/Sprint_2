@@ -79,7 +79,7 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
-
+            _link.currentState = new BombRight(_link);
         }
 
         public void IsDamaged()
