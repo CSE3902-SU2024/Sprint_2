@@ -77,6 +77,14 @@ namespace Sprint0.Player
         {
 
         }
+        public void UseBoomerang()
+        {
+
+        }
+        public void UseBomb()
+        {
+
+        }
         public void IsDamaged()
         {
             _link.Damaged = true;

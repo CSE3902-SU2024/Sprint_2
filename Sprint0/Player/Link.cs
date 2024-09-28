@@ -74,6 +74,14 @@ namespace Sprint0.Player
         {
             currentState.UseArrow();
         }
+        public void UseBoomerang()
+        {
+            //currentState.UseBoomerang();
+        }
+        public void UseBomb()
+        {
+            //currentState.UseBomb();
+        }
         public void TakeDamage()
         {
             currentState.IsDamaged();

@@ -73,6 +73,14 @@ namespace Sprint0.Player
         {
             _link.currentState = new ArrowRight(_link);
         }
+        public void UseBoomerang()
+        {
+
+        }
+        public void UseBomb()
+        {
+
+        }
 
         public void IsDamaged()
         {

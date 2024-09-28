@@ -82,14 +82,23 @@ namespace Sprint0.Player
         {
 
         }
-        public void IsDamaged()
-        {
-            _link.Damaged = true;
-        }
+       
 
         public void UseArrow()
         {
 
+        }
+        public void UseBoomerang()
+        {
+
+        }
+        public void UseBomb()
+        {
+
+        }
+        public void IsDamaged()
+        {
+            _link.Damaged = true;
         }
 
     }

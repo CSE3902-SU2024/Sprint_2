@@ -14,7 +14,9 @@ namespace Sprint0.Player
         private int remainingFrames;
         private Vector2 _ArrowPosition;
         private List<Arrow> _activeArrows;
-        
+        private bool _arrowShot;
+        private const float ARROW_SPEED = 300f;
+
 
 
         public ArrowRight(Link link)
@@ -45,12 +47,18 @@ namespace Sprint0.Player
         {
             if (--remainingFrames <= 0)
             {
-                
+                if (!_arrowShot)
                 {
-                    linkFrame = 2;
-                    _link.currentState = new LinkRight(_link);
+                    ShootArrow();
+                    _arrowShot = true;
                 }
-                remainingFrames = _link.framesPerSword;
+                else
+                {
+                    // Transition back to standing right state
+                    _link.currentState = new LinkRight(_link);
+
+                }
+                
             }
 
             if (_link.Damaged)
@@ -82,9 +90,32 @@ namespace Sprint0.Player
         {
 
         }
+        public void UseBoomerang()
+        {
+
+        }
+        public void UseBomb()
+        {
+
+        }
         public void IsDamaged()
         {
             _link.Damaged = true;
+        }
+        private void ShootArrow()
+        {
+            Vector2 arrowPosition = new Vector2(_link._position.X + 13 * _link._scale.X, _link._position.Y + 6 * _link._scale.Y);
+            Vector2 arrowDirection = Vector2.UnitX; // Right direction
+
+            Arrow newArrow = new Arrow(
+                arrowPosition,
+                arrowDirection,
+                ARROW_SPEED,
+                800,
+                400
+                );
+
+            _activeArrows.Add(newArrow);
         }
 
     }

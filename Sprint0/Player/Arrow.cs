@@ -10,7 +10,6 @@ namespace Sprint0.Player
         private int _currentFrame;
         private bool _isActive;
         private float _rotation;
-        private float _speed;
 
         // Constants
         private const int FRAME_WIDTH = 16; // Adjust based on your sprite sheet
@@ -30,7 +29,6 @@ namespace Sprint0.Player
             _currentFrame = 0;
             _isActive = true;
             _rotation = (float)System.Math.Atan2(direction.Y, direction.X);
-            _speed = speed;
             _frameCounter = 0;
 
             _screenWidth = screenWidth;
@@ -43,14 +41,6 @@ namespace Sprint0.Player
             {
                 // Move the arrow
                 _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                // Animate the arrow
-                _frameCounter++;
-                if (_frameCounter >= ANIMATION_SPEED)
-                {
-                    _currentFrame = (_currentFrame + 1) % TOTAL_FRAMES;
-                    _frameCounter = 0;
-                }
 
                 // Check if arrow is off-screen
                 if (IsOffScreen())
@@ -87,8 +77,6 @@ namespace Sprint0.Player
                    _position.Y < -FRAME_HEIGHT || _position.Y > _screenHeight;
         }
 
-        public bool IsActive => _isActive;
-
         public Rectangle GetBounds()
         {
             return new Rectangle(
@@ -97,12 +85,6 @@ namespace Sprint0.Player
                 FRAME_WIDTH,
                 FRAME_HEIGHT
             );
-        }
-
-        // Method to handle collision with enemies or objects
-        public void HandleCollision()
-        {
-            _isActive = false;
         }
     }
 }
