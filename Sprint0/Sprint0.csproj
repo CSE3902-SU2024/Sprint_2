@@ -11,6 +11,17 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Classes\Blocks\**" />
+    <Compile Remove="Classes\Items\**" />
+    <Compile Remove="Classes\Link\**" />
+    <EmbeddedResource Remove="Classes\Blocks\**" />
+    <EmbeddedResource Remove="Classes\Items\**" />
+    <EmbeddedResource Remove="Classes\Link\**" />
+    <None Remove="Classes\Blocks\**" />
+    <None Remove="Classes\Items\**" />
+    <None Remove="Classes\Link\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Classes\EnemyController.cs" />
   </ItemGroup>
   <ItemGroup>

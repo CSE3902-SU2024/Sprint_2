@@ -45,8 +45,8 @@ namespace Sprint0.Classes
                 new Rectangle(35, 11, 16, 16),    // 6 animation frame 1 {left 1}  //gotta flip these horizontally --> did this
                 new Rectangle(52, 11, 16, 16),    // 7 animation frame 2 {left 2}
                 new Rectangle(94, 77, 15, 15),    // 8 Sword Right 1
-                new Rectangle(111, 78, 26, 14),   // 9 Sword Right 2
-                new Rectangle(139, 78, 22, 14),   // 10 Sword Right 3
+                new Rectangle(111, 78, 27, 14),   // 9 Sword Right 2
+                new Rectangle(139, 78, 23, 14),   // 10 Sword Right 3
                 new Rectangle(163, 77, 18, 15),   // 11 Sword Right 4
                 new Rectangle(94,109,16,16),      // 12 Sword Up 1                 //#12
                 new Rectangle(111,97,16,28),      // 13  Sword Up 2

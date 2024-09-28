@@ -18,6 +18,9 @@ namespace Sprint0.Classes
         private Vector2 initialPosition;
         private float movementRange = 100f; // The range within which the dragon will move left-right
         private bool movingRight = true;
+        private bool movingUp = false;
+        private bool movingLeft = false;
+        private bool movingDown = false;
         private int currentFrame;
         private float timePerFrame = 0.1f; // 100ms per frame for dragon
         private float timeElapsed;
@@ -147,26 +150,39 @@ namespace Sprint0.Classes
         
             private void MoveGoriya()
         {
-            // Basic Goriya movement logic
-            switch (enemyDirection)
+            if (movingRight)
             {
-                case Direction.Up:
-                    position.Y -= 1f; // Move up
-                    currentFrame = 1; // Facing up frame
-                    break;
-                case Direction.Down:
-                    position.Y += 1f; // Move down
-                    currentFrame = 0; // Facing down frame
-                    break;
-                case Direction.Right:
-                    position.X += 1f; // Move right
-                    currentFrame = 2; // Facing right frame
-                    break;
-                case Direction.Left:
-                    position.X -= 1f; // Move left
-                    currentFrame = 2; // Use the same frame but flip horizontally
-                    break;
+                position.X += 1f; // Move right
+                currentFrame = 3; // Goriya's right-facing frame
+                if (position.X >= initialPosition.X + movementRange)
+                    movingRight = false; // Switch direction when hitting the right edge of range
+                    movingUp = true;
             }
+            else if (movingUp)
+            {
+                position.Y += 1f; // Move Up
+                currentFrame = 2;
+                if (position.Y >= initialPosition.Y + movementRange)
+                    movingUp = false;
+                    movingLeft = true; // Switch direction when hitting the left edge of range
+            }
+            else if (movingLeft) 
+            {
+                position.X -= 1f; // Move left
+                currentFrame = 3; // Goriya's left-facing frame
+                if (position.X <= initialPosition.X - movementRange)
+                    movingLeft = false; // Switch direction when hitting the left edge of range
+                    movingDown = true;
+            }
+            else if (movingDown)
+            {
+                position.Y -= 1f; // Move Down
+                currentFrame = 1;
+                if (position.Y <= initialPosition.Y - movementRange)
+                    movingRight = true; // Switch direction when hitting the right edge of range
+            }
+           
+            
         }
 
         private void MoveStalfos()
