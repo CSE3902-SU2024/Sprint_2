@@ -78,11 +78,19 @@ namespace Sprint0.Classes
         public static Rectangle[][] CreateItemFrames()
         {
             // Define frames based on your sprite sheet dimensions
+            Rectangle[] health = { new Rectangle(0, 0, 7, 8), new Rectangle(0, 8, 7, 8) };
             Rectangle[] heart = { new Rectangle(25, 0, 13, 14) , new Rectangle(25, 0, 13, 14) };
             Rectangle[] clock = { new Rectangle(58, 0, 11, 16) , new Rectangle(58, 0, 11, 16) };
             Rectangle[] diamond = { new Rectangle(72, 0, 8, 16), new Rectangle(72, 16, 8, 16) };
             Rectangle[] potion = { new Rectangle(81, 0, 6, 14), new Rectangle(81, 16, 6, 14) };
-            Rectangle[][] itemList = { heart, clock, diamond, potion };
+            Rectangle[] idk = { new Rectangle(88, 0, 8, 16), new Rectangle(88, 16, 8, 16) };
+            Rectangle[] triangle = { new Rectangle(275, 3, 10, 10), new Rectangle(275, 19, 10, 10) };
+            Rectangle[] key = { new Rectangle(240, 0, 8, 16), new Rectangle(240, 0, 8, 16) };
+            Rectangle[] idk2 = { new Rectangle(40, 0, 7, 16), new Rectangle(40, 0, 7, 16) };
+            Rectangle[] bow = { new Rectangle(144, 0, 8, 16), new Rectangle(144, 0, 8, 16) };
+            Rectangle[] boom = { new Rectangle(136, 0, 8, 14), new Rectangle(136, 0, 8, 14) };
+            Rectangle[] idk3 = { new Rectangle(258, 1, 11, 12), new Rectangle(258, 1, 11, 12) };
+            Rectangle[][] itemList = { health, heart, clock, diamond, potion, idk, triangle, key, idk2, bow, boom, idk3};
             return itemList;
         }
 
