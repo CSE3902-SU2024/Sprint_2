@@ -9,39 +9,49 @@ namespace Sprint0.Player
     internal class SwordUp : ILinkState
     {
         private Link _link;
-        private int frame;
+        private int linkFrame;
+        private int weaponFrame;
         private int remainingFrames;
+        private Vector2 _weaponPosition;
+
 
         public SwordUp(Link link)
         {
             _link = link;
-            frame = 12;
+            linkFrame = 11;
+            weaponFrame = 11;
             remainingFrames = _link.framesPerSword;
+            _weaponPosition.X = _link._position.X + 3 * _link._scale.X;
+            _weaponPosition.Y = _link._position.Y - 8 * _link._scale.Y;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
-            _link.DrawSprite(_spriteBatch, frame, false);
+            _link.DrawSprite(_spriteBatch, linkFrame, false);
+            if (weaponFrame > 11)
+            {
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+        }
         }
         public void Update()
         {
             if (--remainingFrames <= 0)
             {
-                if (frame == 12)
+                if (weaponFrame == 11)
                 {
-                    frame = 13;
+                    weaponFrame = 12;
                 }
-                else if (frame == 13)
+                else if (weaponFrame == 12)
                 {
-                    frame = 14;
+                    weaponFrame = 13;
                 }
-                else if (frame == 14)
+                else if (weaponFrame == 13)
                 {
-                    frame = 15;
+                    weaponFrame = 14;
                 }
-                else if (frame == 15)
+                else if (weaponFrame == 14)
                 {
-                    frame = 4;
+                    linkFrame = 4;
                     _link.currentState = new LinkUp(_link);
                 }
                 remainingFrames = _link.framesPerSword;
