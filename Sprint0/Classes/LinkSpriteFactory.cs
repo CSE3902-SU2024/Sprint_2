@@ -53,9 +53,9 @@ namespace Sprint0.Classes
                 new Rectangle (36,164,7,10),       //13 SWORD Up 2
                 new Rectangle (36,159,7,5),       //14 SWORD Up 3
 
-                new Rectangle (45,159,15,7),       //15 SWORD Right 1
-                new Rectangle (50,159,10,7),       //16 SWORD Right 2
-                new Rectangle (55,159,5,7),       //17 SWORD Right 3
+                new Rectangle (45,159,16,7),       //15 SWORD Right 1
+                new Rectangle (50,159,11,7),       //16 SWORD Right 2
+                new Rectangle (55,159,6,7),       //17 SWORD Right 3
 
 
 
