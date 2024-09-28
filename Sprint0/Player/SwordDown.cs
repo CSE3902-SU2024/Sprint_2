@@ -9,42 +9,62 @@ namespace Sprint0.Player
     internal class SwordDown : ILinkState
     {
         private Link _link;
-        private int frame;
+        private int linkFrame;
+        private int weaponFrame;
         private int remainingFrames;
+        private Vector2 _weaponPosition;
+
 
         public SwordDown(Link link)
         {
             _link = link;
-            frame = 16;
+            linkFrame = 8;
+            weaponFrame = 11;
             remainingFrames = _link.framesPerSword;
+            _weaponPosition.X = _link._position.X + 5 * _link._scale.X;
+            _weaponPosition.Y = _link._position.Y + 14 * _link._scale.Y;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
-            _link.DrawSprite(_spriteBatch, frame, false);
+            _link.DrawSprite(_spriteBatch, linkFrame, false);
+            if (weaponFrame > 11)
+            {
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false, true, _weaponPosition);
+            }
+            //else if (weaponFrame == 13)
+            //{
+            //    _weaponPosition.Y = _link._position.Y - 11 * _link._scale.Y;
+            //    _link.DrawWeapon(_spriteBatch, weaponFrame, false, true, _weaponPosition);
+            //}
+            //else if (weaponFrame == 14)
+            //{
+            //    _weaponPosition.Y = _link._position.Y - 5 * _link._scale.Y;
+            //    _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+            //}
         }
         public void Update()
         {
             if (--remainingFrames <= 0)
             {
-                if (frame == 16)
+                if (weaponFrame == 11)
                 {
-                    frame = 17;
+                    weaponFrame = 12;
                 }
-                else if (frame == 17)
+                else if (weaponFrame == 12)
                 {
-                    frame = 18;
+                    weaponFrame = 13;
                 }
-                else if (frame == 18)
+                else if (weaponFrame == 13)
                 {
-                    frame = 19;
+                    weaponFrame = 14;
                 }
-                else if (frame == 19)
+                else if (weaponFrame == 14)
                 {
-                    frame = 0;
+                    linkFrame = 4;
                     _link.currentState = new LinkDown(_link);
                 }
-                remainingFrames = _link.framesPerSword; 
+                remainingFrames = _link.framesPerSword;
             }
 
             if (_link.Damaged)

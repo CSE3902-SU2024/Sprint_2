@@ -22,14 +22,24 @@ namespace Sprint0.Player
             weaponFrame = 11;
             remainingFrames = _link.framesPerSword;
             _weaponPosition.X = _link._position.X + 3 * _link._scale.X;
-            _weaponPosition.Y = _link._position.Y - 8 * _link._scale.Y;
+            _weaponPosition.Y = _link._position.Y - 13 * _link._scale.Y;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
-            if (weaponFrame > 11)
+           if (weaponFrame == 12)
             {
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+            }
+            else if (weaponFrame == 13)
+            {
+                _weaponPosition.Y = _link._position.Y - 11 * _link._scale.Y;
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+            }
+            else if (weaponFrame == 14)
+            {
+                _weaponPosition.Y = _link._position.Y - 5 * _link._scale.Y;
                 _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
             }
         }
