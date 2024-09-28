@@ -72,6 +72,10 @@ namespace Sprint0.Player
         {
 
         }
+        public void UseArrow()
+        {
+
+        }
         public void IsDamaged()
         {
             _link.Damaged = true;

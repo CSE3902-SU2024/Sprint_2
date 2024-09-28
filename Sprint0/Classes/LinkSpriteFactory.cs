@@ -59,7 +59,7 @@ namespace Sprint0.Classes
 
                 new Rectangle (3,185,5,16),       //18 ARROW Up 1
 
-                new Rectangle (10,190,16,5),       //19 ARROW Down 1
+                new Rectangle (10,190,16,5),       //19 ARROW Right 1
 
                 new Rectangle (65,189,5,8),       //20 BOOMERANG 1
                 new Rectangle (73,189,8,8),       //21 BOOMERANG 2

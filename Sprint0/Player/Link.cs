@@ -70,6 +70,10 @@ namespace Sprint0.Player
             currentState.UseSword();
         }
 
+        public void ArrowAttack()
+        {
+            currentState.UseArrow();
+        }
         public void TakeDamage()
         {
             currentState.IsDamaged();

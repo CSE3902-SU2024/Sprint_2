@@ -6,43 +6,49 @@ using System.Collections.Generic;
 
 namespace Sprint0.Player
 {
-    internal class SwordUp : ILinkState
+    internal class ArrowRight : ILinkState
     {
         private Link _link;
-        private int frame;
+        private int linkFrame;
+        private int ArrowFrame;
         private int remainingFrames;
+        private Vector2 _ArrowPosition;
+        private List<Arrow> _activeArrows;
+        
 
-        public SwordUp(Link link)
+
+        public ArrowRight(Link link)
         {
             _link = link;
-            frame = 12;
+            linkFrame = 9;
+            ArrowFrame = 19;
             remainingFrames = _link.framesPerSword;
+            _activeArrows = new List<Arrow>();
+
+            Vector2 arrowPosition = new Vector2(_link._position.X + 13 * _link._scale.X, _link._position.Y + 6 * _link._scale.Y);
+            Vector2 arrowDirection = Vector2.UnitX; // Assuming right direction
+            float arrowSpeed = 200f; // Adjust as needed
+            _activeArrows.Add(new Arrow(arrowPosition, arrowDirection, arrowSpeed,800,400));
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
-            _link.DrawSprite(_spriteBatch, frame, false);
+            _link.DrawSprite(_spriteBatch, linkFrame, false);
+            
+            // Draw all active arrows
+            foreach (var arrow in _activeArrows)
+            {
+                _link.DrawWeapon(_spriteBatch, ArrowFrame, false, _ArrowPosition);
+            }
         }
         public void Update()
         {
             if (--remainingFrames <= 0)
             {
-                if (frame == 12)
+                
                 {
-                    frame = 13;
-                }
-                else if (frame == 13)
-                {
-                    frame = 14;
-                }
-                else if (frame == 14)
-                {
-                    frame = 15;
-                }
-                else if (frame == 15)
-                {
-                    frame = 4;
-                    _link.currentState = new LinkUp(_link);
+                    linkFrame = 2;
+                    _link.currentState = new LinkRight(_link);
                 }
                 remainingFrames = _link.framesPerSword;
             }
