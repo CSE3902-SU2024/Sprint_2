@@ -22,7 +22,7 @@ namespace Sprint0.Classes
         private bool movingLeft = false;
         private bool movingDown = false;
         private int currentFrame;
-        private float timePerFrame = 0.1f; // 100ms per frame for dragon
+        private float timePerFrame = 0.1f; // 100ms per frame 
         private float timeElapsed;
 
         private float projectileCooldown = 1f; // 1 second cooldown between shots
@@ -47,7 +47,9 @@ namespace Sprint0.Classes
         {
             Dragon,
             Goriya,
-            Stalfos
+            Stalfos,
+            Keese,
+            Gel
         }
 
         public Enemy(Vector2 startPosition)
@@ -76,6 +78,13 @@ namespace Sprint0.Classes
             {
                 sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();  
                  
+            }  
+            else if (currentEnemyType == EnemyType.Keese)
+            {
+                sourceRectangles = SpriteSheetHelper.CreateKeeseFrames();
+            } else if (currentEnemyType == EnemyType.Gel)
+            {
+                sourceRectangles = SpriteSheetHelper.CreateGelFrames();
             }
         }
 
@@ -108,7 +117,23 @@ namespace Sprint0.Classes
                 {
                     isFlipped = !isFlipped;
                     timeElapsed = 0f;
+                } 
+            } else if(currentEnemyType == EnemyType.Keese)
+            {
+                MoveDragon();
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                    timeElapsed = 0f;
                 }
+            } else if (currentEnemyType == EnemyType.Gel)
+            {
+                MoveDragon();
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                    timeElapsed = 0f;
+                } 
             }
 
             // Shoot projectiles/boomerang every 1 second
