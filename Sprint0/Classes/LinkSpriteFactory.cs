@@ -49,9 +49,9 @@ namespace Sprint0.Classes
                 new Rectangle (124, 11, 16, 16),  // 10 Link Left attack          //gotta flip these horizontally --> did this
                 new Rectangle (141, 11, 16, 16),   // 11 Link Up attack
 
-                new Rectangle (36,154,7,16),      //12 SWORD Up 1
-                new Rectangle (36,164,7,11),       //13 SWORD Up 2
-                new Rectangle (36,159,7,6),       //14 SWORD Up 3
+                new Rectangle (36,154,7,13),      //12 SWORD Up 1
+                new Rectangle (36,154,7,11),       //13 SWORD Up 2
+                new Rectangle (36,154,7,6),       //14 SWORD Up 3
 
                 new Rectangle (45,159,16,7),       //15 SWORD Right 1
                 new Rectangle (50,159,11,7),       //16 SWORD Right 2
