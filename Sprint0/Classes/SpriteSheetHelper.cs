@@ -47,6 +47,16 @@ namespace Sprint0.Classes
             };
         }
 
+        public static Rectangle[] CreateStalfosFrames()
+        {
+            return new Rectangle[]
+            {
+            new Rectangle(1, 59, 16, 16),    
+          
+            };
+        }
+
+
         public static Rectangle[][] CreateItemFrames()
         {
             // Define frames based on your sprite sheet dimensions

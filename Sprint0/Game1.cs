@@ -74,6 +74,12 @@ namespace Sprint0
             goriya.LoadContent(Content, "Dungeon"); // Load Goriya content (using "Dungeon" sheet)
             enemies.Add(goriya); // Add Goriya to enemies list
 
+            Enemy stalfos = new Enemy(new Vector2(400, 200))
+            {
+                currentEnemyType = Enemy.EnemyType.Stalfos
+            };
+            stalfos.LoadContent(Content, "Dungeon");  
+            enemies.Add(stalfos);  
             // Set the current enemy to the first one (Dragon)
             enemy = enemies[currentEnemyIndex];
 

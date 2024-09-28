@@ -26,7 +26,8 @@ namespace Sprint0.Classes
         private float timeSinceLastShot;
         private List<Projectile> projectiles; // To store all projectiles
         private Direction enemyDirection;
-        
+        private bool isFlipped = false;
+
         private List<Enemy> enemies;
         private int currentEnemyIndex = 0;
         public EnemyType currentEnemyType { get; set; }  // Add { get; set; } to make it accessible
@@ -42,7 +43,8 @@ namespace Sprint0.Classes
         public enum EnemyType
         {
             Dragon,
-            Goriya
+            Goriya,
+            Stalfos
         }
 
         public Enemy(Vector2 startPosition)
@@ -67,6 +69,11 @@ namespace Sprint0.Classes
                 sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames(); // Goriya frames
                 projectileRectangles = SpriteSheetHelper.CreateBoomerangFrames(); // Goriya's boomerang
             }
+            else if (currentEnemyType == EnemyType.Stalfos)
+            {
+                sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();  
+                 
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -75,32 +82,30 @@ namespace Sprint0.Classes
             
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Animate the current enemy
-            if (timeElapsed > timePerFrame)
+            if(currentEnemyType == EnemyType.Dragon) 
             {
+                MoveDragon();
+                if (timeElapsed > timePerFrame)
+                {
                 currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                 timeElapsed = 0f;
-            }
-
-            // Update movement (left-right for Dragon, up-down-left-right for Goriya)
-            if (currentEnemyType == EnemyType.Dragon)
-            {
-                if (movingRight)
-                {
-                    position.X += 1f; // Move right
-                    if (position.X >= initialPosition.X + movementRange)
-                        movingRight = false; // Switch direction when hitting the right edge of range
                 }
-                else
-                {
-                    position.X -= 1f; // Move left
-                    if (position.X <= initialPosition.X - movementRange)
-                        movingRight = true; // Switch direction when hitting the left edge of range
-                }
-            }
-            else if (currentEnemyType == EnemyType.Goriya)
+            }  else if (currentEnemyType == EnemyType.Goriya)
             {
-                MoveGoriya(); // Custom Goriya movement (up-down-left-right)
+                MoveGoriya();
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;  
+                    timeElapsed = 0f;
+                }
+            } else if (currentEnemyType == EnemyType.Stalfos)
+            {
+                MoveStalfos();
+                if (timeElapsed > 0.1f) // Flip every 0.3 seconds
+                {
+                    isFlipped = !isFlipped;
+                    timeElapsed = 0f;
+                }
             }
 
             // Shoot projectiles/boomerang every 1 second
@@ -124,8 +129,23 @@ namespace Sprint0.Classes
                 }
             }
         }
-
-        private void MoveGoriya()
+        private void MoveDragon()
+        {
+            if (movingRight)
+            {
+                position.X += 1f; // Move right
+                if (position.X >= initialPosition.X + movementRange)
+                    movingRight = false; // Switch direction when hitting the right edge of range
+            }
+            else
+            {
+                position.X -= 1f; // Move left
+                if (position.X <= initialPosition.X - movementRange)
+                    movingRight = true; // Switch direction when hitting the left edge of range
+            }
+        }
+        
+            private void MoveGoriya()
         {
             // Basic Goriya movement logic
             switch (enemyDirection)
@@ -149,6 +169,21 @@ namespace Sprint0.Classes
             }
         }
 
+        private void MoveStalfos()
+        {
+            if (movingRight)
+            {
+                position.X += 1f; // Move right
+                if (position.X >= initialPosition.X + movementRange)
+                    movingRight = false; // Switch direction when hitting the right edge of range
+            }
+            else
+            {
+                position.X -= 1f; // Move left
+                if (position.X <= initialPosition.X - movementRange)
+                    movingRight = true; // Switch direction when hitting the left edge of range
+            }
+        }
         public void ChangeDirection(Direction newDirection)
         {
             enemyDirection = newDirection;
@@ -173,7 +208,8 @@ namespace Sprint0.Classes
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            SpriteEffects spriteEffect = SpriteEffects.None;
+            SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
 
 
             float scale = 4.0f;
