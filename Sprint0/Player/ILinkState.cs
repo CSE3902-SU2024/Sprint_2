@@ -10,7 +10,6 @@ namespace Sprint0.Player
     {
         void Draw(SpriteBatch spriteBatch);
         void Update();
-      //  void TakeDamage();
 
         void MoveUp();
         void MoveDown();
@@ -19,6 +18,6 @@ namespace Sprint0.Player
         void UseSword();
        // void UseBow();
 
-        //void TakeDamge();
+        void IsDamaged();
     }
 }

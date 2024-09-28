@@ -46,6 +46,15 @@ namespace Sprint0.Player
                 }
                 remainingFrames = _link.framesPerSword;
             }
+
+            if (_link.Damaged)
+            {
+                if (--_link.RemainingDamagedFrames <= 0)
+                {
+                    _link.Damaged = false;
+                    _link.RemainingDamagedFrames = _link.framesPerDamage;
+                }
+            }
         }
         public void MoveDown()
         {
@@ -63,7 +72,10 @@ namespace Sprint0.Player
         {
 
         }
-
+        public void IsDamaged()
+        {
+            _link.Damaged = true;
+        }
 
     }
 }

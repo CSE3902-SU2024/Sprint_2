@@ -17,9 +17,13 @@ namespace Sprint0.Player
         public Vector2 _previousPosition;
         public Texture2D _texture;
         public Vector2 _scale;
+        public Color _color;
         public float speed;
         public int framesPerStep;
         public int framesPerSword;
+        public int framesPerDamage;
+        public int RemainingDamagedFrames;
+        public Boolean Damaged;
         private SpriteEffects spriteEffects;
 
 
@@ -34,6 +38,10 @@ namespace Sprint0.Player
             spriteEffects = SpriteEffects.None;
             framesPerStep = 8;
             framesPerSword = 4;
+            framesPerDamage = 100;
+            RemainingDamagedFrames = framesPerDamage;
+            Damaged = false;
+            _color = Color.White;
             //   _previousPosition = new Vector2(200.0f, 200.0f);
         }
 
@@ -61,6 +69,11 @@ namespace Sprint0.Player
         {
             currentState.UseSword();
         }
+
+        public void TakeDamage()
+        {
+            currentState.IsDamaged();
+        }
         public void Update()
         {
             currentState.Update();
@@ -81,7 +94,16 @@ namespace Sprint0.Player
             {
                 spriteEffects = SpriteEffects.None;
             }
-            _spriteBatch.Draw(_texture, _position, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
+
+            if (Damaged)
+            {
+                _color = Color.Red;
+            }
+            else
+            {
+                _color = Color.White;
+            }
+            _spriteBatch.Draw(_texture, _position, _sourceRectangles[frame], _color, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
         }
     }
 }

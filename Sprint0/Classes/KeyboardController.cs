@@ -53,6 +53,11 @@ namespace Sprint0.Classes
             {
                 _link.SwordAttack();
             }
+            else if (state.IsKeyDown(Keys.E))
+            {
+                _link.TakeDamage();
+            }
+
 
 
             // ATTACK
