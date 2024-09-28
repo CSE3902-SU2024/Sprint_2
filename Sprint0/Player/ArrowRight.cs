@@ -38,7 +38,7 @@ namespace Sprint0.Player
             // Draw all active arrows
             foreach (var arrow in _activeArrows)
             {
-                _link.DrawWeapon(_spriteBatch, ArrowFrame, false, _ArrowPosition);
+                _link.DrawWeapon(_spriteBatch, ArrowFrame, false,false, _ArrowPosition);
             }
         }
         public void Update()

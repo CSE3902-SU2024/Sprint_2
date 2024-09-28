@@ -31,7 +31,7 @@ namespace Sprint0.Player
             if (weaponFrame > 11)
             {
                 _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
-        }
+            }
         }
         public void Update()
         {
@@ -79,10 +79,6 @@ namespace Sprint0.Player
         {
         }
         public void UseSword()
-        {
-
-        }
-        public void UseArrow()
         {
 
         }
