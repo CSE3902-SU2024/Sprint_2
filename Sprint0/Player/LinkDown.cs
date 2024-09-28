@@ -74,12 +74,12 @@ namespace Sprint0.Player
         }
         public void UseBoomerang()
         {
-            _link.currentState = new BoomerangLeft(_link);
+            _link.currentState = new BoomerangDown(_link);
 
         }
         public void UseBomb()
         {
-            _link.currentState = new BombLeft(_link);
+         //   _link.currentState = new BombLeft(_link);
         }
 
         public void IsDamaged()

@@ -32,16 +32,6 @@ namespace Sprint0.Player
             {
                 _link.DrawWeapon(_spriteBatch, weaponFrame, false, true, _weaponPosition);
             }
-            //else if (weaponFrame == 13)
-            //{
-            //    _weaponPosition.Y = _link._position.Y - 11 * _link._scale.Y;
-            //    _link.DrawWeapon(_spriteBatch, weaponFrame, false, true, _weaponPosition);
-            //}
-            //else if (weaponFrame == 14)
-            //{
-            //    _weaponPosition.Y = _link._position.Y - 5 * _link._scale.Y;
-            //    _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
-            //}
         }
         public void Update()
         {
