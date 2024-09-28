@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Sprint0.Player
 {
-    internal class ArrowUp : ILinkState
+    internal class ArrowDown : ILinkState
     {
         private Link _link;
         private int linkFrame;
@@ -16,14 +16,14 @@ namespace Sprint0.Player
         private bool _arrowFlying;
         private float _arrowSpeed;
 
-        public ArrowUp(Link link)
+        public ArrowDown(Link link)
         {
             _link = link;
-            linkFrame = 11;
+            linkFrame = 8;
             weaponFrame = 18;
             remainingFrames = _link.framesPerSword;
-            _weaponPosition.X = _link._position.X + 3 * _link._scale.X;
-            _weaponPosition.Y = _link._position.Y - 13 * _link._scale.Y;
+            _weaponPosition.X = _link._position.X + 5 * _link._scale.X;
+            _weaponPosition.Y = _link._position.Y + 14 * _link._scale.Y;
             _arrowFlying = false;
             _arrowSpeed = 15f;
         }
@@ -32,7 +32,7 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
 
-            _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+            _link.DrawWeapon(_spriteBatch, weaponFrame, false, true, _weaponPosition);
 
 
         }
@@ -45,12 +45,12 @@ namespace Sprint0.Player
             }
             if (_arrowFlying)
             {
-                _weaponPosition.Y -= _arrowSpeed;
-                if (_weaponPosition.Y < -100)
+                _weaponPosition.Y += _arrowSpeed;
+                if (_weaponPosition.Y > 540)
                 {
                     _arrowFlying = false;
-                    linkFrame = 11;
-                    _link.currentState = new LinkUp(_link);
+                    linkFrame = 8;
+                    _link.currentState = new LinkDown(_link);
                 }
             }
 

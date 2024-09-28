@@ -10,56 +10,50 @@ namespace Sprint0.Player
     {
         private Link _link;
         private int linkFrame;
-        private int ArrowFrame;
+        private int weaponFrame;
         private int remainingFrames;
-        private Vector2 _ArrowPosition;
-        private List<Arrow> _activeArrows;
-        private bool _arrowShot;
-        private const float ARROW_SPEED = 300f;
-
-
+        private Vector2 _weaponPosition;
+        private bool _arrowFlying;
+        private float _arrowSpeed;
 
         public ArrowRight(Link link)
         {
             _link = link;
             linkFrame = 9;
-            ArrowFrame = 19;
+            weaponFrame = 19;
             remainingFrames = _link.framesPerSword;
-            _activeArrows = new List<Arrow>();
-
-            Vector2 arrowPosition = new Vector2(_link._position.X + 13 * _link._scale.X, _link._position.Y + 6 * _link._scale.Y);
-            Vector2 arrowDirection = Vector2.UnitX; // Assuming right direction
-            float arrowSpeed = 200f; // Adjust as needed
-            _activeArrows.Add(new Arrow(arrowPosition, arrowDirection, arrowSpeed,800,400));
+            _weaponPosition.X = _link._position.X + 13 * _link._scale.X;
+            _weaponPosition.Y = _link._position.Y + 6 * _link._scale.Y;
+            _arrowFlying = false;
+            _arrowSpeed = 15f;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
+
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
             
-            // Draw all active arrows
-            foreach (var arrow in _activeArrows)
-            {
-                _link.DrawWeapon(_spriteBatch, ArrowFrame, false,false, _ArrowPosition);
-            }
+
         }
         public void Update()
         {
-            if (--remainingFrames <= 0)
-            {
-                if (!_arrowShot)
+            
+                if (weaponFrame == 19)
                 {
-                    ShootArrow();
-                    _arrowShot = true;
+                    _arrowFlying = true;
                 }
-                else
+                if (_arrowFlying)
                 {
-                    // Transition back to standing right state
-                    _link.currentState = new LinkRight(_link);
-
+                    _weaponPosition.X += _arrowSpeed;
+                    if (_weaponPosition.X > 800)
+                    {
+                        _arrowFlying = false;
+                        linkFrame = 9;
+                        _link.currentState = new LinkRight(_link);
+                    }
                 }
-                
-            }
+            
 
             if (_link.Damaged)
             {
@@ -101,21 +95,6 @@ namespace Sprint0.Player
         public void IsDamaged()
         {
             _link.Damaged = true;
-        }
-        private void ShootArrow()
-        {
-            Vector2 arrowPosition = new Vector2(_link._position.X + 13 * _link._scale.X, _link._position.Y + 6 * _link._scale.Y);
-            Vector2 arrowDirection = Vector2.UnitX; // Right direction
-
-            Arrow newArrow = new Arrow(
-                arrowPosition,
-                arrowDirection,
-                ARROW_SPEED,
-                800,
-                400
-                );
-
-            _activeArrows.Add(newArrow);
         }
 
     }

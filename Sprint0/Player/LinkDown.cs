@@ -70,7 +70,7 @@ namespace Sprint0.Player
         }
         public void UseArrow()
         {
-           // _link.currentState = new ArrowDown(_link);
+            _link.currentState = new ArrowDown(_link);
         }
         public void UseBoomerang()
         {
