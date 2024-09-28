@@ -56,7 +56,15 @@ namespace Sprint0.Classes
             };
         }
 
-
+        public static Rectangle[] CreateFrames()
+        {
+            return new Rectangle[]
+            {
+            new Rectangle(291, 15, 5, 8),   // Boomerang Frame 1
+            new Rectangle(299, 15, 8, 8),// Boomerang Frame 2
+            new Rectangle(308, 17, 8, 5),  // Boomerang Frame 3
+            };
+        }
         public static Rectangle[][] CreateItemFrames()
         {
             // Define frames based on your sprite sheet dimensions
