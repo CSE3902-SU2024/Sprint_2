@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint0.Classes;
+using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace Sprint0
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Link _link;
+        public Link _link;
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
         //private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
@@ -43,8 +44,6 @@ namespace Sprint0
 
         protected override void Initialize()
         {
-            _keyboardController = new KeyboardController();
-
             enemies = new List<Enemy>();
 
             base.Initialize();
@@ -88,8 +87,9 @@ namespace Sprint0
             Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
 
             //link instance
-            _link = new Link(linkTexture, new Vector2(100, 100), linkFrames);
-          
+            _link = new Link(linkFrames, linkTexture);
+            _keyboardController = new KeyboardController(_link);
+
 
             //Block texture
             animatedBlock = new AnimatedBlock(new Vector2(100, 100));
@@ -114,7 +114,7 @@ namespace Sprint0
            
 
             _keyboardController.Update();
-            _link.Update(gameTime, _keyboardController);
+         //   _link.Update(gameTime, _keyboardController);
 
              animatedBlock.Update(gameTime, _keyboardController);
 
@@ -131,7 +131,7 @@ namespace Sprint0
             enemy.Update(gameTime);
 
             Item.Update(gameTime, _keyboardController);
-
+            _link.Update();
             base.Update(gameTime);
         }
 
@@ -140,10 +140,11 @@ namespace Sprint0
             GraphicsDevice.Clear(Color.Gray);
 
             _spriteBatch.Begin();
-            _link.Draw(_spriteBatch);
+          //  _link.Draw(_spriteBatch);
             animatedBlock.Draw(_spriteBatch);
             enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
+            _link.Draw(_spriteBatch);
             _spriteBatch.End();
 
 

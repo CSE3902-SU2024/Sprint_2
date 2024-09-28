@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Threading;
 using System.Timers;
 
-namespace Sprint0.Classes
+namespace Sprint0.Player
 {
     public class LinkStateMachine : IStateMachine
     {
@@ -40,7 +40,7 @@ namespace Sprint0.Classes
             //UseItem3Right,
             //UseItem3Up,
             //UseItem3Down,
-           
+
         }
         private Link _link;
         private State _currentState;
@@ -58,7 +58,7 @@ namespace Sprint0.Classes
             _attackTimer.Elapsed += new ElapsedEventHandler(OnAttackTimerElapsed);
         }
 
-        public void Update(GameTime gametime)   
+        public void Update(GameTime gametime)
         {
             switch (_currentState)
             {
@@ -83,7 +83,7 @@ namespace Sprint0.Classes
                 case State.TakeDamage:
                     break;
 
-              
+
             }
         }
         public void HandleAttack()
@@ -92,7 +92,8 @@ namespace Sprint0.Classes
             {
                 _currentState = State.SwordAttackRight;
 
-            } else if (_previousState == State.MovingLeft || _currentState == State.MovingLeft)
+            }
+            else if (_previousState == State.MovingLeft || _currentState == State.MovingLeft)
             {
                 _currentState = State.SwordAttackLeft;
             }
@@ -106,7 +107,7 @@ namespace Sprint0.Classes
             }
             _attackTimer.Start();
             _isAttackTimerRunning = true;
-                
+
         }
         public void ChangeState(State newState)
         {
@@ -121,7 +122,7 @@ namespace Sprint0.Classes
         {
             return _currentState;
         }
-        
+
         public State GetPreviousState()
         {
             return _previousState;
@@ -134,4 +135,4 @@ namespace Sprint0.Classes
         }
     }
 }
-   
+

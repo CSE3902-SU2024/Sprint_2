@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Sprint0.Player;
+
 
 namespace Sprint0.Classes
 {
@@ -20,15 +22,38 @@ namespace Sprint0.Classes
 
         public bool PreviousEnemy { get; private set; }
         public bool NextEnemy { get; private set; }
+
+        public Link _link;
+
+       public KeyboardController(Link link)
+        {
+            _link = link;
+        }
         public void Update()
         {
             KeyboardState state = Keyboard.GetState();
-            
-            // BASIC MOVEMENT
-            IsMovingLeft = state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A);
-            IsMovingRight = state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D);
-            IsMovingUp = state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W);
-            IsMovingDown = state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S);
+
+            if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
+            {
+                _link.MoveDown();
+            }
+            else if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W))
+            {
+                _link.MoveUp();
+            }
+            else if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+            {
+                _link.MoveLeft();
+            }
+            else if(state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            {
+                _link.MoveRight();
+            }
+            //// BASIC MOVEMENT
+            //IsMovingLeft = state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A);
+            //IsMovingRight = state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D);
+            //IsMovingUp = state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W);
+            //IsMovingDown = state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S);
 
             // ATTACK
             SwordAttack = state.IsKeyDown(Keys.Z);

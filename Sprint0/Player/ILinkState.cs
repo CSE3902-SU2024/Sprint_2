@@ -1,18 +1,23 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Sprint0.Classes
+namespace Sprint0.Player
 {
     public interface ILinkState
     {
         void Draw(SpriteBatch spriteBatch);
-        void setTextureIndex(int index);
-        void TakeDamage();
         void Update();
         void MoveUp();
         void MoveDown();
         void MoveLeft();
         void MoveRight();
-        void UsePrimary();
-        void UseSecondary();
+     //   void UseSword();
+       // void UseBow();
+
+        //void TakeDamge();
     }
 }
