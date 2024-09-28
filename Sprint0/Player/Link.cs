@@ -37,7 +37,7 @@ namespace Sprint0.Player
             speed = 2.0f;
             spriteEffects = SpriteEffects.None;
             framesPerStep = 8;
-            framesPerSword = 5;
+            framesPerSword = 4;
             framesPerDamage = 50;
             RemainingDamagedFrames = framesPerDamage;
             Damaged = false;
@@ -106,18 +106,22 @@ namespace Sprint0.Player
             _spriteBatch.Draw(_texture, _position, _sourceRectangles[frame], _color, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
         }
 
-        public void DrawWeapon(SpriteBatch _spriteBatch,int frame, Boolean flipped, Vector2 _weaponPosition)
+        public void DrawWeapon(SpriteBatch _spriteBatch, int frame, Boolean flippedHorizontal, Boolean flippedVertical, Vector2 _weaponPosition)
         {
-            if (flipped)
+            if (flippedHorizontal)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            else if (flippedVertical)
+            {
+                spriteEffects = SpriteEffects.FlipVertically;
             }
             else
             {
                 spriteEffects = SpriteEffects.None;
-               
-                _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], _color, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
             }
+            _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], _color, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
         }
+
     }
 }

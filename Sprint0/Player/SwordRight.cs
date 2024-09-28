@@ -29,7 +29,7 @@ namespace Sprint0.Player
             _link.DrawSprite(_spriteBatch, linkFrame, false);
             if(weaponFrame > 14)
             {
-                _link.DrawWeapon(_spriteBatch, weaponFrame, false, _weaponPosition);
+                _link.DrawWeapon(_spriteBatch, weaponFrame, false,false,  _weaponPosition);
             }
            
         }
