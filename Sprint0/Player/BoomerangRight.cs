@@ -61,9 +61,9 @@ namespace Sprint0.Player
             }
             if (_return)
             {
-                _weaponPosition.X += _link.boomerangSpeed;
-            } else if (!_return){
                 _weaponPosition.X -= _link.boomerangSpeed;
+            } else if (!_return){
+                _weaponPosition.X += _link.boomerangSpeed;
             }
         }
         public void Update()
@@ -73,7 +73,7 @@ namespace Sprint0.Player
                 if (!_return)
                 {
                     boomerangStage++;
-                }
+                } 
                 else if (_return)
                 {
                     boomerangStage--;

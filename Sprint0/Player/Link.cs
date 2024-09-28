@@ -37,12 +37,12 @@ namespace Sprint0.Player
             _scale = new Vector2(4.0f, 4.0f);
             _texture = texture;
             speed = 2.0f;
-            boomerangSpeed = 4.0f;
+            boomerangSpeed = 10.0f;
             spriteEffects = SpriteEffects.None;
             framesPerStep = 8;
             framesPerSword = 4;
             framesPerDamage = 50;
-            framesPerBoomerang = 2;
+            framesPerBoomerang = 3;
             RemainingDamagedFrames = framesPerDamage;
             Damaged = false;
             _color = Color.White;
