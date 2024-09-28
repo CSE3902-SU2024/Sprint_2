@@ -25,6 +25,14 @@ namespace Sprint0.Player
         }
         public void Update()
         {
+            if (_link.Damaged)
+            {
+                if (--_link.RemainingDamagedFrames <= 0)
+                {
+                    _link.Damaged = false;
+                    _link.RemainingDamagedFrames = _link.framesPerDamage;
+                }
+            }
         }
         public void MoveDown()
         {
@@ -60,6 +68,11 @@ namespace Sprint0.Player
             _link.currentState = new SwordUp(_link);
         }
 
-      
+        public void IsDamaged()
+        {
+            _link.Damaged = true;
+        }
+
+
     }
 }
