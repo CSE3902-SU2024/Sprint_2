@@ -45,15 +45,15 @@ namespace Sprint0.Classes
             {
                 _link.MoveLeft();
             }
-            else if(state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            else if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 _link.MoveRight();
+            } 
+            else if (state.IsKeyDown(Keys.Z))
+            {
+                _link.SwordAttack();
             }
-            //// BASIC MOVEMENT
-            //IsMovingLeft = state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A);
-            //IsMovingRight = state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D);
-            //IsMovingUp = state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W);
-            //IsMovingDown = state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S);
+
 
             // ATTACK
             SwordAttack = state.IsKeyDown(Keys.Z);
