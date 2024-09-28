@@ -49,11 +49,13 @@ namespace Sprint0.Classes
             {
                 _link.MoveRight();
             } 
-            else if (state.IsKeyDown(Keys.Z))
+
+            if (state.IsKeyDown(Keys.Z))
             {
                 _link.SwordAttack();
             }
-            else if (state.IsKeyDown(Keys.E))
+
+            if (state.IsKeyDown(Keys.E))
             {
                 _link.TakeDamage();
             }

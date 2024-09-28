@@ -38,7 +38,7 @@ namespace Sprint0.Player
             spriteEffects = SpriteEffects.None;
             framesPerStep = 8;
             framesPerSword = 4;
-            framesPerDamage = 100;
+            framesPerDamage = 50;
             RemainingDamagedFrames = framesPerDamage;
             Damaged = false;
             _color = Color.White;
