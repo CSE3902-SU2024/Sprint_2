@@ -67,6 +67,10 @@ namespace Sprint0.Player
         {
             _link.currentState = new SwordUp(_link);
         }
+        public void UseArrow()
+        {
+            _link.currentState = new ArrowUp(_link);
+        }
 
         public void IsDamaged()
         {

@@ -54,6 +54,10 @@ namespace Sprint0.Classes
             {
                 _link.SwordAttack();
             }
+            if (state.IsKeyDown(Keys.D1))
+            {
+                _link.ArrowAttack();
+            }
 
             if (state.IsKeyDown(Keys.E))
             {

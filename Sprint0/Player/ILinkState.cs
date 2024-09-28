@@ -16,7 +16,7 @@ namespace Sprint0.Player
         void MoveLeft();
         void MoveRight();
         void UseSword();
-       // void UseBow();
+        void UseArrow();
 
         void IsDamaged();
     }

@@ -68,6 +68,10 @@ namespace Sprint0.Player
         {
             _link.currentState = new SwordDown(_link);
         }
+        public void UseArrow()
+        {
+           // _link.currentState = new ArrowDown(_link);
+        }
 
         public void IsDamaged()
         {

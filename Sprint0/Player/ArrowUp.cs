@@ -6,25 +6,47 @@ using System.Collections.Generic;
 
 namespace Sprint0.Player
 {
-    internal class LinkLeft : ILinkState
+    public class ArrowUp : ILinkState
     {
         private Link _link;
         private int frame;
         private int remainingFrames;
 
-        public LinkLeft(Link link)
+        public ArrowUp(Link link)
         {
             _link = link;
-            frame = 2;
-            remainingFrames = _link.framesPerStep;
+            frame = 18;
+            remainingFrames = _link.framesPerSword;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
         {
-            _link.DrawSprite(_spriteBatch, frame, true);
+            _link.DrawSprite(_spriteBatch, frame, false);
         }
         public void Update()
         {
+            if (--remainingFrames <= 0)
+            {
+                if (frame == 12)
+                {
+                    frame = 13;
+                }
+                else if (frame == 13)
+                {
+                    frame = 14;
+                }
+                else if (frame == 14)
+                {
+                    frame = 15;
+                }
+                else if (frame == 15)
+                {
+                    frame = 4;
+                    _link.currentState = new LinkUp(_link);
+                }
+                remainingFrames = _link.framesPerSword;
+            }
+
             if (_link.Damaged)
             {
                 if (--_link.RemainingDamagedFrames <= 0)
@@ -36,46 +58,27 @@ namespace Sprint0.Player
         }
         public void MoveDown()
         {
-
-            _link.currentState = new LinkDown(_link);
         }
         public void MoveUp()
         {
-            _link.currentState = new LinkUp(_link);
         }
         public void MoveRight()
         {
-            _link.currentState = new LinkRight(_link);
         }
         public void MoveLeft()
         {
-            _link._position.X -= _link.speed;
-            if (--remainingFrames <= 0)
-            {
-                if (frame == 2)
-                {
-                    frame = 3;
-                }
-                else if (frame == 3)
-                {
-                    frame = 2;
-                }
-                remainingFrames = _link.framesPerStep;
-            }
         }
-
         public void UseSword()
         {
-            _link.currentState = new SwordLeft(_link);
+
         }
         public void UseArrow()
         {
-           // _link.currentState = new ArrowLeft(_link);
-        }
 
+        }
         public void IsDamaged()
         {
-            _link.Damaged = true;
         }
+
     }
 }
