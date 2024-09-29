@@ -75,7 +75,7 @@ namespace Sprint0.Classes
 
             };
         }
-        public static Rectangle[][] CreateItemFrames()
+        public static Rectangle[][] CreateUnattackItemFrames()
         {
             // Define frames based on your sprite sheet dimensions
             Rectangle[] health = { new Rectangle(0, 0, 7, 8), new Rectangle(0, 8, 7, 8) };
@@ -91,6 +91,15 @@ namespace Sprint0.Classes
             Rectangle[] boom = { new Rectangle(136, 0, 8, 14), new Rectangle(136, 0, 8, 14) };
             Rectangle[] idk3 = { new Rectangle(258, 1, 11, 12), new Rectangle(258, 1, 11, 12) };
             Rectangle[][] itemList = { health, heart, clock, diamond, potion, idk, triangle, key, idk2, bow, boom, idk3};
+            return itemList;
+        }
+
+        public static Rectangle[][] CreateAttackItemFrames()
+        {
+            // Define frames based on your sprite sheet dimensions
+            Rectangle[] fire = { new Rectangle(191, 185, 16, 16), new Rectangle(191, 185, 16, 16) };
+            
+            Rectangle[][] itemList = { fire };
             return itemList;
         }
 

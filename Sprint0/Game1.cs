@@ -19,7 +19,7 @@ namespace Sprint0
         //private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
-
+        private Item Item2;
         private Enemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
@@ -29,7 +29,6 @@ namespace Sprint0
         private List<Enemy> enemies;
         private int currentEnemyIndex = 0;
 
-        int currentItemIndex;
         KeyboardState previousKeyboardState;
 
 
@@ -117,7 +116,12 @@ namespace Sprint0
 
             //Item texure
             Item = new Item(new Vector2(200, 200), 50f);
-            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
+            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
+
+            Item2 = new Item(new Vector2(600, 100), 0f);
+            Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
+
+
 
 
         }
@@ -142,7 +146,10 @@ namespace Sprint0
 
             //Item texure
             Item = new Item(new Vector2(200, 200), 50f);
-            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons");
+            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
+
+            Item2 = new Item(new Vector2(600, 100), 0f);
+            Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
 
         }
 
@@ -177,6 +184,7 @@ namespace Sprint0
             enemy.Update(gameTime);
 
             Item.Update(gameTime, _keyboardController);
+            Item2.Update(gameTime, _keyboardController);
             _link.Update();
             base.Update(gameTime);
         }
@@ -190,6 +198,7 @@ namespace Sprint0
             animatedBlock.Draw(_spriteBatch);
             enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
+            Item2.Draw(_spriteBatch);
             _link.Draw(_spriteBatch);
             _spriteBatch.End();
 
