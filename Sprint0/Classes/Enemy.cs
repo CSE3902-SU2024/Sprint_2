@@ -33,6 +33,12 @@ namespace Sprint0.Classes
 
         private List<Enemy> enemies;
         private int currentEnemyIndex = 0;
+
+       
+        private bool hasThrownBoomerang = false;
+        private bool waitingForBoomerang = false;
+        private float boomerangWaitTime = 1.3f;  // Wait for 1.3 second after the boomerang is thrown
+        private float boomerangTimer = 0f;
         public EnemyType currentEnemyType { get; set; }  // Add { get; set; } to make it accessible
 
 
@@ -104,11 +110,44 @@ namespace Sprint0.Classes
                 }
             }  else if (currentEnemyType == EnemyType.Goriya)
             {
-                MoveGoriya();
-                if (timeElapsed > timePerFrame)
+                MoveGoriya(gameTime);
+                if (timeElapsed > 0.1f)
                 {
-                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;  
-                    timeElapsed = 0f;
+                  
+                    if(movingRight)
+                    {
+                        currentFrame = (currentFrame == 2) ? 3 : 2; // Switch between frame 3 and 4
+                        isFlipped = false;
+                        timeElapsed = 0f;
+                    }
+                    else if (movingUp)
+                    {
+
+                        isFlipped = !isFlipped;
+                        currentFrame = 1;// Frame 2 for moving up
+
+                        timeElapsed = 0f;
+
+
+                    }
+                    else if (movingLeft)
+                    {
+                        
+                        currentFrame = (currentFrame == 2) ? 3 : 2; // Switch between frame 3 and 4
+                        isFlipped = true;
+                        timeElapsed = 0f;
+
+                    }
+                    else if (movingDown)
+                    {
+                        isFlipped = !isFlipped;
+                        currentFrame = 0;// Frame 1 for moving down
+                        
+                        timeElapsed = 0f;
+
+
+                    }
+                     
                 }
             } else if (currentEnemyType == EnemyType.Stalfos)
             {
@@ -149,11 +188,14 @@ namespace Sprint0.Classes
             {
                 projectiles[i].Update(gameTime);
 
-                // Optionally, remove the projectile if it goes off-screen
-                if (projectiles[i].IsOffScreen())
+                
+               
+                if (projectiles[i] is Boomerang boomerang && boomerang.IsReturned())
                 {
                     projectiles.RemoveAt(i);
                     i--;
+                    waitingForBoomerang = false;
+                    hasThrownBoomerang = false; // Boomerang has returned, Goriya can move again
                 }
             }
         }
@@ -173,37 +215,53 @@ namespace Sprint0.Classes
             }
         }
         
-            private void MoveGoriya()
+            private void MoveGoriya(GameTime gameTime)
         {
+            if (waitingForBoomerang)
+            {
+                boomerangTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (boomerangTimer >= boomerangWaitTime)
+                {
+                    waitingForBoomerang = false;
+                    boomerangTimer = 0f;
+                }
+                return;
+            }
             if (movingRight)
             {
                 position.X += 1f; // Move right
-                currentFrame = 3; // Goriya's right-facing frame
+
                 if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false; // Switch direction when hitting the right edge of range
-                    movingUp = true;
+                {
+                    ShootBoomerang();
+                    if (waitingForBoomerang == false)
+                    {
+                        movingRight = false; // Switch direction when hitting the right edge of range
+                        movingUp = true;
+                    }
+                }
+               
             }
             else if (movingUp)
             {
-                position.Y += 1f; // Move Up
-                currentFrame = 2;
-                if (position.Y >= initialPosition.Y + movementRange)
+                position.Y -= 1f; // Move Up
+                 
+                if (position.Y <= initialPosition.Y - movementRange)
                     movingUp = false;
                     movingLeft = true; // Switch direction when hitting the left edge of range
             }
             else if (movingLeft) 
             {
-                position.X -= 1f; // Move left
-                currentFrame = 3; // Goriya's left-facing frame
+                position.X -= 1f; // Move left 
                 if (position.X <= initialPosition.X - movementRange)
                     movingLeft = false; // Switch direction when hitting the left edge of range
                     movingDown = true;
             }
             else if (movingDown)
             {
-                position.Y -= 1f; // Move Down
-                currentFrame = 1;
-                if (position.Y <= initialPosition.Y - movementRange)
+                position.Y += 1f; // Move Down
+                
+                if (position.Y >= initialPosition.Y + movementRange)
                     movingRight = true; // Switch direction when hitting the right edge of range
             }
            
@@ -225,6 +283,16 @@ namespace Sprint0.Classes
                     movingRight = true; // Switch direction when hitting the left edge of range
             }
         }
+        private void ShootBoomerang()
+        {
+            if (!hasThrownBoomerang)
+            {
+                Vector2 projectilePosition = new Vector2(position.X, position.Y);
+                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(200, 0), projectileRectangles));
+                hasThrownBoomerang = true;
+                waitingForBoomerang = true;  // Wait for boomerang to return before moving up
+            }
+        }
         public void ChangeDirection(Direction newDirection)
         {
             enemyDirection = newDirection;
@@ -241,11 +309,7 @@ namespace Sprint0.Classes
                 projectiles.Add(new Projectile(spriteSheet, projectilePosition, new Vector2(-200, -100), projectileRectangles)); // Left-top
                 projectiles.Add(new Projectile(spriteSheet, projectilePosition, new Vector2(-200, 100), projectileRectangles)); // Left-bottom
             }
-            else if (currentEnemyType == EnemyType.Goriya)
-            {
-                // Goriya's boomerang (for simplicity, it only shoots one boomerang)
-                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(-200, 0), projectileRectangles));
-            }
+           
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -336,6 +400,7 @@ namespace Sprint0.Classes
     public class Boomerang : Projectile
     {
         private Vector2 startPosition;
+        private bool returning = false;
 
         public Boomerang(Texture2D spriteSheet, Vector2 startPosition, Vector2 velocity, Rectangle[] boomerangFrames)
             : base(spriteSheet, startPosition, velocity, boomerangFrames)
@@ -349,10 +414,16 @@ namespace Sprint0.Classes
             base.Update(gameTime);
 
             // Reverse boomerang when it reaches a certain distance from the start
-            if (Vector2.Distance(startPosition, position) > 150)
+            if (!returning && Vector2.Distance(startPosition, position) > 150)
             {
-                velocity *= -1; // Start returning to Goriya
+                velocity *= -1;  // Reverse the velocity to return
+                returning = true;
             }
+        }
+        public bool IsReturned()
+        {
+            // Check if boomerang has returned to Goriya
+            return returning && Vector2.Distance(startPosition, position) < 1f;
         }
     }
 
