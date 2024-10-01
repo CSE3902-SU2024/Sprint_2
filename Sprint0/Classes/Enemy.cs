@@ -12,11 +12,11 @@ namespace Sprint0.Classes
     public class Enemy
     {
         private Texture2D spriteSheet;
-        private Rectangle[] sourceRectangles; // Dragon frames
-        private Rectangle[] projectileRectangles; // Projectile frames
+        private Rectangle[] sourceRectangles;  
+        private Rectangle[] projectileRectangles;  
         private Vector2 position;
         private Vector2 initialPosition;
-        private float movementRange = 100f; // The range within which the dragon will move left-right
+        private float movementRange = 100f; // The range within which the enemies move
         private bool movingRight = true;
         private bool movingUp = false;
         private bool movingLeft = false;
@@ -28,18 +28,20 @@ namespace Sprint0.Classes
         private float projectileCooldown = 1f; // 1 second cooldown between shots
         private float timeSinceLastShot;
         private List<Projectile> projectiles; // To store all projectiles
-        private Direction enemyDirection;
+        
         private bool isFlipped = false;
 
         private List<Enemy> enemies;
         private int currentEnemyIndex = 0;
+        private Direction currentDirection = Direction.Right;
 
-       
+
         private bool hasThrownBoomerang = false;
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;  // Wait for 1.3 second after the boomerang is thrown
         private float boomerangTimer = 0f;
-        public EnemyType currentEnemyType { get; set; }  // Add { get; set; } to make it accessible
+        public EnemyType currentEnemyType { get; set; }  
+
 
 
         public enum Direction
@@ -151,7 +153,7 @@ namespace Sprint0.Classes
                 }
             } else if (currentEnemyType == EnemyType.Stalfos)
             {
-                MoveStalfos();
+                MoveRandom();
                 if (timeElapsed > 0.1f) // Flip every 0.3 seconds
                 {
                     isFlipped = !isFlipped;
@@ -159,7 +161,7 @@ namespace Sprint0.Classes
                 } 
             } else if(currentEnemyType == EnemyType.Keese)
             {
-                MoveDragon();
+                MoveRandom();
                 if (timeElapsed > timePerFrame)
                 {
                     currentFrame = (currentFrame + 1) % sourceRectangles.Length;
@@ -167,7 +169,7 @@ namespace Sprint0.Classes
                 }
             } else if (currentEnemyType == EnemyType.Gel)
             {
-                MoveDragon();
+                MoveRandom();
                 if (timeElapsed > timePerFrame)
                 {
                     currentFrame = (currentFrame + 1) % sourceRectangles.Length;
@@ -203,19 +205,19 @@ namespace Sprint0.Classes
         {
             if (movingRight)
             {
-                position.X += 1f; // Move right
+                position.X += 1f;  
                 if (position.X >= initialPosition.X + movementRange)
                     movingRight = false; // Switch direction when hitting the right edge of range
             }
             else
             {
-                position.X -= 1f; // Move left
+                position.X -= 1f;  
                 if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true; // Switch direction when hitting the left edge of range
+                    movingRight = true; // Switch direction  
             }
         }
         
-            private void MoveGoriya(GameTime gameTime)
+        private void MoveGoriya(GameTime gameTime)
         {
             if (waitingForBoomerang)
             {
@@ -244,60 +246,92 @@ namespace Sprint0.Classes
             }
             else if (movingUp)
             {
-                position.Y -= 1f; // Move Up
+                position.Y -= 1f;  
                  
                 if (position.Y <= initialPosition.Y - movementRange)
                     movingUp = false;
-                    movingLeft = true; // Switch direction when hitting the left edge of range
+                    movingLeft = true;  
             }
             else if (movingLeft) 
             {
-                position.X -= 1f; // Move left 
+                position.X -= 1f;  
                 if (position.X <= initialPosition.X - movementRange)
-                    movingLeft = false; // Switch direction when hitting the left edge of range
+                    movingLeft = false;  
                     movingDown = true;
             }
             else if (movingDown)
             {
-                position.Y += 1f; // Move Down
+                position.Y += 1f;  
                 
                 if (position.Y >= initialPosition.Y + movementRange)
-                    movingRight = true; // Switch direction when hitting the right edge of range
+                    movingRight = true;  
             }
            
             
         }
 
-        private void MoveStalfos()
+        private Random random = new Random();
+
+        //randomly choose a direction moving pattern
+        private void MoveRandom()
         {
-            if (movingRight)
+            switch (currentDirection)
             {
-                position.X += 1f; // Move right
-                if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false; // Switch direction when hitting the right edge of range
-            }
-            else
-            {
-                position.X -= 1f; // Move left
-                if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true; // Switch direction when hitting the left edge of range
+                case Direction.Right:
+                    position.X += 1f;
+                    if (position.X >= initialPosition.X + movementRange)
+                    {
+                        ChangeDirection();  
+                    }
+                    break;
+
+                case Direction.Left:
+                    position.X -= 1f;
+                    if (position.X <= initialPosition.X - movementRange)
+                    {
+                        ChangeDirection();  
+                    }
+                    break;
+
+                case Direction.Up:
+                    position.Y -= 1f;
+                    if (position.Y <= initialPosition.Y - movementRange)
+                    {
+                        ChangeDirection();  
+                    }
+                    break;
+
+                case Direction.Down:
+                    position.Y += 1f;
+                    if (position.Y >= initialPosition.Y + movementRange)
+                    {
+                        ChangeDirection();  
+                    }
+                    break;
             }
         }
+
+        private void ChangeDirection()
+        {
+            int newDirection = random.Next(0, 4);  
+            currentDirection = (Direction)newDirection;  
+        }
+
+
+        //Shoot boomerang
         private void ShootBoomerang()
         {
             if (!hasThrownBoomerang)
             {
                 Vector2 projectilePosition = new Vector2(position.X, position.Y);
-                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(200, 0), projectileRectangles));
+                //Goriya's boomerang
+                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(200, 0), projectileRectangles)); 
                 hasThrownBoomerang = true;
-                waitingForBoomerang = true;  // Wait for boomerang to return before moving up
+                waitingForBoomerang = true;   
             }
         }
-        public void ChangeDirection(Direction newDirection)
-        {
-            enemyDirection = newDirection;
-        }
 
+        // Shoot projectiles
         private void ShootProjectiles()
         {
             Vector2 projectilePosition = new Vector2(position.X, position.Y);
@@ -340,15 +374,33 @@ namespace Sprint0.Classes
         {
             return position;
         }
+
+        public void Reset()
+        {
+            position = initialPosition;
+            movingRight = true;
+            movingUp = false;
+            movingLeft = false;
+            movingDown = false;
+            currentFrame = 0;
+            timeElapsed = 0f;
+            timeSinceLastShot = 0f;
+            projectiles.Clear();
+            hasThrownBoomerang = false;
+            waitingForBoomerang = false;
+            boomerangTimer = 0f;
+        }
     }
+
+
     // The Projectile Class
     public class Projectile
     {
-        protected Texture2D spriteSheet;  // Protected to allow access in derived classes
+        protected Texture2D spriteSheet;   
         protected Rectangle[] sourceRectangles;
         protected int currentFrame;
         protected Vector2 position;
-        protected Vector2 velocity;  // Made protected to allow access in Boomerang
+        protected Vector2 velocity;   
         private float timePerFrame = 0.1f; // Animation speed for projectile
         private float timeElapsed;
         private float scale = 2.0f;
@@ -394,7 +446,7 @@ namespace Sprint0.Classes
         public bool IsOffScreen()
         {
             // Check if the projectile goes off the screen
-            return position.X < 0 || position.Y < 0 || position.X > 800 || position.Y > 480; // Adjust based on screen size
+            return position.X < 0 || position.Y < 0 || position.X > 800 || position.Y > 480;  
         }
     }
     public class Boomerang : Projectile

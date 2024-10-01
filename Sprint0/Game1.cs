@@ -129,8 +129,7 @@ namespace Sprint0
 
         public void Reset()
         {
-            enemy = enemies[0];
-            currentEnemyIndex = 0;
+           
 
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
 
@@ -150,6 +149,14 @@ namespace Sprint0
 
             Item2 = new Item(new Vector2(600, 100), 0f);
             Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
+
+            // Reset enemy positions
+            enemy = enemies[0];
+            currentEnemyIndex = 0;
+            foreach (var enemy in enemies)
+            {
+                enemy.Reset();
+            }
 
         }
 
