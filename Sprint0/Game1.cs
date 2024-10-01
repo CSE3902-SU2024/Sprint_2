@@ -98,12 +98,12 @@ namespace Sprint0
 
 
             //initalize spritefactory
-            _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "zeldaLink");
+            _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "LinkSpriteSheet2");
 
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
 
             //link texture
-            Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
+            Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
 
             //link instance
             _link = new Link(linkFrames, linkTexture);
