@@ -136,7 +136,7 @@ namespace Sprint0.Player
             {
                 spriteEffects = SpriteEffects.None;
             }
-            _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], _color, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
         }
 
     }
