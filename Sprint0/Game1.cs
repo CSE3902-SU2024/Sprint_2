@@ -53,15 +53,15 @@ namespace Sprint0
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            bossSpriteSheet = Content.Load<Texture2D>("Bosses");
-            dungeonSpriteSheet = Content.Load<Texture2D>("Dungeon");
+            bossSpriteSheet = Content.Load<Texture2D>("Bosses1");
+            dungeonSpriteSheet = Content.Load<Texture2D>("Dungeon1");
 
             // Create and load the Dragon (from Bosses sheet)
             Enemy dragon = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Dragon
             };
-            dragon.LoadContent(Content, "Bosses"); // Load Dragon content (using "Bosses" sheet)
+            dragon.LoadContent(Content, "Bosses1"); // Load Dragon content (using "Bosses" sheet)
             enemies.Add(dragon); // Add Dragon to enemies list
 
             // Create and load the Goriya (from Dungeon sheet)
@@ -69,28 +69,28 @@ namespace Sprint0
             {
                 currentEnemyType = Enemy.EnemyType.Goriya
             };
-            goriya.LoadContent(Content, "Dungeon"); // Load Goriya content (using "Dungeon" sheet)
+            goriya.LoadContent(Content, "Dungeon1"); // Load Goriya content (using "Dungeon" sheet)
             enemies.Add(goriya); // Add Goriya to enemies list
 
             Enemy staflos = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Stalfos
             };
-            staflos.LoadContent(Content, "Dungeon");
+            staflos.LoadContent(Content, "Dungeon1");
             enemies.Add(staflos);
 
             Enemy Keese = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Keese
             };
-            Keese.LoadContent(Content, "Dungeon");
+            Keese.LoadContent(Content, "Dungeon1");
             enemies.Add(Keese);
 
             Enemy Gel = new Enemy(new Vector2(400, 200))
             {
                 currentEnemyType = Enemy.EnemyType.Gel
             };
-            Gel.LoadContent(Content, "Dungeon");
+            Gel.LoadContent(Content, "Dungeon1");
             enemies.Add(Gel);
 
             enemy = enemies[currentEnemyIndex];
