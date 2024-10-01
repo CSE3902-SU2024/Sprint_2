@@ -1,0 +1,8 @@
+Reviewing AnimatedBlock.cs
+
+Overall I like the implementation of the animated blocks and how the class  is kept pretty short.
+The one bit that I'm not totally a fan of is keeping the blocks as an array and the fact that not 
+every block has its own class.
+I think in the future we're going to have to create individual classes for each block type and 
+then have another class to handle when and where those blocks are being displayed.
+In the future I think it may be a good Idea to also have a seperate sprite helper to create all of the block rectangles.
