@@ -1,0 +1,6 @@
+﻿Hengkai Zheng Code Review for item.cs
+
+The Item.cs class effectively handles item movement, animation, and state management, 
+with a clear distinction between attackable and unattackable items using an enum.
+However, it could benefit from improvements such as encapsulating fields like Sprite and SourceRectangles with properties,
+removing unused imports, and adding null checks for SourceRectangles to avoid potential errors.

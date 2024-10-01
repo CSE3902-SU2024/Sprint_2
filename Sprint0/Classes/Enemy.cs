@@ -72,112 +72,98 @@ namespace Sprint0.Classes
         public void LoadContent(ContentManager content, string texturePath)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
-            if (currentEnemyType == EnemyType.Dragon)
+            switch (currentEnemyType)
             {
-                sourceRectangles = SpriteSheetHelper.CreateDragonFrames(); // Dragon frames
-                projectileRectangles = SpriteSheetHelper.CreateProjectileFrames(); // Dragon's projectiles
-            }
-            else if (currentEnemyType == EnemyType.Goriya)
-            {
-                sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames(); // Goriya frames
-                projectileRectangles = SpriteSheetHelper.CreateBoomerangFrames(); // Goriya's boomerang
-            }
-            else if (currentEnemyType == EnemyType.Stalfos)
-            {
-                sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();  
-                 
-            }  
-            else if (currentEnemyType == EnemyType.Keese)
-            {
-                sourceRectangles = SpriteSheetHelper.CreateKeeseFrames();
-            } else if (currentEnemyType == EnemyType.Gel)
-            {
-                sourceRectangles = SpriteSheetHelper.CreateGelFrames();
+                case EnemyType.Dragon:
+                    sourceRectangles = SpriteSheetHelper.CreateDragonFrames(); // Dragon frames
+                    projectileRectangles = SpriteSheetHelper.CreateProjectileFrames(); // Dragon's projectiles
+                    break;
+                case EnemyType.Goriya:
+                    sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames(); // Goriya frames
+                    projectileRectangles = SpriteSheetHelper.CreateBoomerangFrames(); // Goriya's boomerang
+                    break;
+                case EnemyType.Stalfos:
+                    sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();
+                    break;
+                case EnemyType.Keese:
+                    sourceRectangles = SpriteSheetHelper.CreateKeeseFrames();
+                    break;
+                case EnemyType.Gel:
+                    sourceRectangles = SpriteSheetHelper.CreateGelFrames();
+                    break;
             }
         }
 
         public void Update(GameTime gameTime)
         {
-            
-            
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if(currentEnemyType == EnemyType.Dragon) 
+            switch (currentEnemyType)
             {
-                MoveDragon();
-                if (timeElapsed > timePerFrame)
-                {
-                currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                timeElapsed = 0f;
-                }
-            }  else if (currentEnemyType == EnemyType.Goriya)
-            {
-                MoveGoriya(gameTime);
-                if (timeElapsed > 0.1f)
-                {
-                  
-                    if(movingRight)
+                case EnemyType.Dragon:
+                    MoveDragon();
+                    if (timeElapsed > timePerFrame)
                     {
-                        currentFrame = (currentFrame == 2) ? 3 : 2; // Switch between frame 3 and 4
-                        isFlipped = false;
+                        currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                         timeElapsed = 0f;
                     }
-                    else if (movingUp)
+                    break;
+                case EnemyType.Goriya:
+                    MoveGoriya(gameTime);
+                    if (timeElapsed > 0.1f)
                     {
-
+                        if (movingRight)
+                        {
+                            currentFrame = (currentFrame == 2) ? 3 : 2;
+                            isFlipped = false;
+                            timeElapsed = 0f;
+                        }
+                        else if (movingUp)
+                        {
+                            isFlipped = !isFlipped;
+                            currentFrame = 1;
+                            timeElapsed = 0f;
+                        }
+                        else if (movingLeft)
+                        {
+                            currentFrame = (currentFrame == 2) ? 3 : 2;
+                            isFlipped = true;
+                            timeElapsed = 0f;
+                        }
+                        else if (movingDown)
+                        {
+                            isFlipped = !isFlipped;
+                            currentFrame = 0;
+                            timeElapsed = 0f;
+                        }
+                    }
+                    break;
+                case EnemyType.Stalfos:
+                    MoveRandom();
+                    if (timeElapsed > 0.1f)
+                    {
                         isFlipped = !isFlipped;
-                        currentFrame = 1;// Frame 2 for moving up
-
                         timeElapsed = 0f;
-
-
                     }
-                    else if (movingLeft)
+                    break;
+                case EnemyType.Keese:
+                    MoveRandom();
+                    if (timeElapsed > timePerFrame)
                     {
-                        
-                        currentFrame = (currentFrame == 2) ? 3 : 2; // Switch between frame 3 and 4
-                        isFlipped = true;
+                        currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                         timeElapsed = 0f;
-
                     }
-                    else if (movingDown)
+                    break;
+                case EnemyType.Gel:
+                    MoveRandom();
+                    if (timeElapsed > timePerFrame)
                     {
-                        isFlipped = !isFlipped;
-                        currentFrame = 0;// Frame 1 for moving down
-                        
+                        currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                         timeElapsed = 0f;
-
-
                     }
-                     
-                }
-            } else if (currentEnemyType == EnemyType.Stalfos)
-            {
-                MoveRandom();
-                if (timeElapsed > 0.1f) // Flip every 0.3 seconds
-                {
-                    isFlipped = !isFlipped;
-                    timeElapsed = 0f;
-                } 
-            } else if(currentEnemyType == EnemyType.Keese)
-            {
-                MoveRandom();
-                if (timeElapsed > timePerFrame)
-                {
-                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                    timeElapsed = 0f;
-                }
-            } else if (currentEnemyType == EnemyType.Gel)
-            {
-                MoveRandom();
-                if (timeElapsed > timePerFrame)
-                {
-                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                    timeElapsed = 0f;
-                } 
+                    break;
             }
 
-            // Shoot projectiles/boomerang every 1 second
             timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeSinceLastShot > projectileCooldown)
             {
@@ -185,19 +171,16 @@ namespace Sprint0.Classes
                 timeSinceLastShot = 0f;
             }
 
-            // Update all projectiles
             for (int i = 0; i < projectiles.Count; i++)
             {
                 projectiles[i].Update(gameTime);
 
-                
-               
                 if (projectiles[i] is Boomerang boomerang && boomerang.IsReturned())
                 {
                     projectiles.RemoveAt(i);
                     i--;
                     waitingForBoomerang = false;
-                    hasThrownBoomerang = false; // Boomerang has returned, Goriya can move again
+                    hasThrownBoomerang = false;
                 }
             }
         }

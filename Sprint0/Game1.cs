@@ -134,7 +134,7 @@ namespace Sprint0
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
 
             //link texture
-            Texture2D linkTexture = Content.Load<Texture2D>("zeldaLink");
+            Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
 
             //link instance
             _link = new Link(linkFrames, linkTexture);

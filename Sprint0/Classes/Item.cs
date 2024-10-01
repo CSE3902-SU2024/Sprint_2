@@ -50,12 +50,12 @@ namespace Sprint0.Classes
             
             if (itemType == ItemType.unattackable)
             {
-                SourceRectangles = SpriteSheetHelper.CreateUnattackItemFrames(); // Dragon frames
+                SourceRectangles = SpriteSheetHelper.CreateUnattackItemFrames(); 
                 currentItemType = ItemType.unattackable;
             }
             else if (itemType == ItemType.attackable)
             {
-                SourceRectangles = SpriteSheetHelper.CreateAttackItemFrames(); // Goriya frames
+                SourceRectangles = SpriteSheetHelper.CreateAttackItemFrames(); 
                 currentItemType = ItemType.attackable;
 
             }
