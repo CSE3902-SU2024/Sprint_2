@@ -193,6 +193,15 @@ namespace Sprint0
             Item.Update(gameTime, _keyboardController);
             Item2.Update(gameTime, _keyboardController);
             _link.Update();
+
+            //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);
+            //Rectangle blockBoundingBox = new Rectangle(100, 100, 15, 15);
+
+            //if (playerBoundingBox.Intersects(blockBoundingBox))
+            //{
+                //HandleCollisionB(playerBoundingBox, blockBoundingBox);
+            //}
+
             base.Update(gameTime);
         }
 
