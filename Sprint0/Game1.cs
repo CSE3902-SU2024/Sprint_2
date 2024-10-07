@@ -5,7 +5,13 @@ using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Sprint2.Map;
+=======
+using Sprint0.Collisions;
+
+
+>>>>>>> 7dc8cad9794f8a3986d93b99a9f5707dfd3fa13e
 
 namespace Sprint0
 {
@@ -25,7 +31,11 @@ namespace Sprint0
         private Enemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
+<<<<<<< HEAD
         private DungeonMap _map;
+=======
+        private Vector2 _scale = new Vector2(4.0f, 4.0f);
+>>>>>>> 7dc8cad9794f8a3986d93b99a9f5707dfd3fa13e
 
 
 
@@ -48,6 +58,11 @@ namespace Sprint0
         protected override void Initialize()
         {
             enemies = new List<Enemy>();
+
+            //DEBUG FOR ENEMY HITBOXES
+            DebugDraw.Initialize(GraphicsDevice);
+
+
 
             base.Initialize();
 
@@ -194,18 +209,23 @@ namespace Sprint0
                 currentEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
                 enemy = enemies[currentEnemyIndex];
             }
-            enemy.Update(gameTime);
 
             Item.Update(gameTime, _keyboardController);
             Item2.Update(gameTime, _keyboardController);
             _link.Update();
+            foreach (var enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
+                LinkEnemyCollision.HandleCollisions(_link, enemies);
+
 
             //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);
             //Rectangle blockBoundingBox = new Rectangle(100, 100, 15, 15);
 
             //if (playerBoundingBox.Intersects(blockBoundingBox))
             //{
-                //HandleCollisionB(playerBoundingBox, blockBoundingBox);
+            //HandleCollisionB(playerBoundingBox, blockBoundingBox);
             //}
 
             base.Update(gameTime);
@@ -222,6 +242,8 @@ namespace Sprint0
             Item.Draw(_spriteBatch);
             Item2.Draw(_spriteBatch);
             _link.Draw(_spriteBatch);
+            DebugDraw.DrawHitboxes(_spriteBatch, _link, enemies, _scale);
+
             _spriteBatch.End();
 
 

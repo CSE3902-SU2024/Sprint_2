@@ -15,6 +15,27 @@ namespace Sprint0.Classes
         private Rectangle[] sourceRectangles;  
         private Rectangle[] projectileRectangles;  
         private Vector2 position;
+        public Vector2 Position { get => position; set => position = value; }
+        public int Width;
+        public int Height;
+        private Color currentColor = Color.White;
+        private float damageColorTimer = 0f;
+        private const float DAMAGE_COLOR_DURATION = 0.5f;
+
+        private int DragonWidth = 24;
+        private int DragonHeight = 32;
+        private int GoriyaWidth = 16;
+        private int GoriyaHeight = 16;
+        private int StalfosWidth = 16;
+        private int StalfosHeight = 16;
+        private int KeeseWidth = 16;
+        private int KeeseHeight = 16;
+        private int GelWidth = 8;
+        private int GelHeight = 16;
+
+
+
+
         private Vector2 initialPosition;
         private float movementRange = 100f; // The range within which the enemies move
         private bool movingRight = true;
@@ -77,6 +98,7 @@ namespace Sprint0.Classes
                 case EnemyType.Dragon:
                     sourceRectangles = SpriteSheetHelper.CreateDragonFrames(); // Dragon frames
                     projectileRectangles = SpriteSheetHelper.CreateProjectileFrames(); // Dragon's projectiles
+                   
                     break;
                 case EnemyType.Goriya:
                     sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames(); // Goriya frames
@@ -93,22 +115,37 @@ namespace Sprint0.Classes
                     break;
             }
         }
+        public void TakeDamage()
+        {
+            currentColor = Color.Red;
+            damageColorTimer = DAMAGE_COLOR_DURATION;
+        }
 
         public void Update(GameTime gameTime)
         {
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 
             switch (currentEnemyType)
             {
                 case EnemyType.Dragon:
+                    Width = DragonWidth;
+                    Height = DragonHeight;
                     MoveDragon();
                     if (timeElapsed > timePerFrame)
                     {
                         currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                         timeElapsed = 0f;
                     }
+                    if (damageColorTimer <= 0)
+                    {
+                        currentColor = Color.White; //current damage logic
+                    }
                     break;
                 case EnemyType.Goriya:
+                    Width = GoriyaWidth;
+                    Height = GoriyaHeight;
                     MoveGoriya(gameTime);
                     if (timeElapsed > 0.1f)
                     {
@@ -136,30 +173,54 @@ namespace Sprint0.Classes
                             currentFrame = 0;
                             timeElapsed = 0f;
                         }
+                        if (damageColorTimer <= 0)
+                        {
+                            currentColor = Color.White; //current damage logic
+                        }
                     }
                     break;
                 case EnemyType.Stalfos:
+                    Width = StalfosWidth;
+                    Height = StalfosHeight;
                     MoveRandom();
+                    
                     if (timeElapsed > 0.1f)
                     {
                         isFlipped = !isFlipped;
                         timeElapsed = 0f;
                     }
+                    if (damageColorTimer <= 0)
+                    {
+                        currentColor = Color.White; //current damage logic
+                    }
                     break;
                 case EnemyType.Keese:
+                    Width = KeeseWidth;
+                    Height = KeeseHeight;
+                    MoveRandom();
+                  
+                    if (timeElapsed > timePerFrame)
+                    {
+                        currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                        timeElapsed = 0f;
+                    }
+                    if (damageColorTimer <= 0)
+                    {
+                        currentColor = Color.White; //current damage logic
+                    }
+                    break;
+                case EnemyType.Gel:
+                    Width = GelWidth;
+                    Height = GelHeight;
                     MoveRandom();
                     if (timeElapsed > timePerFrame)
                     {
                         currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                         timeElapsed = 0f;
                     }
-                    break;
-                case EnemyType.Gel:
-                    MoveRandom();
-                    if (timeElapsed > timePerFrame)
+                    if (damageColorTimer <= 0)
                     {
-                        currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                        timeElapsed = 0f;
+                        currentColor = Color.White; //current damage logic
                     }
                     break;
             }
@@ -184,7 +245,9 @@ namespace Sprint0.Classes
                 }
             }
         }
-        private void MoveDragon()
+       
+
+            private void MoveDragon()
         {
             if (movingRight)
             {
@@ -340,7 +403,7 @@ namespace Sprint0.Classes
                 spriteSheet,
                 position,
                 sourceRectangles[currentFrame], // The current animation frame
-                Color.White,
+                currentColor,
                 0f,
                 Vector2.Zero,
                 scale,
