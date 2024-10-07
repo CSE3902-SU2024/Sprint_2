@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
+using Sprint2.Map;
 
 
 namespace Sprint0.Classes
@@ -22,10 +23,12 @@ namespace Sprint0.Classes
         public bool NextEnemy { get; private set; }
 
         public Link _link;
+        private StageManager _StageManager;
 
-       public KeyboardController(Link link)
+       public KeyboardController(Link link, StageManager stageManager )
         {
             _link = link;
+            _StageManager = stageManager;
         }
         public void Update()
         {
@@ -68,6 +71,14 @@ namespace Sprint0.Classes
             if (state.IsKeyDown(Keys.E))
             {
                 _link.TakeDamage();
+            }
+
+            if (state.IsKeyDown(Keys.L))
+            {
+                _StageManager.StageUp();
+            } else if (state.IsKeyDown(Keys.K))
+            {
+                _StageManager.StageDown();
             }
 
 

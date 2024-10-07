@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
+using Sprint2.Map;
 
 namespace Sprint0
 {
@@ -14,15 +15,17 @@ namespace Sprint0
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public Link _link;
+        public StageManager _StageManager;
         private KeyboardController _keyboardController;
         private LinkSpriteFactory _linkSpriteFactory;
-        //private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
+        private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private AnimatedBlock animatedBlock;
         private Item Item;
         private Item Item2;
         private Enemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
+        private DungeonMap _map;
 
 
 
@@ -36,6 +39,7 @@ namespace Sprint0
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+           
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
@@ -54,7 +58,7 @@ namespace Sprint0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             bossSpriteSheet = Content.Load<Texture2D>("Bosses1");
-            dungeonSpriteSheet = Content.Load<Texture2D>("Dungeon1");
+          
 
             // Create and load the Dragon (from Bosses sheet)
             Enemy dragon = new Enemy(new Vector2(400, 200))
@@ -99,20 +103,21 @@ namespace Sprint0
 
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "LinkSpriteSheet2");
+            _dungeonBlockSpriteFactory = new DungeonBlockSpriteFactory(GraphicsDevice, Content, "DungeonSheet");
 
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
+            Rectangle[] dungeonTiles = _dungeonBlockSpriteFactory.CreateFrames();
+
+          
 
             //link texture
             Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
+            Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
             //link instance
             _link = new Link(linkFrames, linkTexture);
-            _keyboardController = new KeyboardController(_link);
-
-
-            //Block texture
-            animatedBlock = new AnimatedBlock(new Vector2(100, 100));
-            animatedBlock.LoadContent(Content, "DungeonSheet");
+            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, GraphicsDevice, _link);
+            _keyboardController = new KeyboardController(_link, _StageManager);
 
             //Item texure
             Item = new Item(new Vector2(200, 200), 50f);
@@ -135,10 +140,11 @@ namespace Sprint0
 
             //link texture
             Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
+          
 
             //link instance
             _link = new Link(linkFrames, linkTexture);
-            _keyboardController = new KeyboardController(_link);
+            _keyboardController = new KeyboardController(_link, _StageManager);
             //Block texture
             animatedBlock = new AnimatedBlock(new Vector2(100, 100));
             animatedBlock.LoadContent(Content, "DungeonSheet");
@@ -176,7 +182,7 @@ namespace Sprint0
             _keyboardController.Update();
          //   _link.Update(gameTime, _keyboardController);
 
-             animatedBlock.Update(gameTime, _keyboardController);
+           //  animatedBlock.Update(gameTime, _keyboardController);
 
             if (_keyboardController.PreviousEnemy)
             {
@@ -210,8 +216,8 @@ namespace Sprint0
             GraphicsDevice.Clear(Color.Gray);
 
             _spriteBatch.Begin();
-          //  _link.Draw(_spriteBatch);
-            animatedBlock.Draw(_spriteBatch);
+            //  _link.Draw(_spriteBatch);
+            _StageManager.Draw();
             enemy.Draw(_spriteBatch);
             Item.Draw(_spriteBatch);
             Item2.Draw(_spriteBatch);
