@@ -5,13 +5,10 @@ using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using Sprint2.Map;
-=======
 using Sprint0.Collisions;
 
 
->>>>>>> 7dc8cad9794f8a3986d93b99a9f5707dfd3fa13e
 
 namespace Sprint0
 {
@@ -31,11 +28,8 @@ namespace Sprint0
         private Enemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
-<<<<<<< HEAD
         private DungeonMap _map;
-=======
         private Vector2 _scale = new Vector2(4.0f, 4.0f);
->>>>>>> 7dc8cad9794f8a3986d93b99a9f5707dfd3fa13e
 
 
 
