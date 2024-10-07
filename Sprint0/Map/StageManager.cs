@@ -26,7 +26,7 @@ namespace Sprint2.Map
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-         //   map = new DungeonMap();
+//map = new DungeonMap("../../../Map/Dungeon_Map.csv");
             currentStage = new Stage1(this, map, _link);
             _doorDecoder = new DoorDecoder();
             _spriteEffects = SpriteEffects.None;

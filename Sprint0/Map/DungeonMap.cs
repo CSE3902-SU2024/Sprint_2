@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace Sprint2.Map
@@ -17,7 +18,7 @@ namespace Sprint2.Map
             {
                 lines = File.ReadAllLines(filename);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw new IOException("CSV does not exist!!!");
             }
@@ -26,7 +27,7 @@ namespace Sprint2.Map
             int roomCount = lines.Length / (roomWidth * roomHeight + 1);
 
             rooms = new int[roomCount, roomHeight, roomWidth];
-
+            Debug.WriteLine(lines[0]);
             int roomIdx = 0;
             for (int i = 0; i < roomCount; i++)
             {
@@ -41,7 +42,8 @@ namespace Sprint2.Map
         }
         public int[,] GetRoom(int roomNum)
         {
-            if (roomNum < 0 || roomNum >= rooms.GetLength(0))
+            Debug.WriteLine("room num ", roomNum);
+            if (roomNum < 0 || roomNum > 2)
             {
                 throw new ArgumentOutOfRangeException("Room out of range!");
             }

@@ -23,7 +23,8 @@ namespace Sprint2.Map
             _StageManager = stageManager;
             _link = link;
             _map = map;
-
+            _link._position.X = 120 * _StageManager._scale.X;
+            _link._position.Y = 115 * _StageManager._scale.Y;
 
 
 
@@ -41,9 +42,7 @@ namespace Sprint2.Map
 
         public void Draw()
         {
-            _link._position.X = 120 * _StageManager._scale.X;
-            _link._position.Y = 115 * _StageManager._scale.Y;
-            int[] doorCodes = { 0, 0, 1, 0 };
+            int[] doorCodes = { 0, 0, 0, 1 };
             //   _StageManager.DrawTiles(room);
             _StageManager.DrawWalls();
             _StageManager.DrawDoors(doorCodes);

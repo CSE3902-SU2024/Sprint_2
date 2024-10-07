@@ -7,6 +7,7 @@ using Sprint0.Interfaces;
 using System.Collections.Generic;
 using Sprint2.Map;
 using Sprint0.Collisions;
+using System.IO;
 
 
 
@@ -136,7 +137,7 @@ namespace Sprint0
             Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
 
 
-
+            
 
         }
 
