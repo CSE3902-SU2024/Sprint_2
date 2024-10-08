@@ -211,8 +211,9 @@ namespace Sprint0
             foreach (var enemy in enemies)
             {
                 enemy.Update(gameTime);
+                LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
             }
-                LinkEnemyCollision.HandleCollisions(_link, enemies);
+                
 
 
             //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);

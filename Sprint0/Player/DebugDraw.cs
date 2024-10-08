@@ -51,7 +51,7 @@ namespace Sprint0.Collisions
             // Draw sword hitbox if Link is attacking
             if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
             {
-                Rectangle swordHitbox = LinkEnemyCollision.GetSwordHitbox(link);
+                Rectangle swordHitbox = LinkEnemyCollision.GetSwordHitbox(link, scale);
                 DrawRectangle(spriteBatch, swordHitbox, Color.Red, scale);
             }
 

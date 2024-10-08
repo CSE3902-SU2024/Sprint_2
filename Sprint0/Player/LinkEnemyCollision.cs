@@ -18,13 +18,23 @@ namespace Sprint0.Collisions
 
 
 
-        public static void HandleCollisions(Link link, List<Enemy> enemies)
+
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
-            Rectangle linkHitbox = new Rectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight);
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
+        public static void HandleCollisions(Link link, List<Enemy> enemies, Vector2 scale)
+        {
+            Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
 
             foreach (var enemy in enemies)
             {
-                Rectangle enemyHitbox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height);
+                Rectangle enemyHitbox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height, scale);
 
                 if (linkHitbox.Intersects(enemyHitbox))
                 {
@@ -33,7 +43,7 @@ namespace Sprint0.Collisions
 
                 if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
                 {
-                    Rectangle swordHitbox = GetSwordHitbox(link);
+                    Rectangle swordHitbox = GetSwordHitbox(link, scale);
                     if (swordHitbox.Intersects(enemyHitbox))
                     {
                         HandleSwordEnemyCollision(link, enemy);
@@ -53,59 +63,49 @@ namespace Sprint0.Collisions
             enemy.TakeDamage();
         }
 
-        public static Rectangle GetSwordHitbox(Link link)
+        public static Rectangle GetSwordHitbox(Link link, Vector2 scale)
         {
-
-            int offsetX = 0;
-            int offsetY = 0;
+            Vector2 swordPosition = link._position;
+            int width, height;
 
             if (link.currentState is SwordRight)
             {
-                offsetX = SwordHitboxWidthRL;
-                offsetY = SwordHitboxHeightRL;
-                return new Rectangle(
-               (int)link._position.X + offsetX,
-               (int)link._position.Y + offsetY,
-               SwordHitboxWidthRL,
-               SwordHitboxHeightRL
-           );
+                swordPosition.X += 13 * scale.X;
+                swordPosition.Y += 6 * scale.Y;
+                width = SwordHitboxWidthRL;
+                height = SwordHitboxHeightRL;
             }
             else if (link.currentState is SwordLeft)
             {
-                offsetX = -SwordHitboxWidthRL;
-                offsetY = SwordHitboxHeightRL;
-                return new Rectangle(
-               (int)link._position.X + offsetX,
-               (int)link._position.Y + offsetY,
-               SwordHitboxWidthRL,
-               SwordHitboxHeightRL
-           );
+                swordPosition.X -= 13 * scale.X;
+                swordPosition.Y += 6 * scale.Y;
+                width = SwordHitboxWidthRL;
+                height = SwordHitboxHeightRL;
             }
             else if (link.currentState is SwordUp)
             {
-                offsetX = SwordHitboxWidthUD;
-                offsetY = -SwordHitboxHeightUD;
-                return new Rectangle(
-               (int)link._position.X + offsetX,
-               (int)link._position.Y + offsetY,
-               SwordHitboxWidthUD,
-               SwordHitboxHeightUD
-           );
+                swordPosition.X += 3 * scale.X;
+                swordPosition.Y -= 13 * scale.Y;
+                width = SwordHitboxWidthUD;
+                height = SwordHitboxHeightUD;
             }
             else if (link.currentState is SwordDown)
             {
-                offsetX = SwordHitboxWidthUD;
-                offsetY = -SwordHitboxWidthUD;
-                return new Rectangle(
-               (int)link._position.X + offsetX,
-               (int)link._position.Y + offsetY,
-               SwordHitboxWidthUD,
-               SwordHitboxHeightUD
-           );
+                swordPosition.X += 5 * scale.X;
+                swordPosition.Y += 14 * scale.Y;
+                width = SwordHitboxWidthUD;
+                height = SwordHitboxHeightUD;
             }
-            return new Rectangle(0,0,0,0);
+            else
+            {
+                // Return an empty rectangle if Link is not in a sword state
+                return Rectangle.Empty;
+            }
 
-           
+            return GetScaledRectangle((int)swordPosition.X, (int)swordPosition.Y, width, height, scale);
         }
+
+
     }
+    
 }
