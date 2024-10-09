@@ -12,44 +12,85 @@ using Sprint0.Classes;
 using Sprint0.Interfaces;
 using Sprint0.Player;
 
-
 namespace Sprint0.Classes
 {
-
     public class HandleCollision
     {
-        
-        //public Rectangle[] SourceRectangles;
-        //public void HandleCollisionBlock() {
-        //    SourceRectangles = SpriteSheetHelper.CreateBlockFrames();
 
+        private Vector2 playerPosition;
+        private Vector2 wallPosition;
+        private int playerWidth;
+        private int playerHeight;
+        private int wallWidth;
+        private int wallHeight;
 
-        //    if (SpritBounds.Intersects(SourceRectangles))
-        //    {
-        //        // Check which side the collision is happening on
-        //        if (previousY < blockY) // Coming from the top
-        //        {
-        //            spriteY = blockY - spriteHeight; // Prevent moving down into the block
-        //        }
-        //        else if (previousY > blockY) // Coming from below
-        //        {
-        //            spriteY = blockY + blockHeight; // Prevent moving up into the block
-        //        }
+        public HandleCollision(Vector2 playerPos, Vector2 wallPos, int pWidth, int pHeight, int wWidth, int wHeight)
+        {
+            playerPosition = playerPos;
+            wallPosition = wallPos;
+            playerWidth = pWidth;
+            playerHeight = pHeight;
+            wallWidth = wWidth;
+            wallHeight = wHeight;
+        }
 
-        //        if (previousX < blockX) // Coming from the left
-        //        {
-        //            spriteX = blockX - spriteWidth; // Prevent moving right into the block
-        //        }
-        //        else if (previousX > blockX) // Coming from the right
-        //        {
-        //            spriteX = blockX + blockWidth; // Prevent moving left into the block
-        //        }
-        //    }
+        public void HandleCollisionBlock(ref Vector2 spritePosition, Vector2 previousPosition, Rectangle blockBoundingBox)
+        {
+            Rectangle playerBoundingBox = new Rectangle((int)spritePosition.X, (int)spritePosition.Y, playerWidth, playerHeight);
 
+            if (blockBoundingBox.Intersects(playerBoundingBox))
+            {
+                int blockX = blockBoundingBox.X;
+                int blockY = blockBoundingBox.Y;
+                int blockWidth = blockBoundingBox.Width;
+                int blockHeight = blockBoundingBox.Height;
 
-        //public void HandleCollisionB(playerBoundingBox, blockBoundingBox)
-        //{
+                // Check which side the collision is happening on
+                if (previousPosition.Y < blockY) // Coming from the top
+                {
+                    spritePosition.Y = blockY - playerHeight; // Prevent moving down into the block
+                }
+                else if (previousPosition.Y > blockY) // Coming from below
+                {
+                    spritePosition.Y = blockY + blockHeight; // Prevent moving up into the block
+                }
 
-        //}
+                if (previousPosition.X < blockX) // Coming from the left
+                {
+                    spritePosition.X = blockX - playerWidth; // Prevent moving right into the block
+                }
+                else if (previousPosition.X > blockX) // Coming from the right
+                {
+                    spritePosition.X = blockX + blockWidth; // Prevent moving left into the block
+                }
+            }
+        }
+
+        public void HandlePlayerWallCollision(ref Vector2 playerPosition, Vector2 playerVelocity)
+        {
+            Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
+            Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
+
+            if (playerBoundingBox.Intersects(wallBoundingBox))
+            {
+                if (playerVelocity.X > 0) // Moving right
+                {
+                    playerPosition.X = wallBoundingBox.Left - playerBoundingBox.Width;
+                }
+                else if (playerVelocity.X < 0) // Moving left
+                {
+                    playerPosition.X = wallBoundingBox.Right;
+                }
+
+                if (playerVelocity.Y > 0) // Moving down
+                {
+                    playerPosition.Y = wallBoundingBox.Top - playerBoundingBox.Height;
+                }
+                else if (playerVelocity.Y < 0) // Moving up
+                {
+                    playerPosition.Y = wallBoundingBox.Bottom;
+                }
+            }
+        }
     }
 }
