@@ -52,7 +52,13 @@ namespace Sprint0.Collisions
             if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
             {
                 Rectangle swordHitbox = LinkEnemyCollision.GetSwordHitbox(link, scale);
-                DrawRectangle(spriteBatch, swordHitbox, Color.Red, scale);
+                DrawRectangle(spriteBatch, swordHitbox, Color.Red, new Vector2(1.0f, 1.0f)); //I already scale it in GetSwordHitbox
+            }
+            //Draw arrow hitbox if Link is arrow attack
+            if (link.currentState is ArrowRight || link.currentState is ArrowLeft || link.currentState is ArrowUp || link.currentState is ArrowDown)
+            {
+                Rectangle ArrowHitbox = LinkEnemyCollision.GetArrowHitbox(link, scale);
+                DrawRectangle(spriteBatch, ArrowHitbox, Color.Azure, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
             }
 
             // Draw enemy hitboxes

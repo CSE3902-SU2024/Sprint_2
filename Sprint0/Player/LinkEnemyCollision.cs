@@ -10,11 +10,16 @@ namespace Sprint0.Collisions
     {
         public const int LinkHitboxWidth = 16;
         public const int LinkHitboxHeight = 16;
+
         private const int SwordHitboxWidthRL = 16; //RIGHT LEFT
         private const int SwordHitboxHeightRL = 7; //RIGHT LEFT
-
         private const int SwordHitboxWidthUD = 7; //UP DOWN
         private const int SwordHitboxHeightUD = 16; //UP DOWN
+
+        private const int ArrowHitboxWidthRL = 16; //RIGHT LEFT
+        private const int ArrowHitboxHeightRL = 5; //RIGHT LEFT
+        private const int ArrowHitboxWidthUD = 5; //UP DOWN
+        private const int ArrowHitboxHeightUD = 16; //UP DOWN
 
 
 
@@ -49,6 +54,14 @@ namespace Sprint0.Collisions
                         HandleSwordEnemyCollision(link, enemy);
                     }
                 }
+                if (link.currentState is ArrowRight || link.currentState is ArrowLeft || link.currentState is ArrowUp || link.currentState is ArrowDown)
+                {
+                    Rectangle ArrowHitbox = GetArrowHitbox(link, scale);
+                    if (ArrowHitbox.Intersects(enemyHitbox))
+                    {
+                        HandleArrowEnemyCollision(link, enemy);
+                    }
+                }
             }
         }
 
@@ -59,6 +72,10 @@ namespace Sprint0.Collisions
         }
 
         private static void HandleSwordEnemyCollision(Link link, Enemy enemy)
+        {
+            enemy.TakeDamage();
+        }
+        private static void HandleArrowEnemyCollision(Link link, Enemy enemy)  //if we later want death by arrow, death by sword etc
         {
             enemy.TakeDamage();
         }
@@ -103,6 +120,47 @@ namespace Sprint0.Collisions
             }
 
             return GetScaledRectangle((int)swordPosition.X, (int)swordPosition.Y, width, height, scale);
+        }
+        public static Rectangle GetArrowHitbox(Link link, Vector2 scale)
+        {
+            Vector2 ArrowPosition = link._position;
+            int width, height;
+
+            if (link.currentState is ArrowRight)
+            {
+                ArrowPosition.X += 13 * scale.X;
+                ArrowPosition.Y += 6 * scale.Y;
+                width = ArrowHitboxWidthRL;
+                height = ArrowHitboxHeightRL;
+            }
+            else if (link.currentState is ArrowLeft)
+            {
+                ArrowPosition.X -= 13 * scale.X;
+                ArrowPosition.Y += 6 * scale.Y;
+                width = ArrowHitboxWidthRL;
+                height = ArrowHitboxHeightRL;
+            }
+            else if (link.currentState is ArrowUp)
+            {
+                ArrowPosition.X += 3 * scale.X;
+                ArrowPosition.Y -= 13 * scale.Y;
+                width = ArrowHitboxWidthUD;
+                height = ArrowHitboxHeightUD;
+            }
+            else if (link.currentState is ArrowDown)
+            {
+                ArrowPosition.X += 5 * scale.X;
+                ArrowPosition.Y += 14 * scale.Y;
+                width = ArrowHitboxWidthUD;
+                height = ArrowHitboxHeightUD;
+            }
+            else
+            {
+                // Return an empty rectangle if Link is not in a sword state
+                return Rectangle.Empty;
+            }
+
+            return GetScaledRectangle((int)ArrowPosition.X, (int)ArrowPosition.Y, width, height, scale);
         }
 
 
