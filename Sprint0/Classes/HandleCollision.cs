@@ -92,5 +92,12 @@ namespace Sprint0.Classes
                 }
             }
         }
+
+        // This is template for other collisions
+        //public void HandleEnemyWallCollision(ref Vector2 playerPosition, Vector2 playerVelocity)
+        //{
+        //    Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
+        //    Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
+        //}
     }
 }
