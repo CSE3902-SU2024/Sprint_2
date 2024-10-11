@@ -40,28 +40,31 @@ namespace Sprint0.Classes
 
             if (blockBoundingBox.Intersects(playerBoundingBox))
             {
-                int blockX = blockBoundingBox.X;
-                int blockY = blockBoundingBox.Y;
-                int blockWidth = blockBoundingBox.Width;
-                int blockHeight = blockBoundingBox.Height;
+                Rectangle intersection = Rectangle.Intersect(playerBoundingBox, blockBoundingBox);
 
-                // Check which side the collision is happening on
-                if (previousPosition.Y < blockY) // Coming from the top
+                // First, resolve vertical collisions
+                if (intersection.Height < intersection.Width)
                 {
-                    spritePosition.Y = blockY - playerHeight; // Prevent moving down into the block
+                    if (previousPosition.Y < blockBoundingBox.Y) // Coming from the top
+                    {
+                        spritePosition.Y = blockBoundingBox.Top - playerHeight;
+                    }
+                    else if (previousPosition.Y > blockBoundingBox.Y) // Coming from below
+                    {
+                        spritePosition.Y = blockBoundingBox.Bottom;
+                    }
                 }
-                else if (previousPosition.Y > blockY) // Coming from below
+                // Then, resolve horizontal collisions
+                else
                 {
-                    spritePosition.Y = blockY + blockHeight; // Prevent moving up into the block
-                }
-
-                if (previousPosition.X < blockX) // Coming from the left
-                {
-                    spritePosition.X = blockX - playerWidth; // Prevent moving right into the block
-                }
-                else if (previousPosition.X > blockX) // Coming from the right
-                {
-                    spritePosition.X = blockX + blockWidth; // Prevent moving left into the block
+                    if (previousPosition.X < blockBoundingBox.X) // Coming from the left
+                    {
+                        spritePosition.X = blockBoundingBox.Left - playerWidth;
+                    }
+                    else if (previousPosition.X > blockBoundingBox.X) // Coming from the right
+                    {
+                        spritePosition.X = blockBoundingBox.Right;
+                    }
                 }
             }
         }
@@ -71,33 +74,47 @@ namespace Sprint0.Classes
             Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
             Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
 
+            Rectangle intersection = Rectangle.Empty;
+
+            // Check if there is an intersection between the player and the wall
             if (playerBoundingBox.Intersects(wallBoundingBox))
             {
-                if (playerVelocity.X > 0) // Moving right
-                {
-                    playerPosition.X = wallBoundingBox.Left - playerBoundingBox.Width;
-                }
-                else if (playerVelocity.X < 0) // Moving left
-                {
-                    playerPosition.X = wallBoundingBox.Right;
-                }
+                // Get the intersection area
+                intersection = Rectangle.Intersect(playerBoundingBox, wallBoundingBox);
 
-                if (playerVelocity.Y > 0) // Moving down
+                // Handle the collision based on the direction of the player velocity
+                if (intersection.Width < intersection.Height)
                 {
-                    playerPosition.Y = wallBoundingBox.Top - playerBoundingBox.Height;
+                    // Horizontal collision
+                    if (playerVelocity.X > 0) // Moving right
+                    {
+                        playerPosition.X = wallBoundingBox.Left - playerWidth;
+                    }
+                    else if (playerVelocity.X < 0) // Moving left
+                    {
+                        playerPosition.X = wallBoundingBox.Right;
+                    }
                 }
-                else if (playerVelocity.Y < 0) // Moving up
+                else
                 {
-                    playerPosition.Y = wallBoundingBox.Bottom;
+                    // Vertical collision
+                    if (playerVelocity.Y > 0) // Moving down
+                    {
+                        playerPosition.Y = wallBoundingBox.Top - playerHeight;
+                    }
+                    else if (playerVelocity.Y < 0) // Moving up
+                    {
+                        playerPosition.Y = wallBoundingBox.Bottom;
+                    }
                 }
             }
-        }
 
         // This is template for other collisions
         //public void HandleEnemyWallCollision(ref Vector2 playerPosition, Vector2 playerVelocity)
         //{
         //    Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
         //    Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
-        //}
+        //
+        }
     }
 }
