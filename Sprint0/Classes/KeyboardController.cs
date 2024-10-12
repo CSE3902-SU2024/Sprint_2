@@ -73,12 +73,10 @@ namespace Sprint0.Classes
                 _link.TakeDamage();
             }
 
-            if (state.IsKeyDown(Keys.L))
+            
+            if (state.IsKeyDown(Keys.K))
             {
-                _StageManager.StageUp();
-            } else if (state.IsKeyDown(Keys.K))
-            {
-                _StageManager.StageDown();
+                _StageManager.nextStage();
             }
 
 

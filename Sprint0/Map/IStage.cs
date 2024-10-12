@@ -21,9 +21,12 @@ namespace Sprint2.Map
         void UpStage();
         void DownStage();
         void RightStage();
-
         void LeftStage();
 
+        bool canUp();
+        bool canDown();
+        bool canLeft();
+        bool canRight();
         void Draw();
     }
 }

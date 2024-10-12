@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -25,15 +26,12 @@ namespace Sprint2.Map
             _map = map;
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 115 * _StageManager._scale.Y;
-
+            Debug.WriteLine("2");
 
 
         }
 
-        //public bool canUp = false;
-        //public bool canDown = false;
-        //public bool canRight = false;
-        //public bool canLeft = false;
+       
 
         public void DownStage()
         {
@@ -66,6 +64,23 @@ namespace Sprint2.Map
         public void UpStage()
         {
 
+        }
+
+        public bool canUp()
+        {
+            return false;
+        }
+        public bool canDown()
+        {
+            return true;
+        }
+        public bool canRight()
+        {
+            return false;
+        }
+        public bool canLeft()
+        {
+            return false;
         }
     }
 }

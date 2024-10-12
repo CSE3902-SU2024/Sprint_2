@@ -17,34 +17,43 @@ namespace Sprint2.Map
         public SpriteEffects _spriteEffects;
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
+        public NextStageDecicer _nextStageDecicer;
         Vector2 tilePosition;
         DungeonMap map;
-        private Link _link;
+        public Link _link;
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
         { 
             _sourceRectangles = sourceRectangles;
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-//map = new DungeonMap("../../../Map/Dungeon_Map.csv");
+           // map = new DungeonMap("../../../Map/Dungeon_Map.csv");
             currentStage = new Stage1(this, map, _link);
             _doorDecoder = new DoorDecoder();
             _spriteEffects = SpriteEffects.None;
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 255.0f;
             _scale.Y = (float)_graphicsDevice.Viewport.Height / 175.0f;
-          
+           
             //Debug.WriteLine(_graphicsDevice.Viewport.);
+          
 
-        }
-        public void StageUp()
+        }   
+        public void nextStage()
         {
-            currentStage.UpStage();
-        }
-
-        public void StageDown()
-        {
-            currentStage.DownStage();
+            _nextStageDecicer = new NextStageDecicer(_link, _scale, this);
+            int stage = _nextStageDecicer.DecideStage();
+            switch (stage)
+            {
+                case 0:
+                    currentStage.UpStage();
+                    break;
+                case 3: 
+                    currentStage.DownStage(); 
+                    break;
+                default:
+                    break;
+            }
         }
         public void Draw()
         {

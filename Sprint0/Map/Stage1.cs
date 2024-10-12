@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -19,11 +20,11 @@ namespace Sprint2.Map
       
         public Stage1(StageManager stageManager, DungeonMap map, Link link)
         {
-          //  room = map.GetRoom(0);
+             //room = map.GetRoom(0);
             _StageManager = stageManager;
             _link = link;
             _map = map;
-            
+            Debug.WriteLine("1");
 
 
 
@@ -43,7 +44,7 @@ namespace Sprint2.Map
         {
             //_link._position.X = 120 * _StageManager._scale.X;
             //_link._position.Y = 115 * _StageManager._scale.Y;
-            int[] doorCodes = { 1, 0, 0, 0 };
+            int[] doorCodes = { 1, 0, 0, 1 };
          //   _StageManager.DrawTiles(room);
             _StageManager.DrawWalls();
             _StageManager.DrawDoors(doorCodes);
@@ -67,6 +68,23 @@ namespace Sprint2.Map
         public void UpStage()
         {
             _StageManager.currentStage = new Stage2(_StageManager, _map, _link);
+        }
+
+        public bool canUp()
+        {
+            return true;
+        }
+        public bool canDown()
+        {
+            return true;
+        }
+        public bool canRight()
+        {
+            return true;
+        }
+        public bool canLeft()
+        {
+            return true;
         }
     }
 }

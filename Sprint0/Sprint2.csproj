@@ -18,9 +18,13 @@
     <None Remove="Content\Game Boy Advance - Danny Phantom The Ultimate Enemy - Box Ghost.gif" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
+    <None Remove="Map\Dungeon_Map.csv" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AnimatedBlock.cs" Link="Classes\AnimatedBlock.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Map\Dungeon_Map.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />

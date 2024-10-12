@@ -2,43 +2,56 @@
 using System.Linq;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 
 namespace Sprint2.Map
 {
     public class DungeonMap
     {
-        static int[,,] rooms;
+        static List<int[,]> rooms;
         static int roomHeight;
         static int roomWidth;
         public DungeonMap(String filename)
         {
-            string[] lines;
-            try
-            {
-                lines = File.ReadAllLines(filename);
-            }
-            catch (Exception)
-            {
-                throw new IOException("CSV does not exist!!!");
-            }
-            roomWidth = 12;
+            string[] lines = File.ReadAllLines(filename); // replace "input.csv" with your file path
+
+            rooms = new List<int[,]>();
             roomHeight = 7;
-            int roomCount = lines.Length / (roomWidth * roomHeight + 1);
+            roomWidth = 12;
+            int[,] currentRoom = new int[roomHeight, roomWidth];
+            int row = 0;
 
-            rooms = new int[roomCount, roomHeight, roomWidth];
-            Debug.WriteLine(lines[0]);
-            int roomIdx = 0;
-            for (int i = 0; i < roomCount; i++)
+            foreach (string line in lines)
             {
-                if (string.IsNullOrWhiteSpace(lines[i])) continue;
-
-                int rowIndex = (i - roomIdx * (roomWidth * roomHeight + 1)) / roomWidth;
-                int colIndex = (i - roomIdx * (roomWidth * roomHeight + 1)) % roomWidth;
-
-                rooms[roomIdx, rowIndex, colIndex] = int.Parse(lines[i]);
-                if ((i + 1) % (roomWidth * roomHeight + 1) == 0) roomIdx++;
+                if (line.Trim() == ",,,,,,,")
+                {
+                    rooms.Add(currentRoom);
+                    currentRoom = new int[roomHeight, roomWidth];
+                    row = 0;
+                }
+                else
+                {
+                    string[] values = line.Split(',');
+                    for (int col = 0; col < 12; col++)
+                    {
+                        string value = values[col].Trim(); // remove leading/trailing whitespace
+                        if (int.TryParse(value, out int intValue))
+                        {
+                            currentRoom[row, col] = intValue;
+                        }
+                        else
+                        {
+                            // handle the error, e.g., set the value to 0 or a default value
+                            currentRoom[row, col] = 0;
+                        }
+                    }
+                    row++;
+                }
             }
+
+            rooms.Add(currentRoom);
+
         }
         public int[,] GetRoom(int roomNum)
         {
@@ -48,15 +61,17 @@ namespace Sprint2.Map
                 throw new ArgumentOutOfRangeException("Room out of range!");
             }
 
-            int[,] room = new int[roomHeight, roomWidth];
-            for (int i = 0; i < roomHeight; i++)
-            {
-                for (int j = 0; j < roomWidth; j++)
-                {
-                    room[i, j] = rooms[roomNum, i, j];
-                }
-            }
-            return room;
+            return rooms[roomNum];
+
+            //int[,] room = new int[roomHeight, roomWidth];
+            //for (int i = 0; i < roomHeight; i++)
+            //{
+            //    for (int j = 0; j < roomWidth; j++)
+            //    {
+            //        room[i, j] = rooms[roomNum, i, j];
+            //    }
+            //}
+            //return room;
         }
 
     }

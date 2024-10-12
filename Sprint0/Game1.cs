@@ -211,7 +211,7 @@ namespace Sprint0
             foreach (var enemy in enemies)
             {
                 enemy.Update(gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
+            //    LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
             }
                 
 
