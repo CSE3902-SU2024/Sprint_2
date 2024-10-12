@@ -24,7 +24,7 @@ namespace Sprint2.Map
             _link = link;
             _map = map;
             _link._position.X = 120 * _StageManager._scale.X;
-            _link._position.Y = 115 * _StageManager._scale.Y;
+            _link._position.Y = 30 * _StageManager._scale.Y;
 
 
 
@@ -65,16 +65,18 @@ namespace Sprint2.Map
 
         public void UpStage()
         {
+            _link._position.X = 120 * _StageManager._scale.X;
+            _link._position.Y = 130 * _StageManager._scale.Y;
             _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
         }
 
         public bool canUp()
         {
-            return false;
+            return true;
         }
         public bool canDown()
         {
-            return true;
+            return false;
         }
         public bool canRight()
         {

@@ -16,7 +16,7 @@ namespace Sprint2.Map
             _stageManager = stageManager;
         }
 
-        public int DecideStage()
+        public void DecideStage()
         {
             IStage currentStage = _stageManager.currentStage;
             // check if link is in middle of screen
@@ -44,22 +44,28 @@ namespace Sprint2.Map
                 }
             }
            else if (_link._position.X >= 20 * _scale.X && (_link._position.X <= _scale.X * 70))
-            {
-                Debug.WriteLine("lEFT");
-                if (_link._position.Y >= 65 * _scale.Y && _link._position.Y >= 115 * _scale.Y)
-                {
-                    Debug.WriteLine("lEFT2");
+            {     
+                if (_link._position.Y >= 65 * _scale.Y && _link._position.Y <= 115 * _scale.Y)
+                {  
                     if (currentStage.canLeft())
                     {
-                        Debug.WriteLine("WARP");
                         currentStage.LeftStage();
                     }
                 }
             }
+            else if (_link._position.X >= 180 * _scale.X && (_link._position.X <= _scale.X * 220))
+            {
+                if (_link._position.Y >= 65 * _scale.Y && _link._position.Y <= 115 * _scale.Y)
+                {
+                    if (currentStage.canRight())
+                    {
+                        currentStage.RightStage();
+                    }
+                }
+            }
 
-            return 5;
-            
-            
+
+
         }
        
     }
