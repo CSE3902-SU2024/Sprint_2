@@ -13,48 +13,47 @@ using Sprint0.Player;
 
 namespace Sprint2.Collisions
 {
-    public class HandlePlayerWallCollision
+    public class HandlePlayerDoorCollision
     {
 
         private Vector2 playerPosition;
-        private Vector2 wallPosition;
+        private Vector2 doorPosition;
         private int playerWidth;
         private int playerHeight;
-        private int wallWidth;
-        private int wallHeight;
+        private int doorWidth;
+        private int doorHeight;
 
-        public HandlePlayerWallCollision(Vector2 playerPos, Vector2 wallPos, int pWidth, int pHeight, int wWidth, int wHeight)
+        public HandlePlayerDoorCollision(Vector2 playerPos, Vector2 doorPos, int pWidth, int pHeight, int wWidth, int wHeight)
         {
             playerPosition = playerPos;
-            wallPosition = wallPos;
+            doorPosition = doorPos;
             playerWidth = pWidth;
             playerHeight = pHeight;
-            wallWidth = wWidth;
-            wallHeight = wHeight;
+            doorWidth = wWidth;
+            doorHeight = wHeight;
         }
-
-        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height)
         {
             return new Rectangle(
                 x,
                 y,
-                (int)(width * scale.X),
-                (int)(height * scale.Y)
+                (int)(width),
+                (int)(height)
             );
         }
 
-        public void PlayerWallCollision(ref Vector2 playerPosition, float playerVelocity, Vector2 scale)
+        public void PlayerDoorCollision(ref Vector2 playerPosition, float playerVelocity)
         {
-            Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight, scale);
-            Rectangle wallBoundingBox = GetScaledRectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight, scale);
+            Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
+            Rectangle doorBoundingBox = GetScaledRectangle((int)doorPosition.X, (int)doorPosition.Y, doorWidth, doorHeight);
 
             Rectangle intersection = Rectangle.Empty;
 
             // Check if there is an intersection between the player and the wall
-            if (playerBoundingBox.Intersects(wallBoundingBox))
+            if (playerBoundingBox.Intersects(doorBoundingBox))
             {
                 // Get the intersection area
-                intersection = Rectangle.Intersect(playerBoundingBox, wallBoundingBox);
+                intersection = Rectangle.Intersect(playerBoundingBox, doorBoundingBox);
 
                 // Handle the collision based on the direction of the player velocity
                 if (intersection.Width < intersection.Height)
@@ -62,23 +61,23 @@ namespace Sprint2.Collisions
                     // Horizontal collision
                     if (playerVelocity > 0) // Moving right
                     {
-                        playerPosition.X = wallBoundingBox.Left - playerWidth;
+                        playerPosition.X = doorBoundingBox.Left - playerWidth;
                     }
                     else if (playerVelocity < 0) // Moving left
                     {
-                        playerPosition.X = wallBoundingBox.Right;
+                        playerPosition.X = doorBoundingBox.Right;
                     }
                 }
                 else
                 {
                     // Vertical collision
-                    if (playerVelocity < 0) // Moving down
+                    if (playerVelocity > 0) // Moving down
                     {
-                        playerPosition.Y = wallBoundingBox.Bottom - wallHeight - playerHeight;
+                        playerPosition.Y = doorBoundingBox.Top - playerHeight;
                     }
-                    else if (playerVelocity > 0) // Moving up
+                    else if (playerVelocity < 0) // Moving up
                     {
-                        playerPosition.Y = wallBoundingBox.Bottom;
+                        playerPosition.Y = doorBoundingBox.Bottom;
                     }
                 }
             }

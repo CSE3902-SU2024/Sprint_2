@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -10,7 +9,7 @@ using Sprint0.Player;
 
 namespace Sprint2.Map
 {
-    public class Stage2 : IStage
+    public class Stage5 : IStage
     {
         StageManager _StageManager;
         static int[,] room;
@@ -18,7 +17,7 @@ namespace Sprint2.Map
         private Link _link;
         DungeonMap _map;
 
-        public Stage2(StageManager stageManager, DungeonMap map, Link link)
+        public Stage5(StageManager stageManager, DungeonMap map, Link link)
         {
             //  room = map.GetRoom(0);
             _StageManager = stageManager;
@@ -26,34 +25,37 @@ namespace Sprint2.Map
             _map = map;
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 115 * _StageManager._scale.Y;
-            Debug.WriteLine("2");
+
 
 
         }
 
-       
+        //public bool canUp = false;
+        //public bool canDown = false;
+        //public bool canRight = false;
+        //public bool canLeft = false;
 
         public void DownStage()
         {
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
+
         }
 
         public void Draw()
         {
-            int[] doorCodes = { 0, 0, 0, 1 };
-            //_StageManager.DrawTiles(room);
+            int[] doorCodes = { 0, 0, 1, 0 };
+            //   _StageManager.DrawTiles(room);
             _StageManager.DrawWalls();
             _StageManager.DrawDoors(doorCodes);
         }
 
         public void LeftStage()
         {
-
+ 
         }
 
         public void RightStage()
         {
-
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
         }
 
         //public void Update()
@@ -64,23 +66,6 @@ namespace Sprint2.Map
         public void UpStage()
         {
 
-        }
-
-        public bool canUp()
-        {
-            return false;
-        }
-        public bool canDown()
-        {
-            return true;
-        }
-        public bool canRight()
-        {
-            return false;
-        }
-        public bool canLeft()
-        {
-            return false;
         }
     }
 }
