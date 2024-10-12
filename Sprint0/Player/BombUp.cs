@@ -12,10 +12,10 @@ namespace Sprint0.Player
         private int linkFrame;
         private int weaponFrame;
         private int remainingFrames;
-        private Vector2 _weaponPosition;
+        public Vector2 _weaponPosition;
         private bool _Explode;
         private float _BombSpeed;
-        private int _boomTimer;
+        public int _boomTimer;
 
         public BombUp(Link link)
         {

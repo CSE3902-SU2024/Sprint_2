@@ -14,7 +14,7 @@ namespace Sprint0.Player
         private int remainingFrames;
         private int rotations;
         private int boomerangStage;
-        private Vector2 _weaponPosition;
+        public Vector2 _weaponPosition;
         private Boolean _return;
 
         public BoomerangDown(Link link)

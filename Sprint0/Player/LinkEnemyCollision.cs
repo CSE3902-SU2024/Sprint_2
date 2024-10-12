@@ -22,6 +22,12 @@ namespace Sprint0.Collisions
         private const int ArrowHitboxHeightUD = 16; //UP DOWN
 
 
+        private const int BoomerangHitbox = 8; //height and width the same
+        private const int BombHitbox = 16; //height and width the same
+
+
+
+
 
 
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -62,6 +68,43 @@ namespace Sprint0.Collisions
                         HandleArrowEnemyCollision(link, enemy);
                     }
                 }
+                if (link.currentState is BoomerangRight || link.currentState is BoomerangLeft || link.currentState is BoomerangUp || link.currentState is BoomerangDown)
+                {
+                    Rectangle BoomerangHitbox = GetBoomerangHitbox(link, scale);
+                    if (BoomerangHitbox.Intersects(enemyHitbox))
+                    {
+                        HandleBoomerangEnemyCollision(link, enemy);
+                    }
+                }
+                if (link.currentState is BombRight)
+                {
+                    Rectangle BombHitbox = GetBombHitbox(link, scale);
+                    if (BombHitbox.Intersects(enemyHitbox) &&(((BombRight)link.currentState)._boomTimer == 0))
+                    {
+                        HandleBombEnemyCollision(link, enemy);
+                    }
+                } else if (link.currentState is BombLeft)
+                {
+                    Rectangle BombHitbox = GetBombHitbox(link, scale);
+                    if (BombHitbox.Intersects(enemyHitbox) && (((BombLeft)link.currentState)._boomTimer == 0))
+                    {
+                        HandleBombEnemyCollision(link, enemy);
+                    } 
+                } else if (link.currentState is BombUp)
+                {
+                    Rectangle BombHitbox = GetBombHitbox(link, scale);
+                    if (BombHitbox.Intersects(enemyHitbox) && (((BombUp)link.currentState)._boomTimer == 0))
+                    {
+                        HandleBombEnemyCollision(link, enemy);
+                    }
+                } else if (link.currentState is BombDown)
+                {
+                    Rectangle BombHitbox = GetBombHitbox(link, scale);
+                    if (BombHitbox.Intersects(enemyHitbox) && (((BombDown)link.currentState)._boomTimer == 0))
+                    {
+                        HandleBombEnemyCollision(link, enemy);
+                    }
+                }
             }
         }
 
@@ -76,6 +119,29 @@ namespace Sprint0.Collisions
             enemy.TakeDamage();
         }
         private static void HandleArrowEnemyCollision(Link link, Enemy enemy)  //if we later want death by arrow, death by sword etc
+        {
+            enemy.TakeDamage();
+            if (link.currentState is ArrowRight)
+            {
+                link.currentState = new LinkRight(link);
+            } else if (link.currentState is ArrowLeft)
+            {
+                link.currentState = new LinkLeft(link);
+            }
+            else if (link.currentState is ArrowUp)
+            {
+                link.currentState = new LinkUp(link);
+            }
+            else if (link.currentState is ArrowDown)
+            {
+                link.currentState = new LinkDown(link);
+            }
+        }
+        private static void HandleBoomerangEnemyCollision(Link link, Enemy enemy)  //if we later want death by arrow, death by sword etc
+        {
+            enemy.TakeDamage();
+        }
+        private static void HandleBombEnemyCollision(Link link, Enemy enemy) //if we later want death by arrow, death by sword etc
         {
             enemy.TakeDamage();
         }
@@ -123,34 +189,32 @@ namespace Sprint0.Collisions
         }
         public static Rectangle GetArrowHitbox(Link link, Vector2 scale)
         {
-            Vector2 ArrowPosition = link._position;
+            Vector2 ArrowPosition;
             int width, height;
+
 
             if (link.currentState is ArrowRight)
             {
-                ArrowPosition.X += 13 * scale.X;
-                ArrowPosition.Y += 6 * scale.Y;
+
+                ArrowPosition = ((ArrowRight)link.currentState)._weaponPosition; // Cast to ArrowRight
                 width = ArrowHitboxWidthRL;
                 height = ArrowHitboxHeightRL;
             }
             else if (link.currentState is ArrowLeft)
             {
-                ArrowPosition.X -= 13 * scale.X;
-                ArrowPosition.Y += 6 * scale.Y;
+                ArrowPosition = ((ArrowLeft)link.currentState)._weaponPosition; // Cast to ArrowRight
                 width = ArrowHitboxWidthRL;
                 height = ArrowHitboxHeightRL;
             }
             else if (link.currentState is ArrowUp)
             {
-                ArrowPosition.X += 3 * scale.X;
-                ArrowPosition.Y -= 13 * scale.Y;
+                ArrowPosition = ((ArrowUp)link.currentState)._weaponPosition; // Cast to ArrowRight
                 width = ArrowHitboxWidthUD;
                 height = ArrowHitboxHeightUD;
             }
             else if (link.currentState is ArrowDown)
             {
-                ArrowPosition.X += 5 * scale.X;
-                ArrowPosition.Y += 14 * scale.Y;
+                ArrowPosition = ((ArrowDown)link.currentState)._weaponPosition; // Cast to ArrowRight
                 width = ArrowHitboxWidthUD;
                 height = ArrowHitboxHeightUD;
             }
@@ -162,8 +226,34 @@ namespace Sprint0.Collisions
 
             return GetScaledRectangle((int)ArrowPosition.X, (int)ArrowPosition.Y, width, height, scale);
         }
+        public static Rectangle GetBoomerangHitbox(Link link, Vector2 scale)
+        {
+            Vector2 BoomerangPosition= link._position;
+            int width, height;
+            width = BoomerangHitbox;
+            height = BoomerangHitbox;
 
+            if (link.currentState is BoomerangRight) BoomerangPosition = ((BoomerangRight)link.currentState)._weaponPosition;
+            if (link.currentState is BoomerangLeft) BoomerangPosition = ((BoomerangLeft)link.currentState)._weaponPosition;
+            if (link.currentState is BoomerangUp) BoomerangPosition = ((BoomerangUp)link.currentState)._weaponPosition;
+            if (link.currentState is BoomerangDown) BoomerangPosition = ((BoomerangDown)link.currentState)._weaponPosition;
+
+            return GetScaledRectangle((int)BoomerangPosition.X, (int)BoomerangPosition.Y, width, height, scale);
+        }
+        public static Rectangle GetBombHitbox(Link link, Vector2 scale)
+        {
+            Vector2 BombPosition = link._position;
+            int width, height;
+            width = BombHitbox;
+            height = BombHitbox;
+            if (link.currentState is BombRight) BombPosition = ((BombRight)link.currentState)._weaponPosition;
+            if (link.currentState is BombLeft) BombPosition = ((BombLeft)link.currentState)._weaponPosition;
+            if (link.currentState is BombUp) BombPosition = ((BombUp)link.currentState)._weaponPosition;
+            if (link.currentState is BombDown) BombPosition = ((BombDown)link.currentState)._weaponPosition;
+
+            return GetScaledRectangle((int)BombPosition.X, (int)BombPosition.Y, width, height, scale);
+
+        }
 
     }
-    
 }

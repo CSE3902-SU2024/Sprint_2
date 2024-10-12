@@ -12,7 +12,7 @@ namespace Sprint0.Player
         private int linkFrame;
         private int weaponFrame;
         private int remainingFrames;
-        private Vector2 _weaponPosition;
+        public Vector2 _weaponPosition;
         private bool _arrowFlying;
         private float _arrowSpeed;
 
@@ -25,7 +25,7 @@ namespace Sprint0.Player
             _weaponPosition.X = _link._position.X + 13 * _link._scale.X;
             _weaponPosition.Y = _link._position.Y + 6 * _link._scale.Y;
             _arrowFlying = false;
-            _arrowSpeed = 15f;
+            _arrowSpeed = 10f;
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
@@ -46,7 +46,7 @@ namespace Sprint0.Player
                 if (_arrowFlying)
                 {
                     _weaponPosition.X += _arrowSpeed;
-                    if (_weaponPosition.X > 800)
+                if (_weaponPosition.X > 800)
                     {
                         _arrowFlying = false;
                         linkFrame = 9;
