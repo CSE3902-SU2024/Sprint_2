@@ -29,12 +29,13 @@ namespace Sprint0.Player
         private SpriteEffects spriteEffects;
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
             _position = new Vector2(200.0f, 200.0f);
-            _scale = new Vector2(4.0f, 4.0f);
+            _scale.X = (float)graphicsDevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsDevice.Viewport.Height / 176.0f;
             _texture = texture;
             speed = 2.0f;
             boomerangSpeed = 10.0f;

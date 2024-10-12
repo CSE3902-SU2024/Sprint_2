@@ -62,7 +62,7 @@ namespace Sprint2.Map
         public bool canUp()
         {
             return true;
-        }
+        }   
         public bool canDown()
         {
             return true;

@@ -22,14 +22,14 @@ namespace Sprint2.Map
             // check if link is in middle of screen
            if (_link._position.X >= 110*_scale.X && _link._position.X <= 150 * _scale.X)
             {
-                Debug.WriteLine("Middle");
+                
                 //top middle
                 if ((_link._position.Y >= 0 * _scale.Y && _link._position.Y <= 60 * _scale.Y))             
                 {
-                    Debug.WriteLine("Top");
+                
                     if (currentStage.canUp())
                     {
-                        Debug.WriteLine("Up");
+                        
                         currentStage.UpStage();
                     }
                 }
@@ -41,6 +41,19 @@ namespace Sprint2.Map
                         currentStage.DownStage();  
                     }
 
+                }
+            }
+           else if (_link._position.X >= 20 * _scale.X && (_link._position.X <= _scale.X * 70))
+            {
+                Debug.WriteLine("lEFT");
+                if (_link._position.Y >= 65 * _scale.Y && _link._position.Y >= 115 * _scale.Y)
+                {
+                    Debug.WriteLine("lEFT2");
+                    if (currentStage.canLeft())
+                    {
+                        Debug.WriteLine("WARP");
+                        currentStage.LeftStage();
+                    }
                 }
             }
 

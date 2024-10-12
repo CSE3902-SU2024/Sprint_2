@@ -127,7 +127,7 @@ namespace Sprint0
             Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
             //link instance
-            _link = new Link(linkFrames, linkTexture);
+            _link = new Link(linkFrames, linkTexture, GraphicsDevice);
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, GraphicsDevice, _link);
             _keyboardController = new KeyboardController(_link, _StageManager);
 
@@ -155,7 +155,7 @@ namespace Sprint0
           
 
             //link instance
-            _link = new Link(linkFrames, linkTexture);
+            _link = new Link(linkFrames, linkTexture, GraphicsDevice);
             _keyboardController = new KeyboardController(_link, _StageManager);
             //Block texture
             animatedBlock = new AnimatedBlock(new Vector2(100, 100));
