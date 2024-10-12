@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint0.Classes;
 using Sprint0.Interfaces;
 using Sprint0.Player;
 
-namespace Sprint0.Classes
+namespace Sprint2.Collisions
 {
     public class HandleCollision
     {
@@ -109,12 +108,12 @@ namespace Sprint0.Classes
                 }
             }
 
-        // This is template for other collisions
-        //public void HandleEnemyWallCollision(ref Vector2 playerPosition, Vector2 playerVelocity)
-        //{
-        //    Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
-        //    Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
-        //
+            // This is template for other collisions
+            //public void HandleEnemyWallCollision(ref Vector2 playerPosition, Vector2 playerVelocity)
+            //{
+            //    Rectangle playerBoundingBox = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
+            //    Rectangle wallBoundingBox = new Rectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight);
+            //
         }
     }
 }
