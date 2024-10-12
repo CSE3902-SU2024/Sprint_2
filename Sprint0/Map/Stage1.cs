@@ -16,23 +16,14 @@ namespace Sprint2.Map
         static int[] doorCodes;
         private Link _link;
         DungeonMap _map;
-      
+
         public Stage1(StageManager stageManager, DungeonMap map, Link link)
         {
-          //  room = map.GetRoom(0);
+            //  room = map.GetRoom(0);
             _StageManager = stageManager;
             _link = link;
             _map = map;
-            
-
-
-
         }
-
-        //public bool canUp = false;
-        //public bool canDown = false;
-        //public bool canRight = false;
-        //public bool canLeft = false;
 
         public void DownStage()
         {
@@ -67,6 +58,22 @@ namespace Sprint2.Map
         public void UpStage()
         {
             _StageManager.currentStage = new Stage2(_StageManager, _map, _link);
+        }
+        public bool canUp()
+        {
+            return true;
+        }
+        public bool canDown()
+        {
+            return true;
+        }
+        public bool canRight()
+        {
+            return true;
+        }
+        public bool canLeft()
+        {
+            return true;
         }
     }
 }

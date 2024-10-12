@@ -216,9 +216,9 @@ namespace Sprint0
             //    LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
             }
             HandlePlayerWallCollision playerTopWallCollision = new HandlePlayerWallCollision(_link._position, Vector2.Zero, 16, 16, 112, 32);
-            playerTopWallCollision.PlayerWallCollision(ref _link._position, _link.speed, _StageManager._scale);
+           // playerTopWallCollision.PlayerWallCollision(ref _link._position, _link.speed, _StageManager._scale);
             HandlePlayerWallCollision playerTopWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X,  0), 16, 16, 112, 32);
-            playerTopWallCollision2.PlayerWallCollision(ref _link._position, _link.speed, _StageManager._scale);
+          //  playerTopWallCollision2.PlayerWallCollision(ref _link._position, _link.speed, _StageManager._scale);
 
 
             //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);

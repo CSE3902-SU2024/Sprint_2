@@ -35,7 +35,10 @@ namespace Sprint2.Map
 
         public void DownStage()
         {
+            _link._position.X = 115 * _StageManager._scale.X;
+            _link._position.Y = 20 * _StageManager._scale.Y;
             _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
+            
         }
 
         public void Draw()

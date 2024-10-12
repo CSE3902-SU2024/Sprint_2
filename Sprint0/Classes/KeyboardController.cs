@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
 using Sprint2.Map;
+using System.Diagnostics;
 
 
 namespace Sprint0.Classes
@@ -73,23 +74,11 @@ namespace Sprint0.Classes
                 _link.TakeDamage();
             }
 
-            if (state.IsKeyDown(Keys.L) && previousState.IsKeyUp(Keys.L))
+            if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
             {
-                _StageManager.StageUp();
-            } else if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
-            {
-                _StageManager.StageDown();
+                _StageManager.NextStage();
+                Debug.WriteLine("Called");
             }
-            if (state.IsKeyDown(Keys.H) && previousState.IsKeyUp(Keys.H))
-            {
-                _StageManager.StageRight();
-            }
-            else if (state.IsKeyDown(Keys.J) && previousState.IsKeyUp(Keys.J))
-            {
-                _StageManager.StageLeft();
-            }
-
-
 
 
 

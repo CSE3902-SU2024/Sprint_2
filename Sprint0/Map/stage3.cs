@@ -67,5 +67,22 @@ namespace Sprint2.Map
         {
             _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
         }
+
+        public bool canUp()
+        {
+            return false;
+        }
+        public bool canDown()
+        {
+            return true;
+        }
+        public bool canRight()
+        {
+            return false;
+        }
+        public bool canLeft()
+        {
+            return false;
+        }
     }
 }

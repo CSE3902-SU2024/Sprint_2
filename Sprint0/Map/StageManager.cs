@@ -17,6 +17,7 @@ namespace Sprint2.Map
         public SpriteEffects _spriteEffects;
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
+        public NextStageDecider _nextStageDecider;
         Vector2 tilePosition;
         DungeonMap map;
         private Link _link;
@@ -35,9 +36,15 @@ namespace Sprint2.Map
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
             doorPosition = new Vector2(1, 1);
+            _nextStageDecider = new NextStageDecider(link, _scale, this);
 
             //Debug.WriteLine(_graphicsDevice.Viewport.);
 
+        }
+        public void NextStage()
+        {
+            Debug.WriteLine("Next Stage");
+            _nextStageDecider.DecideStage();
         }
         public void StageUp()
         {

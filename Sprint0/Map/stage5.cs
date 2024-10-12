@@ -67,5 +67,21 @@ namespace Sprint2.Map
         {
 
         }
+        public bool canUp()
+        {
+            return false;
+        }
+        public bool canDown()
+        {
+            return true;
+        }
+        public bool canRight()
+        {
+            return false;
+        }
+        public bool canLeft()
+        {
+            return false;
+        }
     }
 }
