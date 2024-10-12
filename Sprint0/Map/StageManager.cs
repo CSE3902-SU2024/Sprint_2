@@ -20,6 +20,7 @@ namespace Sprint2.Map
         Vector2 tilePosition;
         DungeonMap map;
         private Link _link;
+        public Vector2 doorPosition;
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
         { 
             _sourceRectangles = sourceRectangles;
@@ -31,9 +32,10 @@ namespace Sprint2.Map
             _doorDecoder = new DoorDecoder();
             _spriteEffects = SpriteEffects.None;
             _graphicsDevice = graphicsDevice;
-            _scale.X = (float)_graphicsDevice.Viewport.Width / 255.0f;
-            _scale.Y = (float)_graphicsDevice.Viewport.Height / 175.0f;
-          
+            _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
+            doorPosition = new Vector2(1, 1);
+
             //Debug.WriteLine(_graphicsDevice.Viewport.);
 
         }
@@ -45,6 +47,15 @@ namespace Sprint2.Map
         public void StageDown()
         {
             currentStage.DownStage();
+        }
+        public void StageRight()
+        {
+            currentStage.RightStage();
+        }
+
+        public void StageLeft()
+        {
+            currentStage.LeftStage();
         }
         public void Draw()
         {
@@ -76,7 +87,6 @@ namespace Sprint2.Map
         }
         public void DrawDoors(int[] doorCodes)
         {
-            Vector2 doorPosition = new Vector2(1,1);
             for (int i = 0; i < 4; i++)
             {
                 int doorIdx = _doorDecoder.DecodeDoor(i, doorCodes[i]);
@@ -103,7 +113,7 @@ namespace Sprint2.Map
                 }
                 _spriteBatch.Draw(_texture, doorPosition, _sourceRectangles[doorIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
                    
-                }
+            }
         }
     }
 }

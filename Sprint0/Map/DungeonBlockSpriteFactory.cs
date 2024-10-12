@@ -46,10 +46,10 @@ namespace Sprint2.Map
                  new Rectangle(212, 272, 15, 15), // 2
                  new Rectangle(212, 438, 15, 15), // 3
                  new Rectangle(893, 799, 15, 15), // 4
-                 new Rectangle(521, 11, 255, 32), // 5 top wall
-                 new Rectangle(521, 43, 32, 111),  // 6 left wall
-                 new Rectangle(521, 155, 255, 32), // 7 bottom wall
-                 new Rectangle(745, 43, 32, 111), // 8 right wall
+                 new Rectangle(521, 11, 256, 32), // 5 top wall
+                 new Rectangle(521, 43, 32, 112),  // 6 left wall
+                 new Rectangle(521, 155, 256, 32), // 7 bottom wall
+                 new Rectangle(745, 43, 32, 112), // 8 right wall
                  new Rectangle(815, 11, 32, 32), // 9 no door up
                  new Rectangle(848, 11, 32, 32), // 10 open door up
                  new Rectangle(881, 11, 32, 32), // 11 locked door up

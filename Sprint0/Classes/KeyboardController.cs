@@ -73,17 +73,25 @@ namespace Sprint0.Classes
                 _link.TakeDamage();
             }
 
-            if (state.IsKeyDown(Keys.L))
+            if (state.IsKeyDown(Keys.L) && previousState.IsKeyUp(Keys.L))
             {
                 _StageManager.StageUp();
-            } else if (state.IsKeyDown(Keys.K))
+            } else if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
             {
                 _StageManager.StageDown();
+            }
+            if (state.IsKeyDown(Keys.H) && previousState.IsKeyUp(Keys.H))
+            {
+                _StageManager.StageRight();
+            }
+            else if (state.IsKeyDown(Keys.J) && previousState.IsKeyUp(Keys.J))
+            {
+                _StageManager.StageLeft();
             }
 
 
 
-           
+
 
 
             // ITEMS AND BLOCKS
