@@ -19,7 +19,7 @@ namespace Sprint2.Map
 
         public Stage1(StageManager stageManager, DungeonMap map, Link link)
         {
-            //  room = map.GetRoom(0);
+              room = map.GetRoom(0);
             _StageManager = stageManager;
             _link = link;
             _map = map;
@@ -35,7 +35,7 @@ namespace Sprint2.Map
             //_link._position.X = 120 * _StageManager._scale.X;
             //_link._position.Y = 115 * _StageManager._scale.Y;
             int[] doorCodes = { 1, 1, 1, 1 };
-         //   _StageManager.DrawTiles(room);
+           _StageManager.DrawTiles(room);
             _StageManager.DrawWalls();
             _StageManager.DrawDoors(doorCodes);
         }

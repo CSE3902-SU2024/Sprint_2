@@ -28,7 +28,7 @@ namespace Sprint2.Map
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-//map = new DungeonMap("../../../Map/Dungeon_Map.csv");
+            map = new DungeonMap("../../../Map/DungeonMap2.csv");
             currentStage = new Stage1(this, map, _link);
             _doorDecoder = new DoorDecoder();
             _spriteEffects = SpriteEffects.None;
@@ -85,11 +85,12 @@ namespace Sprint2.Map
                 for (int j = 0; j < 12; j++)
                 {
                     int tileIdx = room[i, j];
+                
                     _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-                    tilePosition.X += 15 * _scale.X;
+                    tilePosition.X += 16 * _scale.X;
                 }
                 tilePosition.X = 32 * _scale.X;
-                tilePosition.Y += 15 * _scale.Y;
+                tilePosition.Y += 16 * _scale.Y;
             }
         }
         public void DrawDoors(int[] doorCodes)

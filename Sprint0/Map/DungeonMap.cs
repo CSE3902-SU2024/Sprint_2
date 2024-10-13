@@ -24,11 +24,13 @@ namespace Sprint2.Map
 
             foreach (string line in lines)
             {
+                Debug.WriteLine(line);
                 if (line.Trim() == ",,,,,,,")
                 {
                     rooms.Add(currentRoom);
                     currentRoom = new int[roomHeight, roomWidth];
                     row = 0;
+
                 }
                 else
                 {
@@ -38,16 +40,18 @@ namespace Sprint2.Map
                         string value = values[col].Trim(); // remove leading/trailing whitespace
                         if (int.TryParse(value, out int intValue))
                         {
+                            Debug.WriteLine(intValue);
                             currentRoom[row, col] = intValue;
                         }
                         else
                         {
                             // handle the error, e.g., set the value to 0 or a default value
-                            currentRoom[row, col] = 0;
+                           // currentRoom[row, col] = 0;
                         }
                     }
                     row++;
                 }
+                row = 0;
             }
 
             rooms.Add(currentRoom);
@@ -56,7 +60,7 @@ namespace Sprint2.Map
         public int[,] GetRoom(int roomNum)
         {
             Debug.WriteLine("room num ", roomNum);
-            if (roomNum < 0 || roomNum > 2)
+            if (roomNum < 0 || roomNum > 5)
             {
                 throw new ArgumentOutOfRangeException("Room out of range!");
             }
