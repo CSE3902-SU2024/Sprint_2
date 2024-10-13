@@ -9,12 +9,12 @@ namespace Sprint2.Map
 {
     public class DungeonMap
     {
-        static List<int[,]> rooms;
+        public List<int[,]> rooms;
         static int roomHeight;
         static int roomWidth;
         public DungeonMap(String filename)
         {
-            string[] lines = File.ReadAllLines(filename); // replace "input.csv" with your file path
+            string[] lines = File.ReadAllLines(filename); 
 
             rooms = new List<int[,]>();
             roomHeight = 7;
@@ -24,12 +24,12 @@ namespace Sprint2.Map
 
             foreach (string line in lines)
             {
-                Debug.WriteLine(line);
-                if (line.Trim() == ",,,,,,,")
+                if (line.Length < 20)
                 {
-                    rooms.Add(currentRoom);
-                    currentRoom = new int[roomHeight, roomWidth];
-                    row = 0;
+                    continue;
+                 //   rooms.Add(currentRoom);
+                  //  currentRoom = new int[roomHeight, roomWidth];
+                //    row = 0;
 
                 }
                 else
@@ -37,30 +37,31 @@ namespace Sprint2.Map
                     string[] values = line.Split(',');
                     for (int col = 0; col < 12; col++)
                     {
-                        string value = values[col].Trim(); // remove leading/trailing whitespace
+                        string value = values[col].Trim(); 
                         if (int.TryParse(value, out int intValue))
                         {
-                            Debug.WriteLine(intValue);
                             currentRoom[row, col] = intValue;
                         }
                         else
                         {
-                            // handle the error, e.g., set the value to 0 or a default value
                            // currentRoom[row, col] = 0;
                         }
                     }
                     row++;
                 }
                 row = 0;
-            }
+                rooms.Add(currentRoom);
+                currentRoom = new int[roomHeight, roomWidth];
 
+            }
+            Debug.WriteLine(rooms.Count);
             rooms.Add(currentRoom);
 
         }
         public int[,] GetRoom(int roomNum)
         {
             Debug.WriteLine("room num ", roomNum);
-            if (roomNum < 0 || roomNum > 5)
+            if (roomNum < 0 || roomNum > rooms.Count)
             {
                 throw new ArgumentOutOfRangeException("Room out of range!");
             }
