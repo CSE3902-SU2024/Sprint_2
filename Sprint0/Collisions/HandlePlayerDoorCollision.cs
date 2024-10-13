@@ -42,7 +42,7 @@ namespace Sprint2.Collisions
             );
         }
 
-        public void PlayerDoorCollision(ref Vector2 playerPosition, float playerVelocity)
+        public void PlayerDoorCollision(ref Vector2 playerPosition, float playerVelocity, Vector2 scale)
         {
             Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight);
             Rectangle doorBoundingBox = GetScaledRectangle((int)doorPosition.X, (int)doorPosition.Y, doorWidth, doorHeight);
@@ -54,6 +54,8 @@ namespace Sprint2.Collisions
             {
                 // Get the intersection area
                 intersection = Rectangle.Intersect(playerBoundingBox, doorBoundingBox);
+
+                
 
                 // Handle the collision based on the direction of the player velocity
                 if (intersection.Width < intersection.Height)

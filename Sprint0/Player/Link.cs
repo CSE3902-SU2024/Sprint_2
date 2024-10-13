@@ -47,7 +47,7 @@ namespace Sprint0.Player
             RemainingDamagedFrames = framesPerDamage;
             Damaged = false;
             _color = Color.White;
-            //   _previousPosition = new Vector2(200.0f, 200.0f);
+            _previousPosition = new Vector2(200.0f, 200.0f);
         }
 
         public void MoveDown()

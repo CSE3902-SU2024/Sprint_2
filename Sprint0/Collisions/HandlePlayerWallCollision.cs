@@ -43,7 +43,7 @@ namespace Sprint2.Collisions
             );
         }
 
-        public void PlayerWallCollision(ref Vector2 playerPosition, float playerVelocity, Vector2 scale)
+        public void PlayerWallCollision(ref Vector2 playerPosition, Vector2 previousPosition, Vector2 scale)
         {
             Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight, scale);
             Rectangle wallBoundingBox = GetScaledRectangle((int)wallPosition.X, (int)wallPosition.Y, wallWidth, wallHeight, scale);
@@ -56,15 +56,17 @@ namespace Sprint2.Collisions
                 // Get the intersection area
                 intersection = Rectangle.Intersect(playerBoundingBox, wallBoundingBox);
 
+                Vector2 movementDirection = playerPosition - previousPosition;
+
                 // Handle the collision based on the direction of the player velocity
                 if (intersection.Width < intersection.Height)
                 {
                     // Horizontal collision
-                    if (playerVelocity > 0) // Moving right
+                    if (movementDirection.X > 0) // Moving right
                     {
-                        playerPosition.X = wallBoundingBox.Left - playerWidth;
+                        playerPosition.X = wallBoundingBox.Left - (playerWidth * scale.X);
                     }
-                    else if (playerVelocity < 0) // Moving left
+                    else if (movementDirection.X < 0) // Moving left
                     {
                         playerPosition.X = wallBoundingBox.Right;
                     }
@@ -72,11 +74,11 @@ namespace Sprint2.Collisions
                 else
                 {
                     // Vertical collision
-                    if (playerVelocity < 0) // Moving down
+                    if (movementDirection.Y > 0) // Moving down
                     {
-                        playerPosition.Y = wallBoundingBox.Bottom - wallHeight - playerHeight;
+                        playerPosition.Y = wallBoundingBox.Top - (playerHeight * scale.Y);
                     }
-                    else if (playerVelocity > 0) // Moving up
+                    else if (movementDirection.Y < 0) // Moving up
                     {
                         playerPosition.Y = wallBoundingBox.Bottom;
                     }
