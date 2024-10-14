@@ -9,6 +9,8 @@ using Sprint2.Map;
 using Sprint0.Collisions;
 using System.IO;
 using Sprint2.Collisions;
+using Sprint2.Enemy;
+ 
 
 
 
@@ -27,7 +29,7 @@ namespace Sprint0
         private AnimatedBlock animatedBlock;
         private Item Item;
         private Item Item2;
-        private Enemy enemy;
+        private IEnemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
         private DungeonMap _map;
@@ -36,7 +38,7 @@ namespace Sprint0
 
 
 
-        private List<Enemy> enemies;
+        private List<IEnemy> enemies;
         private int currentEnemyIndex = 0;
 
         KeyboardState previousKeyboardState;
@@ -54,7 +56,7 @@ namespace Sprint0
 
         protected override void Initialize()
         {
-            enemies = new List<Enemy>();
+            enemies = new List<IEnemy>();
 
             //DEBUG FOR ENEMY HITBOXES
             DebugDraw.Initialize(GraphicsDevice);
@@ -70,44 +72,33 @@ namespace Sprint0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             bossSpriteSheet = Content.Load<Texture2D>("Bosses1");
-          
 
-            // Create and load the Dragon (from Bosses sheet)
-            Enemy dragon = new Enemy(new Vector2(400, 200))
-            {
-                currentEnemyType = Enemy.EnemyType.Dragon
-            };
-            dragon.LoadContent(Content, "Bosses1"); // Load Dragon content (using "Bosses" sheet)
-            enemies.Add(dragon); // Add Dragon to enemies list
 
-            // Create and load the Goriya (from Dungeon sheet)
-            Enemy goriya = new Enemy(new Vector2(400, 200))
-            {
-                currentEnemyType = Enemy.EnemyType.Goriya
-            };
-            goriya.LoadContent(Content, "Dungeon1"); // Load Goriya content (using "Dungeon" sheet)
-            enemies.Add(goriya); // Add Goriya to enemies list
+            // Create and load the Dragon (using the new Dragon class)
+            Dragon dragon = new Dragon(new Vector2(400, 200));
+            dragon.LoadContent(Content, "Bosses1");
+            enemies.Add(dragon);
 
-            Enemy staflos = new Enemy(new Vector2(400, 200))
-            {
-                currentEnemyType = Enemy.EnemyType.Stalfos
-            };
-            staflos.LoadContent(Content, "Dungeon1");
-            enemies.Add(staflos);
+            // Create and load the Goriya (using the new Goriya class)
+            Goriya goriya = new Goriya(new Vector2(400, 200));
+            goriya.LoadContent(Content, "Dungeon1");
+            enemies.Add(goriya);
 
-            Enemy Keese = new Enemy(new Vector2(400, 200))
-            {
-                currentEnemyType = Enemy.EnemyType.Keese
-            };
-            Keese.LoadContent(Content, "Dungeon1");
-            enemies.Add(Keese);
+            // Create and load the Stalfos (using the new Stalfos class)
+            Stalfos stalfos = new Stalfos(new Vector2(400, 200));
+            stalfos.LoadContent(Content, "Dungeon1");
+            enemies.Add(stalfos);
 
-            Enemy Gel = new Enemy(new Vector2(400, 200))
-            {
-                currentEnemyType = Enemy.EnemyType.Gel
-            };
-            Gel.LoadContent(Content, "Dungeon1");
-            enemies.Add(Gel);
+            // Create and load the Keese (using the new Keese class)
+            Keese keese = new Keese(new Vector2(400, 200));
+            keese.LoadContent(Content, "Dungeon1");
+            enemies.Add(keese);
+
+            // Create and load the Gel (using the new Gel class)
+            Gel gel = new Gel(new Vector2(400, 200));
+            gel.LoadContent(Content, "Dungeon1");
+            enemies.Add(gel);
+
 
             enemy = enemies[currentEnemyIndex];
 

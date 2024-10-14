@@ -16,7 +16,7 @@ namespace Sprint0.Classes
            
             };
         }
-        public static Rectangle[] CreateProjectileFrames()
+        public static Rectangle[] CreateFireballFrames()
         {
             return new Rectangle[]
             {

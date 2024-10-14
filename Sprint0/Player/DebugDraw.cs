@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
-using Sprint0.Classes;
+using Sprint2.Enemy;
 using System.Collections.Generic;
 
 namespace Sprint0.Collisions
@@ -42,7 +42,7 @@ namespace Sprint0.Collisions
 
 
 
-        public static void DrawHitboxes(SpriteBatch spriteBatch, Link link, List<Enemy> enemies, Vector2 scale)
+        public static void DrawHitboxes(SpriteBatch spriteBatch, Link link, List<IEnemy> enemies, Vector2 scale)
         {
             // Draw Link's hitbox
             Rectangle linkHitbox = new Rectangle((int)link._position.X, (int)link._position.Y, LinkEnemyCollision.LinkHitboxWidth, LinkEnemyCollision.LinkHitboxHeight);

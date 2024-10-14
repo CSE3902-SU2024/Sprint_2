@@ -2,7 +2,7 @@
 using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
-using Sprint0.Classes;
+using Sprint2.Enemy;
 
 namespace Sprint0.Collisions
 {
@@ -39,7 +39,7 @@ namespace Sprint0.Collisions
                 (int)(height * scale.Y)
             );
         }
-        public static void HandleCollisions(Link link, List<Enemy> enemies, Vector2 scale)
+        public static void HandleCollisions(Link link, List<IEnemy> enemies, Vector2 scale)
         {
             Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
 
@@ -108,17 +108,17 @@ namespace Sprint0.Collisions
             }
         }
 
-        private static void HandleLinkEnemyCollision(Link link, Enemy enemy)
+        private static void HandleLinkEnemyCollision(Link link, IEnemy enemy)
         {
             link.TakeDamage();
             
         }
 
-        private static void HandleSwordEnemyCollision(Link link, Enemy enemy)
+        private static void HandleSwordEnemyCollision(Link link, IEnemy enemy)
         {
             enemy.TakeDamage();
         }
-        private static void HandleArrowEnemyCollision(Link link, Enemy enemy)  //if we later want death by arrow, death by sword etc
+        private static void HandleArrowEnemyCollision(Link link, IEnemy enemy)  //if we later want death by arrow, death by sword etc
         {
             enemy.TakeDamage();
             if (link.currentState is ArrowRight)
@@ -137,11 +137,11 @@ namespace Sprint0.Collisions
                 link.currentState = new LinkDown(link);
             }
         }
-        private static void HandleBoomerangEnemyCollision(Link link, Enemy enemy)  //if we later want death by arrow, death by sword etc
+        private static void HandleBoomerangEnemyCollision(Link link, IEnemy enemy)  //if we later want death by arrow, death by sword etc
         {
             enemy.TakeDamage();
         }
-        private static void HandleBombEnemyCollision(Link link, Enemy enemy) //if we later want death by arrow, death by sword etc
+        private static void HandleBombEnemyCollision(Link link, IEnemy enemy) //if we later want death by arrow, death by sword etc
         {
             enemy.TakeDamage();
         }

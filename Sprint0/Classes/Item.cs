@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Reflection.Metadata.BlobBuilder;
 using Microsoft.Xna.Framework.Content;
-using static Sprint0.Classes.Enemy;
+using Sprint2.Enemy;
 
 namespace Sprint0.Classes
 {
