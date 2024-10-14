@@ -20,6 +20,11 @@ namespace Sprint2.Enemy.Projectiles
         private float timeElapsed;
         private float scale = 2.0f;
 
+        public Vector2 Position
+        {
+            get { return position; }
+        }
+
         public Fireball(Texture2D spriteSheet, Vector2 startPosition, Vector2 velocity, Rectangle[] fireballFrames)
         {
             this.spriteSheet = spriteSheet;

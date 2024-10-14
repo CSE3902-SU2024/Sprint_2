@@ -3,6 +3,7 @@ using Sprint0.Player;
 using Sprint0.Interfaces;
 using System.Collections.Generic;
 using Sprint2.Enemy;
+using Sprint2.Enemy.Projectiles;
 
 namespace Sprint0.Collisions
 {
@@ -10,6 +11,12 @@ namespace Sprint0.Collisions
     {
         public const int LinkHitboxWidth = 16;
         public const int LinkHitboxHeight = 16;
+
+        private const int FireballHitboxWidth = 10;  
+        private const int FireballHitboxHeight = 10;
+
+        private const int BoomerangHitboxWidth = 10;
+        private const int BoomerangHitboxHeight = 10;
 
         private const int SwordHitboxWidthRL = 16; //RIGHT LEFT
         private const int SwordHitboxHeightRL = 7; //RIGHT LEFT
@@ -50,6 +57,16 @@ namespace Sprint0.Collisions
                 if (linkHitbox.Intersects(enemyHitbox))
                 {
                     HandleLinkEnemyCollision(link, enemy);
+                }
+
+                if (enemy is Dragon dragon)
+                {
+                    HandleFireballCollisions(link, dragon, scale);
+                }
+
+                if (enemy is Goriya goriya)
+                {
+                    HandleBoomerangCollisions(link, goriya, scale);
                 }
 
                 if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
@@ -108,10 +125,63 @@ namespace Sprint0.Collisions
             }
         }
 
+        private static void HandleFireballCollisions(Link link, Dragon dragon, Vector2 scale)
+        {
+            Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
+
+            foreach (var fireball in dragon.fireballs) 
+            {
+                Rectangle fireballHitbox = GetFireballHitbox(fireball, scale);
+                if (linkHitbox.Intersects(fireballHitbox))
+                {
+                    HandleFireballLinkCollision(link, fireball); 
+                }
+            }
+        }
+
+
+        private static void HandleFireballLinkCollision(Link link, Fireball fireball)
+        {
+             
+            link.TakeDamage();
+            
+        }
+        public static Rectangle GetFireballHitbox(Fireball fireball, Vector2 scale)
+        {
+            return GetScaledRectangle((int)fireball.Position.X, (int)fireball.Position.Y, FireballHitboxWidth, FireballHitboxHeight, scale);
+        }
+
+
+
         private static void HandleLinkEnemyCollision(Link link, IEnemy enemy)
         {
             link.TakeDamage();
             
+        }
+
+        private static void HandleBoomerangCollisions(Link link, Goriya goriya, Vector2 scale)
+        {
+            Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
+
+            foreach (var boomerang in goriya.projectiles)
+            {
+                Rectangle boomerangHitbox = GetBoomerangHitbox(boomerang, scale);
+                if (linkHitbox.Intersects(boomerangHitbox))
+                {
+                    HandleBoomerangCollision(link, boomerang);  
+                }
+            }
+        }
+
+        public static Rectangle GetBoomerangHitbox(Boomerang boomerang, Vector2 scale)
+        {
+            return GetScaledRectangle((int)boomerang.Position.X, (int)boomerang.Position.Y, BoomerangHitboxWidth, BoomerangHitboxHeight, scale);
+        }
+
+        private static void HandleBoomerangCollision(Link link, Boomerang boomerang)
+        {
+            link.TakeDamage();
+
         }
 
         private static void HandleSwordEnemyCollision(Link link, IEnemy enemy)

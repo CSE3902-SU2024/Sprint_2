@@ -23,7 +23,7 @@ namespace Sprint2.Enemy
         private bool movingLeft = false;
         private bool movingDown = false;
         private float movementRange = 100f;
-        private List<Boomerang> projectiles;
+      
         private bool hasThrownBoomerang = false;
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;
@@ -35,7 +35,7 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;
 
 
-
+        public List<Boomerang> projectiles { get; private set; }
 
 
         // Implement IEnemy properties
