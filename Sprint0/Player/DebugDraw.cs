@@ -60,13 +60,13 @@ namespace Sprint0.Collisions
                 Rectangle ArrowHitbox = LinkEnemyCollision.GetArrowHitbox(link, scale);
                 DrawRectangle(spriteBatch, ArrowHitbox, Color.Azure, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
             }
-            //Draw Boomerang hitbox if Link is arrow attack
+            //Draw boomerang hitbox if Link is boomerang attack
             if (link.currentState is BoomerangRight || link.currentState is BoomerangLeft || link.currentState is BoomerangUp || link.currentState is BoomerangDown)
             {
                 Rectangle BoomerangHitbox = LinkEnemyCollision.GetBoomerangHitbox(link, scale);
                 DrawRectangle(spriteBatch, BoomerangHitbox, Color.Azure, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
             }
-            //Draw Bomb hitbox if Link is arrow attack
+            //Draw bomb hitbox if Link is bomb attack
             if (link.currentState is BombRight || link.currentState is BombLeft || link.currentState is BombUp || link.currentState is BombDown)
             {
                 Rectangle BombHitbox = LinkEnemyCollision.GetBombHitbox(link, scale);
