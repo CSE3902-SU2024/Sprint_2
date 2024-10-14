@@ -206,8 +206,7 @@ namespace Sprint0
             Item.Update(gameTime, _keyboardController);
             Item2.Update(gameTime, _keyboardController);
             _link.Update();
-            foreach (var enemy in enemies)
-            {
+            
                 enemy.Update(gameTime);
                 LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
             }
