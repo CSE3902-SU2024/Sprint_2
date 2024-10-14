@@ -201,11 +201,10 @@ namespace Sprint0
             Item.Update(gameTime, _keyboardController);
             Item2.Update(gameTime, _keyboardController);
             _link.Update();
-            foreach (var enemy in enemies)
-            {
+            
                 enemy.Update(gameTime);
             //    LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
-            }
+          
             HandlePlayerWallCollision playerTopWallCollision = new HandlePlayerWallCollision(_link._position, Vector2.Zero, 16, 16, 112, 32);
             playerTopWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
             HandlePlayerWallCollision playerTopWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X,  0), 16, 16, 112, 32);
