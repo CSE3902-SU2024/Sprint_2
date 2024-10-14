@@ -4,7 +4,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Sprint0.Player;
+using Sprint2.Collisions;
 
 
 namespace Sprint2.Map
@@ -50,9 +52,10 @@ namespace Sprint2.Map
             _StageManager.currentStage = new Stage4(_StageManager, _map, _link);
         }
 
-        //public void Update()
+        //public void Update(GameTime gameTime)
         //{
-            
+        //    HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(49 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
+        //    playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
         //}
 
         public void UpStage()

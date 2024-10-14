@@ -57,11 +57,13 @@ namespace Sprint2.Collisions
                 // First, resolve vertical collisions
                 if (intersection.Height < intersection.Width)
                 {
-                    if (previousPosition.Y < blockBoundingBox.Y) // Coming from the top
+                    if (spritePosition.Y < blockBoundingBox.Y) // Coming from the top
                     {
-                        spritePosition.Y = blockBoundingBox.Top - playerHeight;
+                        spritePosition.Y = blockBoundingBox.Top - (playerHeight * scale.Y);
+                        //spritePosition.Y = blockBoundingBox.Top - (100);
+                        //spritePosition.Y -= intersection.Height;
                     }
-                    else if (previousPosition.Y > blockBoundingBox.Y) // Coming from below
+                    else if (spritePosition.Y > blockBoundingBox.Y) // Coming from below
                     {
                         spritePosition.Y = blockBoundingBox.Bottom;
                     }
@@ -69,11 +71,12 @@ namespace Sprint2.Collisions
                 // Then, resolve horizontal collisions
                 else
                 {
-                    if (previousPosition.X < blockBoundingBox.X) // Coming from the left
+                    if (spritePosition.X < blockBoundingBox.X) // Coming from the left
                     {
-                        spritePosition.X = blockBoundingBox.Left - playerWidth;
+                        spritePosition.X -= intersection.Width;
+                        //spritePosition.X = blockBoundingBox.Left - (playerWidth * scale.X);
                     }
-                    else if (previousPosition.X > blockBoundingBox.X) // Coming from the right
+                    else if (spritePosition.X > blockBoundingBox.X) // Coming from the right
                     {
                         spritePosition.X = blockBoundingBox.Right;
                     }

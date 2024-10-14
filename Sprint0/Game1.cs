@@ -227,7 +227,7 @@ namespace Sprint0
             playerRightWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
 
-            HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(49 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
+            HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
             playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
             //HandlePlayerBlockCollision playerBottomBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);

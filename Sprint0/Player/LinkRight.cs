@@ -11,6 +11,7 @@ namespace Sprint0.Player
         private Link _link;
         private int frame;
         private int remainingFrames;
+        public bool Collided;
 
         public LinkRight(Link link)
         {
@@ -45,6 +46,11 @@ namespace Sprint0.Player
         }
         public void MoveRight()
         {
+
+            //if (Collided)
+            //{
+
+            //}
             _link._position.X += _link.speed;
             if (--remainingFrames <= 0)
             {
