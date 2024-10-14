@@ -22,6 +22,10 @@ namespace Sprint2.Enemy.Projectiles
         private float timePerFrame = 0.1f; // Time per frame for boomerang animation
         private float elapsedTime = 0f;
 
+        public Vector2 Position
+        {
+            get { return position; }
+        }
         // Constructor with scaling and flight distance customization
         public Boomerang(Texture2D spriteSheet, Vector2 startPosition, Vector2 velocity, Rectangle[] frames, float scale = 1.0f, float distanceToTravel = 150f)
         {

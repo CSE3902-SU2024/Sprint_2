@@ -11,6 +11,9 @@ namespace Sprint0.Player
         private Link _link;
         private int frame;
         private int remainingFrames;
+        public bool CollideWall = false;
+        private Rectangle wallBoundingBox;
+        private Rectangle playerBoundingBox;
 
         public LinkUp(Link link)
         {
@@ -23,8 +26,23 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, frame, false);
         }
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
         public void Update()
         {
+            wallBoundingBox = new Rectangle(0, 0, (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(wallBoundingBox))
+            {
+                CollideWall = true;
+            }
             if (_link.Damaged)
             {
                 if (--_link.RemainingDamagedFrames <= 0)
@@ -41,7 +59,14 @@ namespace Sprint0.Player
         }
         public void MoveUp()
         {
-            _link._position.Y -= _link.speed;
+            if (!CollideWall)
+            {
+                _link._position.Y -= _link.speed;
+            }
+            else
+            {
+                _link._position.Y = wallBoundingBox.Bottom;
+            }
             if (--remainingFrames <= 0)
             {
                 if (frame == 4)

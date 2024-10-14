@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Sprint2.Collisions;
+using Sprint2.Map;
+using static System.Formats.Asn1.AsnWriter;
 
 
 namespace Sprint0.Player
@@ -11,12 +14,26 @@ namespace Sprint0.Player
         private Link _link;
         private int frame;
         private int remainingFrames;
+        public bool CollideWall = false;
+        private Rectangle wallBoundingBox;
+        private Rectangle playerBoundingBox;
 
         public LinkLeft(Link link)
         {
             _link = link;
             frame = 2;
             remainingFrames = _link.framesPerStep;
+            
+        }
+
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
@@ -25,6 +42,12 @@ namespace Sprint0.Player
         }
         public void Update()
         {
+            wallBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(wallBoundingBox))
+            {
+                CollideWall = true;
+            }
             if (_link.Damaged)
             {
                 if (--_link.RemainingDamagedFrames <= 0)
@@ -49,7 +72,14 @@ namespace Sprint0.Player
         }
         public void MoveLeft()
         {
-            _link._position.X -= _link.speed;
+            if (!CollideWall)
+            {
+                _link._position.X -= _link.speed;
+            }
+            else
+            {
+                _link._position.X = wallBoundingBox.Right;
+            }
             if (--remainingFrames <= 0)
             {
                 if (frame == 2)
@@ -62,6 +92,8 @@ namespace Sprint0.Player
                 }
                 remainingFrames = _link.framesPerStep;
             }
+
+
         }
 
         public void UseSword()
