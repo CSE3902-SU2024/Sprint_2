@@ -212,25 +212,16 @@ namespace Sprint0
                 enemy.Update(gameTime);
                 LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
          
-            HandlePlayerWallCollision playerTopWallCollision = new HandlePlayerWallCollision(_link._position, Vector2.Zero, 16, 16, 112, 32);
-            playerTopWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-            HandlePlayerWallCollision playerTopWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X,  0), 16, 16, 112, 32);
-            playerTopWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerTopWallCollision = new HandlePlayerWallCollision(_link._position, Vector2.Zero, 16, 16, 112, 32);
+            //playerTopWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerTopWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X,  0), 16, 16, 112, 32);
+            //playerTopWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
-            HandlePlayerWallCollision playerBottomWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(0, 144 * _StageManager._scale.Y), 16, 16, 112, 32);
-            playerBottomWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-            HandlePlayerWallCollision playerBottomWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X, 144 * _StageManager._scale.Y), 16, 16, 112, 32);
-            playerBottomWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerBottomWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(0, 144 * _StageManager._scale.Y), 16, 16, 112, 32);
+            //playerBottomWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerBottomWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X, 144 * _StageManager._scale.Y), 16, 16, 112, 32);
+            //playerBottomWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
-            //HandlePlayerWallCollision playerLeftWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(0, 32 * _StageManager._scale.Y), 16, 16, 32, 40);
-            //playerLeftWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-            //HandlePlayerWallCollision playerLeftWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(0, 104 * _StageManager._scale.Y), 16, 16, 32, 40);
-            //playerLeftWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            HandlePlayerWallCollision playerRightWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(224 * _StageManager._scale.X, 32 * _StageManager._scale.Y), 16, 16, 32, 40);
-            playerRightWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-            HandlePlayerWallCollision playerRightWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(224 * _StageManager._scale.X, 104 * _StageManager._scale.Y), 16, 16, 32, 40);
-            playerRightWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
 
             HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(49 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);

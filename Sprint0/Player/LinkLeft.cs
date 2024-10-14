@@ -42,7 +42,7 @@ namespace Sprint0.Player
         }
         public void Update()
         {
-            wallBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(40 * _link._scale.Y));
+            wallBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
             playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(wallBoundingBox))
             {

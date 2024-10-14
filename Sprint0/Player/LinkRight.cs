@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
 
 
 namespace Sprint0.Player
@@ -11,6 +12,9 @@ namespace Sprint0.Player
         private Link _link;
         private int frame;
         private int remainingFrames;
+        public bool CollideWall = false;
+        private Rectangle wallBoundingBox;
+        private Rectangle playerBoundingBox;
 
         public LinkRight(Link link)
         {
@@ -23,8 +27,23 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, frame, false);
         }
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
         public void Update()
         {
+            wallBoundingBox = new Rectangle((int)(224 * _link._scale.X), (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(wallBoundingBox))
+            {
+                CollideWall = true;
+            }
             if (_link.Damaged)
             {
                 if (--_link.RemainingDamagedFrames <= 0)
@@ -45,7 +64,14 @@ namespace Sprint0.Player
         }
         public void MoveRight()
         {
-            _link._position.X += _link.speed;
+            if (!CollideWall)
+            {
+                _link._position.X += _link.speed;
+            }
+            else
+            {
+                _link._position.X = wallBoundingBox.Left - (16 * _link._scale.X);
+            }
             if (--remainingFrames <= 0)
             {
                 if (frame == 2)
