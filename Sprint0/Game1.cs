@@ -216,10 +216,10 @@ namespace Sprint0
             HandlePlayerWallCollision playerBottomWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(144 * _StageManager._scale.X, 144 * _StageManager._scale.Y), 16, 16, 112, 32);
             playerBottomWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
-            HandlePlayerWallCollision playerLeftWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(0, 32 * _StageManager._scale.Y), 16, 16, 32, 40);
-            playerLeftWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-            HandlePlayerWallCollision playerLeftWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(0, 104 * _StageManager._scale.Y), 16, 16, 32, 40);
-            playerLeftWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerLeftWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(0, 32 * _StageManager._scale.Y), 16, 16, 32, 40);
+            //playerLeftWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
+            //HandlePlayerWallCollision playerLeftWallCollision2 = new HandlePlayerWallCollision(_link._position, new Vector2(0, 104 * _StageManager._scale.Y), 16, 16, 32, 40);
+            //playerLeftWallCollision2.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
             HandlePlayerWallCollision playerRightWallCollision = new HandlePlayerWallCollision(_link._position, new Vector2(224 * _StageManager._scale.X, 32 * _StageManager._scale.Y), 16, 16, 32, 40);
             playerRightWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
