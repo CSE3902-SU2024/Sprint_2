@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -18,6 +19,15 @@ namespace Sprint2.Map
         static int[] doorCodes;
         private Link _link;
         DungeonMap _map;
+        private Rectangle TopDoor;
+        private Rectangle LeftDoor;
+        private Rectangle RightDoor;
+        private Rectangle BottomDoor;
+        private Rectangle playerBoundingBox;
+        private bool Up = false;
+        private bool Down = false;
+        private bool Left = false;
+        private bool Right = false;
 
         public Stage1(StageManager stageManager, DungeonMap map, Link link)
         {
@@ -25,6 +35,16 @@ namespace Sprint2.Map
             _StageManager = stageManager;
             _link = link;
             _map = map;
+            
+        }
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
         }
 
         public void DownStage()
@@ -64,19 +84,47 @@ namespace Sprint2.Map
         }
         public bool canUp()
         {
-            return true;
+            Up = false;
+            TopDoor = new Rectangle((int)(112 * _link._scale.X), 0, (int)(32 * _link._scale.X), (int)(35 * _link._scale.X));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(TopDoor))
+            {
+                Up = true;
+            }
+            return Up;
         }   
         public bool canDown()
         {
-            return true;
+            Down = false;
+            BottomDoor = new Rectangle((int)(112 * _link._scale.X), (int)(140 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(32 * _link._scale.X));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(BottomDoor))
+            {
+                Down = true;
+            }
+            return Down;
         }
         public bool canRight()
         {
-            return true;
+            Right = false;
+            RightDoor = new Rectangle((int)(221 * _link._scale.X), (int)(72 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(32 * _link._scale.X));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(RightDoor))
+            {
+                Right = true;
+            }
+            return Right;
         }
         public bool canLeft()
         {
-            return true;
+            Left = false;
+            LeftDoor = new Rectangle(0, (int)(72 * _link._scale.Y), (int)(35 * _link._scale.X), (int)(32 * _link._scale.X));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(LeftDoor))
+            {
+                Left = true;
+            }
+            return Left;
         }
     }
 }
