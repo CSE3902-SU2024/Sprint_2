@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Interfaces;
 using Sprint0.Player;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint2.Collisions
 {
@@ -17,19 +18,37 @@ namespace Sprint2.Collisions
     {
 
         private Vector2 playerPosition;
+        private Vector2 blockPosition;
         private int playerWidth;
         private int playerHeight;
+        private int blockWidth;
+        private int blockHeight;
 
-        public HandlePlayerBlockCollision(Vector2 playerPos, int pWidth, int pHeight)
+        public HandlePlayerBlockCollision(Vector2 playerPos, Vector2 blockPos, int pWidth, int pHeight, int bWidth, int bHeight)
         {
             playerPosition = playerPos;
+            blockPosition = blockPos;
             playerWidth = pWidth;
             playerHeight = pHeight;
+            blockWidth = bWidth;
+            blockHeight = bHeight;
         }
 
-        public void PlayerBlockCollision(ref Vector2 spritePosition, Vector2 previousPosition, Rectangle blockBoundingBox)
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
-            Rectangle playerBoundingBox = new Rectangle((int)spritePosition.X, (int)spritePosition.Y, playerWidth, playerHeight);
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
+
+        public void PlayerBlockCollision(ref Vector2 spritePosition, Vector2 previousPosition, Vector2 scale)
+        {
+            //Rectangle playerBoundingBox = new Rectangle((int)spritePosition.X, (int)spritePosition.Y, playerWidth, playerHeight);
+            Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight, scale);
+            Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
 
             if (blockBoundingBox.Intersects(playerBoundingBox))
             {
