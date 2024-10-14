@@ -33,7 +33,7 @@ namespace Sprint0
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
         private DungeonMap _map;
-        private Vector2 _scale = new Vector2(4.0f, 4.0f);
+        private Vector2 _scale;
         
 
 
@@ -73,6 +73,8 @@ namespace Sprint0
 
             bossSpriteSheet = Content.Load<Texture2D>("Bosses1");
 
+            _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
             // Create and load the Dragon (using the new Dragon class)
             Dragon dragon = new Dragon(new Vector2(400, 200));
@@ -203,7 +205,7 @@ namespace Sprint0
             _link.Update();
             
                 enemy.Update(gameTime);
-            //    LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
+               LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
           
             HandlePlayerWallCollision playerTopWallCollision = new HandlePlayerWallCollision(_link._position, Vector2.Zero, 16, 16, 112, 32);
             playerTopWallCollision.PlayerWallCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
