@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Sprint0.Player;
+using Microsoft.Xna.Framework;
 
 
 namespace Sprint2.Map
@@ -17,6 +18,9 @@ namespace Sprint2.Map
         static int[] doorCodes;
         private Link _link;
         DungeonMap _map;
+        private bool Down = false;
+        private Rectangle playerBoundingBox;
+        private Rectangle BottomDoor;
 
         public Stage2(StageManager stageManager, DungeonMap map, Link link)
         {
@@ -30,8 +34,15 @@ namespace Sprint2.Map
 
 
         }
-
-       
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
 
         public void DownStage()
         {
@@ -75,7 +86,14 @@ namespace Sprint2.Map
         }
         public bool canDown()
         {
-            return true;
+            Down = false;
+            BottomDoor = new Rectangle((int)(112 * _link._scale.X), (int)(140 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(32 * _link._scale.X));
+            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(BottomDoor))
+            {
+                Down = true;
+            }
+            return Down;
         }
         public bool canRight()
         {
