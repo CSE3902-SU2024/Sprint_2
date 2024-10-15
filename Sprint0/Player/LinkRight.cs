@@ -64,14 +64,7 @@ namespace Sprint0.Player
         }
         public void MoveRight()
         {
-            if (!CollideWall)
-            {
-                _link._position.X += _link.speed;
-            }
-            else
-            {
-                _link._position.X = wallBoundingBox.Left - (16 * _link._scale.X);
-            }
+            _link._position.X += _link.speed;
             if (--remainingFrames <= 0)
             {
                 if (frame == 2)
