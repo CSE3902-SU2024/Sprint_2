@@ -45,13 +45,13 @@ namespace Sprint2.Enemy
         }
 
         // Load content and sprites
-        public void LoadContent(ContentManager content, string texturePath)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
             fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); // Load fireball frames
-            //_scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
-            //_scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
+            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
         // Update the dragon state (movement, animation, etc.)
@@ -134,7 +134,7 @@ namespace Sprint2.Enemy
                 currentColor,
                 0f,
                 Vector2.Zero,
-                4.0f,
+                _scale,
                 SpriteEffects.None,
                 0f
             );

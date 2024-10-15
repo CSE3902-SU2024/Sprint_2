@@ -19,6 +19,7 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;  // For damage effect
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
+        private Vector2 _scale;
 
         // Implement IEnemy properties
         public Vector2 Position { get => position; set => position = value; }
@@ -31,21 +32,30 @@ namespace Sprint2.Enemy
             initialPosition = startPosition;
         }
 
-        public void LoadContent(ContentManager content, string texturePath)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGelFrames();
+            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
         public void Update(GameTime gameTime)
         {
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             MoveGel();
 
             if (timeElapsed > timePerFrame)
             {
                 currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                 timeElapsed = 0f;
+            }
+            // Reset color after damage timer expires
+            if (damageColorTimer <= 0)
+            {
+                currentColor = Color.White;
             }
         }
 
@@ -67,7 +77,7 @@ namespace Sprint2.Enemy
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, 4.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero,_scale, SpriteEffects.None, 0f);
         }
 
         // Implement IEnemy methods
