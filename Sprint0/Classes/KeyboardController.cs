@@ -35,22 +35,22 @@ namespace Sprint0.Classes
         {
             KeyboardState state = Keyboard.GetState();
 
-            if ((state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S)) && (previousState.IsKeyUp(Keys.Down) || previousState.IsKeyUp(Keys.S)))
-            {
-                _StageManager.NextStage();
-            }
-            else if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W)) && (previousState.IsKeyUp(Keys.Up) || previousState.IsKeyUp(Keys.W)))
-            {
-                _StageManager.NextStage();
-            }
-            else if ((state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A)) && (previousState.IsKeyUp(Keys.Left) || previousState.IsKeyUp(Keys.A)))
-            {
-                _StageManager.NextStage();
-            }
-            else if ((state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D)) && (previousState.IsKeyUp(Keys.Right) || previousState.IsKeyUp(Keys.D)))
-            {
-                _StageManager.NextStage();
-            }
+            //if ((state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S)) && (previousState.IsKeyUp(Keys.Down) || previousState.IsKeyUp(Keys.S)))
+            //{
+            //    _StageManager.NextStage();
+            //}
+            //else if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W)) && (previousState.IsKeyUp(Keys.Up) || previousState.IsKeyUp(Keys.W)))
+            //{
+            //    _StageManager.NextStage();
+            //}
+            //else if ((state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A)) && (previousState.IsKeyUp(Keys.Left) || previousState.IsKeyUp(Keys.A)))
+            //{
+            //    _StageManager.NextStage();
+            //}
+            //else if ((state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D)) && (previousState.IsKeyUp(Keys.Right) || previousState.IsKeyUp(Keys.D)))
+            //{
+            //    _StageManager.NextStage();
+            //}
 
 
             if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
@@ -93,11 +93,11 @@ namespace Sprint0.Classes
                 _link.TakeDamage();
             }
 
-            //if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
-            //{
-            //    _StageManager.NextStage();
-            //    Debug.WriteLine("Called");
-            //}
+            if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
+            {
+                _StageManager.NextStage();
+                Debug.WriteLine("Called");
+            }
 
 
 
