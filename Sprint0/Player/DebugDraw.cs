@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Enemy;
+using Sprint2.Enemy.Projectiles;
 using System.Collections.Generic;
 
 namespace Sprint0.Collisions
@@ -78,7 +79,30 @@ namespace Sprint0.Collisions
             {
                 Rectangle enemyHitbox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height);
                 DrawRectangle(spriteBatch, enemyHitbox, Color.Green, scale);
+
+                if (enemy is Dragon dragon)
+                {
+                    foreach (var fireball in dragon.fireballs)
+                    {
+                        Rectangle fireballHitbox = LinkEnemyCollision.GetFireballHitbox(fireball, scale);
+                        DrawRectangle(spriteBatch, fireballHitbox, Color.Firebrick, new Vector2(1.0f, 1.0f));
+
+                    }
+
+                }
+                if (enemy is Goriya goriya)
+                {
+                    foreach (var boomerang in goriya.projectiles)
+                    {
+                        Rectangle boomerangHitbox = LinkEnemyCollision.GetBoomerangHitbox(boomerang, scale);
+                        DrawRectangle(spriteBatch, boomerangHitbox, Color.Firebrick, new Vector2(1.0f, 1.0f));
+
+                    }
+
+                }
+
             }
+            
         }
 
     }
