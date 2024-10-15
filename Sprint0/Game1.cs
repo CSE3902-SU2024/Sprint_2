@@ -216,26 +216,8 @@ namespace Sprint0
 
 
 
-            HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
-            playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerBottomBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerBottomBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerLeftBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerLeftBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerRightBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerRightBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-
-            //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);
-            //Rectangle blockBoundingBox = new Rectangle(100, 100, 15, 15);
-
-            //if (playerBoundingBox.Intersects(blockBoundingBox))
-            //{
-            //HandleCollisionB(playerBoundingBox, blockBoundingBox);
-            //}
+            //HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
+            //playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
             base.Update(gameTime);
         }

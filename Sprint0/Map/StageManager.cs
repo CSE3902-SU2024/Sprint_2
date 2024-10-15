@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
 using Sprint0.Player;
+using Sprint2.Collisions;
 
 
 namespace Sprint2.Map
@@ -87,6 +88,14 @@ namespace Sprint2.Map
                     int tileIdx = room[i, j];
                 
                     _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+
+                    // Collision for all the tiles for 1
+                    if (tileIdx == 1)
+                    {
+                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
+                        playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+                    }
+
                     tilePosition.X += 16 * _scale.X;
                 }
                 tilePosition.X = 32 * _scale.X;
