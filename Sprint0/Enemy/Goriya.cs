@@ -30,9 +30,11 @@ namespace Sprint2.Enemy
         private float boomerangTimer = 0f;
 
         private float timeElapsed;
-        private float damageColorTimer = 0f;
-        private bool isFlipped = false;
+        private bool isFlipped = false; 
         private Color currentColor = Color.White;
+        private float damageColorTimer = 0f;
+        private const float DAMAGE_COLOR_DURATION = 0.5f;
+        private Vector2 _scale;
 
 
         public List<Boomerang> projectiles { get; private set; }
@@ -51,17 +53,21 @@ namespace Sprint2.Enemy
             projectiles = new List<Boomerang>();
         }
 
-
-        public void LoadContent(ContentManager content, string texturePath)
+        // Load content and sprites
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames();
+            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
 
         public void Update(GameTime gameTime)
         {
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             MoveGoriya(gameTime);
             if (timeElapsed > 0.1f)
             {
@@ -182,7 +188,7 @@ namespace Sprint2.Enemy
         public void Draw(SpriteBatch spriteBatch)
         {
             SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, 4.0f, spriteEffect, 0f);
+            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
             foreach (var projectile in projectiles)
             {
                 projectile.Draw(spriteBatch);
@@ -192,7 +198,8 @@ namespace Sprint2.Enemy
 
         public void TakeDamage()
         {
-
+            currentColor = Color.Red;
+            damageColorTimer = DAMAGE_COLOR_DURATION;
         }
 
 
@@ -204,7 +211,9 @@ namespace Sprint2.Enemy
             hasThrownBoomerang = false;
             waitingForBoomerang = false;
             boomerangTimer = 0f;
-            projectiles.Clear();
+            damageColorTimer = 0f;
+            currentColor = Color.White;
+            projectiles.Clear(); // Clear boomerangs
         }
     }
 }

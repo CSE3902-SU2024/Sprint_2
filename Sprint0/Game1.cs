@@ -78,32 +78,30 @@ namespace Sprint0
             _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
-            _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
          
             Dragon dragon = new Dragon(new Vector2(400, 200));
-            dragon.LoadContent(Content, "Bosses1");
+            dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
             enemies.Add(dragon);
 
           
             Goriya goriya = new Goriya(new Vector2(400, 200));
-            goriya.LoadContent(Content, "Dungeon1");
+            goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(goriya);
 
             
             Stalfos stalfos = new Stalfos(new Vector2(400, 200));
-            stalfos.LoadContent(Content, "Dungeon1");
+            stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(stalfos);
 
             
             Keese keese = new Keese(new Vector2(400, 200));
-            keese.LoadContent(Content, "Dungeon1");
+            keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(keese);
 
           
             Gel gel = new Gel(new Vector2(400, 200));
-            gel.LoadContent(Content, "Dungeon1");
+            gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(gel);
 
 
@@ -216,26 +214,8 @@ namespace Sprint0
 
 
 
-            HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
-            playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerBottomBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerBottomBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerLeftBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerLeftBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-            //HandlePlayerBlockCollision playerRightBlockCollision = new HandlePlayerBlockCollision(_link._position, 16, 16);
-            //playerRightBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
-
-            //Rectangle playerBoundingBox = new Rectangle((int)(_link._position.X), (int)(_link._position.Y), 16, 16);
-            //Rectangle blockBoundingBox = new Rectangle(100, 100, 15, 15);
-
-            //if (playerBoundingBox.Intersects(blockBoundingBox))
-            //{
-            //HandleCollisionB(playerBoundingBox, blockBoundingBox);
-            //}
+            //HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
+            //playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
 
             base.Update(gameTime);
         }

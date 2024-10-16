@@ -14,7 +14,7 @@ namespace Sprint2.Enemy.Projectiles
         protected Texture2D spriteSheet;
         protected Rectangle[] sourceRectangles;
         protected int currentFrame;
-        protected Vector2 position;
+        public Vector2 position;
         protected Vector2 velocity;
         private float timePerFrame = 0.1f; 
         private float timeElapsed;
