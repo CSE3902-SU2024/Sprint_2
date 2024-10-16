@@ -19,18 +19,18 @@ namespace Sprint2.Enemy
         private float movementRange = 100f;
         private float timePerFrame = 0.1f;
         private float timeElapsed;
-        private Color currentColor = Color.White;  // For damage effect
+        private Color currentColor = Color.White; 
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-        private float fireballCooldown = 1f; // 1 second cooldown between shots
+        private float fireballCooldown = 1f;
         private float timeSinceLastShot;
         private Vector2 _scale;
 
 
 
-        private Rectangle[] fireballRectangles; // Fireball frames
+        private Rectangle[] fireballRectangles; 
 
-        // Implement IEnemy properties
+       
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; private set; } = 24;
         public int Height { get; private set; } = 32;
@@ -44,17 +44,17 @@ namespace Sprint2.Enemy
             fireballs = new List<Fireball>();
         }
 
-        // Load content and sprites
+      
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
-            fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); // Load fireball frames
+            fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); 
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
-        // Update the dragon state (movement, animation, etc.)
+       
         public void Update(GameTime gameTime)
         {
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -68,26 +68,26 @@ namespace Sprint2.Enemy
                 timeElapsed = 0f;
             }
 
-            // Reset color after damage timer expires
+          
             if (damageColorTimer <= 0)
             {
                 currentColor = Color.White;
             }
 
-            // Handle fireball shooting cooldown
+           
             timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeSinceLastShot > fireballCooldown)
             {
-                ShootFireball();  // Shoot fireballs in different directions
+                ShootFireball();  
                 timeSinceLastShot = 0f;
             }
 
-            // Update fireballs
+         
             for (int i = 0; i < fireballs.Count; i++)
             {
                 fireballs[i].Update(gameTime);
 
-                // Remove the fireball if it goes off-screen
+             
                 if (fireballs[i].IsOffScreen())
                 {
                     fireballs.RemoveAt(i);
@@ -96,7 +96,7 @@ namespace Sprint2.Enemy
             }
         }
 
-        // Move the dragon within a range
+   
         private void MoveDragon()
         {
             if (movingRight)
@@ -113,18 +113,18 @@ namespace Sprint2.Enemy
             }
         }
 
-        // Shoot fireballs in different directions
+      
         private void ShootFireball()
         {
             Vector2 fireballPosition = new Vector2(position.X, position.Y);
 
             // Add fireballs going in different directions
-            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 0), fireballRectangles)); // Left
-            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, -100), fireballRectangles)); // Left-top
-            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 100), fireballRectangles)); // Left-bottom
+            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 0), fireballRectangles)); 
+            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, -100), fireballRectangles)); 
+            fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 100), fireballRectangles)); 
         }
 
-        // Draw the dragon and its fireballs on the screen
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -139,14 +139,14 @@ namespace Sprint2.Enemy
                 0f
             );
 
-            // Draw fireballs
+           
             foreach (var fireball in fireballs)
             {
                 fireball.Draw(spriteBatch);
             }
         }
 
-        // Reset the dragon state
+       
         public void Reset()
         {
             position = initialPosition;
@@ -155,10 +155,10 @@ namespace Sprint2.Enemy
             timeElapsed = 0f;
             damageColorTimer = 0f;
             currentColor = Color.White;
-            fireballs.Clear(); // Clear fireballs on reset
+            fireballs.Clear(); 
         }
 
-        // Handle the dragon taking damage
+       
         public void TakeDamage()
         {
             currentColor = Color.Red;

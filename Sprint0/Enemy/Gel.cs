@@ -16,12 +16,12 @@ namespace Sprint2.Enemy
         private float movementRange = 100f;
         private float timePerFrame = 0.1f;
         private float timeElapsed;
-        private Color currentColor = Color.White;  // For damage effect
+        private Color currentColor = Color.White;  
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
 
-        // Implement IEnemy properties
+       
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 8;
         public int Height { get; } = 16;
@@ -52,7 +52,7 @@ namespace Sprint2.Enemy
                 currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                 timeElapsed = 0f;
             }
-            // Reset color after damage timer expires
+            
             if (damageColorTimer <= 0)
             {
                 currentColor = Color.White;
@@ -80,7 +80,7 @@ namespace Sprint2.Enemy
             spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero,_scale, SpriteEffects.None, 0f);
         }
 
-        // Implement IEnemy methods
+      
         public void TakeDamage()
         {
             currentColor = Color.Red;
