@@ -12,8 +12,8 @@ namespace Sprint0.Collisions
         public const int LinkHitboxWidth = 16;
         public const int LinkHitboxHeight = 16;
 
-        private const int FireballHitboxWidth = 10;  
-        private const int FireballHitboxHeight = 10;
+        private const int FireballHitboxWidth = 6;  
+        private const int FireballHitboxHeight = 8;
 
         private const int BoomerangHitboxWidth = 10;
         private const int BoomerangHitboxHeight = 10;
@@ -156,7 +156,6 @@ namespace Sprint0.Collisions
         private static void HandleLinkEnemyCollision(Link link, IEnemy enemy)
         {
             link.TakeDamage();
-            
         }
 
         private static void HandleBoomerangCollisions(Link link, Goriya goriya, Vector2 scale)

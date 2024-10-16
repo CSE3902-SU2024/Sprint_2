@@ -24,13 +24,17 @@ namespace Sprint2.Enemy
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private float fireballCooldown = 1f; // 1 second cooldown between shots
         private float timeSinceLastShot;
-         
+        private Vector2 _scale;
+
+
+
         private Rectangle[] fireballRectangles; // Fireball frames
 
         // Implement IEnemy properties
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; private set; } = 24;
         public int Height { get; private set; } = 32;
+
 
         public List<Fireball> fireballs { get; private set; }
         public Dragon(Vector2 startPosition)
@@ -41,11 +45,13 @@ namespace Sprint2.Enemy
         }
 
         // Load content and sprites
-        public void LoadContent(ContentManager content, string texturePath)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
             fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); // Load fireball frames
+            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
         // Update the dragon state (movement, animation, etc.)
@@ -128,7 +134,7 @@ namespace Sprint2.Enemy
                 currentColor,
                 0f,
                 Vector2.Zero,
-                4.0f,
+                _scale,
                 SpriteEffects.None,
                 0f
             );

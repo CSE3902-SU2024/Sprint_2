@@ -78,32 +78,30 @@ namespace Sprint0
             _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
-            _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
             // Create and load the Dragon (using the new Dragon class)
-            Dragon dragon = new Dragon(new Vector2(200, 200));
-            dragon.LoadContent(Content, "Bosses1");
+            Dragon dragon = new Dragon(new Vector2(400, 200));
+            dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
             enemies.Add(dragon);
 
             // Create and load the Goriya (using the new Goriya class)
             Goriya goriya = new Goriya(new Vector2(400, 200));
-            goriya.LoadContent(Content, "Dungeon1");
+            goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(goriya);
 
             // Create and load the Stalfos (using the new Stalfos class)
             Stalfos stalfos = new Stalfos(new Vector2(400, 200));
-            stalfos.LoadContent(Content, "Dungeon1");
+            stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(stalfos);
 
             // Create and load the Keese (using the new Keese class)
             Keese keese = new Keese(new Vector2(400, 200));
-            keese.LoadContent(Content, "Dungeon1");
+            keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(keese);
 
             // Create and load the Gel (using the new Gel class)
             Gel gel = new Gel(new Vector2(400, 200));
-            gel.LoadContent(Content, "Dungeon1");
+            gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
             enemies.Add(gel);
 
 
