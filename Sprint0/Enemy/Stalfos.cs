@@ -17,7 +17,7 @@ namespace Sprint2.Enemy
         private float timePerFrame = 0.1f;
         private float timeElapsed;
 
-        // Implement IEnemy properties
+    
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
@@ -67,10 +67,10 @@ namespace Sprint2.Enemy
             spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, 4.0f, SpriteEffects.None, 0f);
         }
 
-        // Implement IEnemy methods
+       
         public void TakeDamage()
         {
-            // Handle damage logic
+          
         }
 
         public void Reset()

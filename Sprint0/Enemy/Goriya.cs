@@ -23,7 +23,7 @@ namespace Sprint2.Enemy
         private bool movingLeft = false;
         private bool movingDown = false;
         private float movementRange = 100f;
-      
+
         private bool hasThrownBoomerang = false;
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;
@@ -31,19 +31,19 @@ namespace Sprint2.Enemy
 
         private float timeElapsed;
         private float damageColorTimer = 0f;
-        private bool isFlipped = false; 
+        private bool isFlipped = false;
         private Color currentColor = Color.White;
 
 
         public List<Boomerang> projectiles { get; private set; }
 
 
-        // Implement IEnemy properties
+
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
-        // Constructor
+
         public Goriya(Vector2 startPosition)
         {
             position = startPosition;
@@ -51,14 +51,14 @@ namespace Sprint2.Enemy
             projectiles = new List<Boomerang>();
         }
 
-        // Load content and sprites
+
         public void LoadContent(ContentManager content, string texturePath)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames();
         }
 
-        // Update the Goriya state (movement, animation, etc.)
+
         public void Update(GameTime gameTime)
         {
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -91,16 +91,16 @@ namespace Sprint2.Enemy
                 }
                 if (damageColorTimer <= 0)
                 {
-                    currentColor = Color.White; //current damage logic
+                    currentColor = Color.White;
                 }
             }
 
-            // Update boomerang projectiles
+
             for (int i = 0; i < projectiles.Count; i++)
             {
                 projectiles[i].Update(gameTime);
 
-                // Remove boomerang if it returns
+
                 if (projectiles[i].IsReturned())
                 {
                     projectiles.RemoveAt(i);
@@ -110,7 +110,7 @@ namespace Sprint2.Enemy
             }
         }
 
-        // Move Goriya, shoot boomerang at the edge of range
+
         private void MoveGoriya(GameTime gameTime)
         {
             if (waitingForBoomerang)
@@ -126,14 +126,14 @@ namespace Sprint2.Enemy
 
             if (movingRight)
             {
-                position.X += 1f; // Move right
+                position.X += 1f;
 
                 if (position.X >= initialPosition.X + movementRange)
                 {
                     ShootBoomerang();
                     if (waitingForBoomerang == false)
                     {
-                        movingRight = false; // Switch direction when hitting the right edge of range
+                        movingRight = false;
                         movingUp = true;
                     }
                 }
@@ -166,7 +166,7 @@ namespace Sprint2.Enemy
         }
 
 
-        // Shoot boomerang
+
         private void ShootBoomerang()
         {
             if (!hasThrownBoomerang)
@@ -178,7 +178,7 @@ namespace Sprint2.Enemy
             }
         }
 
-        // Draw Goriya and projectiles (boomerang)
+
         public void Draw(SpriteBatch spriteBatch)
         {
             SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -189,13 +189,13 @@ namespace Sprint2.Enemy
             }
         }
 
-        // Handle damage (from IEnemy interface)
+
         public void TakeDamage()
         {
-            // Logic for handling damage (e.g., color change, reducing health)
+
         }
 
-        // Reset Goriya state (from IEnemy interface)
+
         public void Reset()
         {
             position = initialPosition;
@@ -204,7 +204,7 @@ namespace Sprint2.Enemy
             hasThrownBoomerang = false;
             waitingForBoomerang = false;
             boomerangTimer = 0f;
-            projectiles.Clear(); // Clear boomerangs
+            projectiles.Clear();
         }
     }
 }

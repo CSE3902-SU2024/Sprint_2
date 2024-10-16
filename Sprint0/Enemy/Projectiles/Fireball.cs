@@ -16,7 +16,7 @@ namespace Sprint2.Enemy.Projectiles
         protected int currentFrame;
         protected Vector2 position;
         protected Vector2 velocity;
-        private float timePerFrame = 0.1f;  // Animation speed for fireball
+        private float timePerFrame = 0.1f; 
         private float timeElapsed;
         private float scale = 2.0f;
 
@@ -36,10 +36,10 @@ namespace Sprint2.Enemy.Projectiles
 
         public virtual void Update(GameTime gameTime)
         {
-            // Move the fireball
+          
             position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Animate the fireball
+          
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeElapsed > timePerFrame)
             {
@@ -53,7 +53,7 @@ namespace Sprint2.Enemy.Projectiles
             spriteBatch.Draw(
                 spriteSheet,
                 position,
-                sourceRectangles[currentFrame],  // Current fireball frame
+                sourceRectangles[currentFrame],  
                 Color.White,
                 0f,
                 Vector2.Zero,
@@ -65,7 +65,7 @@ namespace Sprint2.Enemy.Projectiles
 
         public bool IsOffScreen()
         {
-            // Check if the fireball goes off the screen
+           
             return position.X < 0 || position.Y < 0 || position.X > 800 || position.Y > 480;
         }
     }
