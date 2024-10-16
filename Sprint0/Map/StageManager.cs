@@ -47,6 +47,8 @@ namespace Sprint2.Map
             doorPosition = new Vector2(1, 1);
             _nextStageDecider = new NextStageDecider(link, _scale, this);
 
+            dragon = new Dragon(new Vector2(250, 200));
+
             //Debug.WriteLine(_graphicsDevice.Viewport.);
 
         }
@@ -103,11 +105,8 @@ namespace Sprint2.Map
                         HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
                         playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
 
-                        //HandleDragonBlockCollision dragonBlockCollision = new HandleDragonBlockCollision(dragon.position, tilePosition, 16, 16, 16, 16);
-                        //dragonBlockCollision.DragonBlockCollision(ref dragon.position, _scale);
-
-                        //HandleGelBlockCollision gelBlockCollision = new HandleGelBlockCollision(gel.position, tilePosition, 16, 16, 16, 16);
-                        //gelBlockCollision.GelBlockCollision(ref gel.position, _scale);
+                        //HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(enemyPos, tilePosition, 16, 16, 16, 16);
+                        //enemyBlockCollision.EnemyBlockCollision(ref IEnemy.enemies.position, enemies.position, _scale);
 
                     }
 

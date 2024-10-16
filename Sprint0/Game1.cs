@@ -80,7 +80,7 @@ namespace Sprint0
 
 
             // Create and load the Dragon (using the new Dragon class)
-            Dragon dragon = new Dragon(new Vector2(400, 200));
+            Dragon dragon = new Dragon(new Vector2(250, 200));
             dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
             enemies.Add(dragon);
 
