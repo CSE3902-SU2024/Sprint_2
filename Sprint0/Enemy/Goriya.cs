@@ -53,7 +53,7 @@ namespace Sprint2.Enemy
             projectiles = new List<Boomerang>();
         }
 
-        // Load content and sprites
+       
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
@@ -213,7 +213,7 @@ namespace Sprint2.Enemy
             boomerangTimer = 0f;
             damageColorTimer = 0f;
             currentColor = Color.White;
-            projectiles.Clear(); // Clear boomerangs
+            projectiles.Clear();  
         }
     }
 }

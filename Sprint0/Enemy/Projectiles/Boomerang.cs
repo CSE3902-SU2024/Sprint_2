@@ -11,7 +11,7 @@ namespace Sprint2.Enemy.Projectiles
     public class Boomerang
     {
         private Texture2D spriteSheet;
-        private Rectangle[] sourceRectangles; // Array of frames for boomerang animation
+        private Rectangle[] sourceRectangles;
         public Vector2 position;
         private Vector2 velocity;
         private Vector2 startPosition;

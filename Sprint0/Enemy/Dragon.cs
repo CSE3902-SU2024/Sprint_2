@@ -19,18 +19,18 @@ namespace Sprint2.Enemy
         private float movementRange = 100f;
         private float timePerFrame = 0.1f;
         private float timeElapsed;
-        private Color currentColor = Color.White;  // For damage effect
+        private Color currentColor = Color.White; 
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-        private float fireballCooldown = 1f; // 1 second cooldown between shots
+        private float fireballCooldown = 1f;
         private float timeSinceLastShot;
         private Vector2 _scale;
 
 
 
-        private Rectangle[] fireballRectangles; // Fireball frames
+        private Rectangle[] fireballRectangles; 
 
-        // Implement IEnemy properties
+       
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; private set; } = 24;
         public int Height { get; private set; } = 32;
@@ -44,12 +44,12 @@ namespace Sprint2.Enemy
             fireballs = new List<Fireball>();
         }
 
-        // Load content and sprites
+      
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
-            fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); // Load fireball frames
+            fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); 
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
@@ -82,7 +82,7 @@ namespace Sprint2.Enemy
                 timeSinceLastShot = 0f;
             }
 
-            // Update fireballs
+         
             for (int i = 0; i < fireballs.Count; i++)
             {
                 fireballs[i].Update(gameTime);

@@ -16,7 +16,7 @@ namespace Sprint2.Enemy
         private float movementRange = 100f;
         private float timePerFrame = 0.1f;
         private float timeElapsed;
-        private Color currentColor = Color.White;  // For damage effect
+        private Color currentColor = Color.White;  
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
@@ -52,7 +52,7 @@ namespace Sprint2.Enemy
                 currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                 timeElapsed = 0f;
             }
-            // Reset color after damage timer expires
+            
             if (damageColorTimer <= 0)
             {
                 currentColor = Color.White;
