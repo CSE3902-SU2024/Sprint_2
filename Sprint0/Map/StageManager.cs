@@ -4,6 +4,8 @@ using System;
 using System.Diagnostics;
 using Sprint0.Player;
 using Sprint2.Collisions;
+using static System.Formats.Asn1.AsnWriter;
+using Sprint2.Enemy;
 
 
 namespace Sprint2.Map
@@ -23,6 +25,12 @@ namespace Sprint2.Map
         DungeonMap map;
         private Link _link;
         public Vector2 doorPosition;
+        private Dragon dragon;
+        //private Gel gel;
+        //private Goriya goriya;
+        //private Keese keese;
+        //private Stalfos stalfos;
+
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
         { 
             _sourceRectangles = sourceRectangles;
@@ -94,6 +102,13 @@ namespace Sprint2.Map
                     {
                         HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
                         playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+
+                        //HandleDragonBlockCollision dragonBlockCollision = new HandleDragonBlockCollision(dragon.position, tilePosition, 16, 16, 16, 16);
+                        //dragonBlockCollision.DragonBlockCollision(ref dragon.position, _scale);
+
+                        //HandleGelBlockCollision gelBlockCollision = new HandleGelBlockCollision(gel.position, tilePosition, 16, 16, 16, 16);
+                        //gelBlockCollision.GelBlockCollision(ref gel.position, _scale);
+
                     }
 
                     tilePosition.X += 16 * _scale.X;

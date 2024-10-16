@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Interfaces;
 using Sprint0.Player;
+using Sprint2.Enemy;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint2.Collisions
 {
@@ -17,50 +19,74 @@ namespace Sprint2.Collisions
     {
 
         private Vector2 enemyPosition;
+        private Vector2 blockPosition;
         private int enemyWidth;
         private int enemyHeight;
+        private int blockWidth;
+        private int blockHeight;
 
-        public HandleEnemyBlockCollision(Vector2 enemyPos, int eWidth, int eHeight)
+        public HandleEnemyBlockCollision(Vector2 enemyPos, Vector2 blockPos, int eWidth, int eHeight, int bWidth, int bHeight)
         {
             enemyPosition = enemyPos;
+            blockPosition = blockPos;
             enemyWidth = eWidth;
             enemyHeight = eHeight;
+            blockWidth = bWidth;
+            blockHeight = bHeight;
         }
 
-        public void PlayerBlockCollision(ref Vector2 spritePosition, Vector2 previousPosition, Rectangle blockBoundingBox)
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
-            Rectangle enemyBoundingBox = new Rectangle((int)spritePosition.X, (int)spritePosition.Y, enemyWidth, enemyHeight);
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
 
-            if (blockBoundingBox.Intersects(enemyBoundingBox))
+        public void EnemyBlockCollision(List<IEnemy> enemies, Vector2 scale) // or List<Enemy> enemies, Vector2 scale
+        {
+            //Rectangle enemyBoundingBox = GetScaledRectangle((int)enemyPosition.X, (int)enemyPosition.Y, enemyWidth, enemyHeight, scale);
+            Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
+
+            // Iterate over each enemy and check for collision
+            foreach (IEnemy enemy in enemies) //or Enemy enemy in enemies
             {
-                Rectangle intersection = Rectangle.Intersect(enemyBoundingBox, blockBoundingBox);
+                Rectangle enemyBoundingBox = GetScaledRectangle((int)enemyPosition.X, (int)enemyPosition.Y, enemyWidth, enemyHeight, scale);
 
-                // First, resolve vertical collisions
-                if (intersection.Height < intersection.Width)
+                // Check for collision
+                if (blockBoundingBox.Intersects(enemyBoundingBox))
                 {
-                    if (previousPosition.Y < blockBoundingBox.Y) // Coming from the top
+                    Rectangle intersection = Rectangle.Intersect(enemyBoundingBox, blockBoundingBox);
+
+                    // Resolve vertical collision
+                    if (intersection.Height < intersection.Width)
                     {
-                        spritePosition.Y = blockBoundingBox.Top - enemyHeight;
+                        if (enemyPosition.Y < blockBoundingBox.Y) // Coming from the top
+                        {
+                            enemyPosition.Y = blockBoundingBox.Top - (enemyHeight * scale.Y);
+                        }
+                        else if (enemyPosition.Y > blockBoundingBox.Y) // Coming from below
+                        {
+                            enemyPosition.Y = blockBoundingBox.Bottom;
+                        }
                     }
-                    else if (previousPosition.Y > blockBoundingBox.Y) // Coming from below
+                    // Resolve horizontal collision
+                    else
                     {
-                        spritePosition.Y = blockBoundingBox.Bottom;
+                        if (enemyPosition.X < blockBoundingBox.X) // Coming from the left
+                        {
+                            enemyPosition.X -= intersection.Width;
+                        }
+                        else if (enemyPosition.X > blockBoundingBox.X) // Coming from the right
+                        {
+                            enemyPosition.X = blockBoundingBox.Right;
+                        }
                     }
                 }
-                // Then, resolve horizontal collisions
-                else
-                {
-                    if (previousPosition.X < blockBoundingBox.X) // Coming from the left
-                    {
-                        spritePosition.X = blockBoundingBox.Left - enemyWidth;
-                    }
-                    else if (previousPosition.X > blockBoundingBox.X) // Coming from the right
-                    {
-                        spritePosition.X = blockBoundingBox.Right;
-                    }
-                }
+
             }
-
         }
 
     }

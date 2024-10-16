@@ -9,7 +9,7 @@ namespace Sprint2.Enemy
     {
         private Texture2D spriteSheet;
         private Rectangle[] sourceRectangles;
-        private Vector2 position;
+        public Vector2 position;
         private Vector2 initialPosition;
         private int currentFrame;
         private bool movingRight = true;

@@ -82,7 +82,7 @@ namespace Sprint0
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
             // Create and load the Dragon (using the new Dragon class)
-            Dragon dragon = new Dragon(new Vector2(400, 200));
+            Dragon dragon = new Dragon(new Vector2(200, 200));
             dragon.LoadContent(Content, "Bosses1");
             enemies.Add(dragon);
 
