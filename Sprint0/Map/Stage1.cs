@@ -15,10 +15,12 @@ namespace Sprint2.Map
     {
         StageManager _StageManager;
         static int[,] room;
-        static int[] doorCodes;
+        static int[] doors;
         private Link _link;
         DungeonMap _map;
+        DoorMap _DoorMap;
         DrawDungeon _DrawDungeon;
+
         private Rectangle TopDoor;
         private Rectangle LeftDoor;
         private Rectangle RightDoor;
@@ -29,13 +31,16 @@ namespace Sprint2.Map
         private bool Left = false;
         private bool Right = false;
 
-        public Stage1(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
+        public Stage1(StageManager stageManager, DungeonMap map,DoorMap doorMap, Link link, DrawDungeon drawDungeon)
         {
-              room = map.GetRoom(0);
+             room = map.GetRoom(0);
+            doors = doorMap.GetDoors(0);
             _StageManager = stageManager;
             _link = link;
             _map = map;
+            _DoorMap = doorMap;
             _DrawDungeon = drawDungeon;
+            _DoorMap = doorMap;
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
@@ -49,30 +54,27 @@ namespace Sprint2.Map
 
         public void DownStage()
         {
-            _StageManager.currentStage = new Stage3(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage3(_StageManager, _map,_DoorMap, _link, _DrawDungeon);
         }
 
         public void Draw()
         {
-            //_link._position.X = 120 * _StageManager._scale.X;
-            //_link._position.Y = 115 * _StageManager._scale.Y;
-            int[] doorCodes = { 1, 1, 1, 1 };
-           _DrawDungeon.Draw(room, doorCodes);  
+           _DrawDungeon.Draw(room, doors);  
         }
 
         public void LeftStage()
         {
-            _StageManager.currentStage = new Stage5(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage5(_StageManager, _map, _DoorMap, _link, _DrawDungeon);
         }
 
         public void RightStage()
         {
-            _StageManager.currentStage = new Stage4(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage4(_StageManager, _map, _DoorMap, _link, _DrawDungeon);
         }
 
         public void UpStage()
         {
-            _StageManager.currentStage = new Stage2(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage2(_StageManager, _map, _DoorMap, _link, _DrawDungeon);
         }
         public bool canUp()
         {

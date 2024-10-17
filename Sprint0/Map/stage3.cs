@@ -16,19 +16,22 @@ namespace Sprint2.Map
         DrawDungeon _DrawDungeon;
         StageManager _StageManager;
         static int[,] room;
-        static int[] doorCodes;
+        static int[] doors;
         private Link _link;
         DungeonMap _map;
+        DoorMap _DoorMap;
         private Rectangle playerBoundingBox;
         private bool Up = false;
         private Rectangle TopDoor;
 
-        public Stage3(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
+        public Stage3(StageManager stageManager, DungeonMap map,DoorMap doorMap, Link link, DrawDungeon drawDungeon)
         {
             room = map.GetRoom(2);
+            doors = doorMap.GetDoors(2);
             _StageManager = stageManager;
             _link = link;
             _map = map;
+            _DoorMap = doorMap;
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 30 * _StageManager._scale.Y;
             _DrawDungeon = drawDungeon;
@@ -77,7 +80,7 @@ namespace Sprint2.Map
         {
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 130 * _StageManager._scale.Y;
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _DoorMap, _link, _DrawDungeon);
         }
 
         public bool canUp()

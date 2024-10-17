@@ -22,7 +22,8 @@ namespace Sprint2.Map
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
         public NextStageDecider _nextStageDecider;
-        DungeonMap map;
+        DungeonMap _DungeonMap;
+        DoorMap _DoorMap;
         private Link _link;
         private Dragon dragon;
         //private Gel gel;
@@ -36,13 +37,15 @@ namespace Sprint2.Map
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-            map = new DungeonMap("../../../Map/DungeonMap2.csv");
+            _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
+            _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
+            
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
             _nextStageDecider = new NextStageDecider(link, _scale, this);
             drawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link);
-            currentStage = new Stage1(this, map, _link, drawDungeon);
+            currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
             //Debug.WriteLine(_graphicsDevice.Viewport.);
 

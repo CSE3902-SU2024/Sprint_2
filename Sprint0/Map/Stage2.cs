@@ -16,16 +16,19 @@ namespace Sprint2.Map
         DrawDungeon _DrawDungeon;
         StageManager _StageManager;
         static int[,] room;
-        static int[] doorCodes;
+        static int[] doors;
         private Link _link;
         DungeonMap _map;
+        DoorMap _DoorMap;
         private bool Down = false;
         private Rectangle playerBoundingBox;
         private Rectangle BottomDoor;
 
-        public Stage2(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
+        public Stage2(StageManager stageManager, DungeonMap map, DoorMap doorMap, Link link, DrawDungeon drawDungeon)
         {
-              room = map.GetRoom(1);
+             room = map.GetRoom(1);
+            doors = doorMap.GetDoors(1);
+            _DoorMap = doorMap;
             _StageManager = stageManager;
             _link = link;
             _map = map;
@@ -50,14 +53,13 @@ namespace Sprint2.Map
         {
             _link._position.X = 115 * _StageManager._scale.X;
             _link._position.Y = 20 * _StageManager._scale.Y;
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link, _DrawDungeon);
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _DoorMap, _link, _DrawDungeon);
             
         }
 
         public void Draw()
         {
-            int[] doorCodes = { 0, 0, 0, 1 };
-            _DrawDungeon.Draw(room, doorCodes);
+            _DrawDungeon.Draw(room, doors);
         }
 
         public void LeftStage()
