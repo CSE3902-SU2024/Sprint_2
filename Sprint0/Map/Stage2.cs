@@ -13,6 +13,7 @@ namespace Sprint2.Map
 {
     public class Stage2 : IStage
     {
+        DrawDungeon _DrawDungeon;
         StageManager _StageManager;
         static int[,] room;
         static int[] doorCodes;
@@ -22,7 +23,7 @@ namespace Sprint2.Map
         private Rectangle playerBoundingBox;
         private Rectangle BottomDoor;
 
-        public Stage2(StageManager stageManager, DungeonMap map, Link link)
+        public Stage2(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
         {
               room = map.GetRoom(1);
             _StageManager = stageManager;
@@ -30,7 +31,8 @@ namespace Sprint2.Map
             _map = map;
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 115 * _StageManager._scale.Y;
-            Debug.WriteLine("2");
+            _DrawDungeon = drawDungeon;
+
 
 
         }
@@ -48,16 +50,14 @@ namespace Sprint2.Map
         {
             _link._position.X = 115 * _StageManager._scale.X;
             _link._position.Y = 20 * _StageManager._scale.Y;
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _link, _DrawDungeon);
             
         }
 
         public void Draw()
         {
             int[] doorCodes = { 0, 0, 0, 1 };
-            _StageManager.DrawTiles(room);
-            _StageManager.DrawWalls();
-            _StageManager.DrawDoors(doorCodes);
+            _DrawDungeon.Draw(room, doorCodes);
         }
 
         public void LeftStage()
@@ -86,14 +86,7 @@ namespace Sprint2.Map
         }
         public bool canDown()
         {
-            Down = false;
-            BottomDoor = new Rectangle((int)(112 * _link._scale.X), (int)(140 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(32 * _link._scale.X));
-            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(BottomDoor))
-            {
-                Down = true;
-            }
-            return Down;
+            return true;
         }
         public bool canRight()
         {

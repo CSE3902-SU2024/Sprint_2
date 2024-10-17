@@ -12,6 +12,7 @@ namespace Sprint2.Map
 {
     public class Stage5 : IStage
     {
+        DrawDungeon _DrawDungeon;
         StageManager _StageManager;
         static int[,] room;
         static int[] doorCodes;
@@ -21,7 +22,7 @@ namespace Sprint2.Map
         private Rectangle RightDoor;
         private Rectangle playerBoundingBox;
 
-        public Stage5(StageManager stageManager, DungeonMap map, Link link)
+        public Stage5(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
         {
             room = map.GetRoom(4);
             _StageManager = stageManager;
@@ -29,9 +30,7 @@ namespace Sprint2.Map
             _map = map;
             _link._position.X = 210 * _StageManager._scale.X;
             _link._position.Y = 80 * _StageManager._scale.Y;
-
-
-
+            _DrawDungeon = drawDungeon;
         }
 
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -52,9 +51,7 @@ namespace Sprint2.Map
         public void Draw()
         {
             int[] doorCodes = { 0, 0, 1, 0 };
-            _StageManager.DrawTiles(room);
-            _StageManager.DrawWalls();
-            _StageManager.DrawDoors(doorCodes);
+            _DrawDungeon.Draw(room, doorCodes);
         }
 
         public void LeftStage()
@@ -66,7 +63,7 @@ namespace Sprint2.Map
         {
             _link._position.X = 32 * _StageManager._scale.X;
             _link._position.Y = 80 * _StageManager._scale.Y;
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _link, _DrawDungeon);
         }
 
         //public void Update()
@@ -88,14 +85,7 @@ namespace Sprint2.Map
         }
         public bool canRight()
         {
-            Right = false;
-            RightDoor = new Rectangle((int)(221 * _link._scale.X), (int)(72 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(32 * _link._scale.X));
-            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(RightDoor))
-            {
-                Right = true;
-            }
-            return Right;
+            return true;
         }
         public bool canLeft()
         {

@@ -13,6 +13,7 @@ namespace Sprint2.Map
 {
     public class Stage3 : IStage
     {
+        DrawDungeon _DrawDungeon;
         StageManager _StageManager;
         static int[,] room;
         static int[] doorCodes;
@@ -22,7 +23,7 @@ namespace Sprint2.Map
         private bool Up = false;
         private Rectangle TopDoor;
 
-        public Stage3(StageManager stageManager, DungeonMap map, Link link)
+        public Stage3(StageManager stageManager, DungeonMap map, Link link, DrawDungeon drawDungeon)
         {
             room = map.GetRoom(2);
             _StageManager = stageManager;
@@ -30,6 +31,7 @@ namespace Sprint2.Map
             _map = map;
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 30 * _StageManager._scale.Y;
+            _DrawDungeon = drawDungeon;
 
 
 
@@ -53,9 +55,7 @@ namespace Sprint2.Map
         public void Draw()
         {
             int[] doorCodes = { 1, 0, 0, 0 };
-            _StageManager.DrawTiles(room);
-            _StageManager.DrawWalls();
-            _StageManager.DrawDoors(doorCodes);
+            _DrawDungeon.Draw(room, doorCodes);
         }
 
         public void LeftStage()
@@ -77,19 +77,12 @@ namespace Sprint2.Map
         {
             _link._position.X = 120 * _StageManager._scale.X;
             _link._position.Y = 130 * _StageManager._scale.Y;
-            _StageManager.currentStage = new Stage1(_StageManager, _map, _link);
+            _StageManager.currentStage = new Stage1(_StageManager, _map, _link, _DrawDungeon);
         }
 
         public bool canUp()
         {
-            Up = false;
-            TopDoor = new Rectangle((int)(112 * _link._scale.X), 0, (int)(32 * _link._scale.X), (int)(35 * _link._scale.X));
-            playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(TopDoor))
-            {
-                Up = true;
-            }
-            return Up;
+            return true;
         }
         public bool canDown()
         {
