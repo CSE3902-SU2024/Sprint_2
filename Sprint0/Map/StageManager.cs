@@ -6,6 +6,7 @@ using Sprint0.Player;
 using Sprint2.Collisions;
 using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Enemy;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace Sprint2.Map
@@ -29,33 +30,35 @@ namespace Sprint2.Map
         //private Goriya goriya;
         //private Keese keese;
         //private Stalfos stalfos;
+        //private Stalfos stalfos;
 
-        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
+        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content) 
         {
             StageIndex = 0;
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-            _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
-            _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv");
-            
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
+            _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
+            _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
+            
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
-            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap,_DoorMap);
+            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap,_DoorMap,_EnemyItem);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            dragon = new Dragon(new Vector2(250, 200));
 
 
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             _nextStageDecider.Update(StageIndex);
             _DrawDungeon.Update(StageIndex);
+            _EnemyItem.Update(StageIndex, gameTime);
             
-        }
+            
         public void NextStage()
         {
            StageIndex=  _nextStageDecider.DecideStage();
@@ -67,4 +70,5 @@ namespace Sprint2.Map
         }
 
     }
+}
 }

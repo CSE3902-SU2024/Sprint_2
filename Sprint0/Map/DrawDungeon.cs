@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Collisions;
+using System.Collections.Generic;
+using Sprint2.Enemy;
 
 namespace Sprint2.Map
 {
@@ -17,8 +19,9 @@ namespace Sprint2.Map
         private DoorMap _doorMap;
         private DungeonMap _dungeonMap;
         private SpriteEffects _spriteEffects;
+        private Enemy_Item_Map _EnemyItem;
 
-        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, DungeonMap dungeon, DoorMap doorMap)
+        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, DungeonMap dungeon, DoorMap doorMap, Enemy_Item_Map enemy_Item_Map)
         {
             _sourceRectangles = sourceRectangles;
             _texture = texture;
@@ -30,6 +33,7 @@ namespace Sprint2.Map
             _link = link;
             _doorMap = doorMap;
             _dungeonMap = dungeon;
+            _EnemyItem = enemy_Item_Map;
 
         }
 
@@ -46,6 +50,10 @@ namespace Sprint2.Map
         {
             return _dungeonMap.GetRoom(currentStage);
         }
+        private List<IEnemy> GetEnemies(int currentStage)
+        {
+            return _EnemyItem.GetEnemies(currentStage);
+        }
 
         public void Draw()
         {
@@ -53,6 +61,7 @@ namespace Sprint2.Map
 
             DrawTiles( GetStage(stage) );
             DrawDoors( GetDoor(stage) );
+            DrawEnemies( GetEnemies(stage) );
         }
         public void DrawWalls()
         {
@@ -117,6 +126,14 @@ namespace Sprint2.Map
                 }
                 tilePosition.X = 32 * _scale.X;
                 tilePosition.Y += 16 * _scale.Y;
+            }
+        }
+
+        public void DrawEnemies(List<IEnemy> enemies)
+        {
+            foreach( IEnemy enemy in enemies)
+            {
+                enemy.Draw(_spriteBatch);
             }
         }
 
