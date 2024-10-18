@@ -6,6 +6,7 @@ using Sprint0.Player;
 using Sprint2.Collisions;
 using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Enemy;
+using System.Collections.Generic;
 
 
 namespace Sprint2.Map
@@ -25,11 +26,7 @@ namespace Sprint2.Map
         DungeonMap map;
         private Link _link;
         public Vector2 doorPosition;
-        private Dragon dragon;
-        //private Gel gel;
-        //private Goriya goriya;
-        //private Keese keese;
-        //private Stalfos stalfos;
+        public List<IEnemy> enemies;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
         { 
@@ -47,7 +44,9 @@ namespace Sprint2.Map
             doorPosition = new Vector2(1, 1);
             _nextStageDecider = new NextStageDecider(link, _scale, this);
 
-            dragon = new Dragon(new Vector2(250, 200));
+            enemies = new List<IEnemy>();
+            enemies.Add(new Dragon(new Vector2(250, 200)));
+
 
             //Debug.WriteLine(_graphicsDevice.Viewport.);
 
@@ -105,8 +104,11 @@ namespace Sprint2.Map
                         HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
                         playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
 
-                        //HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(enemyPos, tilePosition, 16, 16, 16, 16);
-                        //enemyBlockCollision.EnemyBlockCollision(ref IEnemy.enemies.position, enemies.position, _scale);
+                        foreach (IEnemy enemy in enemies)
+                        {
+                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(enemy.Position, tilePosition, 16, 16, 16, 16);
+                            enemyBlockCollision.EnemyBlockCollision(enemy, enemy.Position, _scale);
+                        }
 
                     }
 

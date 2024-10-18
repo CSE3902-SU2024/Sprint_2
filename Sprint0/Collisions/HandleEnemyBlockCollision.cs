@@ -45,13 +45,13 @@ namespace Sprint2.Collisions
             );
         }
 
-        public void EnemyBlockCollision(List<IEnemy> enemies, Vector2 scale) // or List<Enemy> enemies, Vector2 scale
+        public void EnemyBlockCollision(IEnemy enemy, Vector2 spritePosition, Vector2 scale) // or List<IEnemy> enemies, Vector2 spritePosition, Vector2 scale
         {
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
 
             // Iterate over each enemy and check for collision
-            foreach (IEnemy enemy in enemies) //or Enemy enemy in enemies
-            {
+            //foreach (IEnemy enemy in enemies) //or Enemy enemy in enemies
+            //{
                 Rectangle enemyBoundingBox = GetScaledRectangle((int)enemyPosition.X, (int)enemyPosition.Y, enemyWidth, enemyHeight, scale);
 
                 if (enemy is Keese keese)
@@ -127,7 +127,7 @@ namespace Sprint2.Collisions
                     }
                 }
 
-            }
+            //}
         }
 
     }
