@@ -105,14 +105,19 @@ namespace Sprint2.Map
                 {
                     int tileIdx = room[i, j];
 
-                    if (tileIdx == 1)
+                    switch (tileIdx)
                     {
-                        Keese keese = new Keese(EnemyPosition);
-                        keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
-                        //enemies.Add(keese);
-                        EnemiesInRoom.Add(keese);
+                        case 1:
+                            Keese keese = new Keese(EnemyPosition);
+                            keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            EnemiesInRoom.Add(keese);
+                            break;
+                        case 2:
+                            Stalfos stalfos = new Stalfos(EnemyPosition);
+                            stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            EnemiesInRoom.Add(stalfos);
+                            break;
                     }
-
                     EnemyPosition.X += 16 * _scale.X;
                 }
                 EnemyPosition.X = 32 * _scale.X;
