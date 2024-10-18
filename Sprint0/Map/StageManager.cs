@@ -30,6 +30,7 @@ namespace Sprint2.Map
         //private Goriya goriya;
         //private Keese keese;
         //private Stalfos stalfos;
+        //private Stalfos stalfos;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content) 
         {
@@ -39,7 +40,6 @@ namespace Sprint2.Map
             _link = link;
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
@@ -47,6 +47,7 @@ namespace Sprint2.Map
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap,_DoorMap,_EnemyItem);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            dragon = new Dragon(new Vector2(250, 200));
 
 
         }
@@ -58,7 +59,6 @@ namespace Sprint2.Map
             _EnemyItem.Update(StageIndex, gameTime);
             
             
-        }
         public void NextStage()
         {
            StageIndex=  _nextStageDecider.DecideStage();
@@ -70,4 +70,5 @@ namespace Sprint2.Map
         }
 
     }
+}
 }
