@@ -189,7 +189,7 @@ namespace Sprint0
             _StageManager.Update();
             _keyboardController.Update();
          //   _link.Update(gameTime, _keyboardController);
-
+         //bruh 
            //  animatedBlock.Update(gameTime, _keyboardController);
 
             if (_keyboardController.PreviousEnemy)
