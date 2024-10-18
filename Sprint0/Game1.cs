@@ -205,10 +205,10 @@ namespace Sprint0
 
             //Item.Update(gameTime, _keyboardController);
             //Item2.Update(gameTime, _keyboardController);
-            //_link.Update();
+            _link.Update();
             
                // enemy.Update(gameTime);
-           //     LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
+            LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
          
             
 
@@ -225,7 +225,7 @@ namespace Sprint0
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
-            //  _link.Draw(_spriteBatch);
+            _link.Draw(_spriteBatch);
             _StageManager.Draw();
             //enemy.Draw(_spriteBatch);
             //Item.Draw(_spriteBatch);
