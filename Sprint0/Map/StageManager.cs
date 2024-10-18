@@ -6,147 +6,69 @@ using Sprint0.Player;
 using Sprint2.Collisions;
 using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Enemy;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace Sprint2.Map
 {
     public class StageManager
     {
-        public IStage currentStage;
-        public Rectangle[] _sourceRectangles;
+        public int StageIndex;
+        public DrawDungeon _DrawDungeon;
         public Texture2D _texture;
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
-        public SpriteEffects _spriteEffects;
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
         public NextStageDecider _nextStageDecider;
-        Vector2 tilePosition;
-        DungeonMap map;
+        DungeonMap _DungeonMap;
+        DoorMap _DoorMap;
+        Enemy_Item_Map _EnemyItem;
         private Link _link;
-        public Vector2 doorPosition;
-        public List<IEnemy> enemies;
+        private Dragon dragon;
+        //private Gel gel;
+        //private Goriya goriya;
+        //private Keese keese;
+        //private Stalfos stalfos;
+        //private Stalfos stalfos;
 
-        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
-        { 
-            _sourceRectangles = sourceRectangles;
+        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content) 
+        {
+            StageIndex = 0;
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
-            map = new DungeonMap("../../../Map/DungeonMap2.csv");
-            currentStage = new Stage1(this, map, _link);
-            _doorDecoder = new DoorDecoder();
-            _spriteEffects = SpriteEffects.None;
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
-            doorPosition = new Vector2(1, 1);
-            _nextStageDecider = new NextStageDecider(link, _scale, this);
+            _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
+            _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
+            
+            _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
+            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap,_DoorMap,_EnemyItem);
+            //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            dragon = new Dragon(new Vector2(250, 200));
 
-            enemies = new List<IEnemy>();
-            enemies.Add(new Dragon(new Vector2(250, 200)));
-
-
-            //Debug.WriteLine(_graphicsDevice.Viewport.);
 
         }
+
+        public void Update(GameTime gameTime)
+        {
+            _nextStageDecider.Update(StageIndex);
+            _DrawDungeon.Update(StageIndex);
+            _EnemyItem.Update(StageIndex, gameTime);
+            
+            
         public void NextStage()
         {
-            Debug.WriteLine("Next Stage");
-            _nextStageDecider.DecideStage();
+           StageIndex=  _nextStageDecider.DecideStage();
         }
-        public void StageUp()
-        {
-            currentStage.UpStage();
-        }
-
-        public void StageDown()
-        {
-            currentStage.DownStage();
-        }
-        public void StageRight()
-        {
-            currentStage.RightStage();
-        }
-
-        public void StageLeft()
-        {
-            currentStage.LeftStage();
-        }
+       
         public void Draw()
         {
-            currentStage.Draw();
+            _DrawDungeon.Draw();
         }
-        public void DrawWalls()
-        {
-            _spriteBatch.Draw(_texture,Vector2.Zero, _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            // TODO class to calculate positions? 
-            _spriteBatch.Draw(_texture, new Vector2(0, 32 *_scale.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0, 143 * _scale.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(224* _scale.X, 32 * _scale.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
 
-        }
-        public void DrawTiles(int[,] room)
-        {
-            tilePosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 12; j++)
-                {
-                    int tileIdx = room[i, j];
-                
-                    _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-
-                    // Collision for all the tiles for 1
-                    if (tileIdx == 1)
-                    {
-                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
-                        playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
-
-                        foreach (IEnemy enemy in enemies)
-                        {
-                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(enemy.Position, tilePosition, 16, 16, 16, 16);
-                            enemyBlockCollision.EnemyBlockCollision(enemy, enemy.Position, _scale);
-                        }
-
-                    }
-
-                    tilePosition.X += 16 * _scale.X;
-                }
-                tilePosition.X = 32 * _scale.X;
-                tilePosition.Y += 16 * _scale.Y;
-            }
-        }
-        public void DrawDoors(int[] doorCodes)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                int doorIdx = _doorDecoder.DecodeDoor(i, doorCodes[i]);
-                switch (i)
-                {
-                    case 0:
-                        doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 0;
-                        break;
-                    case 1:
-                        doorPosition.X = 0;
-                        doorPosition.Y = 72* _scale.Y;
-                        break;
-                    case 2:
-                        doorPosition.X = 224 * _scale.X;
-                        doorPosition.Y = 72 * _scale.Y;
-                        break;
-                    case 3:
-                        doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 143 * _scale.Y;
-                        break;
-                    default: break;
-
-                }
-                _spriteBatch.Draw(_texture, doorPosition, _sourceRectangles[doorIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-                   
-            }
-        }
     }
+}
 }
