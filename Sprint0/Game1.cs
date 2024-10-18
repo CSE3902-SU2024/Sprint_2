@@ -84,22 +84,22 @@ namespace Sprint0
             //dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
             //enemies.Add(dragon);
 
-          
+
             //Goriya goriya = new Goriya(new Vector2(400, 200));
             //goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(goriya);
 
-            
+
             //Stalfos stalfos = new Stalfos(new Vector2(400, 200));
             //stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(stalfos);
 
-            
-            //Keese keese = new Keese(new Vector2(400, 200));
+
+            ////Keese keese = new Keese(new Vector2(400, 200));
             //keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(keese);
 
-          
+
             //Gel gel = new Gel(new Vector2(400, 200));
             //gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(gel);
@@ -124,7 +124,7 @@ namespace Sprint0
 
             //link instance
             _link = new Link(linkFrames, linkTexture, GraphicsDevice);
-            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, GraphicsDevice, _link);
+            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, GraphicsDevice, _link, Content);
             _keyboardController = new KeyboardController(_link, _StageManager);
 
             //Item texure
@@ -186,7 +186,7 @@ namespace Sprint0
                 Reset();
 
            
-            _StageManager.Update();
+            _StageManager.Update(gameTime);
             _keyboardController.Update();
          //   _link.Update(gameTime, _keyboardController);
 
