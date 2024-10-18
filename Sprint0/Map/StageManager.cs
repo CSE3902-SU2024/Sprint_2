@@ -12,13 +12,11 @@ namespace Sprint2.Map
 {
     public class StageManager
     {
-        public DrawDungeon drawDungeon;
-        public IStage currentStage;
-        public Rectangle[] _sourceRectangles;
+        public int StageIndex;
+        public DrawDungeon _DrawDungeon;
         public Texture2D _texture;
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
-        public SpriteEffects _spriteEffects;
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
         public NextStageDecider _nextStageDecider;
@@ -32,8 +30,8 @@ namespace Sprint2.Map
         //private Stalfos stalfos;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link) 
-        { 
-            _sourceRectangles = sourceRectangles;
+        {
+            StageIndex = 0;
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
@@ -43,39 +41,27 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
-            _nextStageDecider = new NextStageDecider(link, _scale, this);
-            drawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link);
-            currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
+            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap,_DoorMap);
+            //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
-            //Debug.WriteLine(_graphicsDevice.Viewport.);
 
+        }
+
+        public void Update()
+        {
+            _nextStageDecider.Update(StageIndex);
+            _DrawDungeon.Update(StageIndex);
+            
         }
         public void NextStage()
         {
-            Debug.WriteLine("Next Stage");
-            _nextStageDecider.DecideStage();
+           StageIndex=  _nextStageDecider.DecideStage();
         }
-        public void StageUp()
-        {
-            currentStage.UpStage();
-        }
-
-        public void StageDown()
-        {
-            currentStage.DownStage();
-        }
-        public void StageRight()
-        {
-            currentStage.RightStage();
-        }
-
-        public void StageLeft()
-        {
-            currentStage.LeftStage();
-        }
+       
         public void Draw()
         {
-            currentStage.Draw();
+            _DrawDungeon.Draw();
         }
 
     }

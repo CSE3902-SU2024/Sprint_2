@@ -8,38 +8,51 @@ namespace Sprint2.Map
     public class DrawDungeon
     {
         private Link _link;
-        public Vector2 doorPosition;
-        public Rectangle[] _sourceRectangles;
-        public Texture2D _texture;
-        public SpriteBatch _spriteBatch;
-        public Vector2 _scale;
-        public int stage;
+        private Rectangle[] _sourceRectangles;
+        private Texture2D _texture;
+        private  SpriteBatch _spriteBatch;
+        private Vector2 _scale;
+        private int stage;
         private DoorDecoder _doorDecoder;
-        Vector2 tilePosition;
-        public SpriteEffects _spriteEffects;
+        private DoorMap _doorMap;
+        private DungeonMap _dungeonMap;
+        private SpriteEffects _spriteEffects;
 
-        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link)
+        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, DungeonMap dungeon, DoorMap doorMap)
         {
             _sourceRectangles = sourceRectangles;
             _texture = texture;
             _spriteBatch = spriteBatch;
             _scale = scale;
-            doorPosition = new Vector2(1, 1);
             stage = 0;
             _doorDecoder = new DoorDecoder();
             _spriteEffects = SpriteEffects.None;
             _link = link;
+            _doorMap = doorMap;
+            _dungeonMap = dungeon;
+
         }
 
         public void Update(int currentStage)
         {
-            stage = currentStage;
+                stage = currentStage;
         }
-        public void Draw(int[,] room, int[] doorCodes)
+
+        private int[] GetDoor(int currentStage) { 
+            return _doorMap.GetDoors(currentStage);
+        }
+
+        private int[,] GetStage(int currentStage)
+        {
+            return _dungeonMap.GetRoom(currentStage);
+        }
+
+        public void Draw()
         {
             DrawWalls();
-            DrawTiles(room);
-            DrawDoors(doorCodes);
+
+            DrawTiles( GetStage(stage) );
+            DrawDoors( GetDoor(stage) );
         }
         public void DrawWalls()
         {
@@ -53,6 +66,7 @@ namespace Sprint2.Map
 
         public void DrawDoors(int[] doorCodes)
         {
+            Vector2 doorPosition = new Vector2(0, 0);
             for (int i = 0; i < 4; i++)
             {
                 int doorIdx = _doorDecoder.DecodeDoor(i, doorCodes[i]);
@@ -83,7 +97,7 @@ namespace Sprint2.Map
         }
         public void DrawTiles(int[,] room)
         {
-            tilePosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
+            Vector2 tilePosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 12; j++)

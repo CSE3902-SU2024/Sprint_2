@@ -80,32 +80,32 @@ namespace Sprint0
 
 
             // Create and load the Dragon (using the new Dragon class)
-            Dragon dragon = new Dragon(new Vector2(250, 200));
-            dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
-            enemies.Add(dragon);
+            //Dragon dragon = new Dragon(new Vector2(250, 200));
+            //dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
+            //enemies.Add(dragon);
 
           
-            Goriya goriya = new Goriya(new Vector2(400, 200));
-            goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            enemies.Add(goriya);
+            //Goriya goriya = new Goriya(new Vector2(400, 200));
+            //goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
+            //enemies.Add(goriya);
 
             
-            Stalfos stalfos = new Stalfos(new Vector2(400, 200));
-            stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            enemies.Add(stalfos);
+            //Stalfos stalfos = new Stalfos(new Vector2(400, 200));
+            //stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
+            //enemies.Add(stalfos);
 
             
-            Keese keese = new Keese(new Vector2(400, 200));
-            keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            enemies.Add(keese);
+            //Keese keese = new Keese(new Vector2(400, 200));
+            //keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
+            //enemies.Add(keese);
 
           
-            Gel gel = new Gel(new Vector2(400, 200));
-            gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            enemies.Add(gel);
+            //Gel gel = new Gel(new Vector2(400, 200));
+            //gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
+            //enemies.Add(gel);
 
 
-            enemy = enemies[currentEnemyIndex];
+            //enemy = enemies[currentEnemyIndex];
 
 
 
@@ -128,11 +128,11 @@ namespace Sprint0
             _keyboardController = new KeyboardController(_link, _StageManager);
 
             //Item texure
-            Item = new Item(new Vector2(200, 200), 50f);
-            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
+            //Item = new Item(new Vector2(200, 200), 50f);
+            //Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
 
-            Item2 = new Item(new Vector2(600, 100), 0f);
-            Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
+            //Item2 = new Item(new Vector2(600, 100), 0f);
+            //Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
 
 
             
@@ -186,7 +186,7 @@ namespace Sprint0
                 Reset();
 
            
-
+            _StageManager.Update();
             _keyboardController.Update();
          //   _link.Update(gameTime, _keyboardController);
 
@@ -203,12 +203,12 @@ namespace Sprint0
                 enemy = enemies[currentEnemyIndex];
             }
 
-            Item.Update(gameTime, _keyboardController);
-            Item2.Update(gameTime, _keyboardController);
-            _link.Update();
+            //Item.Update(gameTime, _keyboardController);
+            //Item2.Update(gameTime, _keyboardController);
+            //_link.Update();
             
-                enemy.Update(gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
+               // enemy.Update(gameTime);
+           //     LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
          
             
 
@@ -227,9 +227,9 @@ namespace Sprint0
             _spriteBatch.Begin();
             //  _link.Draw(_spriteBatch);
             _StageManager.Draw();
-            enemy.Draw(_spriteBatch);
-            Item.Draw(_spriteBatch);
-            Item2.Draw(_spriteBatch);
+            //enemy.Draw(_spriteBatch);
+            //Item.Draw(_spriteBatch);
+            //Item2.Draw(_spriteBatch);
             _link.Draw(_spriteBatch);
             DebugDraw.DrawHitboxes(_spriteBatch, _link, enemies, _scale);
 
