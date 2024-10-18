@@ -22,6 +22,7 @@ namespace Sprint2.Map
         public NextStageDecider _nextStageDecider;
         DungeonMap _DungeonMap;
         DoorMap _DoorMap;
+        Enemy_Item_Map _EnemyItem;
         private Link _link;
         private Dragon dragon;
         //private Gel gel;
@@ -37,6 +38,7 @@ namespace Sprint2.Map
             _link = link;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv");
             
             _graphicsDevice = graphicsDevice;
             _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;

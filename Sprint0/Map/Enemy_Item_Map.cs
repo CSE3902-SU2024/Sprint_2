@@ -7,14 +7,14 @@ using System.Collections.Generic;
 
 namespace Sprint2.Map
 {
-    public class DungeonMap
+    public class Enemy_Item_Map
     {
         public List<int[,]> rooms;
         static int roomHeight;
         static int roomWidth;
-        public DungeonMap(String filename)
+        public Enemy_Item_Map(String filename)
         {
-            string[] lines = File.ReadAllLines(filename); 
+            string[] lines = File.ReadAllLines(filename);
 
             rooms = new List<int[,]>();
             roomHeight = 7;
@@ -36,7 +36,7 @@ namespace Sprint2.Map
                     string[] values = line.Split(',');
                     for (int col = 0; col < 12; col++)
                     {
-                        string value = values[col].Trim(); 
+                        string value = values[col].Trim();
                         if (int.TryParse(value, out int intValue))
                         {
                             currentRoom[row, col] = intValue;
@@ -50,7 +50,6 @@ namespace Sprint2.Map
                 }
             }
             rooms.Add(currentRoom);
-
         }
         public int[,] GetRoom(int roomNum)
         {
