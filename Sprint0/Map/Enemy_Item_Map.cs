@@ -16,7 +16,7 @@ namespace Sprint2.Map
 {
     public class Enemy_Item_Map
     {
-        private List<List<IEnemy>> _EnemyMap;
+        public List<List<IEnemy>> _EnemyMap;
         private List<int[,]> rooms;
         private int roomHeight;
         private int roomWidth;

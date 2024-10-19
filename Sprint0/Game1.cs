@@ -10,6 +10,7 @@ using Sprint0.Collisions;
 using System.IO;
 using Sprint2.Collisions;
 using Sprint2.Enemy;
+using static System.Formats.Asn1.AsnWriter;
 
 
 
@@ -35,13 +36,13 @@ namespace Sprint0
         private DungeonMap _map;
 
         public Vector2 _scale;
-        
+
+        private Enemy_Item_Map enemyItemMap;
+        private int currentRoomNumber;
 
 
 
 
-        private List<IEnemy> enemies;
-        private int currentEnemyIndex = 0;
 
         KeyboardState previousKeyboardState;
 
@@ -59,7 +60,6 @@ namespace Sprint0
 
         protected override void Initialize()
         {
-            enemies = new List<IEnemy>();
 
             //DEBUG FOR ENEMY HITBOXES
             DebugDraw.Initialize(GraphicsDevice);
@@ -79,27 +79,34 @@ namespace Sprint0
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
 
+            //string enemyMapPath = Path.Combine(Content.RootDirectory, "EnemyLayout.txt");
+            //enemyItemMap = new Enemy_Item_Map(
+            //    enemyMapPath,
+            //    _scale,
+            //    GraphicsDevice,
+            //    Content
+            //);
             // Create and load the Dragon (using the new Dragon class)
             //Dragon dragon = new Dragon(new Vector2(250, 200));
             //dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
             //enemies.Add(dragon);
 
-          
+
             //Goriya goriya = new Goriya(new Vector2(400, 200));
             //goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(goriya);
 
-            
+
             //Stalfos stalfos = new Stalfos(new Vector2(400, 200));
             //stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(stalfos);
 
-            
+
             ////Keese keese = new Keese(new Vector2(400, 200));
             //keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(keese);
 
-          
+
             //Gel gel = new Gel(new Vector2(400, 200));
             //gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
             //enemies.Add(gel);
@@ -116,7 +123,6 @@ namespace Sprint0
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
             Rectangle[] dungeonTiles = _dungeonBlockSpriteFactory.CreateFrames();
 
-          
 
             //link texture
             Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
@@ -164,13 +170,14 @@ namespace Sprint0
             Item2 = new Item(new Vector2(600, 100), 0f);
             Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
 
-            // Reset enemy positions
-            enemy = enemies[0];
-            currentEnemyIndex = 0;
-            foreach (var enemy in enemies)
-            {
-                enemy.Reset();
-            }
+            //// Reset enemy positions
+            //enemy = enemies[0];
+            //currentEnemyIndex = 0;
+            //foreach (var enemy in enemies)
+            //{
+            //    enemy.Reset();
+            //}
+            //needs to be refactored
             
         }
 
@@ -192,31 +199,24 @@ namespace Sprint0
          //bruh 
            //  animatedBlock.Update(gameTime, _keyboardController);
 
-            if (_keyboardController.PreviousEnemy)
-            {
-                currentEnemyIndex = (currentEnemyIndex - 1 + enemies.Count) % enemies.Count;
-                enemy = enemies[currentEnemyIndex];
-            }
-            else if (_keyboardController.NextEnemy)
-            {
-                currentEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
-                enemy = enemies[currentEnemyIndex];
-            }
+            //if (_keyboardController.PreviousEnemy)
+            //{
+            //    currentEnemyIndex = (currentEnemyIndex - 1 + enemies.Count) % enemies.Count;
+            //    enemy = enemies[currentEnemyIndex];
+            //}
+            //else if (_keyboardController.NextEnemy)
+            //{
+            //    currentEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
+            //    enemy = enemies[currentEnemyIndex];
+            //}
+            //needs to be refactored
 
             //Item.Update(gameTime, _keyboardController);
             //Item2.Update(gameTime, _keyboardController);
             _link.Update();
             
-              //  enemy.Update(gameTime);
-            LinkEnemyCollision.HandleCollisions(_link, enemies, _link._scale);
-         
-            
-
-
-
-            //HandlePlayerBlockCollision playerTopBlockCollision = new HandlePlayerBlockCollision(_link._position, new Vector2(113 * _StageManager._scale.X, 49 * _StageManager._scale.Y), 16, 16, 16, 16);
-            //playerTopBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _StageManager._scale);
-
+            //enemy.Update(gameTime);
+        
             base.Update(gameTime);
         }
 
@@ -231,7 +231,6 @@ namespace Sprint0
             //Item.Draw(_spriteBatch);
             //Item2.Draw(_spriteBatch);
             _link.Draw(_spriteBatch);
-            DebugDraw.DrawHitboxes(_spriteBatch, _link, enemies, _scale);
 
             _spriteBatch.End();
 

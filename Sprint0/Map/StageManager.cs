@@ -7,6 +7,7 @@ using Sprint2.Collisions;
 using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Enemy;
 using Microsoft.Xna.Framework.Content;
+using Sprint0.Collisions;
 
 
 namespace Sprint2.Map
@@ -52,9 +53,10 @@ namespace Sprint2.Map
             _nextStageDecider.Update(StageIndex);
             _DrawDungeon.Update(StageIndex);
             _EnemyItem.Update(StageIndex, gameTime);
+            LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 1, _link._scale);
         }
 
-            public void NextStage()
+        public void NextStage()
         {
             StageIndex = _nextStageDecider.DecideStage();
         }
@@ -62,7 +64,9 @@ namespace Sprint2.Map
         public void Draw()
         {
             _DrawDungeon.Draw();
+            DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, 1, _scale);
+
         }
-        
+
     }
 }

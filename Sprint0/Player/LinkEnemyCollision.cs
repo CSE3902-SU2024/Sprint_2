@@ -4,6 +4,7 @@ using Sprint0.Interfaces;
 using System.Collections.Generic;
 using Sprint2.Enemy;
 using Sprint2.Enemy.Projectiles;
+using Sprint2.Map;
 
 namespace Sprint0.Collisions
 {
@@ -46,12 +47,13 @@ namespace Sprint0.Collisions
                 (int)(height * scale.Y)
             );
         }
-        public static void HandleCollisions(Link link, List<IEnemy> enemies, Vector2 scale)
+        public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
         {
             Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
-
-            foreach (var enemy in enemies)
-            {
+            
+                List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
+                foreach (IEnemy enemy in enemiesInRoom)
+                {
                 Rectangle enemyHitbox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height, scale);
 
                 if (linkHitbox.Intersects(enemyHitbox))
