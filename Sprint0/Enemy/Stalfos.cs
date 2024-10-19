@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using System;
 
 namespace Sprint2.Enemy
 {
@@ -19,59 +20,123 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-        private Vector2 _scale;
+        private int healthCount;
         private bool isFliped = false;
+
+        private Vector2 speed;
+        private Vector2 _scale;
+        private Random random;
+        private Boolean alive;
+        private Direction currentDirection;
+        private int randCount;
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
+
         public Stalfos(Vector2 startPosition)
         {
             position = startPosition;
             initialPosition = startPosition;
+            alive = true;
+            random = new Random();
+            SetRandomDirection();
+        }
+        public enum Direction
+        {
+            Left,
+            Right,
+            Up,
+            Down
         }
 
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
+            healthCount = 20;
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            speed = Vector2.One;
         }
 
         public void Update(GameTime gameTime)
         {
-            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            MoveStalfos();
-
-            if (timeElapsed > 0.1f)
+            if (alive)
             {
-                isFliped = !isFliped;
-                timeElapsed = 0f;
-            }
-            // Reset color after damage timer expires
-            if (damageColorTimer <= 0)
-            {
-                currentColor = Color.White;
+                randCount++;
+                timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if(randCount > 60 * random.Next(1, 3))
+                {
+                    SetRandomDirection();
+                    randCount = 0;
+                }
+                MoveStalfos();
+
+                if (timeElapsed > 0.1f)
+                {
+                    isFliped = !isFliped;
+                    timeElapsed = 0f;
+                }
+                // Reset color after damage timer expires
+                if (damageColorTimer <= 0)
+                {
+                    currentColor = Color.White;
+                }
             }
         }
 
         private void MoveStalfos()
         {
-            if (movingRight)
+            if (alive)
             {
-                position.X += 1f;
-                if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false;
-            }
-            else
-            {
-                position.X -= 1f;
-                if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true;
+                switch (currentDirection)
+                {
+                    case (Direction.Left):
+                        if (position.X - speed.X > 32 * _scale.X)
+                        {
+                            position.X -= speed.X;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Right;
+                        }
+                        break;
+                    case (Direction.Right):
+                        if (position.X + speed.X < 208 * _scale.X)
+                        {
+                            position.X += speed.X;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Left;
+                        }
+                        break;
+                    case (Direction.Up):
+                        if (position.Y - speed.Y > 32 * _scale.Y)
+                        {
+                            position.Y -= speed.Y;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Down;
+                        }
+                        break;
+                    case (Direction.Down):
+                        if (position.Y + speed.Y < 128 * _scale.Y)
+                        {
+                            position.Y += speed.Y;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Up;
+                        }
+
+                        break;
+                }
+
             }
         }
 
@@ -86,6 +151,13 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
+            healthCount -= 1;
+            if (healthCount <= 0)
+            {
+                alive = false;
+                position.X = 20000;
+                position.Y = 20000;
+            }
         }
 
         public void Reset()
@@ -96,6 +168,12 @@ namespace Sprint2.Enemy
             timeElapsed = 0f;
             damageColorTimer = 0f;
             currentColor = Color.White;
+        }
+
+        private void SetRandomDirection()
+        {
+            currentDirection = (Direction)random.Next(0, 4);
+
         }
     }
 }

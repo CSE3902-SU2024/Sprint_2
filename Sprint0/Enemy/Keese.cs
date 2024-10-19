@@ -20,7 +20,7 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-
+        private int hurtTime;
         private Vector2 speed;
         private Vector2 _scale;
         private Random random;
@@ -42,6 +42,7 @@ namespace Sprint2.Enemy
 
         public Keese(Vector2 startPosition)
         {
+            hurtTime = 2;
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
@@ -100,8 +101,9 @@ namespace Sprint2.Enemy
                     case (Direction.Left):
                         if (position.X - speed.X > 32 * _scale.X)
                         {
-                            position.X -= speed.X;   
-                        } else
+                            position.X -= speed.X;
+                        }
+                        else
                         {
                             currentDirection = Direction.Right;
                         }
@@ -110,54 +112,36 @@ namespace Sprint2.Enemy
                         if (position.X + speed.X < 214 * _scale.X)
                         {
                             position.X += speed.X;
-                        } else
+                        }
+                        else
                         {
                             currentDirection = Direction.Left;
                         }
                         break;
                     case (Direction.Up):
-                         if (position.Y - speed.Y > 32 * _scale.Y)
+                        if (position.Y - speed.Y > 32 * _scale.Y)
                         {
                             position.Y -= speed.Y;
-                        } else
+                        }
+                        else
                         {
                             currentDirection = Direction.Down;
-                        } 
+                        }
                         break;
                     case (Direction.Down):
                         if (position.Y + speed.Y < 134 * _scale.Y)
                         {
                             position.Y += speed.Y;
-                        } else
+                        }
+                        else
                         {
                             currentDirection = Direction.Up;
                         }
-                        
+
                         break;
                 }
-                if (position.Y >= 144 * _scale.Y)
-                {
-                   currentDirection = Direction.Up;
-                   position.Y = 143 * _scale.Y;
-                }
-                
-                
-               
-                
+
             }
-                //if (movingRight)
-                //{
-                //    position.X += 1f;
-                //    if (position.X >= initialPosition.X + movementRange)
-                //        movingRight = false;
-                //}
-                //else
-                //{
-                //    position.X -= 1f;
-                //    if (position.X <= initialPosition.X - movementRange)
-                //        movingRight = true;
-                //}
-            
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -173,10 +157,13 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
-            alive = false;
-            position.X = 20000;
-            position.Y = 20000;
-
+            hurtTime -= 1;
+            if (hurtTime <= 0)
+            {
+                alive = false;
+                position.X = 20000;
+                position.Y = 20000;
+            }
         }
 
         public void Reset()
