@@ -20,8 +20,8 @@ namespace Sprint2.Enemy
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
+        private bool isFliped = false;
 
-    
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
@@ -47,9 +47,9 @@ namespace Sprint2.Enemy
 
             MoveStalfos();
 
-            if (timeElapsed > timePerFrame)
+            if (timeElapsed > 0.1f)
             {
-                currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                isFliped = !isFliped;
                 timeElapsed = 0f;
             }
             // Reset color after damage timer expires
@@ -77,7 +77,8 @@ namespace Sprint2.Enemy
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            SpriteEffects spriteEffect = isFliped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
         }
 
        
