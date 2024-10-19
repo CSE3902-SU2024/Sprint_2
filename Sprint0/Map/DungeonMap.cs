@@ -26,7 +26,6 @@ namespace Sprint2.Map
             {
                 if (line.Length < 20)
                 {
-                   // continue;
                     rooms.Add(currentRoom);
                     currentRoom = new int[roomHeight, roomWidth];
                     row = 0;
@@ -37,7 +36,7 @@ namespace Sprint2.Map
                     string[] values = line.Split(',');
                     for (int col = 0; col < 12; col++)
                     {
-                        string value = values[col].Trim(); 
+                        string value = values[col].Trim();
                         if (int.TryParse(value, out int intValue))
                         {
                             currentRoom[row, col] = intValue;
@@ -49,34 +48,17 @@ namespace Sprint2.Map
                     }
                     row++;
                 }
-                //row = 0;
-                //rooms.Add(currentRoom);
-                //currentRoom = new int[roomHeight, roomWidth];
-
             }
-            Debug.WriteLine(rooms.Count);
             rooms.Add(currentRoom);
 
         }
         public int[,] GetRoom(int roomNum)
         {
-            Debug.WriteLine("room num ", roomNum);
             if (roomNum < 0 || roomNum > rooms.Count)
             {
                 throw new ArgumentOutOfRangeException("Room out of range!");
             }
-
             return rooms.ElementAt(roomNum);
-
-            //int[,] room = new int[roomHeight, roomWidth];
-            //for (int i = 0; i < roomHeight; i++)
-            //{
-            //    for (int j = 0; j < roomWidth; j++)
-            //    {
-            //        room[i, j] = rooms[roomNum, i, j];
-            //    }
-            //}
-            //return room;
         }
 
     }
