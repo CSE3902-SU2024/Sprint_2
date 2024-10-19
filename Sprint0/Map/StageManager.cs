@@ -26,11 +26,6 @@ namespace Sprint2.Map
         Enemy_Item_Map _EnemyItem;
         private Link _link;
         private Dragon dragon;
-        //private Gel gel;
-        //private Goriya goriya;
-        //private Keese keese;
-        //private Stalfos stalfos;
-        //private Stalfos stalfos;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
