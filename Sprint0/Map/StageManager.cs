@@ -30,6 +30,7 @@ namespace Sprint2.Map
         //private Goriya goriya;
         //private Keese keese;
         //private Stalfos stalfos;
+        //private Stalfos stalfos;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {

@@ -11,7 +11,7 @@ namespace Sprint2.Map
     {
         public List<int[]> doors;
         static int doorLength;
-
+      
         public DoorMap(String filename)
         {
             string[] lines = File.ReadAllLines(filename);

@@ -28,13 +28,13 @@ namespace Sprint2.Map
             string[] lines = File.ReadAllLines(filename);
 
             rooms = new List<int[,]>();
-            _EnemyMap = new List<List<IEnemy>>();
+            _EnemyMap = new List<List<IEnemy>>();   
             roomHeight = 7;
             roomWidth = 12;
             _scale = scale;
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
-
+            
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
 
@@ -136,3 +136,4 @@ namespace Sprint2.Map
         }
     }
 }
+

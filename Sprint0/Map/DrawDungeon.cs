@@ -14,7 +14,7 @@ namespace Sprint2.Map
         private Texture2D _texture;
         private SpriteBatch _spriteBatch;
         private Vector2 _scale;
-        private int stage;  
+        private int stage;
         private DoorDecoder _doorDecoder;
         private DoorMap _doorMap;
         private DungeonMap _dungeonMap;
@@ -39,10 +39,10 @@ namespace Sprint2.Map
 
         public void Update(int currentStage)
         {
-               stage = currentStage;
+                stage = currentStage;
         }
 
-        private int[] GetDoor(int currentStage) {
+        private int[] GetDoor(int currentStage) { 
             return _doorMap.GetDoors(currentStage);
         }
 
@@ -136,5 +136,6 @@ namespace Sprint2.Map
                 enemy.Draw(_spriteBatch);
             }
         }
+
     }
 }
