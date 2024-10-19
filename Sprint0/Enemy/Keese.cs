@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using System;
 
 namespace Sprint2.Enemy
 {
@@ -19,8 +20,21 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-        private Vector2 _scale;
 
+        private Vector2 speed;
+        private Vector2 _scale;
+        private Random random;
+        private Boolean alive;
+        private Direction currentDirection;
+        private int randCount;
+        
+        public enum Direction
+        {
+            Left,
+            Right,
+            Up,
+            Down
+        }
    
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
@@ -30,6 +44,10 @@ namespace Sprint2.Enemy
         {
             position = startPosition;
             initialPosition = startPosition;
+            alive = true;
+            random = new Random();
+            SetRandomDirection(); 
+
         }
 
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
@@ -38,46 +56,116 @@ namespace Sprint2.Enemy
             sourceRectangles = SpriteSheetHelper.CreateKeeseFrames();
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            speed = Vector2.One;
         }
 
         public void Update(GameTime gameTime)
         {
-            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            MoveKeese();
-
-            if (timeElapsed > timePerFrame)
+            if (alive)
             {
-                currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                timeElapsed = 0f;
+                randCount++;
+                timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (randCount > 60* random.Next(1, 3))
+                {
+                    SetRandomDirection();
+                    randCount = 0;
+                }
+                MoveKeese();
+
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                    timeElapsed = 0f;
+                }
+                // Reset color after damage timer expires
+                if (damageColorTimer <= 0)
+                {
+                    currentColor = Color.White;
+                }
             }
-            // Reset color after damage timer expires
-            if (damageColorTimer <= 0)
-            {
-                currentColor = Color.White;
-            }
+        }
+        private void SetRandomDirection()
+        {
+            currentDirection = (Direction)random.Next(0,4);
+            
         }
 
         private void MoveKeese()
         {
-            if (movingRight)
+            if (alive)
             {
-                position.X += 1f;
-                if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false;
+                switch (currentDirection)
+                {
+                    case (Direction.Left):
+                        if (position.X - speed.X > 32 * _scale.X)
+                        {
+                            position.X -= speed.X;   
+                        } else
+                        {
+                            currentDirection = Direction.Right;
+                        }
+                        break;
+                    case (Direction.Right):
+                        if (position.X + speed.X < 214 * _scale.X)
+                        {
+                            position.X += speed.X;
+                        } else
+                        {
+                            currentDirection = Direction.Left;
+                        }
+                        break;
+                    case (Direction.Up):
+                         if (position.Y - speed.Y > 32 * _scale.Y)
+                        {
+                            position.Y -= speed.Y;
+                        } else
+                        {
+                            currentDirection = Direction.Down;
+                        } 
+                        break;
+                    case (Direction.Down):
+                        if (position.Y + speed.Y < 134 * _scale.Y)
+                        {
+                            position.Y += speed.Y;
+                        } else
+                        {
+                            currentDirection = Direction.Up;
+                        }
+                        
+                        break;
+                }
+                if (position.Y >= 144 * _scale.Y)
+                {
+                   currentDirection = Direction.Up;
+                   position.Y = 143 * _scale.Y;
+                }
+                
+                
+               
+                
             }
-            else
-            {
-                position.X -= 1f;
-                if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true;
-            }
+                //if (movingRight)
+                //{
+                //    position.X += 1f;
+                //    if (position.X >= initialPosition.X + movementRange)
+                //        movingRight = false;
+                //}
+                //else
+                //{
+                //    position.X -= 1f;
+                //    if (position.X <= initialPosition.X - movementRange)
+                //        movingRight = true;
+                //}
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            if (alive)
+            {
+                spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            }
         }
 
      
@@ -85,12 +173,15 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
+            alive = false;
+            position.X = 20000;
+            position.Y = 20000;
+
         }
 
         public void Reset()
         {
             position = initialPosition;
-            movingRight = true;
             currentFrame = 0;
             timeElapsed = 0f;
             damageColorTimer = 0f;
