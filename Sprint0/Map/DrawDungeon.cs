@@ -4,6 +4,9 @@ using Sprint0.Player;
 using Sprint2.Collisions;
 using System.Collections.Generic;
 using Sprint2.Enemy;
+using Sprint0.Collisions;
+using System;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint2.Map
 {
@@ -34,6 +37,7 @@ namespace Sprint2.Map
             _doorMap = doorMap;
             _dungeonMap = dungeon;
             _EnemyItem = enemy_Item_Map;
+            //_EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
 
         }
 
@@ -107,6 +111,7 @@ namespace Sprint2.Map
         public void DrawTiles(int[,] room)
         {
             Vector2 tilePosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
+            List<IEnemy> enemiesInRoom = _EnemyItem.GetEnemies(0);
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 12; j++)
@@ -118,8 +123,21 @@ namespace Sprint2.Map
                     // Collision for all the tiles for 1
                     if (tileIdx == 1)
                     {
-                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 16, 16);
+                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 14, 14);
                         playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+
+                        //HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
+                        //enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
+
+                        foreach (IEnemy enemy in enemiesInRoom)
+                        {
+                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
+                            enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
+                        }
+
+                        //EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
+
+                        //LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 0, _link._scale);
                     }
 
                     tilePosition.X += 16 * _scale.X;
