@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
+using Sprint0.Player;
 
 namespace Sprint2.Map
 {
@@ -22,8 +23,8 @@ namespace Sprint2.Map
         private Vector2 _scale;
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
-        public KeyboardController _keyboardController;
-        public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content)
+        public Link _link;
+        public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -34,6 +35,7 @@ namespace Sprint2.Map
             _scale = scale;
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
+            _link = link;
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
@@ -108,12 +110,12 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Item fire = new Item(ItemPosition, 0);
-                            fire.LoadContent(_ContentManager, "zeldaLink", _GraphicsDevice, ItemType.attackable);
+                            Item fire = new Item(ItemPosition, 0, _link);
+                            fire.LoadContent(_ContentManager, "zeldaLink", _GraphicsDevice, ItemType.fire);
                             ItemsInRoom.Add(fire);
                             break;
                         case 2:
-                            Item unattack = new Item(ItemPosition, 10);
+                            Item unattack = new Item(ItemPosition, 10, _link);
                             unattack.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.unattackable);
                             ItemsInRoom.Add(unattack);
                             break;
@@ -141,7 +143,7 @@ namespace Sprint2.Map
             List<Iitem> items = GetItems(currentStage);
             foreach (Iitem item in items)
             {
-                item.Update(gameTime, _keyboardController);
+                item.Update(gameTime);
             }
         }
     }

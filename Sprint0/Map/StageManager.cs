@@ -8,6 +8,7 @@ using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Enemy;
 using Microsoft.Xna.Framework.Content;
 using Sprint0.Collisions;
+using Sprint0.Classes;
 
 
 namespace Sprint2.Map
@@ -28,6 +29,7 @@ namespace Sprint2.Map
         ItemMap _ItemMap;
         private Link _link;
         private Dragon dragon;
+        private KeyboardController keyboardController;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
@@ -41,7 +43,7 @@ namespace Sprint2.Map
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
-            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content);
+            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
@@ -52,9 +54,11 @@ namespace Sprint2.Map
 
         public void Update(GameTime gameTime)
         {
+           
             _nextStageDecider.Update(StageIndex);
             _DrawDungeon.Update(StageIndex);
             _EnemyItem.Update(StageIndex, gameTime);
+            _ItemMap.Update(StageIndex, gameTime);
             LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 0, _link._scale);
         }
 

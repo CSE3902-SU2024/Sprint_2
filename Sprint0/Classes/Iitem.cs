@@ -14,11 +14,11 @@ namespace Sprint2.Classes
     {
         public enum ItemType
         {
-            attackable,
+            fire,
             unattackable
         }
         void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType);
-        void Update(GameTime gameTime, KeyboardController keyboardController);
+        void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }
 }

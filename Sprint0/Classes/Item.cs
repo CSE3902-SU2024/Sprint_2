@@ -12,14 +12,17 @@ using Microsoft.Xna.Framework.Content;
 using Sprint2.Enemy;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
+using Sprint0.Player;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint0.Classes
 {
     internal class Item: Iitem
     {
+        public Link _link;
         public Texture2D Sprite;
         public Rectangle[][] SourceRectangles;
-        public Vector2 Position { get; set; }
+        public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         public float Speed { get; set; }
         private int itemFrame;
@@ -32,7 +35,7 @@ namespace Sprint0.Classes
         
         public ItemType currentItemType { get; set; }
         
-        public Item(Vector2 position, float speed)
+        public Item(Vector2 position, float speed, Link link)
         {
 
             Position = position;
@@ -40,7 +43,17 @@ namespace Sprint0.Classes
             Speed = speed;
             itemFrame = 0;
             distanceMoved = 0f;
+            _link = link;
             
+        }
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
         }
 
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType)
@@ -52,16 +65,16 @@ namespace Sprint0.Classes
                 SourceRectangles = SpriteSheetHelper.CreateUnattackItemFrames(); 
                 currentItemType = ItemType.unattackable;
             }
-            else if (itemType == ItemType.attackable)
+            else if (itemType == ItemType.fire)
             {
                 SourceRectangles = SpriteSheetHelper.CreateAttackItemFrames(); 
-                currentItemType = ItemType.attackable;
+                currentItemType = ItemType.fire;
             }
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
-        public void Update(GameTime gameTime, KeyboardController keyboardController)
+        public void Update(GameTime gameTime)
         {
             // simple movement reset the position when move for certain distance
             Vector2 movement = new Vector2(Speed, 0) * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -73,15 +86,15 @@ namespace Sprint0.Classes
                 distanceMoved = 0f;  // Reset the distance counter
             }
 
-            if (keyboardController.previousItem)
-            {
-                itemFrame = (itemFrame - 1 + SourceRectangles.Length) % SourceRectangles.Length;
-            }
+            //if (keyboardController.previousItem)
+            //{
+            //    itemFrame = (itemFrame - 1 + SourceRectangles.Length) % SourceRectangles.Length;
+            //}
 
-            if (keyboardController.nextItem)
-            {
-                itemFrame = (itemFrame + 1) % SourceRectangles.Length;
-            }
+            //if (keyboardController.nextItem)
+            //{
+            //    itemFrame = (itemFrame + 1) % SourceRectangles.Length;
+            //}
 
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeElapsed > timePerFrame)
@@ -89,11 +102,23 @@ namespace Sprint0.Classes
                 currentFrame = (currentFrame + 1) % SourceRectangles[itemFrame].Length;
                 timeElapsed = 0f;
             }
+
+            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+            Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+            if (playerBoundingBox.Intersects(itemBoundingBox) && currentItemType == ItemType.fire)
+            {
+                _link.TakeDamage();
+            }
+            else if (playerBoundingBox.Intersects(itemBoundingBox) && currentItemType == ItemType.unattackable)
+            {
+                Position.X += 20000;
+                Position.Y += 20000;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (currentItemType == ItemType.attackable && currentFrame == 1)
+            if (currentItemType == ItemType.fire && currentFrame == 1)
             {
                 spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.FlipHorizontally, 0f);
             }
