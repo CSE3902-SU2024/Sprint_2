@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using static System.Reflection.Metadata.BlobBuilder;
 using Microsoft.Xna.Framework.Content;
 using Sprint2.Enemy;
+using Sprint2.Classes;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
 {
-    internal class Item
+    internal class Item: Iitem
     {
         public Texture2D Sprite;
         public Rectangle[][] SourceRectangles;
@@ -23,16 +25,13 @@ namespace Sprint0.Classes
         private int itemFrame;
         private float distanceMoved;
         private const float MovementThreshold = 500f;
-        private const float scale = 4.0f;
+        public Vector2 _scale;
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
+        
         public ItemType currentItemType { get; set; }
-        public enum ItemType
-        {
-            attackable,
-            unattackable
-        }
+        
         public Item(Vector2 position, float speed)
         {
 
@@ -44,7 +43,7 @@ namespace Sprint0.Classes
             
         }
 
-        public void LoadContent(ContentManager content, string texturePath, ItemType itemType)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType)
         {
             Sprite = content.Load<Texture2D>(texturePath);
             
@@ -57,8 +56,9 @@ namespace Sprint0.Classes
             {
                 SourceRectangles = SpriteSheetHelper.CreateAttackItemFrames(); 
                 currentItemType = ItemType.attackable;
-
             }
+            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
         }
 
         public void Update(GameTime gameTime, KeyboardController keyboardController)
@@ -95,11 +95,11 @@ namespace Sprint0.Classes
         {
             if (currentItemType == ItemType.attackable && currentFrame == 1)
             {
-                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
             }
             

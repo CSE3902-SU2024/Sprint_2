@@ -7,6 +7,7 @@ using Sprint2.Enemy;
 using Sprint0.Collisions;
 using System;
 using static System.Formats.Asn1.AsnWriter;
+using Sprint2.Classes;
 
 namespace Sprint2.Map
 {
@@ -23,8 +24,9 @@ namespace Sprint2.Map
         private DungeonMap _dungeonMap;
         private SpriteEffects _spriteEffects;
         private Enemy_Item_Map _EnemyItem;
+        private ItemMap _itemMap;
 
-        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, DungeonMap dungeon, DoorMap doorMap, Enemy_Item_Map enemy_Item_Map)
+        public DrawDungeon(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, DungeonMap dungeon, DoorMap doorMap, Enemy_Item_Map enemy_Item_Map, ItemMap itemMap)
         {
             _sourceRectangles = sourceRectangles;
             _texture = texture;
@@ -37,6 +39,7 @@ namespace Sprint2.Map
             _doorMap = doorMap;
             _dungeonMap = dungeon;
             _EnemyItem = enemy_Item_Map;
+            _itemMap = itemMap;
             //_EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
 
         }
@@ -59,6 +62,11 @@ namespace Sprint2.Map
             return _EnemyItem.GetEnemies(currentStage);
         }
 
+        private List<Iitem> Getitems(int currentStage)
+        {
+            return _itemMap.GetItems(currentStage);
+        }
+
         public void Draw()
         {
             DrawWalls();
@@ -66,6 +74,7 @@ namespace Sprint2.Map
             DrawTiles(GetStage(stage));
             DrawDoors(GetDoor(stage));
             DrawEnemies(GetEnemies(stage));
+            DrawItems(Getitems(stage));
         }
         public void DrawWalls()
         {
@@ -153,6 +162,13 @@ namespace Sprint2.Map
             foreach (IEnemy enemy in enemies)
             {
                 enemy.Draw(_spriteBatch);
+            }
+        }
+        public void DrawItems(List<Iitem> items)
+        {
+            foreach (Iitem item in items)
+            {
+                item.Draw(_spriteBatch);
             }
         }
 

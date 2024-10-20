@@ -25,6 +25,7 @@ namespace Sprint2.Map
         DungeonMap _DungeonMap;
         DoorMap _DoorMap;
         Enemy_Item_Map _EnemyItem;
+        ItemMap _ItemMap;
         private Link _link;
         private Dragon dragon;
 
@@ -40,9 +41,10 @@ namespace Sprint2.Map
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
+            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
-            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem);
+            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
 

@@ -11,6 +11,7 @@ using System.IO;
 using Sprint2.Collisions;
 using Sprint2.Enemy;
 using static System.Formats.Asn1.AsnWriter;
+using static Sprint2.Classes.Iitem;
 
 
 
@@ -138,10 +139,10 @@ namespace Sprint0
             //Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
 
             //Item2 = new Item(new Vector2(600, 100), 0f);
-            //Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
+            //Item2.LoadContent(Content, "zeldaLink", GraphicsDevice, ItemType.attackable);
 
 
-            
+
 
         }
 
@@ -164,11 +165,11 @@ namespace Sprint0
             animatedBlock.LoadContent(Content, "DungeonSheet");
 
             //Item texure
-            Item = new Item(new Vector2(200, 200), 50f);
-            Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
+            //Item = new Item(new Vector2(200, 200), 50f);
+            //Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", GraphicsDevice, ItemType.unattackable);
 
-            Item2 = new Item(new Vector2(600, 100), 0f);
-            Item2.LoadContent(Content, "zeldaLink", Item.ItemType.attackable);
+            //Item2 = new Item(new Vector2(600, 100), 0f);
+            //Item2.LoadContent(Content, "zeldaLink", GraphicsDevice, ItemType.attackable);
 
             //// Reset enemy positions
             //enemy = enemies[0];
