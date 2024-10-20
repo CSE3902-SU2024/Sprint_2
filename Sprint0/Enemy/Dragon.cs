@@ -25,7 +25,7 @@ namespace Sprint2.Enemy
         private float fireballCooldown = 1f;
         private float timeSinceLastShot;
         private Vector2 _scale;
-
+        private int health;
 
 
         private Rectangle[] fireballRectangles; 
@@ -39,6 +39,7 @@ namespace Sprint2.Enemy
         public List<Fireball> fireballs { get; private set; }
         public Dragon(Vector2 startPosition)
         {
+            health = 100;
             position = startPosition;
             initialPosition = startPosition;
             fireballs = new List<Fireball>();
@@ -161,8 +162,14 @@ namespace Sprint2.Enemy
        
         public void TakeDamage()
         {
+            health -= 1;
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
+            if (health <= 0)
+            {
+                position.X = 20000;
+                position.Y = 20000;
+            }   
         }
     }
 }

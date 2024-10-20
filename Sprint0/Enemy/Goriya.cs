@@ -24,13 +24,15 @@ namespace Sprint2.Enemy
         private bool movingDown = false;
         private float movementRange = 100f;
 
+        private int health;
         private bool hasThrownBoomerang = false;
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;
         private float boomerangTimer = 0f;
 
         private float timeElapsed;
-        private bool isFlipped = false; 
+        private bool isFlipped = false;
+        private bool alive;
         private Color currentColor = Color.White;
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
@@ -48,12 +50,14 @@ namespace Sprint2.Enemy
 
         public Goriya(Vector2 startPosition)
         {
+            health = 35;
+            alive = true;
             position = startPosition;
             initialPosition = startPosition;
             projectiles = new List<Boomerang>();
         }
 
-       
+
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
@@ -65,6 +69,7 @@ namespace Sprint2.Enemy
 
         public void Update(GameTime gameTime)
         {
+            if (alive) { 
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
             damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -115,7 +120,7 @@ namespace Sprint2.Enemy
                 }
             }
         }
-
+    }
 
         private void MoveGoriya(GameTime gameTime)
         {
@@ -200,6 +205,13 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
+            health -= 1;
+            if(health <= 0)
+            {
+                alive = false;
+                position.X = 20000;
+                position.Y = 20000;
+            }
         }
 
 

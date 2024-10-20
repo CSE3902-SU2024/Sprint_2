@@ -35,6 +35,7 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
+
         public Stalfos(Vector2 startPosition)
         {
             position = startPosition;
