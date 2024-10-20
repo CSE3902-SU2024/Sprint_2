@@ -117,6 +117,16 @@ namespace Sprint2.Map
                             stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
                             EnemiesInRoom.Add(stalfos);
                             break;
+                        case 3:
+                            Goriya goriya = new Goriya(EnemyPosition);
+                            goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            EnemiesInRoom.Add(goriya);
+                            break;
+                        case 4:
+                            Dragon dragon = new Dragon(EnemyPosition);
+                            dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice);
+                            EnemiesInRoom.Add(dragon);
+                            break;
                     }
                     EnemyPosition.X += 16 * _scale.X;
                 }
