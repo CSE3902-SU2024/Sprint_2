@@ -123,7 +123,8 @@ namespace Sprint2.Map
                     // Collision for all the tiles for 1
                     if (tileIdx == 1)
                     {
-                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, tilePosition, 16, 16, 14, 14);
+                        Vector2 EasierAccessTilePosition = tilePosition + new Vector2(3, 3);
+                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
                         playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
 
                         //HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
@@ -131,7 +132,7 @@ namespace Sprint2.Map
 
                         foreach (IEnemy enemy in enemiesInRoom)
                         {
-                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
+                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(EasierAccessTilePosition, 16, 16, 13, 13);
                             enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
                         }
 
