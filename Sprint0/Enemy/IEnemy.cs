@@ -18,6 +18,9 @@ namespace Sprint2.Enemy
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void TakeDamage();
+
+       
         void Reset();
+
     }
 }
