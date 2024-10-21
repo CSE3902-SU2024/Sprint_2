@@ -87,6 +87,8 @@ namespace Sprint2.Enemy
             damageColorTimer = DAMAGE_COLOR_DURATION;
         }
 
+        
+
         public void Reset()
         {
             position = initialPosition;

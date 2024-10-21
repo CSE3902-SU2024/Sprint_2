@@ -59,7 +59,7 @@ namespace Sprint2.Map
             _DrawDungeon.Update(StageIndex);
             _EnemyItem.Update(StageIndex, gameTime);
             _ItemMap.Update(StageIndex, gameTime);
-            LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 0, _link._scale);
+            LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
         }
 
         public void NextStage()
@@ -70,7 +70,7 @@ namespace Sprint2.Map
         public void Draw()
         {
             _DrawDungeon.Draw();
-            DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, 0, _scale);
+            DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
 
         }
 

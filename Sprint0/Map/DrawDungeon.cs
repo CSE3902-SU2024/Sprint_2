@@ -142,7 +142,7 @@ namespace Sprint2.Map
                         foreach (IEnemy enemy in enemiesInRoom)
                         {
                             HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(EasierAccessTilePosition, 16, 16, 13, 13);
-                            enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
+                            enemyBlockCollision.EnemyBlockCollision(_EnemyItem, stage, _scale);
                         }
 
                         //EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
