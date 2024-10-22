@@ -96,7 +96,6 @@ namespace Sprint0.Classes
             if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
             {
                 _StageManager.NextStage();
-                Debug.WriteLine("Called");
             }
 
 
