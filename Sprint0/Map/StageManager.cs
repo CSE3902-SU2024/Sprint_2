@@ -28,8 +28,6 @@ namespace Sprint2.Map
         Enemy_Item_Map _EnemyItem;
         ItemMap _ItemMap;
         private Link _link;
-        private Dragon dragon;
-        private KeyboardController keyboardController;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
