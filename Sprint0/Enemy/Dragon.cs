@@ -5,6 +5,8 @@ using Sprint0.Classes;
 using System;
 using Sprint2.Enemy.Projectiles;
 using System.Collections.Generic;
+using Sprint0.Player;
+using Microsoft.VisualBasic;
 
 namespace Sprint2.Enemy
 {
@@ -26,6 +28,13 @@ namespace Sprint2.Enemy
         private float timeSinceLastShot;
         private Vector2 _scale;
         private int health;
+        //public bool CollideWall = false;
+        //private Rectangle wallLeftBoundingBox;
+        //private Rectangle wallRightBoundingBox;
+        //private Rectangle wallUpBoundingBox;
+        //private Rectangle wallDownBoundingBox;
+        //private Rectangle dragonBoundingBox;
+        private Link _link;
 
 
         private Rectangle[] fireballRectangles; 
@@ -45,7 +54,17 @@ namespace Sprint2.Enemy
             fireballs = new List<Fireball>();
         }
 
-      
+        private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
+        {
+            return new Rectangle(
+                x,
+                y,
+                (int)(width * scale.X),
+                (int)(height * scale.Y)
+            );
+        }
+
+
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
@@ -62,6 +81,18 @@ namespace Sprint2.Enemy
             damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             MoveDragon();
+
+            //CollideWall = false;
+            //wallLeftBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
+            //wallRightBoundingBox = new Rectangle((int)(224 * _link._scale.X), (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
+            //wallUpBoundingBox = new Rectangle(0, 0, (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
+            //wallDownBoundingBox = new Rectangle(0, (int)(144 * _link._scale.Y), (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
+
+            //dragonBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 24, 32, _link._scale);
+            //if (dragonBoundingBox.Intersects(wallLeftBoundingBox) || dragonBoundingBox.Intersects(wallRightBoundingBox) || dragonBoundingBox.Intersects(wallUpBoundingBox) || dragonBoundingBox.Intersects(wallDownBoundingBox))
+            //{
+            //    CollideWall = true;
+            //}
 
             if (timeElapsed > timePerFrame)
             {
@@ -105,13 +136,31 @@ namespace Sprint2.Enemy
                 position.X += 1f;
                 if (position.X >= initialPosition.X + movementRange)
                     movingRight = false;
+                if (position.X <= (32))
+                {
+                    position.X -= 1f; 
+                }
             }
             else
             {
                 position.X -= 1f;
                 if (position.X <= initialPosition.X - movementRange)
                     movingRight = true;
+                if (position.X >= (224))
+                {
+                    position.X += 1f;
+                }
             }
+
+            //if (!CollideWall)
+            //{
+            //    _link._position.X -= _link.speed;
+            //}
+            //else
+            //{
+            //    _link._position.X -= intersection.Width;
+            //}
+
         }
 
       
