@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using System;
 
 namespace Sprint2.Enemy
 {
@@ -21,8 +22,13 @@ namespace Sprint2.Enemy
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
         private int Health;
+        private Boolean alive;
+        private Direction currentDirection;
+        private Random random;
+        private Vector2 speed;
+        private int randCount;
 
-       
+
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 8;
         public int Height { get; } = 16;
@@ -32,6 +38,18 @@ namespace Sprint2.Enemy
             Health = 5;
             position = startPosition;
             initialPosition = startPosition;
+            alive = true;
+            random = new Random();
+            randCount = 0;
+            SetRandomDirection();
+        }
+
+        public enum Direction
+        {
+            Left,
+            Right,
+            Up,
+            Down
         }
 
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
@@ -40,41 +58,94 @@ namespace Sprint2.Enemy
             sourceRectangles = SpriteSheetHelper.CreateGelFrames();
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            speed = Vector2.One;
         }
 
         public void Update(GameTime gameTime)
         {
-            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            MoveGel();
-
-            if (timeElapsed > timePerFrame)
+            if (alive)
             {
-                currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                timeElapsed = 0f;
-            }
-            
-            if (damageColorTimer <= 0)
-            {
-                currentColor = Color.White;
+                randCount++;
+                timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (randCount > 60 * random.Next(1, 3))
+                {
+                    SetRandomDirection();
+                    randCount = 0;
+                }
+                MoveGel();
+
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                    timeElapsed = 0f;
+                }
+
+                if (damageColorTimer <= 0)
+                {
+                    currentColor = Color.White;
+                }
             }
         }
 
         private void MoveGel()
         {
-            if (movingRight)
+            if (alive)
             {
-                position.X += 1f;
-                if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false;
+                switch (currentDirection)
+                {
+
+                    case (Direction.Left):
+                        //if(!blocked){
+                        if (position.X - speed.X > 32 * _scale.X)
+                        {
+                            position.X -= speed.X;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Right;
+                        }
+                        break;
+                    case (Direction.Right):
+                        if (position.X + speed.X < 214 * _scale.X)
+                        {
+                            position.X += speed.X;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Left;
+                        }
+                        break;
+                    case (Direction.Up):
+                        if (position.Y - speed.Y > 32 * _scale.Y)
+                        {
+                            position.Y -= speed.Y;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Down;
+                        }
+                        break;
+                    case (Direction.Down):
+                        if (position.Y + speed.Y < 134 * _scale.Y)
+                        {
+                            position.Y += speed.Y;
+                        }
+                        else
+                        {
+                            currentDirection = Direction.Up;
+                        }
+
+                        break;
+                }
+
             }
-            else
-            {
-                position.X -= 1f;
-                if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true;
-            }
+        }
+
+        private void SetRandomDirection()
+        {
+            currentDirection = (Direction)random.Next(0, 4);
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -88,6 +159,7 @@ namespace Sprint2.Enemy
             Health--;
             if (Health <= 0)
             {
+                alive = false;
                 position.X = 10000;
                 position.Y = 10000;
             }
@@ -105,6 +177,7 @@ namespace Sprint2.Enemy
             timeElapsed = 0f;
             damageColorTimer = 0f;
             currentColor = Color.White;
+            alive = true;
         }
     }
 }
