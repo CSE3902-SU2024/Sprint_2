@@ -20,6 +20,7 @@ namespace Sprint2.Enemy
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
+        private int Health;
 
        
         public Vector2 Position { get => position; set => position = value; }
@@ -28,6 +29,7 @@ namespace Sprint2.Enemy
 
         public Gel(Vector2 startPosition)
         {
+            Health = 5;
             position = startPosition;
             initialPosition = startPosition;
         }
@@ -83,6 +85,12 @@ namespace Sprint2.Enemy
       
         public void TakeDamage()
         {
+            Health--;
+            if (Health <= 0)
+            {
+                position.X = 10000;
+                position.Y = 10000;
+            }
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
         }

@@ -127,6 +127,11 @@ namespace Sprint2.Map
                             dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice);
                             EnemiesInRoom.Add(dragon);
                             break;
+                        case 5:
+                           Gel gel = new Gel(EnemyPosition);
+                            gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            EnemiesInRoom.Add(gel);
+                            break;
                     }
                     EnemyPosition.X += 16 * _scale.X;
                 }
