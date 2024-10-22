@@ -220,6 +220,8 @@ namespace Sprint2.Enemy
                 position.Y = 20000;
             }   
         }
+
+       
     }
 }
 

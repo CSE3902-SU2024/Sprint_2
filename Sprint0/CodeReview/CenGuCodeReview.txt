@@ -1,3 +1,8 @@
-﻿Enemy.cs Hengkai
+﻿Cen GU's Code Review. 
 
-Hengkai use list to load different enemies from different sprite sheets which is a good way to solve the problem about there are different boss on the different sheet and use enum to check the status of the enemies which cause each enemy has its own moving and attacking patterns but it cause the LoadContent to become too complicated to load it
+Hengkai's Enemy
+
+Hengkai refactor the enemy code and seperate each enemy to make sure add to list without show everything at one time. 
+even though it is not invisible in previous code, but it influenced the hitbox.
+Hengkai seperate them and load it by number, it helps solve that problem without load everything in one time.
+

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint0.Player;
+using Sprint2.Enemy;
 using System.Diagnostics;
 using System.Transactions;
 
@@ -11,6 +12,7 @@ namespace Sprint2.Map
         private Vector2 _scale;
         private int _stage;
         private DoorMap _doorMap;
+        
 
 
         public NextStageDecider(Link link, Vector2 scale, DoorMap doorMap)
@@ -25,7 +27,7 @@ namespace Sprint2.Map
             _stage = stage;
         }
 
-
+        
 
         public int DecideStage()
         {

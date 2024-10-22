@@ -110,25 +110,71 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Item fire = new Item(ItemPosition, 0, _link);
+                            Item fire = new Item(ItemPosition, _link);
                             fire.LoadContent(_ContentManager, "zeldaLink", _GraphicsDevice, ItemType.fire);
                             ItemsInRoom.Add(fire);
                             break;
                         case 2:
-                            Item unattack = new Item(ItemPosition, 10, _link);
-                            unattack.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.unattackable);
-                            ItemsInRoom.Add(unattack);
+                            Item health = new Item(ItemPosition, _link);
+                            health.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.health);
+                            ItemsInRoom.Add(health);
                             break;
-                            //case 3:
-                            //    Goriya goriya = new Goriya(EnemyPosition);
-                            //    goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
-                            //    EnemiesInRoom.Add(goriya);
-                            //    break;
-                            //case 4:
-                            //    Dragon dragon = new Dragon(EnemyPosition);
-                            //    dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice);
-                            //    EnemiesInRoom.Add(dragon);
-                            //    break;
+                        case 3:
+                            Item heart = new Item(ItemPosition, _link);
+                            heart.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.heart);
+                            ItemsInRoom.Add(heart);
+                            break;
+                        case 4:
+                            Item clock = new Item(ItemPosition, _link);
+                            clock.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.clock);
+                            ItemsInRoom.Add(clock);
+                            break;
+                        case 5:
+                            Item fairy = new Item(ItemPosition, _link);
+                            fairy.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.fairy);
+                            ItemsInRoom.Add(fairy);
+                            break;
+                        case 6:
+                            Item diamond = new Item(ItemPosition, _link);
+                            diamond.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.diamond);
+                            ItemsInRoom.Add(diamond);
+                            break;
+                        case 7:
+                            Item potion = new Item(ItemPosition, _link);
+                            potion.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.potion);
+                            ItemsInRoom.Add(potion);
+                            break;
+                        case 8:
+                            Item triangle = new Item(ItemPosition, _link);
+                            triangle.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.triangle);
+                            ItemsInRoom.Add(triangle);
+                            break;
+                        case 9:
+                            Item map = new Item(ItemPosition, _link);
+                            map.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.map);
+                            ItemsInRoom.Add(map);
+                            break;
+                        case 10:
+                            Item key = new Item(ItemPosition, _link);
+                            key.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.key);
+                            ItemsInRoom.Add(key);
+                            break;
+                        case 11:
+                            Item bow = new Item(ItemPosition, _link);
+                            bow.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.bow);
+                            ItemsInRoom.Add(bow);
+                            break;
+                        case 12:
+                            Item boom = new Item(ItemPosition, _link);
+                            boom.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.boom);
+                            ItemsInRoom.Add(boom);
+                            break;
+                        case 13:
+                            Item compass = new Item(ItemPosition, _link);
+                            compass.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.compass);
+                            ItemsInRoom.Add(compass);
+                            break;
+
                     }
                     ItemPosition.X += 16 * _scale.X;
                 }

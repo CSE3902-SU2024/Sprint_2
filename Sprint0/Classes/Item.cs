@@ -21,13 +21,10 @@ namespace Sprint0.Classes
     {
         public Link _link;
         public Texture2D Sprite;
-        public Rectangle[][] SourceRectangles;
+        public Rectangle[] SourceRectangles;
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
-        public float Speed { get; set; }
         private int itemFrame;
-        private float distanceMoved;
-        private const float MovementThreshold = 500f;
         public Vector2 _scale;
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
@@ -35,14 +32,11 @@ namespace Sprint0.Classes
         
         public ItemType currentItemType { get; set; }
         
-        public Item(Vector2 position, float speed, Link link)
+        public Item(Vector2 position, Link link)
         {
 
             Position = position;
             OriginalPosition = position;
-            Speed = speed;
-            itemFrame = 0;
-            distanceMoved = 0f;
             _link = link;
             
         }
@@ -59,16 +53,71 @@ namespace Sprint0.Classes
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType)
         {
             Sprite = content.Load<Texture2D>(texturePath);
-            
-            if (itemType == ItemType.unattackable)
+
+            if (itemType == ItemType.health)
             {
-                SourceRectangles = SpriteSheetHelper.CreateUnattackItemFrames(); 
-                currentItemType = ItemType.unattackable;
+                SourceRectangles = SpriteSheetHelper.CreateHealthItemFrames(); 
+                currentItemType = ItemType.health;
             }
             else if (itemType == ItemType.fire)
             {
-                SourceRectangles = SpriteSheetHelper.CreateAttackItemFrames(); 
+                SourceRectangles = SpriteSheetHelper.CreateFireItemFrames(); 
                 currentItemType = ItemType.fire;
+            }
+            else if (itemType == ItemType.bow)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateBowleItemFrames();
+                currentItemType = ItemType.bow;
+            }
+            else if (itemType == ItemType.boom)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateBoomleItemFrames();
+                currentItemType = ItemType.boom;
+            }
+            else if (itemType == ItemType.compass)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateCompassleItemFrames();
+                currentItemType = ItemType.compass;
+            }
+            else if (itemType == ItemType.triangle)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateTriangleItemFrames();
+                currentItemType = ItemType.triangle;
+            }
+            else if (itemType == ItemType.key)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateKeyItemFrames();
+                currentItemType = ItemType.key;
+            }
+            else if (itemType == ItemType.fairy)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateFairyItemFrames();
+                currentItemType = ItemType.fairy;
+            }
+            else if (itemType == ItemType.clock)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateClockItemFrames();
+                currentItemType = ItemType.clock;
+            }
+            else if (itemType == ItemType.diamond)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateDiamondItemFrames();
+                currentItemType = ItemType.diamond;
+            }
+            else if (itemType == ItemType.potion)
+            {
+                SourceRectangles = SpriteSheetHelper.CreatePotionItemFrames();
+                currentItemType = ItemType.potion;
+            }
+            else if (itemType == ItemType.map)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateMapItemFrames();
+                currentItemType = ItemType.map;
+            }
+            else if (itemType == ItemType.heart)
+            {
+                SourceRectangles = SpriteSheetHelper.CreateHeartItemFrames();
+                currentItemType = ItemType.heart;
             }
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
@@ -76,30 +125,11 @@ namespace Sprint0.Classes
 
         public void Update(GameTime gameTime)
         {
-            // simple movement reset the position when move for certain distance
-            Vector2 movement = new Vector2(Speed, 0) * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += movement;
-            distanceMoved += movement.Length();
-            if (distanceMoved >= MovementThreshold)
-            {
-                Position = OriginalPosition;
-                distanceMoved = 0f;  // Reset the distance counter
-            }
-
-            //if (keyboardController.previousItem)
-            //{
-            //    itemFrame = (itemFrame - 1 + SourceRectangles.Length) % SourceRectangles.Length;
-            //}
-
-            //if (keyboardController.nextItem)
-            //{
-            //    itemFrame = (itemFrame + 1) % SourceRectangles.Length;
-            //}
 
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeElapsed > timePerFrame)
             {
-                currentFrame = (currentFrame + 1) % SourceRectangles[itemFrame].Length;
+                currentFrame = (currentFrame + 1) % SourceRectangles.Length;
                 timeElapsed = 0f;
             }
 
@@ -109,7 +139,7 @@ namespace Sprint0.Classes
             {
                 _link.TakeDamage();
             }
-            else if (playerBoundingBox.Intersects(itemBoundingBox) && currentItemType == ItemType.unattackable)
+            else if (playerBoundingBox.Intersects(itemBoundingBox) && currentItemType != ItemType.fire)
             {
                 Position.X += 20000;
                 Position.Y += 20000;
@@ -120,16 +150,12 @@ namespace Sprint0.Classes
         {
             if (currentItemType == ItemType.fire && currentFrame == 1)
             {
-                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-                spriteBatch.Draw(Sprite, Position, SourceRectangles[itemFrame][currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
-
+                spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
             }
-            
-            
-            
         }
     }
 }
