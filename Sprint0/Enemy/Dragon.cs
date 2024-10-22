@@ -131,26 +131,19 @@ namespace Sprint2.Enemy
    
         private void MoveDragon()
         {
-            if (movingRight)
+             if (movingRight)
             {
                 position.X += 1f;
                 if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false;
-                if (position.X <= (32))
-                {
-                    position.X -= 1f; 
-                }
+                    movingRight = false;  
             }
             else
             {
                 position.X -= 1f;
                 if (position.X <= initialPosition.X - movementRange)
-                    movingRight = true;
-                if (position.X >= (224))
-                {
-                    position.X += 1f;
-                }
+                    movingRight = true; // Switch direction  
             }
+
 
             //if (!CollideWall)
             //{
@@ -163,7 +156,7 @@ namespace Sprint2.Enemy
 
         }
 
-      
+
         private void ShootFireball()
         {
             Vector2 fireballPosition = new Vector2(position.X, position.Y);
