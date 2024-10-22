@@ -161,6 +161,9 @@ namespace Sprint2.Enemy
             }
         }
 
+
+
+
         public void Reset()
         {
             position = initialPosition;

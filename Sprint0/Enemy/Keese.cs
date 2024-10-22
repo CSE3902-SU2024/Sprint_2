@@ -98,7 +98,9 @@ namespace Sprint2.Enemy
             {
                 switch (currentDirection)
                 {
+
                     case (Direction.Left):
+                        //if(!blocked){
                         if (position.X - speed.X > 32 * _scale.X)
                         {
                             position.X -= speed.X;
@@ -165,6 +167,8 @@ namespace Sprint2.Enemy
                 position.Y = 20000;
             }
         }
+
+        
 
         public void Reset()
         {

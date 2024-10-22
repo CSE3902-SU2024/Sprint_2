@@ -15,7 +15,18 @@ namespace Sprint2.Classes
         public enum ItemType
         {
             fire,
-            unattackable
+            clock,
+            heart, 
+            health,
+            compass,
+            fairy,
+            bow,
+            boom,
+            key,
+            map,
+            potion,
+            triangle,
+            diamond
         }
         void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType);
         void Update(GameTime gameTime);
