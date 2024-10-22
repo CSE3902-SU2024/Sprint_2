@@ -102,6 +102,11 @@ namespace Sprint2.Enemy
                         if (position.X - speed.X > 32 * _scale.X)
                         {
                             position.X -= speed.X;
+
+                            if (position.X <= (32))
+                            {
+                                position.X += 1f;
+                            }
                         }
                         else
                         {
@@ -112,6 +117,11 @@ namespace Sprint2.Enemy
                         if (position.X + speed.X < 214 * _scale.X)
                         {
                             position.X += speed.X;
+
+                            if (position.X <= (224))
+                            {
+                                position.X -= 1f;
+                            }
                         }
                         else
                         {
@@ -122,6 +132,11 @@ namespace Sprint2.Enemy
                         if (position.Y - speed.Y > 32 * _scale.Y)
                         {
                             position.Y -= speed.Y;
+
+                            if (position.X <= (224))
+                            {
+                                position.Y -= 1f;
+                            }
                         }
                         else
                         {
@@ -132,6 +147,11 @@ namespace Sprint2.Enemy
                         if (position.Y + speed.Y < 134 * _scale.Y)
                         {
                             position.Y += speed.Y;
+
+                            if (position.X <= (224))
+                            {
+                                position.Y -= 1f;
+                            }
                         }
                         else
                         {

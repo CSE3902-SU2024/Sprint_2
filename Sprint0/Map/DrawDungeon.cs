@@ -141,7 +141,7 @@ namespace Sprint2.Map
 
                         foreach (IEnemy enemy in enemiesInRoom)
                         {
-                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(EasierAccessTilePosition, 16, 16, 13, 13);
+                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
                             enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
                         }
 
