@@ -12,6 +12,7 @@ using Sprint2.Collisions;
 using Sprint2.Enemy;
 using static System.Formats.Asn1.AsnWriter;
 using static Sprint2.Classes.Iitem;
+using Sprint2;
 
 
 
@@ -41,7 +42,8 @@ namespace Sprint0
         private Enemy_Item_Map enemyItemMap;
         private int currentRoomNumber;
 
-
+        //private GameHUD _gameHUD;
+        //dont forget to uncomment loadcontent and draw
 
 
 
@@ -56,7 +58,13 @@ namespace Sprint0
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            
+            //_graphics.PreferredBackBufferWidth = 1920;
+            //_graphics.PreferredBackBufferHeight = 1080;
+            //_graphics.IsFullScreen = false;
+            // need to rescale everything to start with hud
+
+            _graphics.ApplyChanges();
+
         }
 
         protected override void Initialize()
@@ -80,43 +88,6 @@ namespace Sprint0
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 176.0f;
 
 
-            //string enemyMapPath = Path.Combine(Content.RootDirectory, "EnemyLayout.txt");
-            //enemyItemMap = new Enemy_Item_Map(
-            //    enemyMapPath,
-            //    _scale,
-            //    GraphicsDevice,
-            //    Content
-            //);
-            // Create and load the Dragon (using the new Dragon class)
-            //Dragon dragon = new Dragon(new Vector2(250, 200));
-            //dragon.LoadContent(Content, "Bosses1", GraphicsDevice);
-            //enemies.Add(dragon);
-
-
-            //Goriya goriya = new Goriya(new Vector2(400, 200));
-            //goriya.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            //enemies.Add(goriya);
-
-
-            //Stalfos stalfos = new Stalfos(new Vector2(400, 200));
-            //stalfos.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            //enemies.Add(stalfos);
-
-
-            ////Keese keese = new Keese(new Vector2(400, 200));
-            //keese.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            //enemies.Add(keese);
-
-
-            //Gel gel = new Gel(new Vector2(400, 200));
-            //gel.LoadContent(Content, "Dungeon1", GraphicsDevice);
-            //enemies.Add(gel);
-
-
-            //enemy = enemies[currentEnemyIndex];
-
-
-
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(GraphicsDevice, Content, "LinkSpriteSheet2");
             _dungeonBlockSpriteFactory = new DungeonBlockSpriteFactory(GraphicsDevice, Content, "DungeonSheet");
@@ -134,14 +105,7 @@ namespace Sprint0
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, GraphicsDevice, _link, Content);
             _keyboardController = new KeyboardController(_link, _StageManager);
 
-            //Item texure
-            //Item = new Item(new Vector2(200, 200), 50f);
-            //Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", Item.ItemType.unattackable);
-
-            //Item2 = new Item(new Vector2(600, 100), 0f);
-            //Item2.LoadContent(Content, "zeldaLink", GraphicsDevice, ItemType.attackable);
-
-
+            //_gameHUD = new GameHUD(_spriteBatch, GraphicsDevice, Content, _link, _scale);
 
 
         }
@@ -163,22 +127,6 @@ namespace Sprint0
             //Block texture
             animatedBlock = new AnimatedBlock(new Vector2(100, 100));
             animatedBlock.LoadContent(Content, "DungeonSheet");
-
-            //Item texure
-            //Item = new Item(new Vector2(200, 200), 50f);
-            //Item.LoadContent(Content, "NES - The Legend of Zelda - Items & Weapons", GraphicsDevice, ItemType.unattackable);
-
-            //Item2 = new Item(new Vector2(600, 100), 0f);
-            //Item2.LoadContent(Content, "zeldaLink", GraphicsDevice, ItemType.attackable);
-
-            //// Reset enemy positions
-            //enemy = enemies[0];
-            //currentEnemyIndex = 0;
-            //foreach (var enemy in enemies)
-            //{
-            //    enemy.Reset();
-            //}
-            //needs to be refactored
             
         }
 
@@ -196,28 +144,9 @@ namespace Sprint0
 
             _StageManager.Update(gameTime);
             _keyboardController.Update();
-         //   _link.Update(gameTime, _keyboardController);
-         //bruh 
-           //  animatedBlock.Update(gameTime, _keyboardController);
 
-            //if (_keyboardController.PreviousEnemy)
-            //{
-            //    currentEnemyIndex = (currentEnemyIndex - 1 + enemies.Count) % enemies.Count;
-            //    enemy = enemies[currentEnemyIndex];
-            //}
-            //else if (_keyboardController.NextEnemy)
-            //{
-            //    currentEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
-            //    enemy = enemies[currentEnemyIndex];
-            //}
-            //needs to be refactored
-
-            //Item.Update(gameTime, _keyboardController);
-            //Item2.Update(gameTime, _keyboardController);
             _link.Update();
             
-            //enemy.Update(gameTime);
-        
             base.Update(gameTime);
         }
 
@@ -228,13 +157,12 @@ namespace Sprint0
             _spriteBatch.Begin();
             _link.Draw(_spriteBatch);
             _StageManager.Draw();
-            //enemy.Draw(_spriteBatch);
-            //Item.Draw(_spriteBatch);
-            //Item2.Draw(_spriteBatch);
+
             _link.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
+            //_gameHUD.Draw();
 
             base.Draw(gameTime);
         }
