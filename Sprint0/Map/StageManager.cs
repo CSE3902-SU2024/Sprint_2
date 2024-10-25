@@ -49,6 +49,7 @@ namespace Sprint2.Map
         public bool showText;
         Song backgroundMusic;
         Song titleSequence;
+        Song endSequence;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
@@ -80,6 +81,7 @@ namespace Sprint2.Map
             //Music
             titleSequence = content.Load<Song>("TitleTheme");
             backgroundMusic = content.Load<Song>("DungeonTheme");
+            endSequence = content.Load<Song>("EndingTheme");
 
         }
 
@@ -166,7 +168,15 @@ namespace Sprint2.Map
 
         public void UpdateEnd(GameTime gameTime)
         {
-
+            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
+            {
+                MediaPlayer.Stop();
+            }
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(endSequence);
+                MediaPlayer.IsRepeating = true; // loop the music
+            }
         }
 
         public void NextStage()

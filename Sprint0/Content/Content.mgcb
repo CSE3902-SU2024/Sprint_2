@@ -139,6 +139,12 @@
 /processorParam:TextureFormat=Color
 /build:EndingofZelda.png
 
+#begin EndingTheme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:EndingTheme.mp3
+
 #begin EnemyDeath.png
 /importer:TextureImporter
 /processor:TextureProcessor
