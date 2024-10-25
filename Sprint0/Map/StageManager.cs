@@ -43,6 +43,7 @@ namespace Sprint2.Map
 
         // Start Menu
         public Texture2D titleScreen;
+        public Texture2D endScreen;
         public SpriteFont font;
         public float timer;
         public bool showText;
@@ -71,6 +72,7 @@ namespace Sprint2.Map
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
             titleScreen = content.Load<Texture2D>("TitleScreen");
+            endScreen = content.Load<Texture2D>("EndingofZelda");
             font = content.Load<SpriteFont>("File");         
             timer = 0f;
             showText = true;
@@ -94,10 +96,10 @@ namespace Sprint2.Map
             }
             else if (currentGameStage == GameStage.PauseMenu)
             {
-                UpdateStartMenu(gameTime);
+                UpdatePauseMenu(gameTime);
             } else if (currentGameStage == GameStage.End)
             {
-                UpdateStartMenu(gameTime);
+                UpdateEnd(gameTime);
             }
 
             //_nextStageDecider.Update(StageIndex);
@@ -146,7 +148,12 @@ namespace Sprint2.Map
             {
                 MediaPlayer.Play(backgroundMusic);
                 MediaPlayer.IsRepeating = true; // loop the music
-            }           
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.G))
+            {
+                currentGameStage = GameStage.End;
+            }
         }
 
         public void UpdatePauseMenu(GameTime gameTime)
@@ -200,8 +207,10 @@ namespace Sprint2.Map
 
             Vector2 position = new Vector2(0, 0);
 
+            Vector2 scale = new Vector2(3.26f, 2.15f);
+           
             // Draw the title screen
-            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White);
+            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             // Draw text
             if (showText)
@@ -231,6 +240,9 @@ namespace Sprint2.Map
 
         public void DrawEnd()
         {
+            Vector2 position = new Vector2(0, 0);
+            Vector2 scale = new Vector2(0.8f, 0.5f);
+            _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0 ,0f);
         }
     }
 }
