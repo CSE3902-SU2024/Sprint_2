@@ -254,6 +254,12 @@
 /processorParam:TextureFormat=Color
 /build:TitleScreenZelda.png
 
+#begin TitleTheme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:TitleTheme.mp3
+
 #begin zeldaLink.png
 /importer:TextureImporter
 /processor:TextureProcessor

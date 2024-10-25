@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Content;
 using Sprint0.Collisions;
 using Sprint0.Classes;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.Reflection.Metadata;
 
 
 namespace Sprint2.Map
@@ -17,7 +19,9 @@ namespace Sprint2.Map
     public enum GameStage
     {
         StartMenu,
-        Dungeon
+        Dungeon,
+        PauseMenu,
+        End
     }
 
     public class StageManager
@@ -38,10 +42,12 @@ namespace Sprint2.Map
         private Link _link;
 
         // Start Menu
-        private Texture2D titleScreen;
-        private SpriteFont font;
-        private float timer;
-        private bool showText;
+        public Texture2D titleScreen;
+        public SpriteFont font;
+        public float timer;
+        public bool showText;
+        Song backgroundMusic;
+        Song titleSequence;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
@@ -69,6 +75,9 @@ namespace Sprint2.Map
             timer = 0f;
             showText = true;
 
+            //Music
+            titleSequence = content.Load<Song>("TitleTheme");
+            backgroundMusic = content.Load<Song>("DungeonTheme");
 
         }
 
@@ -83,6 +92,13 @@ namespace Sprint2.Map
             {
                 UpdateDungeon(gameTime);
             }
+            else if (currentGameStage == GameStage.PauseMenu)
+            {
+                UpdateStartMenu(gameTime);
+            } else if (currentGameStage == GameStage.End)
+            {
+                UpdateStartMenu(gameTime);
+            }
 
             //_nextStageDecider.Update(StageIndex);
             //_DrawDungeon.Update(StageIndex);
@@ -91,7 +107,7 @@ namespace Sprint2.Map
             //LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
         }
 
-        private void UpdateStartMenu(GameTime gameTime)
+        public void UpdateStartMenu(GameTime gameTime)
         {
             // Blinking text effect
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -105,15 +121,45 @@ namespace Sprint2.Map
             {
                 currentGameStage = GameStage.Dungeon;
             }
+
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(titleSequence);
+                MediaPlayer.IsRepeating = true;
+            }
         }
 
-        private void UpdateDungeon(GameTime gameTime)
+        public void UpdateDungeon(GameTime gameTime)
         {
             _nextStageDecider.Update(StageIndex);
             _DrawDungeon.Update(StageIndex);
             _EnemyItem.Update(StageIndex, gameTime);
             _ItemMap.Update(StageIndex, gameTime);
             LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+
+            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
+            {
+                MediaPlayer.Stop();
+            }
+
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(backgroundMusic);
+                MediaPlayer.IsRepeating = true; // loop the music
+            }           
+        }
+
+        public void UpdatePauseMenu(GameTime gameTime)
+        {
+            if (MediaPlayer.State == MediaState.Playing)
+            {
+                MediaPlayer.Stop();
+            }
+        }
+
+        public void UpdateEnd(GameTime gameTime)
+        {
+
         }
 
         public void NextStage()
@@ -132,13 +178,21 @@ namespace Sprint2.Map
             {
                 DrawDungeon();
             }
+            else if (currentGameStage == GameStage.PauseMenu)
+            {
+               DrawPauseMenu();
+            }
+            else if (currentGameStage == GameStage.End)
+            {
+                DrawEnd();
+            }
 
             //_DrawDungeon.Draw();
             //DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
 
         }
 
-        private void DrawStartMenu()
+        public void DrawStartMenu()
         {
             //_spriteBatch.Begin();
 
@@ -164,11 +218,19 @@ namespace Sprint2.Map
             //_spriteBatch.End();
         }
 
-        private void DrawDungeon()
+        public void DrawDungeon()
         {
             _DrawDungeon.Draw();
             DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
         }
 
+        public void DrawPauseMenu()
+        {
+
+        }
+
+        public void DrawEnd()
+        {
+        }
     }
 }
