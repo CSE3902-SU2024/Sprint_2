@@ -200,8 +200,10 @@ namespace Sprint2.Map
 
             Vector2 position = new Vector2(0, 0);
 
+            Vector2 scale = new Vector2(3.26f, 2.15f);
+           
             // Draw the title screen
-            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White);
+            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             // Draw text
             if (showText)
