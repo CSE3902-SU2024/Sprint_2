@@ -28,6 +28,10 @@ namespace Sprint0.Player
         public Boolean Damaged;
         private SpriteEffects spriteEffects;
 
+        //for hud:
+        public int Health { get; set; } = 3;
+
+
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice)
         {
