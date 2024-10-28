@@ -29,6 +29,7 @@ namespace Sprint2.GameStates
         private Enemy_Item_Map enemyItemMap;
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
+        //private GameHUD _gameHUD;
 
         public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice)
         {
@@ -60,7 +61,7 @@ namespace Sprint2.GameStates
             //link instance
             _link = new Link(linkFrames, linkTexture, _graphicsDevice);
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content);
-            //_gameHUD = new GameHUD(_spriteBatch, GraphicsDevice, Content, _link, _scale);
+            //_gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link, _StageManager);
         }
 
