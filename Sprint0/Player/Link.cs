@@ -37,7 +37,7 @@ namespace Sprint0.Player
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
-            _position = new Vector2(200.0f, 200.0f);
+            _position = new Vector2(500.0f, 500.0f);
             _scale.X = (float)graphicsDevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsDevice.Viewport.Height / 176.0f;
             _texture = texture;
