@@ -12,6 +12,7 @@ namespace Sprint2.GameStates
     {
         StartMenu,
         InGame,
+        PauseMenu,
         GameOver
     }
     public interface IGameState

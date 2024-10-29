@@ -20,7 +20,7 @@ namespace Sprint2.GameStates
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
         private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
-        private AnimatedBlock animatedBlock;
+        //private AnimatedBlock animatedBlock;
         private IEnemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
