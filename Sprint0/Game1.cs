@@ -22,9 +22,9 @@ namespace Sprint0
         {
             _graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 600;
-            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferWidth = 1020;
+            _graphics.PreferredBackBufferHeight = 920;
+          //  _graphics.IsFullScreen = true;
             _graphics.ApplyChanges(); 
         }
 
