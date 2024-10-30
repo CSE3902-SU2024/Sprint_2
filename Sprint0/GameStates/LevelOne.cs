@@ -20,7 +20,7 @@ namespace Sprint2.GameStates
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
         private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
-        private AnimatedBlock animatedBlock;
+       // private AnimatedBlock animatedBlock;
         private IEnemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
@@ -59,8 +59,8 @@ namespace Sprint2.GameStates
             Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
             //link instance
-            _link = new Link(linkFrames, linkTexture, _graphicsDevice);
-            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content);
+            _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale);
+            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
             //_gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link, _StageManager);
         }

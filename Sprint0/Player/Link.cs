@@ -33,13 +33,12 @@ namespace Sprint0.Player
 
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
             _position = new Vector2(500.0f, 500.0f);
-            _scale.X = (float)graphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsDevice.Viewport.Height / 176.0f;
+            _scale = scale;
             _texture = texture;
             speed = 2.0f;
             boomerangSpeed = 10.0f;

@@ -51,7 +51,7 @@ namespace Sprint2.Map
         Song titleSequence;
         Song endSequence;
 
-        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
+        public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
 
             currentGameStage = GameStage.StartMenu;
@@ -60,9 +60,8 @@ namespace Sprint2.Map
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
+            _scale = scale;
             _graphicsDevice = graphicsDevice;
-            _scale.X = (float)_graphicsDevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)_graphicsDevice.Viewport.Height / 176.0f;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);

@@ -71,18 +71,18 @@ namespace Sprint2.Map
         {
             DrawWalls();
 
-       //     DrawTiles(GetStage(stage));
-         //   DrawDoors(GetDoor(stage));
-        //    DrawEnemies(GetEnemies(stage));
-         //   DrawItems(Getitems(stage));
+            DrawTiles(GetStage(stage));
+            DrawDoors(GetDoor(stage));
+            DrawEnemies(GetEnemies(stage));
+            //   DrawItems(Getitems(stage));
         }
         public void DrawWalls()
         {
-            _spriteBatch.Draw(_texture, new Vector2(0, 55 * _scale.Y), _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0, 55.0f * _scale.Y), _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
             // TODO class to calculate positions? 
-            _spriteBatch.Draw(_texture, new Vector2(0, 87 * _scale.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0, 198 * _scale.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(224 * _scale.X, 32 * _scale.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0, 87.0f * _scale.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0, 198.0f * _scale.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(224.0f * _scale.X, 87.0f * _scale.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
 
         }
 
@@ -96,9 +96,9 @@ namespace Sprint2.Map
                 {
                     case 0:
                         doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 55;
+                        doorPosition.Y = 55 * _scale.Y;
                         break;
-                    case 1:
+                    case 1: 
                         doorPosition.X = 0;
                         doorPosition.Y = 127 * _scale.Y;
                         break;
@@ -108,7 +108,7 @@ namespace Sprint2.Map
                         break;
                     case 3:
                         doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 143 * _scale.Y;
+                        doorPosition.Y = 198 * _scale.Y;
                         break;
                     default: break;
 
@@ -119,7 +119,7 @@ namespace Sprint2.Map
         }
         public void DrawTiles(int[,] room)
         {
-            Vector2 tilePosition = new Vector2(77 * _scale.X, 32 * _scale.Y);
+            Vector2 tilePosition = new Vector2(32 * _scale.X, 87 * _scale.Y);
             List<IEnemy> enemiesInRoom = _EnemyItem.GetEnemies(0);
             for (int i = 0; i < 7; i++)
             {

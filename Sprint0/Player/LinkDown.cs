@@ -9,6 +9,7 @@ namespace Sprint0.Player
     internal class LinkDown : ILinkState
     {
         private Link _link;
+        private Vector2 _scale;
         private int frame;
         private int remainingFrames;
         public bool CollideWall = false;
@@ -20,6 +21,7 @@ namespace Sprint0.Player
             _link = link;
             frame = 0;
             remainingFrames = _link.framesPerStep;
+            
         }
 
         void ILinkState.Draw(SpriteBatch _spriteBatch)
@@ -28,18 +30,20 @@ namespace Sprint0.Player
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
-            return new Rectangle(
+           return new Rectangle(
                 x,
                 y,
                 (int)(width * scale.X),
                 (int)(height * scale.Y)
             );
+            
+
         }
         public void Update()
         {
             CollideWall = false;
 
-            wallBoundingBox = new Rectangle(0, (int)(144 * _link._scale.Y), (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
+            wallBoundingBox = new Rectangle(0, (int)(201 * _link._scale.Y), (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
             playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(wallBoundingBox))
             {
