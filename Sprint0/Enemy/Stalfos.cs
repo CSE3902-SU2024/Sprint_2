@@ -30,6 +30,12 @@ namespace Sprint2.Enemy
         private Direction currentDirection;
         private int randCount;
 
+        public SpriteBatch spriteBatch;
+        public Texture2D enemyDeath;
+        private bool isDying;
+        private float deathAnimationTimer = 0f;
+        private const float DEATH_ANIMATION_DURATION = 0.5f;
+
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
@@ -43,6 +49,8 @@ namespace Sprint2.Enemy
             alive = true;
             random = new Random();
             SetRandomDirection();
+
+            //this.spriteBatch = spriteBatch;
         }
         public enum Direction
         {
@@ -60,12 +68,25 @@ namespace Sprint2.Enemy
             _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
             _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
             speed = Vector2.One;
+
+            enemyDeath = content.Load<Texture2D>("EnemyDeath");
         }
 
         public void Update(GameTime gameTime)
         {
-            if (alive)
+            if (isDying)
             {
+                deathAnimationTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (deathAnimationTimer <= 0)
+                {
+                    
+                    isDying = false;
+                    alive = false;
+                    position = new Vector2(20000, 20000); 
+                }
+            }
+            else if (alive)
+            {   
                 randCount++;
                 timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -143,8 +164,16 @@ namespace Sprint2.Enemy
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            SpriteEffects spriteEffect = isFliped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
+            if (isDying)
+            {
+                Rectangle deathSourceRectangle = new Rectangle(0, 0, 245, 225);
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            }
+            else if (alive)
+            {
+                SpriteEffects spriteEffect = isFliped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
+            }
         }
 
        
@@ -153,15 +182,23 @@ namespace Sprint2.Enemy
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
             healthCount -= 1;
-            if (healthCount <= 0)
+
+            if (healthCount <= 0 && alive)
             {
                 alive = false;
-                position.X = 20000;
-                position.Y = 20000;
+                isDying = true;
+                deathAnimationTimer = DEATH_ANIMATION_DURATION;
             }
         }
 
+        //public void Death()
+        //{
+        //    Rectangle sourceRectangle = new Rectangle(0, 0, 245, 225);
+        //    Vector2 position = new Vector2(0, 0);
+        //    //Vector2 scale = new Vector2(3.26f, 2.15f);
 
+        //    spriteBatch.Draw(enemyDeath, position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+        //}
 
 
         public void Reset()
