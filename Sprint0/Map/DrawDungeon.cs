@@ -74,7 +74,7 @@ namespace Sprint2.Map
             DrawTiles(GetStage(stage));
             DrawDoors(GetDoor(stage));
             DrawEnemies(GetEnemies(stage));
-            //   DrawItems(Getitems(stage));
+            DrawItems(Getitems(stage));
         }
         public void DrawWalls()
         {
