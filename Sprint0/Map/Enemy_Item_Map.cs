@@ -98,7 +98,7 @@ namespace Sprint2.Map
         {
             List<IEnemy> EnemiesInRoom = new List<IEnemy>();
 
-            Vector2 EnemyPosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
+            Vector2 EnemyPosition = new Vector2(32 * _scale.X, 87 * _scale.Y);
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 12; j++)
@@ -109,27 +109,27 @@ namespace Sprint2.Map
                     {
                         case 1:
                             Keese keese = new Keese(EnemyPosition);
-                            keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(keese);
                             break;
                         case 2:
                             Stalfos stalfos = new Stalfos(EnemyPosition);
-                            stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(stalfos);
                             break;
                         case 3:
                             Goriya goriya = new Goriya(EnemyPosition);
-                            goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(goriya);
                             break;
                         case 4:
                             Dragon dragon = new Dragon(EnemyPosition);
-                            dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice);
+                            dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(dragon);
                             break;
                         case 5:
                            Gel gel = new Gel(EnemyPosition);
-                            gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;
                     }

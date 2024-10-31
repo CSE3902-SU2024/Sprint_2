@@ -36,13 +36,13 @@ namespace Sprint2.Map
             if (_link._position.X >= 110 * _scale.X && _link._position.X <= 150 * _scale.X)
             {
                 // top middle
-                if ((_link._position.Y >= 0 * _scale.Y && _link._position.Y <= 60 * _scale.Y))
+                if ((_link._position.Y >= 0 * _scale.Y && _link._position.Y <= 115 * _scale.Y))
                 {
 
                     if (doors[0] == 1)
                     {
                         _link._position.X = 120 * _scale.X;
-                        _link._position.Y = 125 * _scale.Y;
+                        _link._position.Y = 180 * _scale.Y;
                         if (_stage > 0)
                         {
                             return 0;
@@ -54,12 +54,12 @@ namespace Sprint2.Map
                     }
                 }
                 // bottom middle
-                else if ((_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 146 * _scale.Y))
+                else if ((_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 201 * _scale.Y))
                 {
                     if (doors[3] == 1)
                     {
                         _link._position.X = 120 * _scale.X;
-                        _link._position.Y = 32 * _scale.Y;
+                        _link._position.Y = 87 * _scale.Y;
                         if (_stage > 0)
                         {
                             return 0;
@@ -73,12 +73,12 @@ namespace Sprint2.Map
             }
             else if (_link._position.X >= 20 * _scale.X && (_link._position.X <= _scale.X * 70))
             {
-                if (_link._position.Y >= 65 * _scale.Y && _link._position.Y <= 115 * _scale.Y)
+                if (_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
                 {
                     if (doors[1] == 1)
                     {
                         _link._position.X = 210 * _scale.X;
-                        _link._position.Y = 80 * _scale.Y;
+                        _link._position.Y = 135 * _scale.Y;
                         if (_stage > 0)
                         {
                             return 0;
@@ -93,12 +93,12 @@ namespace Sprint2.Map
             }
             else if (_link._position.X >= 180 * _scale.X && (_link._position.X <= _scale.X * 220))
             {
-                if (_link._position.Y >= 64 * _scale.Y && _link._position.Y <= 115 * _scale.Y)
+                if (_link._position.Y >= 120 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
                 {
                     if (doors[2] == 1)
                     {
                         _link._position.X = 32 * _scale.X;
-                        _link._position.Y = 80 * _scale.Y;
+                        _link._position.Y = 135 * _scale.Y;
                         if (_stage > 0)
                         {
                             return 0;

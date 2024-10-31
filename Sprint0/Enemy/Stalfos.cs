@@ -62,13 +62,12 @@ namespace Sprint2.Enemy
             Down
         }
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             healthCount = 20;
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
             speed = Vector2.One;
 
             enemyDeath = content.Load<Texture2D>("EnemyDeath");
@@ -140,7 +139,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Up):
-                        if (position.Y - speed.Y > 32 * _scale.Y)
+                        if (position.Y - speed.Y > 87 * _scale.Y)
                         {
                             position.Y -= speed.Y;
                         }
@@ -150,7 +149,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Down):
-                        if (position.Y + speed.Y < 128 * _scale.Y)
+                        if (position.Y + speed.Y < 143 * _scale.Y)
                         {
                             position.Y += speed.Y;
                         }

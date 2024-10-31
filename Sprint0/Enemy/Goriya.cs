@@ -58,12 +58,11 @@ namespace Sprint2.Enemy
         }
 
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames();
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
         }
 
 

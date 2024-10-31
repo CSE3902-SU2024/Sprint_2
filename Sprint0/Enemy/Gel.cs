@@ -52,12 +52,11 @@ namespace Sprint2.Enemy
             Down
         }
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGelFrames();
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
             speed = Vector2.One;
         }
 
@@ -117,7 +116,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Up):
-                        if (position.Y - speed.Y > 32 * _scale.Y)
+                        if (position.Y - speed.Y > 87 * _scale.Y)
                         {
                             position.Y -= speed.Y;
                         }
@@ -127,7 +126,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Down):
-                        if (position.Y + speed.Y < 134 * _scale.Y)
+                        if (position.Y + speed.Y < 182 * _scale.Y)
                         {
                             position.Y += speed.Y;
                         }
