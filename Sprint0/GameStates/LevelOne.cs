@@ -7,6 +7,7 @@ using Sprint2.Enemy;
 using Sprint2.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace Sprint2.GameStates
@@ -53,13 +54,16 @@ namespace Sprint2.GameStates
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
             Rectangle[] dungeonTiles = _dungeonBlockSpriteFactory.CreateFrames();
 
+            SoundEffect swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1"); // Ensure the sound file is in the Content folder
+
 
             //link texture
             Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
             Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
             //link instance
-            _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale);
+            //_link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale);
+            _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound);
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
             _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link, _StageManager);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace Sprint0.Player
@@ -32,9 +33,11 @@ namespace Sprint0.Player
         //for hud:
         public int Health { get; set; } = 3;
 
+        public SoundEffect SwordAttackSound { get; private set; }
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale)
+
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -52,6 +55,8 @@ namespace Sprint0.Player
             Damaged = false;
             _color = Color.White;
             _previousPosition = new Vector2(200.0f, 200.0f);
+
+            SwordAttackSound = swordSound;
         }
 
         public void MoveDown()

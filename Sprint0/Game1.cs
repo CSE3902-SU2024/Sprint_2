@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint0.Collisions;
@@ -18,6 +19,8 @@ namespace Sprint0
         private IGameState CurrentGameState;
         public Vector2 _scale;
         KeyboardState previousKeyboardState;
+        public SoundEffect swordAttackSound;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,7 +49,8 @@ namespace Sprint0
             _scale.Y = (float)GraphicsDevice.Viewport.Height / 230.0f;
             CurrentGameState = new LevelOne(_graphics, _spriteBatch, _scale, GraphicsDevice);
             CurrentGameState.LoadContent(Content);
-               
+            swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
+
         }
 
 

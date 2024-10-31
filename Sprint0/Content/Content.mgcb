@@ -188,6 +188,18 @@
 /processorParam:TextureFormat=Color
 /build:LinkSpriteSheet.png;LinkSpriteSheet2.png
 
+#begin LTTP_Bomb_Blow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LTTP_Bomb_Blow.wav
+
+#begin LTTP_Boomerang.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LTTP_Boomerang.wav
+
 #begin LTTP_Sword1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -229,6 +241,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:NES - The Legend of Zelda - Items & Weapons.png
+
+#begin OOT_Arrow_Shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:OOT_Arrow_Shoot.wav
 
 #begin OOT_Enemy_Poof1.wav
 /importer:WavImporter
