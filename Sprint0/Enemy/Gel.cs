@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -27,6 +28,19 @@ namespace Sprint2.Enemy
         private Random random;
         private Vector2 speed;
         private int randCount;
+
+        public SpriteBatch spriteBatch;
+        public Texture2D enemyDeath;
+        private bool isDying;
+        private float deathAnimationTimer = 0f;
+        private const float DEATH_ANIMATION_DURATION = 0.5f;
+        public SoundEffect deathSound;
+
+        private int currentDeathFrame = 0;
+        private float deathFrameTime = 0.1f; // Time each death frame is displayed
+        private float deathFrameElapsed = 0f;
+        private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
+        };
 
 
         public Vector2 Position { get => position; set => position = value; }
@@ -58,11 +72,32 @@ namespace Sprint2.Enemy
             sourceRectangles = SpriteSheetHelper.CreateGelFrames();
             _scale = scale;
             speed = Vector2.One;
+
+            enemyDeath = content.Load<Texture2D>("EnemyDeath");
+            deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
         public void Update(GameTime gameTime)
         {
-            if (alive)
+            if (isDying)
+            {
+
+                deathFrameElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (deathFrameElapsed >= deathFrameTime)
+                {
+                    currentDeathFrame++;
+
+                    deathFrameElapsed = 0f;
+
+                    if (currentDeathFrame >= deathSourceRectangles.Length)
+                    {
+                        isDying = false;
+                        position = new Vector2(20000, 20000); // Move off screen
+                    }
+                }
+            }
+            else if (alive)
             {
                 randCount++;
                 timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -149,21 +184,37 @@ namespace Sprint2.Enemy
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero,_scale, SpriteEffects.None, 0f);
+            if (isDying)
+            {
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangles[currentDeathFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            }
+            else if (alive)
+            {
+                spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            }
         }
 
       
         public void TakeDamage()
         {
             Health--;
-            if (Health <= 0)
-            {
-                alive = false;
-                position.X = 10000;
-                position.Y = 10000;
-            }
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
+
+            if (Health <= 0 && alive)
+            {
+                alive = false;
+                isDying = true;
+                deathAnimationTimer = DEATH_ANIMATION_DURATION;
+                deathSound.Play();
+            }
+
+            //if (Health <= 0)
+            //{
+            //    alive = false;
+            //    position.X = 10000;
+            //    position.Y = 10000;
+            //}
         }
 
         
