@@ -149,6 +149,22 @@ namespace Sprint2.Map
                 enemy.Update(gameTime);
             }
         }
+
+        // Returns true when there aren't any enemies left
+        public Boolean AreThereEnemies(int currentStage)
+        {
+            List<IEnemy> enemies = GetEnemies(currentStage);
+
+            foreach (IEnemy enemy in enemies)
+            {
+                if (enemy.GetState())
+                {
+                    return false;
+                }
+            }
+            return true;
+
+        }
     }
 }
 

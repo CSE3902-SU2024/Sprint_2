@@ -221,6 +221,12 @@ namespace Sprint2.Enemy
             currentDirection = (Direction)random.Next(0, 4);
 
         }
+
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
     }
 }
 

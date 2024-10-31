@@ -59,5 +59,12 @@ namespace Sprint2.Map
             return doors.ElementAt(roomNum);
         }
 
+        public void AllEnemiesDead(int roomNum, Boolean enemies)
+        {
+            if (roomNum ==  0 && enemies)
+            {
+                doors[0][0] = 1;
+            }
+        }
     }
 }

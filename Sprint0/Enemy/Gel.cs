@@ -66,6 +66,11 @@ namespace Sprint2.Enemy
             Down
         }
 
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);

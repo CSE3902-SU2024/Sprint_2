@@ -245,5 +245,10 @@ namespace Sprint2.Enemy
             damageColorTimer = 0f;
             currentColor = Color.White;
         }
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
     }
 }

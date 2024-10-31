@@ -284,6 +284,12 @@ namespace Sprint2.Enemy
             currentColor = Color.White;
             projectiles.Clear();  
         }
+
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
     }
 }
 

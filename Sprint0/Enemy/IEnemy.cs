@@ -19,6 +19,7 @@ namespace Sprint2.Enemy
         void Draw(SpriteBatch spriteBatch);
         void TakeDamage();
 
+        Boolean GetState();
        
         void Reset();
 

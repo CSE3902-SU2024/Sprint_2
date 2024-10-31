@@ -315,7 +315,10 @@ namespace Sprint2.Enemy
             //}   
         }
 
-       
+        public Boolean GetState()
+        {
+            return alive;
+        }
     }
 }
 
