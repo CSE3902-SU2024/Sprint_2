@@ -188,6 +188,12 @@
 /processorParam:TextureFormat=Color
 /build:LinkSpriteSheet.png;LinkSpriteSheet2.png
 
+#begin LTTP_Sword1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LTTP_Sword1.wav
+
 #begin mario_standing.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -223,6 +229,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:NES - The Legend of Zelda - Items & Weapons.png
+
+#begin OOT_Enemy_Poof1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:OOT_Enemy_Poof1.wav
 
 #begin OverworldBlock1.jpg
 /importer:TextureImporter

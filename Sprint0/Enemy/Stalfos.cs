@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -35,6 +36,7 @@ namespace Sprint2.Enemy
         private bool isDying;
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
+        public SoundEffect deathSound;
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
@@ -70,6 +72,7 @@ namespace Sprint2.Enemy
             speed = Vector2.One;
 
             enemyDeath = content.Load<Texture2D>("EnemyDeath");
+            deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
         public void Update(GameTime gameTime)
@@ -166,8 +169,15 @@ namespace Sprint2.Enemy
         {
             if (isDying)
             {
-                Rectangle deathSourceRectangle = new Rectangle(0, 0, 245, 225);
-                spriteBatch.Draw(enemyDeath, position, deathSourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+                Rectangle deathSourceRectangle1 = new Rectangle(0, 0, 15, 15);
+                Rectangle deathSourceRectangle2 = new Rectangle(16, 0, 15, 15);
+                Rectangle deathSourceRectangle3 = new Rectangle(32, 0, 15, 15);
+                Rectangle deathSourceRectangle4 = new Rectangle(48, 0, 15, 15);
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangle1, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+                for (int i = 0; i < 4; i++)
+                {
+
+                }
             }
             else if (alive)
             {
@@ -183,11 +193,13 @@ namespace Sprint2.Enemy
             damageColorTimer = DAMAGE_COLOR_DURATION;
             healthCount -= 1;
 
+
             if (healthCount <= 0 && alive)
             {
                 alive = false;
                 isDying = true;
                 deathAnimationTimer = DEATH_ANIMATION_DURATION;
+                deathSound.Play();
             }
         }
 
