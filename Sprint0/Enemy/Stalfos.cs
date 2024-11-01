@@ -15,7 +15,8 @@ namespace Sprint2.Enemy
         private Vector2 initialPosition;
         private int currentFrame;
         private bool movingRight = true;
-        private float movementRange = 100f;
+        private float movementRange = 500f;
+        private float distanceMovedInDirection = 0f;
         private float timePerFrame = 0.1f;
         private float timeElapsed;
         private Color currentColor = Color.White;
@@ -56,7 +57,7 @@ namespace Sprint2.Enemy
             initialPosition = startPosition;
             alive = true;
             random = new Random();
-            SetRandomDirection();
+            SetNewRandomDirection();
         }
         public enum Direction
         {
@@ -105,7 +106,7 @@ namespace Sprint2.Enemy
                 damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if(randCount > 60 * random.Next(1, 3))
                 {
-                    SetRandomDirection();
+                    SetNewRandomDirection();
                     randCount = 0;
                 }
                 MoveStalfos();
@@ -127,49 +128,41 @@ namespace Sprint2.Enemy
         {
             if (alive)
             {
+                float moveDistance = speed.X;
                 switch (currentDirection)
                 {
-                    case (Direction.Left):
-                        if (position.X - speed.X > 32 * _scale.X)
+
+                    case Direction.Left:
+                        if (position.X - moveDistance > 32 * _scale.X)
                         {
-                            position.X -= speed.X;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Right;
+                            position.X -= moveDistance;
                         }
                         break;
-                    case (Direction.Right):
-                        if (position.X + speed.X < 208 * _scale.X)
+                    case Direction.Right:
+                        if (position.X + moveDistance < 208 * _scale.X)
                         {
-                            position.X += speed.X;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Left;
+                            position.X += moveDistance;
                         }
                         break;
-                    case (Direction.Up):
-                        if (position.Y - speed.Y > 87 * _scale.Y)
+                    case Direction.Up:
+                        if (position.Y - moveDistance > 87 * _scale.Y)
                         {
-                            position.Y -= speed.Y;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Down;
+                            position.Y -= moveDistance;
                         }
                         break;
-                    case (Direction.Down):
-                        if (position.Y + speed.Y < 143 * _scale.Y)
+                    case Direction.Down:
+                        if (position.Y + moveDistance < 143 * _scale.Y)
                         {
-                            position.Y += speed.Y;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Up;
+                            position.Y += moveDistance;
                         }
 
                         break;
+                }
+                distanceMovedInDirection += moveDistance;
+                if (distanceMovedInDirection >= movementRange)
+                {
+                    SetNewRandomDirection();
+                    distanceMovedInDirection = 0f;  
                 }
 
             }
@@ -216,11 +209,17 @@ namespace Sprint2.Enemy
             currentColor = Color.White;
         }
 
-        private void SetRandomDirection()
+        public void SetNewRandomDirection()
         {
-            currentDirection = (Direction)random.Next(0, 4);
+            Direction newDirection;
+            do
+            {
+                newDirection = (Direction)random.Next(0, 4); 
+            } while (newDirection == currentDirection); 
 
+            currentDirection = newDirection;
         }
+
 
         public Boolean GetState()
         {
