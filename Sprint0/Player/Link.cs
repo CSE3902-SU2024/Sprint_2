@@ -34,10 +34,13 @@ namespace Sprint0.Player
         public int Health { get; set; } = 3;
 
         public SoundEffect SwordAttackSound { get; private set; }
+        public SoundEffect bowAttackSound { get; private set; }
+        public SoundEffect bombExplosion { get; private set; }
+        public SoundEffect BoomerangSound { get; private set; }
 
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -57,6 +60,9 @@ namespace Sprint0.Player
             _previousPosition = new Vector2(200.0f, 200.0f);
 
             SwordAttackSound = swordSound;
+            bowAttackSound = bowSound;
+            bombExplosion = bombSound;
+            BoomerangSound = boomerangSound;
         }
 
         public void MoveDown()

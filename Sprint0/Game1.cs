@@ -20,6 +20,9 @@ namespace Sprint0
         public Vector2 _scale;
         KeyboardState previousKeyboardState;
         public SoundEffect swordAttackSound;
+        public SoundEffect bowAttackSound;
+        public SoundEffect bombExplosion;
+        public SoundEffect boomerangSound;
 
         public Game1()
         {
@@ -50,6 +53,9 @@ namespace Sprint0
             CurrentGameState = new LevelOne(_graphics, _spriteBatch, _scale, GraphicsDevice);
             CurrentGameState.LoadContent(Content);
             swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
+            bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
+            bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
+            boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
 
         }
 

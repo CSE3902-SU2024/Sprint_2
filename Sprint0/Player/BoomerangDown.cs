@@ -72,8 +72,10 @@ namespace Sprint0.Player
         {
             if (--remainingFrames <= 0)
             {
+                //_link.boomerangSound.Play();
                 if (!_return)
                 {
+                    _link.BoomerangSound.Play();
                     boomerangStage++;
                 }
                 else if (_return)

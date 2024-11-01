@@ -48,6 +48,8 @@ namespace Sprint0.Player
                 _weaponPosition.X += _BombSpeed;
                 if (_boomTimer == 0)
                 {
+
+                    _link.bombExplosion.Play();
                     _Explode = true;
                     weaponFrame = 23;  // Start explosion animation
                     remainingFrames = _link.framesPerSword;

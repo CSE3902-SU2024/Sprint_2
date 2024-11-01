@@ -41,10 +41,14 @@ namespace Sprint0.Player
             
                 if (weaponFrame == 19)
                 {
+                    ////SoundEffect
+                    //_link.bowAttackSound.Play();
                     _arrowFlying = true;
                 }
                 if (_arrowFlying)
                 {
+                    //SoundEffect
+                    _link.bowAttackSound.Play();
                     _weaponPosition.X += _arrowSpeed;
                 if (_weaponPosition.X > 800)
                     {

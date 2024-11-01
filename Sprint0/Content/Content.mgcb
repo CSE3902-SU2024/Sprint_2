@@ -248,6 +248,18 @@
 /processorParam:Quality=Best
 /build:OOT_Arrow_Shoot.wav
 
+#begin OOT_Boomerang_Fly_Fade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:OOT_Boomerang_Fly_Fade.wav
+
+#begin OOT_Boomerang_Throw.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:OOT_Boomerang_Throw.wav
+
 #begin OOT_Enemy_Poof1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
