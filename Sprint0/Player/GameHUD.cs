@@ -28,8 +28,12 @@ namespace Sprint2
       
         private const int HEART_WIDTH = 8;
         private const int HEART_HEIGHT = 8;
-        private const int HEART_SPACING = 2;  // Space between hearts
+        private const int HEART_SPACING = 0;  // Space between hearts
         private const int MAX_HEALTH = 3;
+
+        private const int MAX_HEALTH_POINTS = MAX_HEALTH * 2; // 3 hearts = 6 health points
+
+
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
@@ -39,6 +43,7 @@ namespace Sprint2
             _link = link;
             _scale = scale;
             this.graphicsDevice = graphicsDevice;
+            _link.Health = MAX_HEALTH_POINTS;
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
@@ -58,13 +63,17 @@ namespace Sprint2
         }
         private void InitializeHUDPositions()
         {
-            _hudBackground = new Rectangle(0, 0, graphicsDevice.Viewport.Width, (int)(HUD_HEIGHT * _scale.Y * 1.2));
-            _healthBarPosition = new Rectangle((int)(100 * _scale.X), (int)(10 * _scale.Y), (int)(HEART_WIDTH * _scale.X), (int) (HEART_HEIGHT * _scale.Y));
+            
+           _hudBackground = new Rectangle(0, 0, graphicsDevice.Viewport.Width, (int)(HUD_HEIGHT * _scale.Y * 1.2));
+            _healthBarPosition = new Rectangle(703,133, (int)(HEART_WIDTH * _scale.X*1.15), (int) (HEART_HEIGHT * _scale.Y*1.15));
+            //hard coded heart position and scaling -> reason being HUD size is based on a scale and screenwidth. 
 
             cutOuts = new Rectangle[]
              {
                   new Rectangle(258, 11,255,55) ,  //the background
-                  new Rectangle(645, 117, 8, 8)     // 1 full heart
+                  new Rectangle(645, 117, 8, 8),     // 1 full heart
+                  new Rectangle(636, 117, 8, 8),     // 1 half heart
+                  new Rectangle(627, 117, 8, 8)     // 1 emtpy heart
              };
 
         }
@@ -75,23 +84,43 @@ namespace Sprint2
             _spriteBatch.Draw(_hudTexture, _hudBackground, cutOuts[0], Color.White);
 
 
-            //healthbar
             for (int i = 0; i < MAX_HEALTH; i++)
             {
-                Rectangle heartSource = i < _link.Health ? cutOuts[1] : new Rectangle(cutOuts[0].X + HEART_WIDTH, cutOuts[0].Y, HEART_WIDTH, HEART_HEIGHT);
-                _spriteBatch.Draw(_hudTexture, new Rectangle(_healthBarPosition.X + (i * (int)(HEART_WIDTH * _scale.X)), _healthBarPosition.Y, _healthBarPosition.Width, _healthBarPosition.Height), heartSource, Color.White);
+                // Each heart position corresponds to 2 health points
+                int heartValue = _link.Health - (i * 2);
+
+                // Determine the source rectangle based on heartValue
+                Rectangle heartSource;
+                if (heartValue >= 2)
+                {
+                    heartSource = cutOuts[1];  // Full heart
+                }
+                else if (heartValue == 1)
+                {
+                    heartSource = cutOuts[2];  // Half heart
+                }
+                else
+                {
+                    heartSource = cutOuts[3];  // Empty heart
+                }
+
+                // Draw each heart in the appropriate position with scaling
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        _healthBarPosition.X + (i * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X)),
+                        _healthBarPosition.Y,
+                        _healthBarPosition.Width,
+                        _healthBarPosition.Height
+                    ),
+                    heartSource,
+                    Color.White
+                );
             }
+
+            // End the sprite batch
             _spriteBatch.End();
         }
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, Vector2 scale, int lineWidth = 1)
-        {
-            // Scale only the size, not the position
-            Rectangle scaledRectangle = new Rectangle(
-                rectangle.Left, // Keep the original position
-                rectangle.Top,  // Keep the original position
-                (int)(rectangle.Width * scale.X), // Scale the width
-                (int)(rectangle.Height * scale.Y) // Scale the height
-            );
-        }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Sprint0.Player
@@ -31,7 +32,7 @@ namespace Sprint0.Player
         private SpriteEffects spriteEffects;
 
         //for hud:
-        public int Health { get; set; } = 3;
+        public int Health { get; set; } = 6; // each heart = 2 hp
 
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
@@ -105,6 +106,7 @@ namespace Sprint0.Player
         public void TakeDamage()
         {
             currentState.IsDamaged();
+            Health = Math.Max(0, Health - 1);
         }
         public void Update()
         {
