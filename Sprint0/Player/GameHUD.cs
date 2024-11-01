@@ -18,6 +18,7 @@ namespace Sprint2
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
+        private Rectangle[] cutOuts;
         private Vector2 _scale;
         private Link _link;
 
@@ -27,7 +28,7 @@ namespace Sprint2
       
         private const int HEART_WIDTH = 8;
         private const int HEART_HEIGHT = 8;
-        private const int HEART_SPACING = 12;  // Space between hearts
+        private const int HEART_SPACING = 2;  // Space between hearts
         private const int MAX_HEALTH = 3;
 
         private readonly GraphicsDevice graphicsDevice;
@@ -57,21 +58,28 @@ namespace Sprint2
         }
         private void InitializeHUDPositions()
         {
-            _hudBackground = new Rectangle(258, 11, 256, 48);//(int)(HUD_WIDTH * _scale.X), (int)(HUD_HEIGHT * _scale.Y));
-            _healthBarPosition = new Rectangle(20, 20, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y));
+            _hudBackground = new Rectangle(0, 0, graphicsDevice.Viewport.Width, (int)(HUD_HEIGHT * _scale.Y * 1.2));
+            _healthBarPosition = new Rectangle((int)(100 * _scale.X), (int)(10 * _scale.Y), (int)(HEART_WIDTH * _scale.X), (int) (HEART_HEIGHT * _scale.Y));
+
+            cutOuts = new Rectangle[]
+             {
+                  new Rectangle(258, 11,255,55) ,  //the background
+                  new Rectangle(645, 117, 8, 8)     // 1 full heart
+             };
 
         }
         public void Draw()
         {
             //background
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_hudTexture, _hudBackground, new Rectangle(0, 0, HUD_WIDTH, HUD_HEIGHT), Color.White);
+            _spriteBatch.Draw(_hudTexture, _hudBackground, cutOuts[0], Color.White);
+
 
             //healthbar
             for (int i = 0; i < MAX_HEALTH; i++)
             {
-                Rectangle heartSource = new Rectangle(i < _link.Health ? 0 : HEART_WIDTH, 0, HEART_WIDTH, HEART_HEIGHT);
-                _spriteBatch.Draw(_hudTexture, new Rectangle(_healthBarPosition.X + (i * (int)(HEART_WIDTH * 1.5f * _scale.X)), _healthBarPosition.Y, _healthBarPosition.Width, _healthBarPosition.Height), heartSource, Color.White);
+                Rectangle heartSource = i < _link.Health ? cutOuts[1] : new Rectangle(cutOuts[0].X + HEART_WIDTH, cutOuts[0].Y, HEART_WIDTH, HEART_HEIGHT);
+                _spriteBatch.Draw(_hudTexture, new Rectangle(_healthBarPosition.X + (i * (int)(HEART_WIDTH * _scale.X)), _healthBarPosition.Y, _healthBarPosition.Width, _healthBarPosition.Height), heartSource, Color.White);
             }
             _spriteBatch.End();
         }
