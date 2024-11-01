@@ -41,11 +41,11 @@ namespace Sprint2.Map
             sourceRectangles = new Rectangle[]
              {
                  //https://pixspy.com/
-                 new Rectangle(196, 307, 15, 15), // 0
-                 new Rectangle(212, 323, 15, 15), // 1
-                 new Rectangle(212, 272, 15, 15), // 2
-                 new Rectangle(212, 438, 15, 15), // 3
-                 new Rectangle(893, 799, 15, 15), // 4
+                 new Rectangle(196, 307, 16, 16), // 0
+                 new Rectangle(212, 323, 16, 16), // 1
+                 new Rectangle(212, 272, 16, 16), // 2
+                 new Rectangle(212, 438, 16, 16), // 3
+                 new Rectangle(893, 799, 16, 16), // 4
                  new Rectangle(521, 11, 256, 32), // 5 top wall
                  new Rectangle(521, 43, 32, 112),  // 6 left wall
                  new Rectangle(521, 155, 256, 32), // 7 bottom wall

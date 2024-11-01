@@ -134,14 +134,14 @@ namespace Sprint0.Classes
             return new Rectangle[]
              {
                  //https://pixspy.com/
-                 new Rectangle(196, 307, 15, 15),
-                 new Rectangle(212, 323, 15, 15),
-                 new Rectangle(212, 272, 15, 15),
-                 new Rectangle(212, 438, 15, 15),
-                 new Rectangle(893, 799, 15, 15),
-                 new Rectangle(421, 1009, 15, 15),
-                 new Rectangle(469, 1009, 15, 15),
-                 new Rectangle(533, 1040, 15, 15),
+                 new Rectangle(196, 307, 16, 16),
+                 new Rectangle(212, 323, 16, 16),
+                 new Rectangle(212, 272, 16, 16),
+                 new Rectangle(212, 438, 16, 16),
+                 new Rectangle(893, 799, 16, 16),
+                 new Rectangle(421, 1009, 16, 16),
+                 new Rectangle(469, 1009, 16, 16),
+                 new Rectangle(533, 1040, 16, 16),
              }; 
         }
     }
