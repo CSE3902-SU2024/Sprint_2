@@ -139,7 +139,11 @@ namespace Sprint2.Map
             _EnemyItem.Update(StageIndex, gameTime);
             _ItemMap.Update(StageIndex, gameTime);
             LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
-
+            if (StageIndex == 0)
+            {
+                Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
+                _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
+            }  
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
                 MediaPlayer.Stop();

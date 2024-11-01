@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -35,6 +36,13 @@ namespace Sprint2.Enemy
         private bool isDying;
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
+        public SoundEffect deathSound;
+
+        private int currentDeathFrame = 0;
+        private float deathFrameTime = 0.1f; // Time each death frame is displayed
+        private float deathFrameElapsed = 0f;
+        private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
+        };
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
@@ -49,8 +57,6 @@ namespace Sprint2.Enemy
             alive = true;
             random = new Random();
             SetRandomDirection();
-
-            //this.spriteBatch = spriteBatch;
         }
         public enum Direction
         {
@@ -60,29 +66,36 @@ namespace Sprint2.Enemy
             Down
         }
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             healthCount = 20;
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
             speed = Vector2.One;
 
             enemyDeath = content.Load<Texture2D>("EnemyDeath");
+            deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
         public void Update(GameTime gameTime)
         {
             if (isDying)
             {
-                deathAnimationTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (deathAnimationTimer <= 0)
+
+                deathFrameElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (deathFrameElapsed >= deathFrameTime)
                 {
-                    
-                    isDying = false;
-                    alive = false;
-                    position = new Vector2(20000, 20000); 
+                    currentDeathFrame++;
+
+                    deathFrameElapsed = 0f;
+
+                    if (currentDeathFrame >= deathSourceRectangles.Length)
+                    {
+                        isDying = false;
+                        position = new Vector2(20000, 20000); // Move off screen
+                    }
                 }
             }
             else if (alive)
@@ -137,7 +150,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Up):
-                        if (position.Y - speed.Y > 32 * _scale.Y)
+                        if (position.Y - speed.Y > 87 * _scale.Y)
                         {
                             position.Y -= speed.Y;
                         }
@@ -147,7 +160,7 @@ namespace Sprint2.Enemy
                         }
                         break;
                     case (Direction.Down):
-                        if (position.Y + speed.Y < 128 * _scale.Y)
+                        if (position.Y + speed.Y < 143 * _scale.Y)
                         {
                             position.Y += speed.Y;
                         }
@@ -166,8 +179,7 @@ namespace Sprint2.Enemy
         {
             if (isDying)
             {
-                Rectangle deathSourceRectangle = new Rectangle(0, 0, 245, 225);
-                spriteBatch.Draw(enemyDeath, position, deathSourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangles[currentDeathFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
             }
             else if (alive)
             {
@@ -183,22 +195,15 @@ namespace Sprint2.Enemy
             damageColorTimer = DAMAGE_COLOR_DURATION;
             healthCount -= 1;
 
+
             if (healthCount <= 0 && alive)
             {
                 alive = false;
                 isDying = true;
                 deathAnimationTimer = DEATH_ANIMATION_DURATION;
+                deathSound.Play();
             }
         }
-
-        //public void Death()
-        //{
-        //    Rectangle sourceRectangle = new Rectangle(0, 0, 245, 225);
-        //    Vector2 position = new Vector2(0, 0);
-        //    //Vector2 scale = new Vector2(3.26f, 2.15f);
-
-        //    spriteBatch.Draw(enemyDeath, position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
-        //}
 
 
         public void Reset()
@@ -216,6 +221,12 @@ namespace Sprint2.Enemy
             currentDirection = (Direction)random.Next(0, 4);
 
         }
+
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
     }
 }
 

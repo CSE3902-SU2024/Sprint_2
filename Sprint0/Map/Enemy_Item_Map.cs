@@ -109,27 +109,27 @@ namespace Sprint2.Map
                     {
                         case 1:
                             Keese keese = new Keese(EnemyPosition);
-                            keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(keese);
                             break;
                         case 2:
                             Stalfos stalfos = new Stalfos(EnemyPosition);
-                            stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(stalfos);
                             break;
                         case 3:
                             Goriya goriya = new Goriya(EnemyPosition);
-                            goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(goriya);
                             break;
                         case 4:
                             Dragon dragon = new Dragon(EnemyPosition);
-                            dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice);
+                            dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(dragon);
                             break;
                         case 5:
                            Gel gel = new Gel(EnemyPosition);
-                            gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice);
+                            gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;
                     }
@@ -148,6 +148,22 @@ namespace Sprint2.Map
             {
                 enemy.Update(gameTime);
             }
+        }
+
+        // Returns true when there aren't any enemies left
+        public Boolean AreThereEnemies(int currentStage)
+        {
+            List<IEnemy> enemies = GetEnemies(currentStage);
+
+            foreach (IEnemy enemy in enemies)
+            {
+                if (enemy.GetState())
+                {
+                    return false;
+                }
+            }
+            return true;
+
         }
     }
 }

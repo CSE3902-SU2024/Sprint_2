@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sprint2.Enemy.Projectiles;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -38,6 +39,18 @@ namespace Sprint2.Enemy
         private const float DAMAGE_COLOR_DURATION = 0.5f;
         private Vector2 _scale;
 
+        public SpriteBatch spriteBatch;
+        public Texture2D enemyDeath;
+        private bool isDying;
+        private float deathAnimationTimer = 0f;
+        private const float DEATH_ANIMATION_DURATION = 0.5f;
+        public SoundEffect deathSound;
+
+        private int currentDeathFrame = 0;
+        private float deathFrameTime = 0.1f; // Time each death frame is displayed
+        private float deathFrameElapsed = 0f;
+        private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
+        };
 
         public List<Boomerang> projectiles { get; private set; }
 
@@ -58,69 +71,89 @@ namespace Sprint2.Enemy
         }
 
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateGoriyaFrames();
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
+
+            enemyDeath = content.Load<Texture2D>("EnemyDeath");
+            deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
 
         public void Update(GameTime gameTime)
         {
-            if (alive) { 
-            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            MoveGoriya(gameTime);
-            if (timeElapsed > 0.1f)
+            if (isDying)
             {
-                if (movingRight)
+
+                deathFrameElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (deathFrameElapsed >= deathFrameTime)
                 {
-                    currentFrame = (currentFrame == 2) ? 3 : 2;
-                    isFlipped = false;
-                    timeElapsed = 0f;
-                }
-                else if (movingUp)
-                {
-                    isFlipped = !isFlipped;
-                    currentFrame = 1;
-                    timeElapsed = 0f;
-                }
-                else if (movingLeft)
-                {
-                    currentFrame = (currentFrame == 2) ? 3 : 2;
-                    isFlipped = true;
-                    timeElapsed = 0f;
-                }
-                else if (movingDown)
-                {
-                    isFlipped = !isFlipped;
-                    currentFrame = 0;
-                    timeElapsed = 0f;
-                }
-                if (damageColorTimer <= 0)
-                {
-                    currentColor = Color.White;
+                    currentDeathFrame++;
+
+                    deathFrameElapsed = 0f;
+
+                    if (currentDeathFrame >= deathSourceRectangles.Length)
+                    {
+                        isDying = false;
+                        position = new Vector2(20000, 20000); // Move off screen
+                    }
                 }
             }
+            else if (alive) { 
+                timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-
-            for (int i = 0; i < projectiles.Count; i++)
-            {
-                projectiles[i].Update(gameTime);
-
-
-                if (projectiles[i].IsReturned())
+                MoveGoriya(gameTime);
+                if (timeElapsed > 0.1f)
                 {
-                    projectiles.RemoveAt(i);
-                    waitingForBoomerang = false;
-                    hasThrownBoomerang = false;
+                    if (movingRight)
+                    {
+                        currentFrame = (currentFrame == 2) ? 3 : 2;
+                        isFlipped = false;
+                        timeElapsed = 0f;
+                    }
+                    else if (movingUp)
+                    {
+                        isFlipped = !isFlipped;
+                        currentFrame = 1;
+                        timeElapsed = 0f;
+                    }
+                    else if (movingLeft)
+                    {
+                        currentFrame = (currentFrame == 2) ? 3 : 2;
+                        isFlipped = true;
+                        timeElapsed = 0f;
+                    }
+                    else if (movingDown)
+                    {
+                        isFlipped = !isFlipped;
+                        currentFrame = 0;
+                        timeElapsed = 0f;
+                    }
+                    if (damageColorTimer <= 0)
+                    {
+                        currentColor = Color.White;
+                    }
+                }
+
+
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles[i].Update(gameTime);
+
+
+                    if (projectiles[i].IsReturned())
+                    {
+                        projectiles.RemoveAt(i);
+                        waitingForBoomerang = false;
+                        hasThrownBoomerang = false;
+                    }
                 }
             }
         }
-    }
 
         private void MoveGoriya(GameTime gameTime)
         {
@@ -192,12 +225,26 @@ namespace Sprint2.Enemy
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
-            foreach (var projectile in projectiles)
+            if (isDying)
             {
-                projectile.Draw(spriteBatch);
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangles[currentDeathFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
             }
+            else if (alive)
+            {
+                SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
+                foreach (var projectile in projectiles)
+                {
+                    projectile.Draw(spriteBatch);
+                }
+            }
+
+            //SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            //spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
+            //foreach (var projectile in projectiles)
+            //{
+            //    projectile.Draw(spriteBatch);
+            //}
         }
 
 
@@ -206,12 +253,21 @@ namespace Sprint2.Enemy
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
             health -= 1;
-            if(health <= 0)
+
+            if (health <= 0 && alive)
             {
                 alive = false;
-                position.X = 20000;
-                position.Y = 20000;
+                isDying = true;
+                deathAnimationTimer = DEATH_ANIMATION_DURATION;
+                deathSound.Play();
             }
+
+            //if (health <= 0)
+            //{
+            //    alive = false;
+            //    position.X = 20000;
+            //    position.Y = 20000;
+            //}
         }
 
 
@@ -228,6 +284,12 @@ namespace Sprint2.Enemy
             currentColor = Color.White;
             projectiles.Clear();  
         }
+
+        public Boolean GetState()
+        {
+            return alive;
+        }
+
     }
 }
 

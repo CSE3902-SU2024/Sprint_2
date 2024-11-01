@@ -74,7 +74,7 @@ namespace Sprint2.Map
             DrawTiles(GetStage(stage));
             DrawDoors(GetDoor(stage));
             DrawEnemies(GetEnemies(stage));
-            //   DrawItems(Getitems(stage));
+            DrawItems(Getitems(stage));
         }
         public void DrawWalls()
         {
@@ -130,7 +130,7 @@ namespace Sprint2.Map
                     _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
 
                     // Collision for all the tiles for 1
-                    if (tileIdx == 1)
+                    if (tileIdx == 1 || tileIdx == 3)
                     {
                         Vector2 EasierAccessTilePosition = tilePosition + new Vector2(3, 3);
                         HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
@@ -150,10 +150,10 @@ namespace Sprint2.Map
                         //LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 0, _link._scale);
                     }
 
-                    tilePosition.X += 16 * _scale.X;
+                    tilePosition.X += (float)16 * _scale.X;
                 }
-                tilePosition.X = 32 * _scale.X;
-                tilePosition.Y += 16 * _scale.Y;
+                tilePosition.X = (float)32 * _scale.X;
+                tilePosition.Y += (float)16 * _scale.Y;
             }
         }
 

@@ -7,6 +7,7 @@ using Sprint2.Enemy.Projectiles;
 using System.Collections.Generic;
 using Sprint0.Player;
 using Microsoft.VisualBasic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -37,9 +38,23 @@ namespace Sprint2.Enemy
         private Link _link;
 
 
-        private Rectangle[] fireballRectangles; 
+        private Rectangle[] fireballRectangles;
 
-       
+        public SpriteBatch spriteBatch;
+        public Texture2D enemyDeath;
+        private Boolean alive;
+        private bool isDying;
+        private float deathAnimationTimer = 0f;
+        private const float DEATH_ANIMATION_DURATION = 0.5f;
+        public SoundEffect deathSound;
+
+        private int currentDeathFrame = 0;
+        private float deathFrameTime = 0.1f; // Time each death frame is displayed
+        private float deathFrameElapsed = 0f;
+        private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
+        };
+
+
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; private set; } = 24;
         public int Height { get; private set; } = 32;
@@ -52,6 +67,8 @@ namespace Sprint2.Enemy
             position = startPosition;
             initialPosition = startPosition;
             fireballs = new List<Fireball>();
+
+            alive = true;
         }
 
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -65,67 +82,117 @@ namespace Sprint2.Enemy
         }
 
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
             fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); 
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+           _scale = scale;
+
+            enemyDeath = content.Load<Texture2D>("EnemyDeath");
+            deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
        
         public void Update(GameTime gameTime)
         {
-            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            MoveDragon();
-
-            //CollideWall = false;
-            //wallLeftBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
-            //wallRightBoundingBox = new Rectangle((int)(224 * _link._scale.X), (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(112 * _link._scale.Y));
-            //wallUpBoundingBox = new Rectangle(0, 0, (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
-            //wallDownBoundingBox = new Rectangle(0, (int)(144 * _link._scale.Y), (int)(256 * _link._scale.X), (int)(32 * _link._scale.Y));
-
-            //dragonBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 24, 32, _link._scale);
-            //if (dragonBoundingBox.Intersects(wallLeftBoundingBox) || dragonBoundingBox.Intersects(wallRightBoundingBox) || dragonBoundingBox.Intersects(wallUpBoundingBox) || dragonBoundingBox.Intersects(wallDownBoundingBox))
-            //{
-            //    CollideWall = true;
-            //}
-
-            if (timeElapsed > timePerFrame)
+            if (isDying)
             {
-                currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-                timeElapsed = 0f;
-            }
 
-          
-            if (damageColorTimer <= 0)
-            {
-                currentColor = Color.White;
-            }
+                deathFrameElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-           
-            timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timeSinceLastShot > fireballCooldown)
-            {
-                ShootFireball();  
-                timeSinceLastShot = 0f;
-            }
-
-         
-            for (int i = 0; i < fireballs.Count; i++)
-            {
-                fireballs[i].Update(gameTime);
-
-             
-                if (fireballs[i].IsOffScreen())
+                if (deathFrameElapsed >= deathFrameTime)
                 {
-                    fireballs.RemoveAt(i);
-                    i--;
+                    currentDeathFrame++;
+
+                    deathFrameElapsed = 0f;
+
+                    if (currentDeathFrame >= deathSourceRectangles.Length)
+                    {
+                        isDying = false;
+                        position = new Vector2(20000, 20000); // Move off screen
+                    }
                 }
             }
+            else if (alive)
+            {
+                timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                MoveDragon();
+
+                if (timeElapsed > timePerFrame)
+                {
+                    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+                    timeElapsed = 0f;
+                }
+
+
+                if (damageColorTimer <= 0)
+                {
+                    currentColor = Color.White;
+                }
+
+
+                timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (timeSinceLastShot > fireballCooldown)
+                {
+                    ShootFireball();
+                    timeSinceLastShot = 0f;
+                }
+
+
+                for (int i = 0; i < fireballs.Count; i++)
+                {
+                    fireballs[i].Update(gameTime);
+
+
+                    if (fireballs[i].IsOffScreen())
+                    {
+                        fireballs.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+
+            //timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            //MoveDragon();
+
+            //if (timeElapsed > timePerFrame)
+            //{
+            //    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
+            //    timeElapsed = 0f;
+            //}
+
+          
+            //if (damageColorTimer <= 0)
+            //{
+            //    currentColor = Color.White;
+            //}
+
+           
+            //timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (timeSinceLastShot > fireballCooldown)
+            //{
+            //    ShootFireball();  
+            //    timeSinceLastShot = 0f;
+            //}
+
+         
+            //for (int i = 0; i < fireballs.Count; i++)
+            //{
+            //    fireballs[i].Update(gameTime);
+
+             
+            //    if (fireballs[i].IsOffScreen())
+            //    {
+            //        fireballs.RemoveAt(i);
+            //        i--;
+            //    }
+            //}
         }
 
    
@@ -170,23 +237,48 @@ namespace Sprint2.Enemy
         
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                spriteSheet,
-                position,
-                sourceRectangles[currentFrame],
-                currentColor,
-                0f,
-                Vector2.Zero,
-                _scale,
-                SpriteEffects.None,
-                0f
-            );
+            if (isDying)
+            {
+                spriteBatch.Draw(enemyDeath, position, deathSourceRectangles[currentDeathFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            }
+            else if (alive)
+            {
+                spriteBatch.Draw(
+               spriteSheet,
+               position,
+               sourceRectangles[currentFrame],
+               currentColor,
+               0f,
+               Vector2.Zero,
+               _scale,
+               SpriteEffects.None,
+               0f
+                );
+
+
+                foreach (var fireball in fireballs)
+                {
+                    fireball.Draw(spriteBatch);
+                }
+            }
+
+            //spriteBatch.Draw(
+            //    spriteSheet,
+            //    position,
+            //    sourceRectangles[currentFrame],
+            //    currentColor,
+            //    0f,
+            //    Vector2.Zero,
+            //    _scale,
+            //    SpriteEffects.None,
+            //    0f
+            //);
 
            
-            foreach (var fireball in fireballs)
-            {
-                fireball.Draw(spriteBatch);
-            }
+            //foreach (var fireball in fireballs)
+            //{
+            //    fireball.Draw(spriteBatch);
+            //}
         }
 
        
@@ -207,14 +299,26 @@ namespace Sprint2.Enemy
             health -= 1;
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
-            if (health <= 0)
+
+            if (health <= 0 && alive)
             {
-                position.X = 20000;
-                position.Y = 20000;
-            }   
+                alive = false;
+                isDying = true;
+                deathAnimationTimer = DEATH_ANIMATION_DURATION;
+                deathSound.Play();
+            }
+
+            //if (health <= 0)
+            //{
+            //    position.X = 20000;
+            //    position.Y = 20000;
+            //}   
         }
 
-       
+        public Boolean GetState()
+        {
+            return alive;
+        }
     }
 }
 

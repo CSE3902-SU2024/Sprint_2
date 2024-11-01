@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
+using System.Net.Mime;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace Sprint0.Player
@@ -37,6 +40,8 @@ namespace Sprint0.Player
         {
             if (--remainingFrames <= 0)
             {
+                //Sound effect
+                _link.SwordAttackSound.Play();
                 if (weaponFrame == 11)
                 {
                     weaponFrame = 12;
