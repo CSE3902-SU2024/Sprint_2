@@ -64,18 +64,16 @@ namespace Sprint0
         {
 
 
-            //Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
-
-            ////link texture
-            //Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
-
-
-            ////link instance
-            //_link = new Link(linkFrames, linkTexture, GraphicsDevice);
-            //_keyboardController = new KeyboardController(_link, _StageManager);
-            ////Block texture
-            //animatedBlock = new AnimatedBlock(new Vector2(100, 100));
-            //animatedBlock.LoadContent(Content, "DungeonSheet");
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Content.RootDirectory = "Content";
+            _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
+            _scale.Y = (float)GraphicsDevice.Viewport.Height / 230.0f;
+            CurrentGameState = new LevelOne(_graphics, _spriteBatch, _scale, GraphicsDevice);
+            CurrentGameState.LoadContent(Content);
+            swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
+            bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
+            bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
+            boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
 
         }
 
