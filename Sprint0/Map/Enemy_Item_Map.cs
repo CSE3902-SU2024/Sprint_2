@@ -1,15 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.IO;
-using System.Diagnostics;
-using System.Collections.Generic;
-using Sprint2.Enemy;
-using Microsoft.Xna.Framework.Graphics;
-using Sprint0.Player;
-using Sprint2.Collisions;
-using Microsoft.Xna.Framework;
-using System.Reflection.Metadata;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Sprint2.Enemy;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 
 namespace Sprint2.Map

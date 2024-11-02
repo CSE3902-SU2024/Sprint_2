@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Sprint0.Interfaces;
-using Sprint0.Player;
+﻿using Microsoft.Xna.Framework;
 using Sprint2.Enemy;
 using Sprint2.Map;
-using static System.Formats.Asn1.AsnWriter;
+using System.Collections.Generic;
 
 namespace Sprint2.Collisions
 {
@@ -45,106 +34,60 @@ namespace Sprint2.Collisions
             );
         }
 
-        public void EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale) // or List<IEnemy> enemies, Vector2 spritePosition, Vector2 scale
+        public bool EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale) // or List<IEnemy> enemies, Vector2 spritePosition, Vector2 scale
             //public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
         {
+            bool collisionDetected = true;
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
-            List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
+             List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
 
-            // Iterate over each enemy and check for collision
-            foreach (IEnemy enemy in enemiesInRoom) //or Enemy enemy in enemies
+            // Iterate enemies
+             foreach (IEnemy enemy in enemiesInRoom)
+              {
+                  Rectangle enemyBoundingBox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height, scale);
+                     Vector2 newEnemyPosition = enemy.Position;
+
+                if (blockBoundingBox.Intersects(enemyBoundingBox))
+                {
+                    collisionDetected = true;
+                    Rectangle intersection = Rectangle.Intersect(enemyBoundingBox, blockBoundingBox);
+                    if (enemy is Stalfos stalfos)
+                    {
+                        stalfos.SetNewRandomDirection();
+                    }
+                    // keep enemies oustside of the block
+                    float offsetDistance = 2.0f;   
+
+            //   vertical collision 
+            if (intersection.Height < intersection.Width)
             {
-                Rectangle enemyBoundingBox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height, scale);
-
-                //int enemyPositionX = (int)enemy.Position.X;
-                //int enemyPositionY = (int)enemy.Position.Y;
-
-                Vector2 newEnemyPosition = enemy.Position;
-
-                if (enemy is Keese keese)
+                if (enemy.Position.Y < blockBoundingBox.Y)  
                 {
-
+                    newEnemyPosition.Y = blockBoundingBox.Top - (enemy.Height * scale.Y) - offsetDistance;
                 }
-
-                else if (enemy is Dragon dragon)
+                else if (enemy.Position.Y > blockBoundingBox.Y)  
                 {
-                    enemyBoundingBox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, 32, 32, scale);
-
-                    if (blockBoundingBox.Intersects(enemyBoundingBox))
-                    {
-                        Rectangle intersection = Rectangle.Intersect(enemyBoundingBox, blockBoundingBox);
-
-                        // Resolve vertical collision
-                        if (intersection.Height < intersection.Width)
-                        {
-                            if (enemy.Position.Y < blockBoundingBox.Y) // Coming from the top
-                            {
-                                //enemyPositionY = (int)((int)blockBoundingBox.Top - (enemy.Height * scale.Y));
-                                newEnemyPosition.Y = (int)((int)blockBoundingBox.Top - (enemy.Height * scale.Y));
-                            }
-                            else if (enemy.Position.Y > blockBoundingBox.Y) // Coming from below
-                            {
-                                //enemyPositionY = blockBoundingBox.Bottom;
-                                newEnemyPosition.Y = blockBoundingBox.Bottom;
-                            }
-                        }
-                        // Resolve horizontal collision
-                        else
-                        {
-                            if (enemy.Position.X < blockBoundingBox.X) // Coming from the left
-                            {
-                                //enemyPositionX -= intersection.Width;
-                                newEnemyPosition.X = blockBoundingBox.Left - (enemy.Width * scale.X);
-                            }
-                            else if (enemy.Position.X > blockBoundingBox.X) // Coming from the right
-                            {
-                                //enemyPositionX = blockBoundingBox.Right;
-                                newEnemyPosition.X = blockBoundingBox.Right;
-                            }
-                        }
-                    }
+                    newEnemyPosition.Y = blockBoundingBox.Bottom + offsetDistance;
                 }
-
-                else
+            }
+            else //  horizontal collision
+            {
+                if (enemy.Position.X < blockBoundingBox.X)  
                 {
-                    if (blockBoundingBox.Intersects(enemyBoundingBox))
-                    {
-                        Rectangle intersection = Rectangle.Intersect(enemyBoundingBox, blockBoundingBox);
-
-                        // Resolve vertical collision
-                        if (intersection.Height < intersection.Width)
-                        {
-                            if (enemy.Position.Y < blockBoundingBox.Y) // Coming from the top
-                            {
-                                //enemyPositionY = (int)((int)blockBoundingBox.Top - (enemy.Height * scale.Y));
-                                newEnemyPosition.Y = (int)((int)blockBoundingBox.Top - (enemy.Height * scale.Y));
-                            }
-                            else if (enemy.Position.Y > blockBoundingBox.Y) // Coming from below
-                            {
-                                //enemyPositionY = blockBoundingBox.Bottom;
-                                newEnemyPosition.Y = blockBoundingBox.Bottom;
-                            }
-                        }
-                        // Resolve horizontal collision
-                        else
-                        {
-                            if (enemy.Position.X < blockBoundingBox.X) // Coming from the left
-                            {
-                                //enemyPositionX -= intersection.Width;
-                                newEnemyPosition.X = blockBoundingBox.Left - (enemy.Width * scale.X);
-                            }
-                            else if (enemyPosition.X > blockBoundingBox.X) // Coming from the right
-                            {
-                                //enemyPositionX = blockBoundingBox.Right;
-                                newEnemyPosition.X = blockBoundingBox.Right;
-                            }
-                        }
-                    }
+                    newEnemyPosition.X = blockBoundingBox.Left - (enemy.Width * scale.X) - offsetDistance;
                 }
+                else if (enemy.Position.X > blockBoundingBox.X)  
+                {
+                    newEnemyPosition.X = blockBoundingBox.Right + offsetDistance;
+                }
+            }
+        }
 
-                enemy.Position = newEnemyPosition;
+        
+        enemy.Position = newEnemyPosition;
 
             }
+            return collisionDetected;
         }
 
     }
