@@ -29,7 +29,11 @@ namespace Sprint0.Player
         public int framesPerBoomerang;
         public int RemainingDamagedFrames;
         public Boolean Damaged;
-        
+        private int immunityDuration;
+        private int remainingImmunityFrames;
+        private bool isImmune;
+
+
         private SpriteEffects spriteEffects;
 
         //for hud:
@@ -60,7 +64,9 @@ namespace Sprint0.Player
             Damaged = false;
             _color = Color.White;
             _previousPosition = new Vector2(200.0f, 200.0f);
-            
+            immunityDuration = 50;
+            remainingImmunityFrames = 0;
+
 
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;
@@ -108,11 +114,28 @@ namespace Sprint0.Player
         public void TakeDamage()
         {
             currentState.IsDamaged();
-            Health = Math.Max(0, Health - 1);
+
+            if (!isImmune) 
+            {
+                Health = Math.Max(0, Health - 1);
+                remainingImmunityFrames = immunityDuration;
+                isImmune = true; 
+            }
+
         }
         public void Update()
         {
             currentState.Update();
+
+            if (isImmune)
+            {
+                remainingImmunityFrames--;
+
+                if (remainingImmunityFrames <= 0)
+                {
+                    isImmune = false;
+                }
+            }
         }
 
         public void Draw(SpriteBatch _spriteBatch)
