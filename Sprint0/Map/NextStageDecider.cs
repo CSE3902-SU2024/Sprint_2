@@ -12,14 +12,16 @@ namespace Sprint2.Map
         private Vector2 _scale;
         private int _stage;
         private DoorMap _doorMap;
+        private StageManager _stageManager;
         
 
 
-        public NextStageDecider(Link link, Vector2 scale, DoorMap doorMap)
+        public NextStageDecider(Link link, Vector2 scale, DoorMap doorMap, StageManager stageManager)
         {
             _link = link;
             _scale = scale;
             _doorMap = doorMap;
+            _stageManager = stageManager;
 
         }
         public void Update(int stage)
@@ -85,6 +87,7 @@ namespace Sprint2.Map
                         }
                         else
                         {
+                         
                             return 4;
                         }
                     }
@@ -105,6 +108,7 @@ namespace Sprint2.Map
                         }
                         else
                         {
+                            _stageManager.AnimateRight(0, 3);
                             return 3;
                         }
                     }

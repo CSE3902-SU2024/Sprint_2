@@ -79,10 +79,13 @@ namespace Sprint2.GameStates
         {
 
             _spriteBatch.Begin();
-            _link.Draw(_spriteBatch);
+        
             _StageManager.Draw();
-
-            _link.Draw(_spriteBatch);
+            if (!_StageManager.GetAnimationState())
+            {
+                _link.Draw(_spriteBatch);
+            }
+          
 
             _spriteBatch.End();
 
@@ -93,9 +96,12 @@ namespace Sprint2.GameStates
         public void Update(GameTime gameTime)
         {
             _StageManager.Update(gameTime);
-            _link.Update();
-            _keyboardController.Update();
-            _mouseContriller.Update();
+            if (!_StageManager.GetAnimationState())
+            {
+                _link.Update();
+                _keyboardController.Update();
+                _mouseContriller.Update();
+            }
 
         }
 

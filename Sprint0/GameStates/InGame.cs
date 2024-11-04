@@ -58,7 +58,7 @@ namespace Sprint2.GameStates
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
-            _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
+        //    _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, );
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 

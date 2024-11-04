@@ -39,8 +39,10 @@ namespace Sprint2.Map
         DoorMap _DoorMap;
         Enemy_Item_Map _EnemyItem;
         ItemMap _ItemMap;
+        Boolean StageAnimating;
+        int AnimatingCount;
         private Link _link;
-
+        private StageAnimators _StageAnimator;
         // Start Menu
         public Texture2D titleScreen;
         public Texture2D endScreen;
@@ -55,7 +57,8 @@ namespace Sprint2.Map
         {
 
             currentGameStage = GameStage.StartMenu;
-
+            StageAnimating = false;
+            AnimatingCount = 0;
             StageIndex = 0;
             _texture = texture;
             _spriteBatch = spriteBatch;
@@ -67,7 +70,7 @@ namespace Sprint2.Map
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
-            _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap);
+            _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
@@ -82,26 +85,30 @@ namespace Sprint2.Map
             backgroundMusic = content.Load<Song>("DungeonTheme");
             endSequence = content.Load<Song>("EndingTheme");
 
+            _StageAnimator = new StageAnimators(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch);
+
         }
 
         public void Update(GameTime gameTime)
         {
-
-            if (currentGameStage == GameStage.StartMenu)
-            {
-                UpdateStartMenu(gameTime);
-            }
-            else if (currentGameStage == GameStage.Dungeon)
-            {
-                UpdateDungeon(gameTime);
-            }
-            else if (currentGameStage == GameStage.PauseMenu)
-            {
-                UpdatePauseMenu(gameTime);
-            } else if (currentGameStage == GameStage.End)
-            {
-                UpdateEnd(gameTime);
-            }
+            
+                if (currentGameStage == GameStage.StartMenu)
+                {
+                    UpdateStartMenu(gameTime);
+                }
+                else if (currentGameStage == GameStage.Dungeon)
+                {
+                    UpdateDungeon(gameTime);
+                }
+                else if (currentGameStage == GameStage.PauseMenu)
+                {
+                    UpdatePauseMenu(gameTime);
+                }
+                else if (currentGameStage == GameStage.End)
+                {
+                    UpdateEnd(gameTime);
+                }
+          
 
             //_nextStageDecider.Update(StageIndex);
             //_DrawDungeon.Update(StageIndex);
@@ -132,13 +139,27 @@ namespace Sprint2.Map
             }
         }
 
+
         public void UpdateDungeon(GameTime gameTime)
         {
-            _nextStageDecider.Update(StageIndex);
-            _DrawDungeon.Update(StageIndex);
-            _EnemyItem.Update(StageIndex, gameTime);
-            _ItemMap.Update(StageIndex, gameTime);
-            LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+            if (StageAnimating)
+            {
+                --AnimatingCount;
+                _StageAnimator.Update();
+            }
+            if (AnimatingCount <= 0)
+            {
+                StageAnimating = false;
+            }
+
+            if (!StageAnimating)
+            {
+                _nextStageDecider.Update(StageIndex);
+                _DrawDungeon.Update(StageIndex);
+                _EnemyItem.Update(StageIndex, gameTime);
+                _ItemMap.Update(StageIndex, gameTime);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+            }
             if (StageIndex == 0)
             {
                 Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
@@ -184,6 +205,7 @@ namespace Sprint2.Map
 
         public void NextStage()
         {
+
             StageIndex = _nextStageDecider.DecideStage();
         }
 
@@ -242,8 +264,14 @@ namespace Sprint2.Map
 
         public void DrawDungeon()
         {
-            _DrawDungeon.Draw();
-            DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+            if (!StageAnimating)
+            {
+                _DrawDungeon.Draw();
+                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+            } else
+            {
+                _StageAnimator.Draw();
+            }  
         }
 
         public void DrawPauseMenu()
@@ -256,6 +284,18 @@ namespace Sprint2.Map
             Vector2 position = new Vector2(0, 0);
             Vector2 scale = new Vector2(0.8f, 0.5f);
             _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0 ,0f);
+        }
+        public void AnimateRight(int currentStage, int nextStage)
+        {
+            StageAnimating = true;
+            AnimatingCount = 255;
+            _StageAnimator.AnimateRight(currentStage, nextStage);
+            Debug.WriteLine("FREEZE!\n");
+        }
+
+        public Boolean GetAnimationState()
+        {
+            return StageAnimating;
         }
     }
 }
