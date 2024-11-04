@@ -64,6 +64,10 @@ namespace Sprint2.GameStates
             UpdateEnd(gameTime);
 
         }
+        public int GetLinkHealth()
+        {
+            return 1;
+        }
 
         public void UpdateEnd(GameTime gameTime)
         {

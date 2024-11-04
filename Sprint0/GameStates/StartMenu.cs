@@ -55,6 +55,10 @@ namespace Sprint2.GameStates
             UpdateStartMenu(gameTime);
 
         }
+        public int GetLinkHealth()
+        {
+            return 1;
+        }
 
         public void UpdateStartMenu(GameTime gameTime)
         {

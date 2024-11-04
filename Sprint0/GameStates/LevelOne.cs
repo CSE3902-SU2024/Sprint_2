@@ -92,6 +92,11 @@ namespace Sprint2.GameStates
             _gameHUD.Draw();
         }
 
+        public int GetLinkHealth()
+        {
+            return _link.Health;
+        }
+
 
         public void Update(GameTime gameTime)
         {

@@ -41,5 +41,10 @@ namespace Sprint2.GameStates
         {
 
         }
+
+        public int GetLinkHealth()
+        {
+            return 1;
+        }
     }
 }

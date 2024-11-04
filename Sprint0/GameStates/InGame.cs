@@ -80,6 +80,11 @@ namespace Sprint2.GameStates
 
         }
 
+        public int GetLinkHealth()
+        {
+            return _link.Health;
+        }
+
         public void Update(GameTime gameTime)
         {
             UpdateDungeon(gameTime);

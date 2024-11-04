@@ -2,12 +2,10 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Sprint0.Classes;
 using Sprint0.Collisions;
+using Sprint0.Player;
 using Sprint2.GameStates;
-
-
-
-
 
 namespace Sprint0
 {
@@ -18,11 +16,13 @@ namespace Sprint0
         private SpriteBatch _spriteBatch;    
         private IGameState CurrentGameState;
         public Vector2 _scale;
-        KeyboardState previousKeyboardState;
+        //KeyboardState previousKeyboardState;
         public SoundEffect swordAttackSound;
         public SoundEffect bowAttackSound;
         public SoundEffect bombExplosion;
         public SoundEffect boomerangSound;
+        
+
 
         public Game1()
         {
@@ -36,16 +36,13 @@ namespace Sprint0
 
         protected override void Initialize()
         {
-
             //DEBUG FOR ENEMY HITBOXES
             DebugDraw.Initialize(GraphicsDevice);
             base.Initialize();
-
         }
 
         protected override void LoadContent()
         {
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Content.RootDirectory = "Content";
             _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
@@ -56,14 +53,12 @@ namespace Sprint0
             bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
-
+            
         }
 
 
         public void Reset()
         {
-
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Content.RootDirectory = "Content";
             _scale.X = (float)GraphicsDevice.Viewport.Width / 256.0f;
@@ -74,18 +69,16 @@ namespace Sprint0
             bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
-
+           
         }
 
 
         protected override void Update(GameTime gameTime)
         {
-           
-
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            if (Keyboard.GetState().IsKeyDown(Keys.R) || CurrentGameState.GetLinkHealth() == 0)
                 Reset();
             CurrentGameState.Update(gameTime);
             base.Update(gameTime);
@@ -96,8 +89,7 @@ namespace Sprint0
             GraphicsDevice.Clear(Color.Black);
             CurrentGameState.Draw();
             base.Draw(gameTime);
-        }
-         
+        }      
     }
 }
 

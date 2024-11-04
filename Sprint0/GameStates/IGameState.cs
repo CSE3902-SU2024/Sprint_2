@@ -20,6 +20,7 @@ namespace Sprint2.GameStates
         public void Update(GameTime gameTime);
         public void Draw();
         public void LoadContent(ContentManager Content);
+        public int GetLinkHealth();
     }
     
 

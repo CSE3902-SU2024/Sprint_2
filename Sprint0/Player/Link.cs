@@ -29,6 +29,7 @@ namespace Sprint0.Player
         public int framesPerBoomerang;
         public int RemainingDamagedFrames;
         public Boolean Damaged;
+        
         private SpriteEffects spriteEffects;
 
         //for hud:
@@ -59,6 +60,7 @@ namespace Sprint0.Player
             Damaged = false;
             _color = Color.White;
             _previousPosition = new Vector2(200.0f, 200.0f);
+            
 
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;
