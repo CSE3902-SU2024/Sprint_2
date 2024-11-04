@@ -125,7 +125,7 @@ namespace Sprint2.GameStates
 
         public void DrawDungeon()
         {
-            _DrawDungeon.Draw();
+            _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
             DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
         }
     }
