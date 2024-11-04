@@ -176,6 +176,18 @@
 /processorParam:TextureFormat=Color
 /build:Item.png
 
+#begin LinkDeath.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:LinkDeath.ogg;WrongOne.ogg
+
+#begin LinkDeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LinkDeath.wav
+
 #begin LinkSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

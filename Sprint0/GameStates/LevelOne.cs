@@ -105,7 +105,7 @@ namespace Sprint2.GameStates
             {
                 _link.Update();
                 _keyboardController.Update();
-                _mouseContriller.Update();
+                _mouseController.Update();
             }
 
         }

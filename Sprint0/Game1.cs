@@ -21,6 +21,7 @@ namespace Sprint0
         public SoundEffect bowAttackSound;
         public SoundEffect bombExplosion;
         public SoundEffect boomerangSound;
+        public SoundEffect linkDeath;
         
 
 
@@ -53,7 +54,9 @@ namespace Sprint0
             bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
-            
+            linkDeath = Content.Load<SoundEffect>("LinkDeath");
+
+
         }
 
 
@@ -69,7 +72,8 @@ namespace Sprint0
             bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
-           
+            linkDeath = Content.Load<SoundEffect>("LinkDeath");
+
         }
 
 
@@ -78,8 +82,15 @@ namespace Sprint0
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.R) || CurrentGameState.GetLinkHealth() == 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
                 Reset();
+            }
+            else if (CurrentGameState.GetLinkHealth() == 0)
+            {
+                linkDeath.Play();
+                Reset();
+            }
             CurrentGameState.Update(gameTime);
             base.Update(gameTime);
         }
