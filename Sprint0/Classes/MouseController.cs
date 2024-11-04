@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Sprint0.Classes
 {
-    public class MouseContriller
+    public class MouseController
     {
         private MouseState previousState;
         public Link _link;
         private StageManager _StageManager;
-        public MouseContriller(Link link, StageManager stageManager)
+        public MouseController(Link link, StageManager stageManager)
         {
             _link = link;
             _StageManager = stageManager;

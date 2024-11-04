@@ -31,7 +31,7 @@ namespace Sprint2.GameStates
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
         private GameHUD _gameHUD;
-        private MouseContriller _mouseContriller;
+        private MouseController _mouseController;
 
         public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice)
         {
@@ -71,7 +71,7 @@ namespace Sprint2.GameStates
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
             _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link, _StageManager);
-            _mouseContriller = new MouseContriller(_link, _StageManager);
+            _mouseController = new MouseController(_link, _StageManager);
         }
 
 
@@ -105,7 +105,7 @@ namespace Sprint2.GameStates
             {
                 _link.Update();
                 _keyboardController.Update();
-                _mouseContriller.Update();
+                _mouseController.Update();
             }
 
         }
