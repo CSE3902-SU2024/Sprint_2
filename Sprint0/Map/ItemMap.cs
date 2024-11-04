@@ -100,7 +100,7 @@ namespace Sprint2.Map
         {
             List<Iitem> ItemsInRoom = new List<Iitem>();
 
-            Vector2 ItemPosition = new Vector2(32 * _scale.X, 32 * _scale.Y);
+            Vector2 ItemPosition = new Vector2(32 * _scale.X, 87 * _scale.Y);
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 12; j++)

@@ -240,9 +240,9 @@ namespace Sprint2.Map
 
             Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
 
-            Vector2 position = new Vector2(0, 0);
+            Vector2 position = new Vector2(0, 240);
 
-            Vector2 scale = new Vector2(3.26f, 2.15f);
+            Vector2 scale = new Vector2(4.2f, 3.05f);
            
             // Draw the title screen
             _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -281,8 +281,8 @@ namespace Sprint2.Map
 
         public void DrawEnd()
         {
-            Vector2 position = new Vector2(0, 0);
-            Vector2 scale = new Vector2(0.8f, 0.5f);
+            Vector2 position = new Vector2(100, 240);
+            Vector2 scale = new Vector2(0.8f, 0.8f);
             _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0 ,0f);
         }
         public void AnimateRight(int currentStage, int nextStage)
