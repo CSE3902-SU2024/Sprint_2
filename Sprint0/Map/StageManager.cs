@@ -42,7 +42,8 @@ namespace Sprint2.Map
         Boolean StageAnimating;
         int AnimatingCount;
         private Link _link;
-        private StageAnimators _StageAnimator;
+        private StageAnimator _StageAnimator;
+  
         // Start Menu
         public Texture2D titleScreen;
         public Texture2D endScreen;
@@ -85,7 +86,8 @@ namespace Sprint2.Map
             backgroundMusic = content.Load<Song>("DungeonTheme");
             endSequence = content.Load<Song>("EndingTheme");
 
-            _StageAnimator = new StageAnimators(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch);
+            _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
+       
 
         }
 
@@ -144,7 +146,7 @@ namespace Sprint2.Map
         {
             if (StageAnimating)
             {
-                --AnimatingCount;
+                AnimatingCount-=2;
                 _StageAnimator.Update();
             }
             if (AnimatingCount <= 0)
@@ -266,7 +268,7 @@ namespace Sprint2.Map
         {
             if (!StageAnimating)
             {
-                _DrawDungeon.Draw();
+                _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
                 DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
             } else
             {
@@ -285,11 +287,11 @@ namespace Sprint2.Map
             Vector2 scale = new Vector2(0.8f, 0.5f);
             _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0 ,0f);
         }
-        public void AnimateRight(int currentStage, int nextStage)
+        public void Animate(int currentStage, int nextStage, int direction)
         {
             StageAnimating = true;
             AnimatingCount = 255;
-            _StageAnimator.AnimateRight(currentStage, nextStage);
+            _StageAnimator.Animate(currentStage, nextStage, direction);
             Debug.WriteLine("FREEZE!\n");
         }
 

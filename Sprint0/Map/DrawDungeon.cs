@@ -46,7 +46,7 @@ namespace Sprint2.Map
 
         public void Update(int currentStage)
         {
-                stage = currentStage;
+                //stage = currentStage;
         }
 
         private int[] GetDoor(int currentStage) { 
@@ -67,25 +67,29 @@ namespace Sprint2.Map
             return _itemMap.GetItems(currentStage);
         }
 
-        public void Draw()
+        public void Draw(Vector2 Offset, Boolean Transitioning, int currentStage)
         {
-            DrawWalls();
+            DrawWalls(Offset);
+            DrawTiles(GetStage(currentStage), Offset, Transitioning);
+            DrawDoors(GetDoor(currentStage), Offset);
 
-            DrawTiles(GetStage(stage));
-            DrawDoors(GetDoor(stage));
-            DrawEnemies(GetEnemies(stage));
-            DrawItems(Getitems(stage));
+            if (!Transitioning)
+            {
+                DrawEnemies(GetEnemies(currentStage));
+                DrawItems(Getitems(currentStage));
+
+            }   
         }
-        public void DrawWalls()
+        public void DrawWalls(Vector2 Offset)
         {
-            _spriteBatch.Draw(_texture, new Vector2(0, 55.0f * _scale.Y), _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0, 87.0f * _scale.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0, 198.0f * _scale.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(224.0f * _scale.X, 87.0f * _scale.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 55.0f * _scale.Y + Offset.Y), _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 87.0f * _scale.Y + Offset.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 198.0f * _scale.Y + Offset.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(224.0f * _scale.X + Offset.X, 87.0f * _scale.Y +Offset.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
 
         }
 
-        public void DrawDoors(int[] doorCodes)
+        public void DrawDoors(int[] doorCodes, Vector2 Offset)
         {
             Vector2 doorPosition = new Vector2(0, 0);
             for (int i = 0; i < 4; i++)
@@ -94,20 +98,20 @@ namespace Sprint2.Map
                 switch (i)
                 {
                     case 0:
-                        doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 55 * _scale.Y;
+                        doorPosition.X = 112 * _scale.X + Offset.X;
+                        doorPosition.Y = 55 * _scale.Y + Offset.Y;
                         break;
                     case 1: 
-                        doorPosition.X = 0;
-                        doorPosition.Y = 127 * _scale.Y;
+                        doorPosition.X = 0 + Offset.X;
+                        doorPosition.Y = 127 * _scale.Y + Offset.Y;
                         break;
                     case 2:
-                        doorPosition.X = 224 * _scale.X;
-                        doorPosition.Y = 127 * _scale.Y;
+                        doorPosition.X = 224 * _scale.X + Offset.X;
+                        doorPosition.Y = 127 * _scale.Y + Offset.Y;
                         break;
                     case 3:
-                        doorPosition.X = 112 * _scale.X;
-                        doorPosition.Y = 198 * _scale.Y;
+                        doorPosition.X = 112 * _scale.X + Offset.X;
+                        doorPosition.Y = 198 * _scale.Y + Offset.Y;
                         break;
                     default: break;
 
@@ -116,9 +120,9 @@ namespace Sprint2.Map
 
             }
         }
-        public void DrawTiles(int[,] room)
+        public void DrawTiles(int[,] room, Vector2 Offset, Boolean Transitioning)
         {
-            Vector2 tilePosition = new Vector2(32 * _scale.X, 87 * _scale.Y);
+            Vector2 tilePosition = new Vector2(32 * _scale.X + Offset.X, 87 * _scale.Y + Offset.Y);
             List<IEnemy> enemiesInRoom = _EnemyItem.GetEnemies(0);
             for (int i = 0; i < 7; i++)
             {
@@ -127,32 +131,25 @@ namespace Sprint2.Map
                     int tileIdx = room[i, j];
 
                     _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-
-                    // Collision for all the tiles for 1
-                    if (tileIdx == 1 || tileIdx == 3)
+                    if (!Transitioning)
                     {
-                        Vector2 EasierAccessTilePosition = tilePosition + new Vector2(3, 3);
-                        HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
-                        playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
-
-                        //HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(tilePosition, 16, 16, 16, 16);
-                        //enemyBlockCollision.EnemyBlockCollision(_EnemyItem, 0, _scale);
-
-                        foreach (IEnemy enemy in enemiesInRoom)
+                        if (tileIdx == 1 || tileIdx == 3)
                         {
-                            HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(EasierAccessTilePosition, 16, 16, 13, 13);
-                            enemyBlockCollision.EnemyBlockCollision(_EnemyItem, stage, _scale);
+                            Vector2 EasierAccessTilePosition = tilePosition + new Vector2(3, 3);
+                            HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
+                            playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+
+                            foreach (IEnemy enemy in enemiesInRoom)
+                            {
+                                HandleEnemyBlockCollision enemyBlockCollision = new HandleEnemyBlockCollision(EasierAccessTilePosition, 16, 16, 13, 13);
+                                enemyBlockCollision.EnemyBlockCollision(_EnemyItem, stage, _scale);
+                            }
                         }
-
-                        //EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
-
-                        //LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, 0, _link._scale);
                     }
-
                     tilePosition.X += (float)16 * _scale.X;
                 }
-                tilePosition.X = (float)32 * _scale.X;
-                tilePosition.Y += (float)16 * _scale.Y;
+                tilePosition.X = (float)32 * _scale.X + Offset.X;
+                tilePosition.Y += (float)16 * _scale.Y + Offset.Y;
             }
         }
 
