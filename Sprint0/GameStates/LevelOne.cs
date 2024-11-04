@@ -31,7 +31,7 @@ namespace Sprint2.GameStates
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
         private GameHUD _gameHUD;
-        private MouseContriller _mouseContriller;
+        private MouseController _mouseContriller;
 
         public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice)
         {
