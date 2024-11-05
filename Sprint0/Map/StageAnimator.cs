@@ -51,6 +51,8 @@ namespace Sprint2.Map
 
         public void Animate(int currentStage, int nextStage, int Direction)
         {
+            Offset1 = Vector2.Zero;
+            Offset2 = Vector2.Zero;
            _currentStage = currentStage;
             _nextStage = nextStage;
             direction = Direction;
@@ -63,6 +65,14 @@ namespace Sprint2.Map
                 case 2:
                     Offset1.X = 0;
                     Offset2.X = -(255 * _scale.X);
+                    break;
+                case 3:
+                    Offset1.Y = 0;
+                    Offset2.Y = -(175 * _scale.Y);
+                    break;
+                case 4:
+                    Offset1.Y = 0;
+                    Offset2.Y = 175 * _scale.Y;
                     break;
                 default:
                     break;
@@ -84,6 +94,14 @@ namespace Sprint2.Map
                 case 2:
                     Offset1.X += 2 * _scale.X;
                     Offset2.X += 2 * _scale.X;
+                    break;
+                case 3:
+                    Offset1.Y += 2 * _scale.Y;
+                    Offset2.Y += 2 * _scale.Y;
+                    break;
+                case 4:
+                    Offset1.Y -= 2 * _scale.Y;
+                    Offset2.Y -= 2* _scale.Y;
                     break;
                 default:
                     break;

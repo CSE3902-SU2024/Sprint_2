@@ -149,7 +149,7 @@ namespace Sprint2.Map
                     tilePosition.X += (float)16 * _scale.X;
                 }
                 tilePosition.X = (float)32 * _scale.X + Offset.X;
-                tilePosition.Y += (float)16 * _scale.Y + Offset.Y;
+                tilePosition.Y += (float)16 * _scale.Y;
             }
         }
 

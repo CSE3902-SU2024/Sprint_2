@@ -47,10 +47,12 @@ namespace Sprint2.Map
                         _link._position.Y = 180 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _stageManager.Animate(1, 0, 4);
                             return 0;
                         }
                         else
                         {
+                            _stageManager.Animate(0, 1, 3);
                             return 1;
                         }
                     }
@@ -64,10 +66,12 @@ namespace Sprint2.Map
                         _link._position.Y = 87 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _stageManager.Animate(1, 0, 4);
                             return 0;
                         }
                         else
                         {
+                          
                             return 2;
                         }
                     }
@@ -88,7 +92,7 @@ namespace Sprint2.Map
                         }
                         else
                         {
-                            _stageManager.Animate(0, 4, 1);
+                            _stageManager.Animate(0, 4, 2);
                             return 4;
                         }
                     }

@@ -290,7 +290,14 @@ namespace Sprint2.Map
         public void Animate(int currentStage, int nextStage, int direction)
         {
             StageAnimating = true;
-            AnimatingCount = 255;
+            if (direction <= 2)
+            {
+                AnimatingCount = 255;
+            } else
+            {
+                AnimatingCount = 176;
+            }
+         
             _StageAnimator.Animate(currentStage, nextStage, direction);
             Debug.WriteLine("FREEZE!\n");
         }

@@ -60,10 +60,10 @@ namespace Sprint0.Classes
                 _link.TakeDamage();
             }
 
-            //if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
-            //{
-            //    _StageManager.NextStage();
-            //}
+            if (state.IsKeyDown(Keys.K) && previousState.IsKeyUp(Keys.K))
+            {
+                _StageManager.NextStage();
+            }
 
             //// ITEMS AND BLOCKS
             //previousItem = state.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U);
