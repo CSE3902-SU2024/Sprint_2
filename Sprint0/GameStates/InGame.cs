@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Sprint2.GameStates
 {
@@ -30,6 +31,9 @@ namespace Sprint2.GameStates
         Enemy_Item_Map _EnemyItem;
         ItemMap _ItemMap;
         private Link _link;
+        Boolean StageAnimating;
+        private StageAnimator _StageAnimator;
+        int AnimatingCount;
 
         // Start Menu
         public Texture2D titleScreen;
@@ -47,6 +51,9 @@ namespace Sprint2.GameStates
             currentGameStage = GameStage.StartMenu;
 
             StageIndex = 0;
+            StageAnimating = false;
+            AnimatingCount = 0;
+            _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
             _texture = texture;
             _spriteBatch = spriteBatch;
             _link = link;
@@ -92,12 +99,29 @@ namespace Sprint2.GameStates
 
         public void UpdateDungeon(GameTime gameTime)
         {
-            _nextStageDecider.Update(StageIndex);
-            _DrawDungeon.Update(StageIndex);
-            _EnemyItem.Update(StageIndex, gameTime);
-            _ItemMap.Update(StageIndex, gameTime);
-            LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+            if (StageAnimating)
+            {
+                AnimatingCount -= 2;
+                _StageAnimator.Update();
+            }
+            if (AnimatingCount <= 0)
+            {
+                StageAnimating = false;
+            }
 
+            if (!StageAnimating)
+            {
+                _nextStageDecider.Update(StageIndex);
+                _DrawDungeon.Update(StageIndex);
+                _EnemyItem.Update(StageIndex, gameTime);
+                _ItemMap.Update(StageIndex, gameTime);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+            }
+            if (StageIndex == 0)
+            {
+                Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
+                _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
+            }
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
                 MediaPlayer.Stop();
@@ -125,8 +149,28 @@ namespace Sprint2.GameStates
 
         public void DrawDungeon()
         {
-            _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-            DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+            if (!StageAnimating)
+            {
+                _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
+                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+            }
+            else
+            {
+                _StageAnimator.Draw();
+            }
+        }
+
+        public void Animate(int currentStage, int nextStage, int direction)
+        {
+            StageAnimating = true;
+            AnimatingCount = 255;
+            _StageAnimator.Animate(currentStage, nextStage, direction);
+            Debug.WriteLine("FREEZE!\n");
+        }
+
+        public Boolean GetAnimationState()
+        {
+            return StageAnimating;
         }
     }
 }

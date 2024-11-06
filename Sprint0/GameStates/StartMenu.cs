@@ -29,7 +29,7 @@ namespace Sprint2.GameStates
         public bool showText;
         Song titleSequence;
 
-        public StartMenu(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
+        public StartMenu(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content)
         {
 
             currentGameStage = GameStage.StartMenu;
@@ -91,13 +91,11 @@ namespace Sprint2.GameStates
 
         public void DrawStartMenu()
         {
-            //_spriteBatch.Begin();
-
             Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
 
-            Vector2 position = new Vector2(0, 0);
+            Vector2 position = new Vector2(0, 240);
 
-            Vector2 scale = new Vector2(3.26f, 2.15f);
+            Vector2 scale = new Vector2(4.2f, 3.05f);
 
             // Draw the title screen
             _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -113,8 +111,6 @@ namespace Sprint2.GameStates
                 );
                 _spriteBatch.DrawString(font, startText, textPosition, Color.White);
             }
-
-            //_spriteBatch.End();
         }
 
     }
