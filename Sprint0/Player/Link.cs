@@ -37,7 +37,7 @@ namespace Sprint0.Player
         private SpriteEffects spriteEffects;
 
         //for hud:
-        public int Health { get; set; } = 6; // each heart = 2 hp
+        public int Health { get; set; } = 16; // each heart = 2 hp
 
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }

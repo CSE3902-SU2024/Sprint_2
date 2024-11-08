@@ -25,13 +25,13 @@ namespace Sprint2
         private Rectangle _healthBarPosition;
         private const int HUD_WIDTH = 256;
         private const int HUD_HEIGHT = 48;
-      
-        private const int HEART_WIDTH = 8;
-        private const int HEART_HEIGHT = 8;
-        private const int HEART_SPACING = 0;  // Space between hearts
-        private const int MAX_HEALTH = 3;
 
-        private const int MAX_HEALTH_POINTS = MAX_HEALTH * 2; // 3 hearts = 6 health points
+        private const int HEART_WIDTH = 9;
+        private const int HEART_HEIGHT = 9;
+        private const int HEART_SPACING = 0;  // Space between hearts
+        const int heartsPerRow = 8;  // Set max hearts per row
+
+        private int health;
 
 
 
@@ -43,7 +43,7 @@ namespace Sprint2
             _link = link;
             _scale = scale;
             this.graphicsDevice = graphicsDevice;
-            _link.Health = MAX_HEALTH_POINTS;
+            health = _link.Health;
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
@@ -63,9 +63,9 @@ namespace Sprint2
         }
         private void InitializeHUDPositions()
         {
-            
-           _hudBackground = new Rectangle(0, 0, graphicsDevice.Viewport.Width, (int)(HUD_HEIGHT * _scale.Y * 1.2));
-            _healthBarPosition = new Rectangle(703,133, (int)(HEART_WIDTH * _scale.X*1.15), (int) (HEART_HEIGHT * _scale.Y*1.15));
+
+            _hudBackground = new Rectangle(0, 0, graphicsDevice.Viewport.Width, (int)(HUD_HEIGHT * _scale.Y * 1.2));
+            _healthBarPosition = new Rectangle(703, 133, (int)(HEART_WIDTH * _scale.X * 1.15), (int)(HEART_HEIGHT * _scale.Y * 1.15));
             //hard coded heart position and scaling -> reason being HUD size is based on a scale and screenwidth. 
 
             cutOuts = new Rectangle[]
@@ -84,8 +84,11 @@ namespace Sprint2
             _spriteBatch.Draw(_hudTexture, _hudBackground, cutOuts[0], Color.White);
 
 
-            for (int i = 0; i < MAX_HEALTH; i++)
+
+            for (int i = 0; i < health; i++)
             {
+                int row = i / heartsPerRow;
+                int column = i % heartsPerRow;
                 // Each heart position corresponds to 2 health points
                 int heartValue = _link.Health - (i * 2);
 
@@ -103,24 +106,16 @@ namespace Sprint2
                 {
                     heartSource = cutOuts[3];  // Empty heart
                 }
+                int xPosition = _healthBarPosition.X + column * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X);
+                int yPosition = _healthBarPosition.Y + row * (int)(HEART_HEIGHT * _scale.Y);
 
-                // Draw each heart in the appropriate position with scaling
-                _spriteBatch.Draw(
-                    _hudTexture,
-                    new Rectangle(
-                        _healthBarPosition.X + (i * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X)),
-                        _healthBarPosition.Y,
-                        _healthBarPosition.Width,
-                        _healthBarPosition.Height
-                    ),
-                    heartSource,
-                    Color.White
-                );
+                _spriteBatch.Draw(_hudTexture,
+                 new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
+                 heartSource, Color.White);
+
             }
-
-            // End the sprite batch
             _spriteBatch.End();
-        }
 
+        }
     }
 }
