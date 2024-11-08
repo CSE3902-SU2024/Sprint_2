@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
+using Sprint2.GameStates;
 using Sprint2.Map;
 using System.Diagnostics;
 
@@ -16,7 +17,7 @@ namespace Sprint0.Classes
        public KeyboardController(Link link) //,StageManager stageManager )
         {
             _link = link;
-           // _StageManager = stageManager;
+            _StageManager = stageManager;
         }
         public int Update(int GameStateIndex)
         {

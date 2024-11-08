@@ -47,6 +47,9 @@ namespace Sprint2.Enemy
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
         public SoundEffect deathSound;
+        private int immunityDuration = 25;
+        private int remainingImmunityFrames = 0;
+        private bool isImmune;
 
         private int currentDeathFrame = 0;
         private float deathFrameTime = 0.1f; // Time each death frame is displayed
@@ -63,7 +66,7 @@ namespace Sprint2.Enemy
         public List<Fireball> fireballs { get; private set; }
         public Dragon(Vector2 startPosition)
         {
-            health = 100;
+            health = 6;
             position = startPosition;
             initialPosition = startPosition;
             fireballs = new List<Fireball>();
@@ -152,6 +155,15 @@ namespace Sprint2.Enemy
                     {
                         fireballs.RemoveAt(i);
                         i--;
+                    }
+                }
+                if (isImmune)
+                {
+                    remainingImmunityFrames--;
+
+                    if (remainingImmunityFrames <= 0)
+                    {
+                        isImmune = false;
                     }
                 }
             }
@@ -296,7 +308,12 @@ namespace Sprint2.Enemy
        
         public void TakeDamage()
         {
-            health -= 1;
+            if (!isImmune)
+            {
+                health = Math.Max(0, health - 1);
+                remainingImmunityFrames = immunityDuration;
+                isImmune = true;
+            }
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
 

@@ -50,7 +50,7 @@ namespace Sprint0.Player
                 //SoundEffect
                 _link.bowAttackSound.Play();
                 _weaponPosition.Y -= _arrowSpeed;
-                if (_weaponPosition.Y < -100)
+                if (_weaponPosition.Y < 200)
                 {
                     _arrowFlying = false;
                     linkFrame = 11;

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint0.Player;
-using Sprint2.Collisions;
-using Sprint2.Enemy;
-using System;
-using System.Collections.Generic;
 
 namespace Sprint2.Map
 {

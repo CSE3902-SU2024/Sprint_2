@@ -85,12 +85,13 @@ namespace Sprint2.GameStates
 
         public void DrawStartMenu()
         {
+            //_spriteBatch.Begin();
 
             Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
 
-            Vector2 position = new Vector2(0, 0);
+            Vector2 position = new Vector2(0, 240);
 
-           
+            Vector2 scale = new Vector2(3.26f, 2.15f);
 
             // Draw the title screen
             _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
@@ -106,8 +107,6 @@ namespace Sprint2.GameStates
                 );
                 _spriteBatch.DrawString(font, startText, textPosition, Color.White);
             }
-
-            //_spriteBatch.End();
         }
 
     }

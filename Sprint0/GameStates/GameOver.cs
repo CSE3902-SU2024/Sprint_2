@@ -30,7 +30,7 @@ namespace Sprint2.GameStates
         Song endSequence;
         Song backgroundMusic;
 
-        public GameOver(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
+        public GameOver(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
         {
 
             currentGameStage = GameStage.StartMenu;
@@ -93,8 +93,8 @@ namespace Sprint2.GameStates
 
         public void DrawEnd()
         {
-            Vector2 position = new Vector2(0, 0);
-            Vector2 scale = new Vector2(0.8f, 0.5f);
+            Vector2 position = new Vector2(100, 240);
+            Vector2 scale = new Vector2(0.8f, 0.8f);
             _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0, 0f);
         }
     }

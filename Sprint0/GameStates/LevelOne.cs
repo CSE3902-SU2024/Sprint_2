@@ -47,7 +47,7 @@ namespace Sprint2.GameStates
             
 
             bossSpriteSheet = Content.Load<Texture2D>("Bosses1");
- 
+            
 
             //initalize spritefactory
             _linkSpriteFactory = new LinkSpriteFactory(_graphicsDevice, Content, "LinkSpriteSheet2");

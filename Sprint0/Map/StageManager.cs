@@ -46,6 +46,7 @@ namespace Sprint2.Map
   
         // Start Menu
         public Texture2D titleScreen;
+        public Texture2D pauseScreen;
         public Texture2D endScreen;
         public SpriteFont font;
         public float timer;
@@ -76,6 +77,7 @@ namespace Sprint2.Map
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
 
             titleScreen = content.Load<Texture2D>("TitleScreen");
+            pauseScreen = content.Load<Texture2D>("Pause");
             endScreen = content.Load<Texture2D>("EndingofZelda");
             font = content.Load<SpriteFont>("File");         
             timer = 0f;
@@ -278,6 +280,14 @@ namespace Sprint2.Map
 
         public void DrawPauseMenu()
         {
+            Rectangle sourceRectangle = new Rectangle(1, 1, 210, 58);
+
+            Vector2 position = new Vector2(0, 240);
+
+            Vector2 scale = new Vector2(1f, 1f);
+
+            // Draw the title screen
+            _spriteBatch.Draw(pauseScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
         }
 

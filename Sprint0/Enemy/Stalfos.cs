@@ -38,6 +38,9 @@ namespace Sprint2.Enemy
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
         public SoundEffect deathSound;
+        private int immunityDuration = 25;
+        private int remainingImmunityFrames = 0;
+        private bool isImmune;
 
         private int currentDeathFrame = 0;
         private float deathFrameTime = 0.1f; // Time each death frame is displayed
@@ -58,6 +61,7 @@ namespace Sprint2.Enemy
             alive = true;
             random = new Random();
             SetNewRandomDirection();
+           
         }
         public enum Direction
         {
@@ -69,7 +73,7 @@ namespace Sprint2.Enemy
 
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
-            healthCount = 20;
+            healthCount = 3;
             spriteSheet = content.Load<Texture2D>(texturePath);
             sourceRectangles = SpriteSheetHelper.CreateStalfosFrames();
             _scale = scale;
@@ -120,6 +124,16 @@ namespace Sprint2.Enemy
                 if (damageColorTimer <= 0)
                 {
                     currentColor = Color.White;
+                }
+
+                if (isImmune)
+                {
+                    remainingImmunityFrames--;
+
+                    if (remainingImmunityFrames <= 0)
+                    {
+                        isImmune = false;
+                    }
                 }
             }
         }
@@ -186,7 +200,13 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
-            healthCount -= 1;
+
+            if (!isImmune)
+            {
+                healthCount = Math.Max(0, healthCount - 1);
+                remainingImmunityFrames = immunityDuration;
+                isImmune = true;
+            }
 
 
             if (healthCount <= 0 && alive)

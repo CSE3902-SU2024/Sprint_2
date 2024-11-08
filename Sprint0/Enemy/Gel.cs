@@ -35,6 +35,9 @@ namespace Sprint2.Enemy
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
         public SoundEffect deathSound;
+        private int immunityDuration = 25;
+        private int remainingImmunityFrames = 0;
+        private bool isImmune;
 
         private int currentDeathFrame = 0;
         private float deathFrameTime = 0.1f; // Time each death frame is displayed
@@ -49,13 +52,14 @@ namespace Sprint2.Enemy
 
         public Gel(Vector2 startPosition)
         {
-            Health = 5;
+            Health = 2;
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             random = new Random();
             randCount = 0;
             SetRandomDirection();
+
         }
 
         public enum Direction
@@ -123,6 +127,15 @@ namespace Sprint2.Enemy
                 if (damageColorTimer <= 0)
                 {
                     currentColor = Color.White;
+                }
+                if (isImmune)
+                {
+                    remainingImmunityFrames--;
+
+                    if (remainingImmunityFrames <= 0)
+                    {
+                        isImmune = false;
+                    }
                 }
             }
         }
@@ -202,7 +215,12 @@ namespace Sprint2.Enemy
       
         public void TakeDamage()
         {
-            Health--;
+            if (!isImmune)
+            {
+                Health = Math.Max(0, Health - 1);
+                remainingImmunityFrames = immunityDuration;
+                isImmune = true;
+            }
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
 
