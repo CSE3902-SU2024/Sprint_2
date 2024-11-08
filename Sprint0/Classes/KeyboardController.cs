@@ -11,13 +11,13 @@ namespace Sprint0.Classes
     {
         KeyboardState previousState;
         public Link _link;
-        private StageManager _StageManager;
+      //  private StageManager _StageManager;
    
 
        public KeyboardController(Link link) //,StageManager stageManager )
         {
             _link = link;
-            _StageManager = stageManager;
+         //   _StageManager = stageManager;
         }
         public int Update(int GameStateIndex)
         {
@@ -65,6 +65,16 @@ namespace Sprint0.Classes
                     else if (state.IsKeyDown(Keys.D3))
                     {
                         _link.UseBomb();
+                    }
+                    else if (state.IsKeyDown(Keys.Space))
+                    {
+                        return 5;
+                    }
+                    break;
+                case 5:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    {
+                        return 0;
                     }
                     break;
                 default:

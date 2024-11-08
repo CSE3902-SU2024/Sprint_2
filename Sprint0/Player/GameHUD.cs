@@ -80,7 +80,7 @@ namespace Sprint2
         public void Draw()
         {
             //background
-            _spriteBatch.Begin();
+          //  _spriteBatch.Begin();
             _spriteBatch.Draw(_hudTexture, _hudBackground, cutOuts[0], Color.White);
 
 
@@ -114,7 +114,7 @@ namespace Sprint2
                  heartSource, Color.White);
 
             }
-            _spriteBatch.End();
+        //    _spriteBatch.End();
 
         }
     }

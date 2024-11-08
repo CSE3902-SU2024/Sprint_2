@@ -21,7 +21,6 @@ namespace Sprint2.GameStates
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
         private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
-       // private AnimatedBlock animatedBlock;
         private IEnemy enemy;
         private Texture2D bossSpriteSheet;
         private Texture2D dungeonSpriteSheet;
@@ -31,7 +30,7 @@ namespace Sprint2.GameStates
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
         private GameHUD _gameHUD;
-       // private MouseController _mouseController;
+        private MouseController _mouseController;
 
         public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice, Link link)
         {
@@ -55,24 +54,13 @@ namespace Sprint2.GameStates
 
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
             Rectangle[] dungeonTiles = _dungeonBlockSpriteFactory.CreateFrames();
-
-            //SoundEffect swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
-            //SoundEffect bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
-            //SoundEffect bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
-            //SoundEffect boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
-
-
-            //link texture
-            Texture2D linkTexture = Content.Load<Texture2D>("LinkSpriteSheet2");
             Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
-            //link instance
-            //_link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale);
-           // _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound);
+            
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
             _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
-          //  _keyboardController = new KeyboardController(_link, _StageManager);
-           // _mouseController = new MouseController(_link, _StageManager);
+            
+            _mouseController = new MouseController(_link, _StageManager);
         }
 
 
@@ -100,7 +88,7 @@ namespace Sprint2.GameStates
             {
                 _link.Update();
                 //_keyboardController.Update();
-                //_mouseController.Update();
+                _mouseController.Update();
             }
 
         }
