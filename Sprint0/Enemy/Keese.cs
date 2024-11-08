@@ -21,7 +21,7 @@ namespace Sprint2.Enemy
         private Color currentColor = Color.White;
         private float damageColorTimer = 0f;
         private const float DAMAGE_COLOR_DURATION = 0.5f;
-        private int hurtTime;
+        private int health;
         private Vector2 speed;
         private Vector2 _scale;
         private Random random;
@@ -35,6 +35,13 @@ namespace Sprint2.Enemy
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
         public SoundEffect deathSound;
+        private int immunityDuration = 25;
+        private int remainingImmunityFrames = 0;
+        private bool isImmune;
+
+
+
+
 
         private int currentDeathFrame = 0;
         private float deathFrameTime = 0.1f; // Time each death frame is displayed
@@ -54,14 +61,18 @@ namespace Sprint2.Enemy
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
+
         public Keese(Vector2 startPosition)
         {
-            hurtTime = 2;
+            health = 2;
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             random = new Random();
             SetRandomDirection(); 
+            
+
+            
 
         }
 
@@ -117,6 +128,15 @@ namespace Sprint2.Enemy
                 if (damageColorTimer <= 0)
                 {
                     currentColor = Color.White;
+                }
+                if (isImmune)
+                {
+                    remainingImmunityFrames--;
+
+                    if (remainingImmunityFrames <= 0)
+                    {
+                        isImmune = false;
+                    }
                 }
             }
         }
@@ -217,9 +237,14 @@ namespace Sprint2.Enemy
         {
             currentColor = Color.Red;
             damageColorTimer = DAMAGE_COLOR_DURATION;
-            hurtTime -= 1;
+            if (!isImmune)
+            {
+                health = Math.Max(0, health - 1);
+                remainingImmunityFrames = immunityDuration;
+                isImmune = true;
+            }
 
-            if (hurtTime <= 0 && alive)
+            if (health <= 0 && alive)
             {
                 alive = false;
                 isDying = true;
