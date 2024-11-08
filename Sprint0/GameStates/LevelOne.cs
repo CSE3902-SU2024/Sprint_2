@@ -33,12 +33,13 @@ namespace Sprint2.GameStates
         private GameHUD _gameHUD;
        // private MouseController _mouseController;
 
-        public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice)
+        public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice, Link link)
         {
             _graphics = graphics;
             _spriteBatch = spriteBatch;
             _scale = scale;
             _graphicsDevice = graphicsDevice;
+            _link = link;
         }
 
         public void LoadContent(ContentManager Content)
@@ -55,10 +56,10 @@ namespace Sprint2.GameStates
             Rectangle[] linkFrames = _linkSpriteFactory.CreateFrames();
             Rectangle[] dungeonTiles = _dungeonBlockSpriteFactory.CreateFrames();
 
-            SoundEffect swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
-            SoundEffect bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
-            SoundEffect bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
-            SoundEffect boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
+            //SoundEffect swordAttackSound = Content.Load<SoundEffect>("LTTP_Sword1");
+            //SoundEffect bowAttackSound = Content.Load<SoundEffect>("OOT_Arrow_Shoot");
+            //SoundEffect bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
+            //SoundEffect boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
 
 
             //link texture
@@ -67,27 +68,21 @@ namespace Sprint2.GameStates
 
             //link instance
             //_link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale);
-            _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound);
+           // _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound);
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
             _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
-            _keyboardController = new KeyboardController(_link, _StageManager);
+          //  _keyboardController = new KeyboardController(_link, _StageManager);
            // _mouseController = new MouseController(_link, _StageManager);
         }
 
 
         public void Draw()
-        {
-
-            _spriteBatch.Begin();
-        
+        {   
             _StageManager.Draw();
             if (!_StageManager.GetAnimationState())
             {
                 _link.Draw(_spriteBatch);
             }
-          
-
-            _spriteBatch.End();
 
             _gameHUD.Draw();
         }
@@ -104,7 +99,7 @@ namespace Sprint2.GameStates
             if (!_StageManager.GetAnimationState())
             {
                 _link.Update();
-                _keyboardController.Update();
+                //_keyboardController.Update();
                 //_mouseController.Update();
             }
 

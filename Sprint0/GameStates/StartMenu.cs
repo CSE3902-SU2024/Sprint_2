@@ -16,29 +16,28 @@ namespace Sprint2.GameStates
 {
     public class StartMenu : IGameState
     {
-        public GameStage currentGameStage; // To track the current game stage
-        public Texture2D _texture;
-        public SpriteBatch _spriteBatch;
-        public Vector2 _scale;
+        private Texture2D _texture;
+        private Vector2 _scale;
         static GraphicsDevice _graphicsDevice;
+        private SpriteBatch _spriteBatch;
 
         // Start Menu
-        public Texture2D titleScreen;
-        public SpriteFont font;
-        public float timer;
-        public bool showText;
+        private Texture2D titleScreen;
+        private SpriteFont font;
+        private float timer;
+        private bool showText;
         Song titleSequence;
 
-        public StartMenu(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content)
+        public StartMenu(GraphicsDevice graphicsDevice,SpriteBatch spriteBatch, ContentManager content, Vector2 scale)
         {
-
-            currentGameStage = GameStage.StartMenu;
 
             titleScreen = content.Load<Texture2D>("TitleScreen");
             font = content.Load<SpriteFont>("File");
             timer = 0f;
             showText = true;
+            _scale = scale;
 
+        _spriteBatch = spriteBatch;
             //Music
             titleSequence = content.Load<Song>("TitleTheme");
 
@@ -70,11 +69,6 @@ namespace Sprint2.GameStates
                 timer = 0;
             }
 
-            if (Keyboard.GetState().GetPressedKeys().Length > 0)
-            {
-                currentGameStage = GameStage.Dungeon;
-            }
-
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(titleSequence);
@@ -91,16 +85,15 @@ namespace Sprint2.GameStates
 
         public void DrawStartMenu()
         {
-            //_spriteBatch.Begin();
 
             Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
 
             Vector2 position = new Vector2(0, 0);
 
-            Vector2 scale = new Vector2(3.26f, 2.15f);
+           
 
             // Draw the title screen
-            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
             // Draw text
             if (showText)
