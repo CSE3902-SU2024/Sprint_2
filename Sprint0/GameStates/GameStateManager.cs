@@ -75,7 +75,7 @@ namespace Sprint2.GameStates
         public void Update(GameTime gameTime)
         {
             keyBoardVal = _keyboardController.Update(GameStateIndex);
-            if (keyBoardVal == 0)
+            if (keyBoardVal == 1)
             {
                 GameStateIndex = 1;
                 CurrentGameState = CurrentLevel;

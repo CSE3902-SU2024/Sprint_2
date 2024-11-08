@@ -26,12 +26,15 @@ namespace Sprint0.Classes
 
             switch (GameStateIndex)
             {
+                // Start Menu
                 case 0:
                     if (Keyboard.GetState().GetPressedKeys().Length > 0)
                     {
-                        return 0;
+                        // Start => Game
+                        return 1;
                     }
                     break;
+                // Game state
                 case 1:
                     if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
                     {
@@ -68,13 +71,16 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
+                        // Game => Interview
                         return 5;
                     }
                     break;
+                // inventory
                 case 5:
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     {
-                        return 0;
+                        // Inventory => Game
+                        return 1;
                     }
                     break;
                 default:
