@@ -90,7 +90,7 @@ namespace Sprint0
             {
                 Reset();
             }
-            else if (CurrentGameState.GetLinkHealth() == 0)
+            else if (_GameStateManager.GetLinkHealth() <= 0)
             {
               //  linkDeath.Play();
                 Reset();
