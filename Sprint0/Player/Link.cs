@@ -32,6 +32,7 @@ namespace Sprint0.Player
         private int immunityDuration;
         private int remainingImmunityFrames;
         private bool isImmune;
+        public bool transitioning;
 
 
         private SpriteEffects spriteEffects;
@@ -66,6 +67,7 @@ namespace Sprint0.Player
             _previousPosition = new Vector2(200.0f, 200.0f);
             immunityDuration = 50;
             remainingImmunityFrames = 0;
+            transitioning = false;
 
 
             SwordAttackSound = swordSound;
@@ -76,22 +78,26 @@ namespace Sprint0.Player
 
         public void MoveDown()
         {
-            currentState.MoveDown();
+            if (!transitioning)
+                currentState.MoveDown();
         }
 
         public void MoveUp()
         {
+            if (!transitioning)
             currentState.MoveUp();
         }
 
         public void MoveLeft()
         {
-            currentState.MoveLeft();
+            if (!transitioning)
+                currentState.MoveLeft();
         }
 
         public void MoveRight()
         {
-            currentState.MoveRight();
+            if (!transitioning)
+                currentState.MoveRight();
         }
 
         public void SwordAttack()

@@ -47,7 +47,7 @@ namespace Sprint2.Enemy
         private float deathAnimationTimer = 0f;
         private const float DEATH_ANIMATION_DURATION = 0.5f;
         public SoundEffect deathSound;
-        private int immunityDuration = 25;
+        private int immunityDuration = 10;
         private int remainingImmunityFrames = 0;
         private bool isImmune;
 

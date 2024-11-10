@@ -47,12 +47,16 @@ namespace Sprint2.Map
                         _link._position.Y = 180 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(1, 0, 4);
+
                             return 0;
                         }
                         else
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(0, 1, 3);
+
                             return 1;
                         }
                     }
@@ -66,7 +70,9 @@ namespace Sprint2.Map
                         _link._position.Y = 87 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(1, 0, 4);
+
                             return 0;
                         }
                         else
@@ -87,12 +93,16 @@ namespace Sprint2.Map
                         _link._position.Y = 135 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(3, 0, 2);
+
                             return 0;
                         }
                         else
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(0, 4, 2);
+
                             return 4;
                         }
                     }
@@ -109,17 +119,21 @@ namespace Sprint2.Map
                         _link._position.Y = 135 * _scale.Y;
                         if (_stage > 0)
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(4, 0, 1);
+
                             return 0;
                         }
                         else
                         {
+                            _link.transitioning = true;
                             _stageManager.Animate(0, 3,1);
                             return 3;
                         }
                     }
                 }
             }
+
             return _stage;
         }
     }
