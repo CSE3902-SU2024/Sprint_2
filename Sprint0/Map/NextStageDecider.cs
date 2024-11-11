@@ -130,6 +130,7 @@ namespace Sprint2.Map
                     }
                 }
             }
+
             return _stage;
         }
     }

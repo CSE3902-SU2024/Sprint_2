@@ -53,6 +53,11 @@ namespace Sprint2.GameStates
 
         }
 
+        public int GetLinkHealth()
+        {
+            return _link.Health;
+        }
+
         public void LoadContent(ContentManager Content)
         {
 

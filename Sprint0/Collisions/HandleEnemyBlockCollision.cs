@@ -37,7 +37,7 @@ namespace Sprint2.Collisions
         public bool EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale) // or List<IEnemy> enemies, Vector2 spritePosition, Vector2 scale
             //public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
         {
-            bool collisionDetected = true;
+            bool collisionDetected =  false;
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
              List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
 

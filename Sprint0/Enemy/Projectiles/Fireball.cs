@@ -50,6 +50,7 @@ namespace Sprint2.Enemy.Projectiles
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            System.Diagnostics.Debug.WriteLine($"Drawing fireball at position: {position}");
             spriteBatch.Draw(
                 spriteSheet,
                 position,
@@ -65,8 +66,8 @@ namespace Sprint2.Enemy.Projectiles
 
         public bool IsOffScreen()
         {
-           
-            return position.X < 0 || position.Y < 0 || position.X > 800 || position.Y > 480;
+
+            return position.X < -100 || position.Y < -200 || position.X > 1000 || position.Y > 800;
         }
     }
 }

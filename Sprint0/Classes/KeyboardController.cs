@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
-using Sprint2.GameStates;
-using Sprint2.Map;
-using System.Diagnostics;
 
 
 namespace Sprint0.Classes

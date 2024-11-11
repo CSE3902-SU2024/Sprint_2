@@ -75,15 +75,15 @@ namespace Sprint0.Classes
 
             };
         }
-        public static Rectangle[] CreateBowleItemFrames()
+        public static Rectangle[] CreateBowItemFrames()
         {
             return new Rectangle[] { new Rectangle(144, 0, 8, 16), new Rectangle(144, 0, 8, 16) };
         }
-        public static Rectangle[] CreateBoomleItemFrames()
+        public static Rectangle[] CreateBoomItemFrames()
         {
             return new Rectangle[] { new Rectangle(136, 0, 8, 14), new Rectangle(136, 0, 8, 14) };
         }
-        public static Rectangle[] CreateCompassleItemFrames()
+        public static Rectangle[] CreateCompassItemFrames()
         {
             return new Rectangle[] { new Rectangle(258, 1, 11, 12), new Rectangle(258, 1, 11, 12) };
         }

@@ -75,6 +75,7 @@ namespace Sprint2.Map
 
             if (!Transitioning)
             {
+                _link.transitioning = false;
                 DrawEnemies(GetEnemies(currentStage));
                 DrawItems(Getitems(currentStage));
 
