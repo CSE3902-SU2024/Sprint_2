@@ -88,6 +88,7 @@ namespace Sprint2.Enemy
         public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, Vector2 scale)
         {
             spriteSheet = content.Load<Texture2D>(texturePath);
+             
             sourceRectangles = SpriteSheetHelper.CreateDragonFrames();
             fireballRectangles = SpriteSheetHelper.CreateFireballFrames(); 
            _scale = scale;
@@ -96,25 +97,20 @@ namespace Sprint2.Enemy
             deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
-       
+
         public void Update(GameTime gameTime)
         {
-
             if (isDying)
             {
-
                 deathFrameElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
                 if (deathFrameElapsed >= deathFrameTime)
                 {
                     currentDeathFrame++;
-
                     deathFrameElapsed = 0f;
-
                     if (currentDeathFrame >= deathSourceRectangles.Length)
                     {
                         isDying = false;
-                        position = new Vector2(20000, 20000); // Move off screen
+                        position = new Vector2(20000, 20000);
                     }
                 }
             }
@@ -131,12 +127,10 @@ namespace Sprint2.Enemy
                     timeElapsed = 0f;
                 }
 
-
                 if (damageColorTimer <= 0)
                 {
                     currentColor = Color.White;
                 }
-
 
                 timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (timeSinceLastShot > fireballCooldown)
@@ -145,69 +139,28 @@ namespace Sprint2.Enemy
                     timeSinceLastShot = 0f;
                 }
 
-
                 for (int i = 0; i < fireballs.Count; i++)
                 {
                     fireballs[i].Update(gameTime);
-
-
                     if (fireballs[i].IsOffScreen())
                     {
                         fireballs.RemoveAt(i);
                         i--;
                     }
                 }
+
                 if (isImmune)
                 {
                     remainingImmunityFrames--;
-
                     if (remainingImmunityFrames <= 0)
                     {
                         isImmune = false;
                     }
                 }
             }
-
-            //timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            //MoveDragon();
-
-            //if (timeElapsed > timePerFrame)
-            //{
-            //    currentFrame = (currentFrame + 1) % sourceRectangles.Length;
-            //    timeElapsed = 0f;
-            //}
-
-          
-            //if (damageColorTimer <= 0)
-            //{
-            //    currentColor = Color.White;
-            //}
-
-           
-            //timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (timeSinceLastShot > fireballCooldown)
-            //{
-            //    ShootFireball();  
-            //    timeSinceLastShot = 0f;
-            //}
-
-         
-            //for (int i = 0; i < fireballs.Count; i++)
-            //{
-            //    fireballs[i].Update(gameTime);
-
-             
-            //    if (fireballs[i].IsOffScreen())
-            //    {
-            //        fireballs.RemoveAt(i);
-            //        i--;
-            //    }
-            //}
         }
 
-   
+
         private void MoveDragon()
         {
              if (movingRight)
@@ -239,11 +192,12 @@ namespace Sprint2.Enemy
         private void ShootFireball()
         {
             Vector2 fireballPosition = new Vector2(position.X, position.Y);
-
+            
             // Add fireballs going in different directions
             fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 0), fireballRectangles)); 
             fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, -100), fireballRectangles)); 
             fireballs.Add(new Fireball(spriteSheet, fireballPosition, new Vector2(-200, 100), fireballRectangles)); 
+             
         }
 
         
@@ -270,27 +224,12 @@ namespace Sprint2.Enemy
 
                 foreach (var fireball in fireballs)
                 {
+                     
                     fireball.Draw(spriteBatch);
                 }
             }
 
-            //spriteBatch.Draw(
-            //    spriteSheet,
-            //    position,
-            //    sourceRectangles[currentFrame],
-            //    currentColor,
-            //    0f,
-            //    Vector2.Zero,
-            //    _scale,
-            //    SpriteEffects.None,
-            //    0f
-            //);
-
            
-            //foreach (var fireball in fireballs)
-            //{
-            //    fireball.Draw(spriteBatch);
-            //}
         }
 
        
