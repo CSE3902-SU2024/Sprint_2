@@ -61,12 +61,12 @@ namespace Sprint2.Map
 
         public void AllEnemiesDead(int roomNum, Boolean enemies)
         {
-            if (roomNum ==  0 && enemies)
-            {
-                doors[0][0] = 1;
-                doors[0][1] = 1;
-                doors[0][2] = 1;
-            }
+            //if (roomNum ==  0 && enemies)
+            //{
+            //    doors[0][0] = 1;
+            //    doors[0][1] = 1;
+            //    doors[0][2] = 1;
+            //}
         }
     }
 }

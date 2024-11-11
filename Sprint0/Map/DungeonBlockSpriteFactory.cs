@@ -46,6 +46,7 @@ namespace Sprint2.Map
                  new Rectangle(212, 272, 16, 16), // 2
                  new Rectangle(212, 438, 16, 16), // 3
                  new Rectangle(893, 799, 16, 16), // 4
+                 new Rectangle(1001, 28, 16, 16), // 5
                  new Rectangle(521, 11, 256, 32), // 5 top wall
                  new Rectangle(521, 43, 32, 112),  // 6 left wall
                  new Rectangle(521, 155, 256, 32), // 7 bottom wall
@@ -70,6 +71,7 @@ namespace Sprint2.Map
                  new Rectangle(881, 110, 32, 32), // 26 locked door down
                    new Rectangle(914, 110, 32, 32), // 27 vault door down
                    new Rectangle(947, 110, 32, 32), // 28 cave door down
+                 
              };
 
             return sourceRectangles;

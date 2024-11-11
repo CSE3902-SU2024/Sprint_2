@@ -45,16 +45,21 @@ namespace Sprint2.Map
                     {
                         _link._position.X = 120 * _scale.X;
                         _link._position.Y = 180 * _scale.Y;
-                        if (_stage > 0)
+                        switch (_stage)
                         {
-                            _stageManager.Animate(1, 0, 4);
-                            return 0;
+                            case 0:
+                                _stageManager.Animate(0, 1, 3);
+                                return 1;
+                            case 1:
+                                _stageManager.Animate(1, 4, 3);
+                                return 4;
+                            case 4:
+                                _stageManager.Animate(4, 5, 3);
+                                return 5;
+                            default:
+                                break;
                         }
-                        else
-                        {
-                            _stageManager.Animate(0, 1, 3);
-                            return 1;
-                        }
+                        
                     }
                 }
                 // bottom middle
@@ -64,19 +69,21 @@ namespace Sprint2.Map
                     {
                         _link._position.X = 120 * _scale.X;
                         _link._position.Y = 87 * _scale.Y;
-                        if (_stage > 0)
+                        switch (_stage)
                         {
-                            _stageManager.Animate(1, 0, 4);
-                            return 0;
-                        }
-                        else
-                        {
-                          
-                            return 2;
+                            case 4:
+                                _stageManager.Animate(4, 1, 4);
+                                return 1;
+                            case 5:
+                                _stageManager.Animate(5, 4, 3);
+                                return 4;
+                            default:
+                                break;
                         }
                     }
                 }
             }
+            //Left
             else if (_link._position.X >= 20 * _scale.X && (_link._position.X <= _scale.X * 70))
             {
                 if (_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
@@ -85,20 +92,22 @@ namespace Sprint2.Map
                     {
                         _link._position.X = 210 * _scale.X;
                         _link._position.Y = 135 * _scale.Y;
-                        if (_stage > 0)
+                        switch (_stage)
                         {
-                            _stageManager.Animate(3, 0, 2);
-                            return 0;
-                        }
-                        else
-                        {
-                            _stageManager.Animate(0, 4, 2);
-                            return 4;
+                            case 1:
+                                _stageManager.Animate(1, 2, 2);
+                                return 2;
+                            case 3:
+                                _stageManager.Animate(3, 1, 2);
+                                return 1;
+                            default:
+                                break;
                         }
                     }
                 }
 
             }
+            // Right
             else if (_link._position.X >= 180 * _scale.X && (_link._position.X <= _scale.X * 220))
             {
                 if (_link._position.Y >= 120 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
@@ -107,15 +116,16 @@ namespace Sprint2.Map
                     {
                         _link._position.X = 32 * _scale.X;
                         _link._position.Y = 135 * _scale.Y;
-                        if (_stage > 0)
+                        switch (_stage)
                         {
-                            _stageManager.Animate(4, 0, 1);
-                            return 0;
-                        }
-                        else
-                        {
-                            _stageManager.Animate(0, 3,1);
-                            return 3;
+                            case 2:
+                                _stageManager.Animate(2, 1, 1);
+                                return 1;
+                            case 1:
+                                _stageManager.Animate(1, 3, 1);
+                                return 3;
+                            default:
+                                break;
                         }
                     }
                 }
