@@ -15,6 +15,7 @@ namespace Sprint0.Player
         public Vector2 _weaponPosition;
         private bool _arrowFlying;
         private float _arrowSpeed;
+        private int arrowTimes = 0;
 
         public ArrowRight(Link link)
         {
@@ -41,16 +42,18 @@ namespace Sprint0.Player
             
                 if (weaponFrame == 19)
                 {
-                    ////SoundEffect
-                    //_link.bowAttackSound.Play();
                     _arrowFlying = true;
                 }
                 if (_arrowFlying)
                 {
-                    //SoundEffect
-                    _link.bowAttackSound.Play();
+                    if (arrowTimes == 0)
+                    {
+                        //SoundEffect
+                        _link.bowAttackSound.Play();
+                        arrowTimes = 1;
+                    }
                     _weaponPosition.X += _arrowSpeed;
-                if (_weaponPosition.X > 1000)
+                    if (_weaponPosition.X > 1000)
                     {
                         _arrowFlying = false;
                         linkFrame = 9;

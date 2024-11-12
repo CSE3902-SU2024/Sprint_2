@@ -87,25 +87,40 @@ namespace Sprint2.GameStates
         {
             //_spriteBatch.Begin();
 
-            Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
+            Rectangle sourceRectangle = new Rectangle(1, 11, 245, 225);
 
-            Vector2 position = new Vector2(0, 240);
+            Vector2 position = new Vector2(0, 0);
 
-            Vector2 scale = new Vector2(3.26f, 2.15f);
+            Vector2 scale = new Vector2(4.16f, 4.1f);
 
             // Draw the title screen
-            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             // Draw text
             if (showText)
             {
-                string startText = "PUSH START BUTTON";
-                Vector2 textSize = font.MeasureString(startText);
-                Vector2 textPosition = new Vector2(
-                    (_spriteBatch.GraphicsDevice.Viewport.Width - textSize.X) / 2,
-                    400
-                );
-                _spriteBatch.DrawString(font, startText, textPosition, Color.White);
+                //string startText = "PUSH START BUTTON";
+                ////Vector2 textSize = font.MeasureString(startText);
+                //float TextSizeNumber = 10;
+                //Vector2 textSize = 40;
+                //Vector2 textPosition = new Vector2(
+                //    (_spriteBatch.GraphicsDevice.Viewport.Width - textSize.X) / 2,
+                //    400
+                //);
+                //_spriteBatch.DrawString(font, startText, textPosition, Color.White);
+                string startText = "PUSH  START   BUTTON";
+                Vector2 textSize = font.MeasureString(startText); // Measure text size in pixels
+                float targetTextHeight = 1.5f; // Example target height in cm
+
+                // Assuming a screen DPI, e.g., 96 (adjust for actual DPI if known)
+                float dpi = 96;
+                float targetHeightInPixels = (targetTextHeight / 2.54f) * dpi;
+                float scaled = targetHeightInPixels / textSize.Y; // Scale based on target height
+
+                Vector2 textPosition = new Vector2(265,612);
+
+                // Draw the text with scaling
+                _spriteBatch.DrawString(font, startText, textPosition, Color.White, 0f, Vector2.Zero, scaled, SpriteEffects.None, 0f);
             }
         }
 
