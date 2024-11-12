@@ -33,6 +33,7 @@ namespace Sprint0.Player
         private int remainingImmunityFrames;
         private bool isImmune;
         public bool transitioning;
+        public bool hasKey;
 
 
         private SpriteEffects spriteEffects;
@@ -68,6 +69,7 @@ namespace Sprint0.Player
             immunityDuration = 50;
             remainingImmunityFrames = 0;
             transitioning = false;
+            hasKey = false;
 
 
             SwordAttackSound = swordSound;

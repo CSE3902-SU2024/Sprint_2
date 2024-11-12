@@ -80,6 +80,11 @@ namespace Sprint2.Map
                         }
                         
                     }
+                    if (doors[0] == 2 && _link.hasKey == true)
+                    {
+                        doors[0] = 1;
+                        _link.hasKey = false;
+                    }
                 }
                 // bottom middle
                 else if ((_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 201 * _scale.Y))
