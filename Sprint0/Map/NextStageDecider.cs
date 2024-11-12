@@ -123,6 +123,11 @@ namespace Sprint2.Map
                                 break;
                         }
                     }
+                    if(doors[3] == 2 && _link.hasKey == true)
+                    {
+                        doors[3] = 1;
+                        _link.hasKey = false;
+                    }
                 }
             }
             //Left
@@ -179,6 +184,11 @@ namespace Sprint2.Map
                             default:
                                 break;
                         }
+                    }
+                    if(doors[1] == 2 && _link.hasKey == true)
+                    {
+                        doors[1] = 1;
+                        _link.hasKey = false;
                     }
                 }
 
@@ -238,6 +248,11 @@ namespace Sprint2.Map
                             default:
                                 break;
                         }
+                    }
+                    if(doors[2] == 2 && _link.hasKey == true)
+                    {
+                        doors[2] = 1;
+                        _link.hasKey = false;
                     }
                 }
             }
