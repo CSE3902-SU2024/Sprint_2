@@ -18,7 +18,6 @@ namespace Sprint0.Classes
         }
         public int Update(int GameStateIndex)
         {
-
             KeyboardState state = Keyboard.GetState();
 
             switch (GameStateIndex)
@@ -68,15 +67,28 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
-                        // Game => Interview
+                        // Game => Pause
                         return 5;
                     }
-                    break;
-                // inventory
-                case 5:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    else if (state.IsKeyDown(Keys.I) && !previousState.IsKeyDown(Keys.I))
                     {
-                        // Inventory => Game
+                        // Game => Inventory  
+                        return 2;
+                    }
+                    break;
+                // Inventory state
+                case 2:
+                    if (state.IsKeyDown(Keys.Escape))
+                    {
+                        // Inventory => Game  
+                        return 1;
+                    }
+                    break;
+                // Pause menu
+                case 5:
+                    if (state.IsKeyDown(Keys.Escape))
+                    {
+                        // Pause => Game
                         return 1;
                     }
                     break;
@@ -85,8 +97,7 @@ namespace Sprint0.Classes
             }
 
             previousState = state;
-            // dummy return;
-            return 100;
+            return GameStateIndex; // Return current state if no change
         }
     }
 }
