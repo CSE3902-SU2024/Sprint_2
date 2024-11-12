@@ -56,6 +56,18 @@ namespace Sprint2.Map
                             case 4:
                                 _stageManager.Animate(4, 5, 3);
                                 return 5;
+                            case 6:
+                                _stageManager.Animate(6,8, 3);
+                                return 8;
+                            case 10:
+                                _stageManager.Animate(_stage, 12, 3);
+                                return 12;
+                            case 12:
+                                _stageManager.Animate(_stage, 13, 3);
+                                return 13;
+                            case 15:
+                                _stageManager.Animate(_stage, 16, 3);
+                                return 16;
                             default:
                                 break;
                         }
@@ -75,8 +87,20 @@ namespace Sprint2.Map
                                 _stageManager.Animate(4, 1, 4);
                                 return 1;
                             case 5:
-                                _stageManager.Animate(5, 4, 3);
+                                _stageManager.Animate(5, 4, 4);
                                 return 4;
+                            case 8:
+                                _stageManager.Animate(8, 6, 4);
+                                return 6;
+                            case 12:
+                                _stageManager.Animate(12,10, 4);
+                                return 10;
+                            case 13:
+                                _stageManager.Animate(13, 12, 4);
+                                return 12;
+                            case 16:
+                                _stageManager.Animate(16,15, 4);
+                                return 15;
                             default:
                                 break;
                         }
@@ -100,6 +124,30 @@ namespace Sprint2.Map
                             case 3:
                                 _stageManager.Animate(3, 1, 2);
                                 return 1;
+                            case 5:
+                                _stageManager.Animate(5, 6, 2);
+                                return 6;
+                            case 7:
+                                _stageManager.Animate(7, 5, 2);
+                                return 5;
+                            case 8:
+                                _stageManager.Animate(8, 9, 2);
+                                return 9;
+                            case 10:
+                                _stageManager.Animate(_stage, 11, 2);
+                                return 8;
+                            case 11:
+                                _stageManager.Animate(_stage, 10, 2);
+                                return 10;
+                            case 13:
+                                _stageManager.Animate(_stage, 14, 2);
+                                return 14;
+                            case 15:
+                                _stageManager.Animate(_stage, 11, 2);
+                                return 11;
+                            case 17:
+                                _stageManager.Animate(_stage, 16, 2);
+                                return 16;
                             default:
                                 break;
                         }
@@ -124,6 +172,31 @@ namespace Sprint2.Map
                             case 1:
                                 _stageManager.Animate(1, 3, 1);
                                 return 3;
+                            case 5:
+                                _stageManager.Animate(5, 7, 1);
+                                return 7;
+                            case 6:
+                                _stageManager.Animate(6, 5, 1);
+                                return 5;
+                            case 8:
+                                _stageManager.Animate(8, 10, 1);
+                                return 10;
+                            case 10:
+                                _stageManager.Animate(10, 11, 1);
+                                return 11;
+                            case 9:
+                                _stageManager.Animate(9, 8, 1);
+                                return 8;
+                            case 11:
+                                _stageManager.Animate(_stage, 15, 1);
+                                return 15;
+                            case 14:
+                                _stageManager.Animate(14, 13, 1);
+                                return 13;
+                            case 16:
+                                _stageManager.Animate(16, 17, 1);
+                                return 17;
+                            
                             default:
                                 break;
                         }
