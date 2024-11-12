@@ -8,6 +8,7 @@ using Sprint2.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
+using static System.Formats.Asn1.AsnWriter;
 
 
 namespace Sprint2.GameStates
@@ -38,8 +39,9 @@ namespace Sprint2.GameStates
         IGameState CurrentGameState;
         IGameState CurrentLevel;
         IGameState PauseMenu;
-        IGameState InventoryMenu;
-      
+       
+        private GameHUD _gameHUD;
+        private InventoryMenu _inventoryMenu;
 
 
         public GameStateManager(GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice,SpriteBatch spriteBatch, Vector2 scale) 
@@ -50,6 +52,8 @@ namespace Sprint2.GameStates
             _scale = scale;
             GameStateIndex = 0;
             keyBoardVal = 100;
+            
+            
 
         }
 
@@ -70,12 +74,13 @@ namespace Sprint2.GameStates
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
             linkDeath = Content.Load<SoundEffect>("LinkDeath");
             _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound);
+            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link);
             CurrentGameState = new StartMenu(_graphicsDevice,_spriteBatch, Content, _scale);
             CurrentLevel = new LevelOne(_graphics,_spriteBatch, _scale,_graphicsDevice, _link);
             CurrentLevel.LoadContent(Content);
-            PauseMenu = new PauseMenu(linkTexture,_spriteBatch, _graphicsDevice,Content);
-            InventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content);
+            PauseMenu = new PauseMenu(linkTexture, _spriteBatch, _graphicsDevice, Content);
+            _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD);
             content = Content;
         }
         public void Update(GameTime gameTime)
@@ -89,7 +94,7 @@ namespace Sprint2.GameStates
             else if (keyBoardVal == 2)
             {
                 GameStateIndex = 2;
-                CurrentGameState = InventoryMenu;
+                CurrentGameState = _inventoryMenu;
             }
             else if (keyBoardVal == 5)
             {

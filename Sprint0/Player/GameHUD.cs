@@ -1,15 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
-using Sprint2.Collisions;
-using System.Collections.Generic;
-using Sprint2.Enemy;
-using Sprint0.Collisions;
 using System;
-using static System.Formats.Asn1.AsnWriter;
-using Sprint2.Classes;
-using Sprint2.GameStates;
 
 namespace Sprint2
 {
@@ -21,6 +14,7 @@ namespace Sprint2
         private Rectangle[] cutOuts;
         private Vector2 _scale;
         private Link _link;
+        private Vector2 _position;
 
         private Rectangle _healthBarPosition;
         private const int HUD_WIDTH = 256;
@@ -42,6 +36,7 @@ namespace Sprint2
             _spriteBatch = spriteBatch;
             _link = link;
             _scale = scale;
+            _position = Vector2.Zero;
             this.graphicsDevice = graphicsDevice;
             health = _link.Health;
             this.content = content;
@@ -77,22 +72,31 @@ namespace Sprint2
              };
 
         }
+
+        public void SetPosition(Vector2 position)
+        {
+            _position = position;
+        }
+
         public void Draw()
         {
-            //background
-          //  _spriteBatch.Begin();
-            _spriteBatch.Draw(_hudTexture, _hudBackground, cutOuts[0], Color.White);
+             
+            Rectangle adjustedBackground = new Rectangle(
+                (int)_position.X,
+                (int)_position.Y,
+                graphicsDevice.Viewport.Width,
+                (int)(HUD_HEIGHT * _scale.Y * 1.2));
 
+            // adjustedBackground 
+            _spriteBatch.Draw(_hudTexture, adjustedBackground, cutOuts[0], Color.White);
 
-
+            // Adjust heart positions to include offset
             for (int i = 0; i < health; i++)
             {
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
-                // Each heart position corresponds to 2 health points
                 int heartValue = _link.Health - (i * 2);
 
-                // Determine the source rectangle based on heartValue
                 Rectangle heartSource;
                 if (heartValue >= 2)
                 {
@@ -106,15 +110,16 @@ namespace Sprint2
                 {
                     heartSource = cutOuts[3];  // Empty heart
                 }
-                int xPosition = _healthBarPosition.X + column * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X);
-                int yPosition = _healthBarPosition.Y + row * (int)(HEART_HEIGHT * _scale.Y);
+
+                // Add position offset to heart positions
+                int xPosition = (int)_position.X + _healthBarPosition.X + column * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X);
+                int yPosition = (int)_position.Y + _healthBarPosition.Y + row * (int)(HEART_HEIGHT * _scale.Y);
 
                 _spriteBatch.Draw(_hudTexture,
-                 new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
-                 heartSource, Color.White);
-
+                    new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
+                    heartSource, Color.White);
             }
-        //    _spriteBatch.End();
+            
 
         }
     }
