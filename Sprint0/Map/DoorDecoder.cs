@@ -10,7 +10,7 @@ namespace Sprint2.Map
     {
         public int DecodeDoor(int direction, int door)
         {
-            return  9 + (direction * 5) + door;
+            return  10 + (direction * 5) + door;
             
         }
     }

@@ -54,7 +54,7 @@ namespace Sprint0.Player
             _position = new Vector2(500.0f, 500.0f);
             _scale = scale;
             _texture = texture;
-            speed = 2.0f;
+            speed = 5.0f;
             boomerangSpeed = 10.0f;
             spriteEffects = SpriteEffects.None;
             framesPerStep = 8;

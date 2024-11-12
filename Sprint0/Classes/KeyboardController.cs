@@ -18,17 +18,19 @@ namespace Sprint0.Classes
         }
         public int Update(int GameStateIndex)
         {
-
             KeyboardState state = Keyboard.GetState();
 
             switch (GameStateIndex)
             {
+                // Start Menu
                 case 0:
                     if (Keyboard.GetState().GetPressedKeys().Length > 0)
                     {
-                        return 0;
+                        // Start => Game
+                        return 1;
                     }
                     break;
+                // Game state
                 case 1:
                     if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
                     {
@@ -65,13 +67,29 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
+                        // Game => Pause
                         return 5;
                     }
-                    break;
-                case 5:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    else if (state.IsKeyDown(Keys.I) && !previousState.IsKeyDown(Keys.I))
                     {
-                        return 0;
+                        // Game => Inventory  
+                        return 2;
+                    }
+                    break;
+                // Inventory state
+                case 2:
+                    if (state.IsKeyDown(Keys.Escape))
+                    {
+                        // Inventory => Game  
+                        return 1;
+                    }
+                    break;
+                // Pause menu
+                case 5:
+                    if (state.IsKeyDown(Keys.Escape))
+                    {
+                        // Pause => Game
+                        return 1;
                     }
                     break;
                 default:
@@ -79,8 +97,7 @@ namespace Sprint0.Classes
             }
 
             previousState = state;
-            // dummy return;
-            return 100;
+            return GameStateIndex; // Return current state if no change
         }
     }
 }

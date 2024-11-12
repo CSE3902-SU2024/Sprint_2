@@ -43,7 +43,7 @@ namespace Sprint2.Map
                         }
                         else
                         {
-                            currentRoom[row, col] = 0;
+                           // currentRoom[row, col] = 0;
                         }
                     }
                     row++;

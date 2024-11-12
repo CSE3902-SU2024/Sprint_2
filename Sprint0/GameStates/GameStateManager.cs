@@ -38,7 +38,7 @@ namespace Sprint2.GameStates
         IGameState CurrentGameState;
         IGameState CurrentLevel;
         IGameState PauseMenu;
-        
+        IGameState InventoryMenu;
       
 
 
@@ -75,15 +75,21 @@ namespace Sprint2.GameStates
             CurrentLevel = new LevelOne(_graphics,_spriteBatch, _scale,_graphicsDevice, _link);
             CurrentLevel.LoadContent(Content);
             PauseMenu = new PauseMenu(linkTexture,_spriteBatch, _graphicsDevice,Content);
+            InventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content);
             content = Content;
         }
         public void Update(GameTime gameTime)
         {
             keyBoardVal = _keyboardController.Update(GameStateIndex);
-            if (keyBoardVal == 0)
+            if (keyBoardVal == 1)
             {
                 GameStateIndex = 1;
                 CurrentGameState = CurrentLevel;
+            }
+            else if (keyBoardVal == 2)
+            {
+                GameStateIndex = 2;
+                CurrentGameState = InventoryMenu;
             }
             else if (keyBoardVal == 5)
             {

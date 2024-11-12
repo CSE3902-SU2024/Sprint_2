@@ -83,10 +83,10 @@ namespace Sprint2.Map
         }
         public void DrawWalls(Vector2 Offset)
         {
-            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 55.0f * _scale.Y + Offset.Y), _sourceRectangles[5], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 87.0f * _scale.Y + Offset.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 198.0f * _scale.Y + Offset.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
-            _spriteBatch.Draw(_texture, new Vector2(224.0f * _scale.X + Offset.X, 87.0f * _scale.Y +Offset.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 55.0f * _scale.Y + Offset.Y), _sourceRectangles[6], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 87.0f * _scale.Y + Offset.Y), _sourceRectangles[7], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(0 + Offset.X, 198.0f * _scale.Y + Offset.Y), _sourceRectangles[8], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
+            _spriteBatch.Draw(_texture, new Vector2(224.0f * _scale.X + Offset.X, 87.0f * _scale.Y +Offset.Y), _sourceRectangles[9], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
 
         }
 
