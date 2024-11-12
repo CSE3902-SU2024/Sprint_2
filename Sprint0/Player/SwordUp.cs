@@ -47,14 +47,14 @@ namespace Sprint0.Player
         {
             if (--remainingFrames <= 0)
             {
-                //Sound effect
-                _link.SwordAttackSound.Play();
                 if (weaponFrame == 11)
                 {
                     weaponFrame = 12;
                 }
                 else if (weaponFrame == 12)
                 {
+                    //Sound effect
+                    _link.SwordAttackSound.Play();
                     weaponFrame = 13;
                 }
                 else if (weaponFrame == 13)
