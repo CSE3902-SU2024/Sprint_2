@@ -50,7 +50,7 @@ namespace Sprint0.Classes
             );
         }
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType, Vector2 scale)
         {
             Sprite = content.Load<Texture2D>(texturePath);
 
@@ -58,8 +58,7 @@ namespace Sprint0.Classes
             SourceRectangles = SpriteSheetHelper.CreateHealthItemFrames();
             currentItemType = ItemType.health;
 
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
         }
 
         public void Update(GameTime gameTime)

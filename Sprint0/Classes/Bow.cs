@@ -14,6 +14,7 @@ using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
 using Sprint0.Player;
 using static System.Formats.Asn1.AsnWriter;
+using Sprint2.GameStates;
 
 namespace Sprint0.Classes
 {
@@ -50,7 +51,7 @@ namespace Sprint0.Classes
             );
         }
 
-        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType)
+        public void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType, Vector2 scale)
         {
             Sprite = content.Load<Texture2D>(texturePath);
 
@@ -58,8 +59,7 @@ namespace Sprint0.Classes
             SourceRectangles = SpriteSheetHelper.CreateBowItemFrames();
             currentItemType = ItemType.bow;
 
-            _scale.X = (float)graphicsdevice.Viewport.Width / 256.0f;
-            _scale.Y = (float)graphicsdevice.Viewport.Height / 176.0f;
+            _scale = scale;
         }
 
         public void Update(GameTime gameTime)
