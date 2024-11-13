@@ -46,7 +46,7 @@ namespace Sprint2.Map
 
         public void Update(int currentStage)
         {
-                //stage = currentStage;
+                stage = currentStage;
         }
 
         private int[] GetDoor(int currentStage) { 
@@ -124,7 +124,7 @@ namespace Sprint2.Map
         public void DrawTiles(int[,] room, Vector2 Offset, Boolean Transitioning)
         {
             Vector2 tilePosition = new Vector2(32 * _scale.X + Offset.X, 87 * _scale.Y + Offset.Y);
-            List<IEnemy> enemiesInRoom = _EnemyItem.GetEnemies(0);
+            List<IEnemy> enemiesInRoom = _EnemyItem.GetEnemies(stage);
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 12; j++)
