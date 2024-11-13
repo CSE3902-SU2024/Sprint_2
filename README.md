@@ -13,17 +13,17 @@ WASD or arrow keys for link movement
 
 
 ## Blocks & Items :
-Items can be picked up.
-left mouse click can be pressed when next to a door to enter the next room
+- Items can be picked up.
+- left mouse click can be pressed when next to a door to enter the next room
 
 ## Enemies :
 Monsters can be attacked and killed. most effectively with the sword. They will not respawn. They will move in path and change direction when hit block
 
 ## Misc:
-q to quit
-i for inventory
-space to pause
-esc to exit pause or inventory
+- q to quit
+- i for inventory
+- space to pause
+- esc to exit pause or inventory
 
 ## Note:
 You cannot walk through blocks. There is a small bit of wiggle room allowing 3 pixels of intersection
