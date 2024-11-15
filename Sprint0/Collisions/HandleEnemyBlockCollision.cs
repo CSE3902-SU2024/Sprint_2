@@ -14,6 +14,8 @@ namespace Sprint2.Collisions
         private int enemyHeight;
         private int blockWidth;
         private int blockHeight;
+        public bool collisionDetected;
+
 
         public HandleEnemyBlockCollision(Vector2 blockPos, int eWidth, int eHeight, int bWidth, int bHeight)
         {
@@ -37,7 +39,7 @@ namespace Sprint2.Collisions
         public bool EnemyBlockCollision(Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale) // or List<IEnemy> enemies, Vector2 spritePosition, Vector2 scale
             //public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
         {
-            bool collisionDetected =  false;
+             collisionDetected =  false;
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
              List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
 
@@ -54,6 +56,10 @@ namespace Sprint2.Collisions
                     if (enemy is Stalfos stalfos)
                     {
                         stalfos.SetNewRandomDirection();
+                    }
+                    if (enemy is Dragon dragon)
+                    {
+                        dragon.flipDirection();
                     }
                     // keep enemies oustside of the block
                     float offsetDistance = 2.0f;   

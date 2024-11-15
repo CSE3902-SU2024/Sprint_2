@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Sprint0.Player;
 using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework.Audio;
+using Sprint2.Collisions;
+using Sprint2.Map;
 
 namespace Sprint2.Enemy
 {
@@ -36,7 +38,6 @@ namespace Sprint2.Enemy
         //private Rectangle wallDownBoundingBox;
         //private Rectangle dragonBoundingBox;
         private Link _link;
-
 
         private Rectangle[] fireballRectangles;
 
@@ -97,6 +98,10 @@ namespace Sprint2.Enemy
             deathSound = content.Load<SoundEffect>("OOT_Enemy_Poof1");
         }
 
+        public void flipDirection()
+        {
+            movingRight = !movingRight;
+        }
 
         public void Update(GameTime gameTime)
         {
@@ -113,6 +118,14 @@ namespace Sprint2.Enemy
                         position = new Vector2(20000, 20000);
                     }
                 }
+
+
+                for (int i = 0; i < fireballs.Count; i++)
+                {
+                    fireballs.RemoveAt(i);
+                    i--;
+                }
+                
             }
             else if (alive)
             {
@@ -147,6 +160,7 @@ namespace Sprint2.Enemy
                         fireballs.RemoveAt(i);
                         i--;
                     }
+                    
                 }
 
                 if (isImmune)
@@ -157,17 +171,18 @@ namespace Sprint2.Enemy
                         isImmune = false;
                     }
                 }
+               
             }
         }
 
 
         private void MoveDragon()
         {
-             if (movingRight)
+            if (movingRight)
             {
                 position.X += 1f;
                 if (position.X >= initialPosition.X + movementRange)
-                    movingRight = false;  
+                    movingRight = false;
             }
             else
             {
@@ -175,7 +190,6 @@ namespace Sprint2.Enemy
                 if (position.X <= initialPosition.X - movementRange)
                     movingRight = true; // Switch direction  
             }
-
 
             //if (!CollideWall)
             //{
