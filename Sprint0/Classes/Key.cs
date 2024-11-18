@@ -76,6 +76,7 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.keyCount += 1;
                 _link.hasKey = true;
             }
         }

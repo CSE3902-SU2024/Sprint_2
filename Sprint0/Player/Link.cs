@@ -41,6 +41,8 @@ namespace Sprint0.Player
         //for hud:
         public int Health { get; set; } = 16; // each heart = 2 hp
 
+        public int keyCount { get; set; } = 0; // start with 0 keys
+
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
         public SoundEffect bombExplosion { get; private set; }
@@ -144,6 +146,10 @@ namespace Sprint0.Player
                     isImmune = false;
                 }
             }
+            if (keyCount ==0)
+            {
+                hasKey = false;
+            } else { hasKey = true; }
         }
 
         public void Draw(SpriteBatch _spriteBatch)

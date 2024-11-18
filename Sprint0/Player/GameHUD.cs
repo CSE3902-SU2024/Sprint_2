@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using System;
+using System.Security.AccessControl;
+using System.Transactions;
 
 namespace Sprint2
 {
@@ -24,8 +26,10 @@ namespace Sprint2
         private const int HEART_HEIGHT = 9;
         private const int HEART_SPACING = 0;  // Space between hearts
         const int heartsPerRow = 8;  // Set max hearts per row
-
         private int health;
+
+        private int numKeys;
+        private int keyPos = 0; 
 
 
 
@@ -68,7 +72,20 @@ namespace Sprint2
                   new Rectangle(258, 11,255,55) ,  //the background
                   new Rectangle(645, 117, 8, 8),     // 1 full heart
                   new Rectangle(636, 117, 8, 8),     // 1 half heart
-                  new Rectangle(627, 117, 8, 8)     // 1 emtpy heart
+                  new Rectangle(627, 117, 8, 8),     // 1 emtpy heart
+
+                  new Rectangle(519, 117, 8, 8), // X [5]
+                  new Rectangle(528, 117, 8, 8), //0 [6]
+                  new Rectangle(537, 117, 8, 8), //1 [7]
+                  new Rectangle(546, 117, 8, 8), //2 [8]
+                  new Rectangle(555, 117, 8, 8), //3 [9]
+                  new Rectangle(564, 117, 8, 8), //4 [10]
+                  new Rectangle(573, 117, 8, 8), //5 [11]
+                  new Rectangle(582, 117, 8, 8), //6 [12]
+                  new Rectangle(591, 117, 8, 8), //7 [13]
+                  new Rectangle(600, 117, 8, 8), //8 [14]
+                  new Rectangle(609, 117, 8, 8), //9 [15]
+                
              };
 
         }
@@ -118,8 +135,18 @@ namespace Sprint2
                 _spriteBatch.Draw(_hudTexture,
                     new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
                     heartSource, Color.White);
+                _spriteBatch.Draw(_hudTexture,
+                    new Rectangle((int)_position.X, (int)_position.Y, 8, 8),
+                    heartSource, Color.White);
             }
-            
+            Rectangle NumberText;
+            if (_link.keyCount != 0 && _link.keyCount <=9)
+            {
+                NumberText = cutOuts[_link.keyCount + 6]; //1key-> cutout 7
+            } else
+            {
+                //work in progress
+            }
 
         }
     }

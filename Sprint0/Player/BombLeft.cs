@@ -27,7 +27,7 @@ namespace Sprint0.Player
             _weaponPosition.X = _link._position.X - 5 * _link._scale.X;
             _weaponPosition.Y = _link._position.Y + 6 * _link._scale.Y;
             _Explode = false;
-            _BombSpeed = 5f;
+            _BombSpeed = 0; //bomb doesnt move
             _boomTimer = 30;
         }
 
