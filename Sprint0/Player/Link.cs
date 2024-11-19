@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using static Sprint0.Player.ILinkState;
 
 
 namespace Sprint0.Player
@@ -29,6 +30,7 @@ namespace Sprint0.Player
         private bool isImmune;
         public bool transitioning;
         public bool hasKey;
+        public Direction currentDirection;
 
 
         private SpriteEffects spriteEffects;
@@ -67,6 +69,8 @@ namespace Sprint0.Player
             remainingImmunityFrames = 0;
             transitioning = false;
             hasKey = false;
+            currentDirection = Direction.down;
+            
 
 
             SwordAttackSound = swordSound;
@@ -77,24 +81,28 @@ namespace Sprint0.Player
 
         public void MoveDown()
         {
+            currentDirection = Direction.down;
             if (!transitioning)
                 currentState.MoveDown();
         }
 
         public void MoveUp()
         {
+            currentDirection = Direction.up;
             if (!transitioning)
             currentState.MoveUp();
         }
 
         public void MoveLeft()
         {
+            currentDirection = Direction.left;
             if (!transitioning)
                 currentState.MoveLeft();
         }
 
         public void MoveRight()
         {
+            currentDirection = Direction.right;
             if (!transitioning)
                 currentState.MoveRight();
         }

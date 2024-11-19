@@ -20,5 +20,13 @@ namespace Sprint0.Player
 
 
         void IsDamaged();
+
+        public enum Direction
+        {
+            up,
+            down,
+            left,
+            right
+        }
     }
 }

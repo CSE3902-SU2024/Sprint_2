@@ -3,12 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Classes;
+using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
 {
     internal class Fairy : Iitem
     {
+        public ILinkState currentState;
         public Link _link;
         public Texture2D Sprite;
         public Rectangle[] SourceRectangles;
@@ -64,8 +66,26 @@ namespace Sprint0.Classes
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(itemBoundingBox))
             {
-                Position.X += 20000;
-                Position.Y += 20000;
+                if (_link.currentDirection == Direction.down)
+                {
+                    Position.Y = _link._position.Y - 13 * _scale.Y;
+                    Position.X = _link._position.X;
+                }
+                else if (_link.currentDirection == Direction.up)
+                {
+                    Position.Y = _link._position.Y + 12 * _scale.Y;
+                    Position.X = _link._position.X;
+                }
+                else if (_link.currentDirection == Direction.left)
+                {
+                    Position.Y = _link._position.Y;
+                    Position.X = _link._position.X + 14 * _scale.X;
+                }
+                else if (_link.currentDirection == Direction.right)
+                {
+                    Position.Y = _link._position.Y;
+                    Position.X = _link._position.X - 12 * _scale.X;
+                }
             }
         }
 
