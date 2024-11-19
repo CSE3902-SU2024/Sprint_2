@@ -1,17 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using System.Diagnostics;
-using Sprint0.Player;
-using Sprint2.Collisions;
-using static System.Formats.Asn1.AsnWriter;
-using Sprint2.Enemy;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Sprint0.Collisions;
-using Sprint0.Classes;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Reflection.Metadata;
+using Sprint0.Collisions;
+using Sprint0.Player;
+using System;
+using System.Diagnostics;
 
 
 namespace Sprint2.Map

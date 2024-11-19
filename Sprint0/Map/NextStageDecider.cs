@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint0.Player;
-using Sprint2.Enemy;
-using System.Diagnostics;
-using System.Transactions;
 
 namespace Sprint2.Map
 {

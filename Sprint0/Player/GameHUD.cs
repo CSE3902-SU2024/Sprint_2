@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using System;
-using System.Security.AccessControl;
-using System.Transactions;
 
 namespace Sprint2
 {

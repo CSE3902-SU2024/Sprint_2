@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
-using Sprint2.Collisions;
-using System.Collections.Generic;
-using Sprint2.Enemy;
-using Sprint0.Collisions;
-using System;
-using static System.Formats.Asn1.AsnWriter;
 using Sprint2.Classes;
+using Sprint2.Collisions;
+using Sprint2.Enemy;
+using System;
+using System.Collections.Generic;
 
 namespace Sprint2.Map
 {

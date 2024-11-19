@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint0.Player;
-using Sprint0.Interfaces;
-using System.Collections.Generic;
 using Sprint2.Enemy;
 using Sprint2.Enemy.Projectiles;
 using Sprint2.Map;
+using System.Collections.Generic;
 
 namespace Sprint0.Collisions
 {

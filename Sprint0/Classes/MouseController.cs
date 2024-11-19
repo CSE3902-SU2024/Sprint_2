@@ -1,13 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Sprint0.Interfaces;
+﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
 using Sprint2.Map;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sprint0.Classes
 {

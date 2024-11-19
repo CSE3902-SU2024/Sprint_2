@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Enemy;
-using Sprint2.Enemy.Projectiles;
 using Sprint2.Map;
 using System.Collections.Generic;
 

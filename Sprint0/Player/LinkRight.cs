@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using static System.Formats.Asn1.AsnWriter;
 
 
 namespace Sprint0.Player

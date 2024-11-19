@@ -1,16 +1,14 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using Sprint0.Player;
+using Sprint2.Classes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Sprint2.Classes;
+using System.Linq;
 using static Sprint2.Classes.Iitem;
-using Sprint0.Player;
 
 namespace Sprint2.Map
 {

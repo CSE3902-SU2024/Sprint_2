@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Classes;
-using Sprint0;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Audio;
 
 
 namespace Sprint2.GameStates
