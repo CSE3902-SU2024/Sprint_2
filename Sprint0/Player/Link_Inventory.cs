@@ -19,7 +19,7 @@ namespace Sprint0.Player
         private SpriteBatch _spriteBatch;
 
         //  inventory layout
-        private const int ITEM_SPACING = 40;
+        private const int ITEM_SPACING = 80;
         
 
         public bool IsInventoryOpen => isInventoryOpen;
@@ -78,7 +78,7 @@ namespace Sprint0.Player
             if (!isInventoryOpen || bagItems.Count == 0) return;
 
             //  fixed positions  for  testing
-            Vector2 startPos = new Vector2(200, 200); // Test purpose position (change later)
+            Vector2 startPos = new Vector2(550, 230); // Test purpose position (change later)
             const int ITEMS_PER_ROW = 4;
             const int ROW_SPACING = 40;
 
@@ -104,7 +104,7 @@ namespace Sprint0.Player
                     Color.White,
                     0f,
                     Vector2.Zero,
-                    _scale * 2, // change scale accordingly
+                    _scale * 1.2f, // change scale accordingly
                     SpriteEffects.None,
                     0f
                 );
