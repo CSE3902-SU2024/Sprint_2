@@ -10,8 +10,9 @@ namespace Sprint0.Classes
     internal class Diamond : Iitem
     {
         public Link _link;
-        public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Texture2D Sprite { get; private set; }
+        public Rectangle[] SourceRectangles { get; private set; }
+        public ItemType CurrentItemType => ItemType.diamond;
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         private int itemFrame;
@@ -66,6 +67,7 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.inventory.AddItem(this);
             }
         }
 

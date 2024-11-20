@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Reflection.Metadata;
 
 
 namespace Sprint0.Player
@@ -29,7 +31,7 @@ namespace Sprint0.Player
         private bool isImmune;
         public bool transitioning;
         public bool hasKey;
-
+        public Link_Inventory inventory;
 
         private SpriteEffects spriteEffects;
 
@@ -45,7 +47,7 @@ namespace Sprint0.Player
 
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -67,7 +69,7 @@ namespace Sprint0.Player
             remainingImmunityFrames = 0;
             transitioning = false;
             hasKey = false;
-
+            inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
 
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;

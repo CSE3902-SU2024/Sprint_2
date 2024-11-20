@@ -8,6 +8,7 @@ namespace Sprint2
 {
     public class GameHUD
     {
+
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
@@ -15,6 +16,10 @@ namespace Sprint2
         private Vector2 _scale;
         private Link _link;
         private Vector2 _position;
+
+        private Rectangle _inventoryRegion;
+        private Rectangle _bSlotRegion;
+        private bool isInventoryVisible;
 
         private Rectangle _healthBarPosition;
         private const int HUD_WIDTH = 256;
@@ -145,7 +150,11 @@ namespace Sprint2
             {
                 //work in progress
             }
+            
 
         }
+        
+
+       
     }
 }

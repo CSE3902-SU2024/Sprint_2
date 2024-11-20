@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Player;
+using Sprint2.Classes;
 using Sprint2.Enemy;
 using System;
 using System.Collections.Generic;
@@ -145,7 +147,7 @@ namespace Sprint2.Map
                 enemy.Update(gameTime);
             }
         }
-
+        
         // Returns true when there aren't any enemies left
         public Boolean AreThereEnemies(int currentStage)
         {

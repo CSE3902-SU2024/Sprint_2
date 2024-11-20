@@ -6,6 +6,9 @@ namespace Sprint2.Classes
 {
     public interface Iitem
     {
+        Texture2D Sprite { get; }  // Add these properties
+        Rectangle[] SourceRectangles { get; }
+        ItemType CurrentItemType { get; }
         public enum ItemType
         {
             fire,

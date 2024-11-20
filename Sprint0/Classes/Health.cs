@@ -10,8 +10,9 @@ namespace Sprint0.Classes
     internal class Health : Iitem
     {
         public Link _link;
-        public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Texture2D Sprite { get; private set; }
+        public Rectangle[] SourceRectangles { get; private set; }
+        public ItemType CurrentItemType => ItemType.health;
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         private int itemFrame;

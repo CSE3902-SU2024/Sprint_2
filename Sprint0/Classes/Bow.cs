@@ -10,8 +10,8 @@ namespace Sprint0.Classes
     internal class Bow : Iitem
     {
         public Link _link;
-        public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Texture2D Sprite { get; private set; }
+        public Rectangle[] SourceRectangles { get; private set; }
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         private int itemFrame;
@@ -19,7 +19,7 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-
+        public ItemType CurrentItemType => ItemType.bow;
         public ItemType currentItemType { get; set; }
 
         public Bow(Vector2 position, Link link)
