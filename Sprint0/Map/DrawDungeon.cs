@@ -134,7 +134,7 @@ namespace Sprint2.Map
                     _spriteBatch.Draw(_texture, tilePosition, _sourceRectangles[tileIdx], Color.White, 0f, Vector2.Zero, _scale, _spriteEffects, 0f);
                     if (!Transitioning)
                     {
-                        if (tileIdx == 1 || tileIdx == 3)
+                        if (tileIdx == 1 || tileIdx == 2 ||tileIdx == 3)
                         {
                             Vector2 EasierAccessTilePosition = tilePosition + new Vector2(3, 3);
                             HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);

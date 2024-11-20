@@ -12,6 +12,7 @@ using Sprint0.Classes;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Reflection.Metadata;
+using Sprint2.Classes;
 
 
 namespace Sprint2.Map
@@ -54,6 +55,8 @@ namespace Sprint2.Map
         Song backgroundMusic;
         Song titleSequence;
         Song endSequence;
+        private MovableBlock movableBlock14;
+        private MovableBlock movableBlock8;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -89,7 +92,18 @@ namespace Sprint2.Map
             endSequence = content.Load<Song>("EndingTheme");
 
             _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
-       
+
+            //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
+            Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
+            MovableBlock movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
+            movableBlock14.LoadContent(content, "DungeonBlock1");
+
+
+            //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
+            Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
+            MovableBlock movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
+            movableBlock8.LoadContent(content, "DungeonBlock1");
+
 
         }
 
@@ -168,7 +182,27 @@ namespace Sprint2.Map
             {
                 Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
                 _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
-            }  
+            }
+
+            // stage 14 and 8 have the movable block
+            if (StageIndex == 14)
+            {
+                //movableBlock14.Update(_link.BoundingBox);
+                //Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
+                //MovableBlock movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
+                movableBlock14.Update(ref _link._position, _scale);
+                //HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
+                //playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+
+            }
+
+            if (StageIndex == 8)
+            {
+                //Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
+                //MovableBlock movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
+                movableBlock8.Update(ref _link._position, _scale); // error right now
+            }
+
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
                 MediaPlayer.Stop();
@@ -272,6 +306,17 @@ namespace Sprint2.Map
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
                 DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+
+                if (StageIndex == 14)
+                {
+                    movableBlock14.Draw(_spriteBatch);
+                }
+
+                if (StageIndex == 8)
+                {
+                    movableBlock8.Draw(_spriteBatch);
+                }
+
             } else
             {
                 _StageAnimator.Draw();
