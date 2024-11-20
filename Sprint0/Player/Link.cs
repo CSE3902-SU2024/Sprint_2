@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Reflection.Metadata;
+using static Sprint0.Player.ILinkState;
 
 
 namespace Sprint0.Player
@@ -32,6 +33,7 @@ namespace Sprint0.Player
         public bool transitioning;
         public bool hasKey;
         public Link_Inventory inventory;
+        public Direction currentDirection;
 
         private SpriteEffects spriteEffects;
 
@@ -70,6 +72,9 @@ namespace Sprint0.Player
             transitioning = false;
             hasKey = false;
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+            currentDirection = Direction.down;
+            
+
 
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;
@@ -79,24 +84,28 @@ namespace Sprint0.Player
 
         public void MoveDown()
         {
+            currentDirection = Direction.down;
             if (!transitioning)
                 currentState.MoveDown();
         }
 
         public void MoveUp()
         {
+            currentDirection = Direction.up;
             if (!transitioning)
             currentState.MoveUp();
         }
 
         public void MoveLeft()
         {
+            currentDirection = Direction.left;
             if (!transitioning)
                 currentState.MoveLeft();
         }
 
         public void MoveRight()
         {
+            currentDirection = Direction.right;
             if (!transitioning)
                 currentState.MoveRight();
         }
