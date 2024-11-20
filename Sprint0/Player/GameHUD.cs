@@ -32,7 +32,8 @@ namespace Sprint2
         private int health;
 
         private int numKeys;
-        private int keyPos = 0; 
+        private int keyPos = 0;
+        int digitSpacing = 8;
 
 
 
@@ -77,17 +78,17 @@ namespace Sprint2
                   new Rectangle(636, 117, 8, 8),     // 1 half heart
                   new Rectangle(627, 117, 8, 8),     // 1 emtpy heart
 
-                  new Rectangle(519, 117, 8, 8), // X [5]
-                  new Rectangle(528, 117, 8, 8), //0 [6]
-                  new Rectangle(537, 117, 8, 8), //1 [7]
-                  new Rectangle(546, 117, 8, 8), //2 [8]
-                  new Rectangle(555, 117, 8, 8), //3 [9]
-                  new Rectangle(564, 117, 8, 8), //4 [10]
-                  new Rectangle(573, 117, 8, 8), //5 [11]
-                  new Rectangle(582, 117, 8, 8), //6 [12]
-                  new Rectangle(591, 117, 8, 8), //7 [13]
-                  new Rectangle(600, 117, 8, 8), //8 [14]
-                  new Rectangle(609, 117, 8, 8), //9 [15]
+                  new Rectangle(519, 117, 8, 8), // X [4]
+                  new Rectangle(528, 117, 8, 8), //0 [5]
+                  new Rectangle(537, 117, 8, 8), //1 [6]
+                  new Rectangle(546, 117, 8, 8), //2 [7]
+                  new Rectangle(555, 117, 8, 8), //3 [8]
+                  new Rectangle(564, 117, 8, 8), //4 [9]
+                  new Rectangle(573, 117, 8, 8), //5 [10]
+                  new Rectangle(582, 117, 8, 8), //6 [11]
+                  new Rectangle(591, 117, 8, 8), //7 [12]
+                  new Rectangle(600, 117, 8, 8), //8 [13]
+                  new Rectangle(609, 117, 8, 8), //9 [14]
                 
              };
 
@@ -100,7 +101,7 @@ namespace Sprint2
 
         public void Draw()
         {
-             
+
             Rectangle adjustedBackground = new Rectangle(
                 (int)_position.X,
                 (int)_position.Y,
@@ -138,23 +139,64 @@ namespace Sprint2
                 _spriteBatch.Draw(_hudTexture,
                     new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
                     heartSource, Color.White);
-                _spriteBatch.Draw(_hudTexture,
-                    new Rectangle((int)_position.X, (int)_position.Y, 8, 8),
-                    heartSource, Color.White);
+
             }
-            Rectangle NumberText;
-            if (_link.keyCount != 0 && _link.keyCount <=9)
-            {
-                NumberText = cutOuts[_link.keyCount + 6]; //1key-> cutout 7
-            } else
-            {
-                //work in progress
-            }
+
+            int keyCount = _link.keyCount;
             
+            Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)baseKeyPosition.X, (int)baseKeyPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+            
+            if (keyCount > 0)
+            {
+                string keyString = keyCount.ToString();
+                int digitSpacing = 8; // Width of each digit in pixels
 
+                for (int i = 0; i < keyString.Length; i++)
+                {
+                    int digit = keyString[i] - '0'; // Convert char to int
+                    Rectangle digitSource = cutOuts[digit + 5]; // +7 because digits start at index 7 in cutOuts
+
+                    // Calculate position for each digit
+                    float xDigitPos = baseKeyPosition.X + ((i+1) * digitSpacing * _scale.X);
+                    float yDigitPos = baseKeyPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no keys
+                // Calculate position for each digit
+                float xDigitPos = baseKeyPosition.X + 1 * digitSpacing * _scale.X;
+                float yDigitPos = baseKeyPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
         }
-        
-
-       
     }
 }
