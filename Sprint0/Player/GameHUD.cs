@@ -27,13 +27,12 @@ namespace Sprint2
 
         private const int HEART_WIDTH = 9;
         private const int HEART_HEIGHT = 9;
-        private const int HEART_SPACING = 0;  // Space between hearts
         const int heartsPerRow = 8;  // Set max hearts per row
         private int health;
 
         private int numKeys;
         private int keyPos = 0;
-        int digitSpacing = 8;
+        int Spacing = 8;
 
 
 
@@ -111,6 +110,13 @@ namespace Sprint2
             // adjustedBackground 
             _spriteBatch.Draw(_hudTexture, adjustedBackground, cutOuts[0], Color.White);
 
+            DrawHearts();
+            DrawKeys();
+            DrawGems();
+            DrawBombs();
+        }
+        private void DrawHearts()
+        {
             // Adjust heart positions to include offset
             for (int i = 0; i < health; i++)
             {
@@ -133,7 +139,7 @@ namespace Sprint2
                 }
 
                 // Add position offset to heart positions
-                int xPosition = (int)_position.X + _healthBarPosition.X + column * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X);
+                int xPosition = (int)_position.X + _healthBarPosition.X + column * (int)(HEART_WIDTH * _scale.X);
                 int yPosition = (int)_position.Y + _healthBarPosition.Y + row * (int)(HEART_HEIGHT * _scale.Y);
 
                 _spriteBatch.Draw(_hudTexture,
@@ -141,26 +147,30 @@ namespace Sprint2
                     heartSource, Color.White);
 
             }
+        }
+        private void DrawKeys()
+        {
 
             int keyCount = _link.keyCount;
-            
+
             Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
-            _spriteBatch.Draw(_hudTexture, new Rectangle((int)baseKeyPosition.X, (int)baseKeyPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
-            
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseKeyPosition.X, (int)_position.Y + (int)baseKeyPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
             if (keyCount > 0)
             {
                 string keyString = keyCount.ToString();
-                int digitSpacing = 8; // Width of each digit in pixels
-
                 for (int i = 0; i < keyString.Length; i++)
                 {
-                    int digit = keyString[i] - '0'; // Convert char to int
-                    Rectangle digitSource = cutOuts[digit + 5]; // +7 because digits start at index 7 in cutOuts
+                    int digit = keyString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
 
                     // Calculate position for each digit
-                    float xDigitPos = baseKeyPosition.X + ((i+1) * digitSpacing * _scale.X);
-                    float yDigitPos = baseKeyPosition.Y;
+                    float xDigitPos = (int)_position.X + baseKeyPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseKeyPosition.Y;
 
                     _spriteBatch.Draw(
                         _hudTexture,
@@ -179,8 +189,126 @@ namespace Sprint2
             {
                 //0 when no keys
                 // Calculate position for each digit
-                float xDigitPos = baseKeyPosition.X + 1 * digitSpacing * _scale.X;
-                float yDigitPos = baseKeyPosition.Y;
+                float xDigitPos = (int)_position.X + baseKeyPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseKeyPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
+        }
+        private void DrawGems()
+        {
+            int GemCount = _link.GemCount;
+
+            Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseGemPosition.X, (int)_position.Y + (int)baseGemPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
+            if (GemCount > 0)
+            {
+                string GemString = GemCount.ToString();
+                for (int i = 0; i < GemString.Length; i++)
+                {
+                    int digit = GemString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
+
+                    // Calculate position for each digit
+                    float xDigitPos = (int)_position.X + baseGemPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseGemPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no gems
+                // Calculate position for each digit
+                float xDigitPos = (int)_position.X + baseGemPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseGemPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
+        }
+        private void DrawBombs()
+        {
+            int BombCount = _link.BombCount;
+
+            Vector2 baseBombPosition = new Vector2(385, 169); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseBombPosition.X, (int)_position.Y + (int)baseBombPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
+            if (BombCount > 0)
+            {
+                string BombString = BombCount.ToString();
+                for (int i = 0; i < BombString.Length; i++)
+                {
+                    int digit = BombString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
+
+                    // Calculate position for each digit
+                    float xDigitPos = (int)_position.X + baseBombPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseBombPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no bombs
+                // Calculate position for each digit
+                float xDigitPos = (int)_position.X + baseBombPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseBombPosition.Y;
 
                 Rectangle digitSource = cutOuts[5];
                 _spriteBatch.Draw(

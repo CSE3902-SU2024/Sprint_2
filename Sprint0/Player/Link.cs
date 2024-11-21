@@ -42,6 +42,10 @@ namespace Sprint0.Player
 
         public int keyCount { get; set; } = 0; // start with 0 keys
 
+        public int GemCount { get; set; } = 0; // start with 0 gems
+
+        public int BombCount { get; set; } = 3; //start with 3 for now
+
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
         public SoundEffect bombExplosion { get; private set; }
@@ -125,6 +129,7 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
+            if (BombCount >0)
             currentState.UseBomb();
         }
         public void TakeDamage()

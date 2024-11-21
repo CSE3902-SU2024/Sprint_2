@@ -73,6 +73,8 @@ namespace Sprint0.Player
                     else if (weaponFrame == 26)
                     {
                         linkFrame = 2;
+                        _link.BombCount--;
+
                         _link.currentState = new LinkRight(_link);
                     }
                     remainingFrames = _link.framesPerSword;

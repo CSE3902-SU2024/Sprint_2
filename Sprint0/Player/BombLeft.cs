@@ -40,6 +40,7 @@ namespace Sprint0.Player
         public void Update()
         {
             _boomTimer--;  //timer ticking down
+          
 
             if (!_Explode)
             {
@@ -72,6 +73,8 @@ namespace Sprint0.Player
                     else if (weaponFrame == 26)
                     {
                         linkFrame = 2;
+                        _link.BombCount--;
+
                         _link.currentState = new LinkLeft(_link);
                     }
                     remainingFrames = _link.framesPerSword;
