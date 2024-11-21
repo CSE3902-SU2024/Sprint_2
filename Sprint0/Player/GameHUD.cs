@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
+using Sprint2.Player;
 using System;
 
 namespace Sprint2
@@ -34,7 +35,7 @@ namespace Sprint2
         private int keyPos = 0;
         int Spacing = 8;
 
-
+        private MiniMap1 MiniMap;
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
@@ -49,13 +50,19 @@ namespace Sprint2
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
+
+            MiniMap = new MiniMap1(_scale);
+            MiniMap.LoadMap(content);
+
         }
 
         private void LoadContent(ContentManager content)
         {
+ 
             try
             {
                 _hudTexture = content.Load<Texture2D>("NES - The Legend of Zelda - HUD & Pause Screen");
+             
             }
             catch (ContentLoadException e)
             {
@@ -114,6 +121,8 @@ namespace Sprint2
             DrawKeys();
             DrawGems();
             DrawBombs();
+
+            MiniMap.Draw(_spriteBatch);
         }
         private void DrawHearts()
         {
