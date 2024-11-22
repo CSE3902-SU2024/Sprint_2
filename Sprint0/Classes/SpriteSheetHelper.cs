@@ -97,7 +97,7 @@ namespace Sprint0.Classes
         }
         public static Rectangle[] CreateFairyItemFrames()
         {
-            return new Rectangle[] { new Rectangle(40, 0, 7, 16), new Rectangle(40, 0, 7, 16) };
+            return new Rectangle[] { new Rectangle(40, 0, 7, 16), new Rectangle(49, 0, 7, 16) };
         }
         public static Rectangle[] CreateClockItemFrames()
         {

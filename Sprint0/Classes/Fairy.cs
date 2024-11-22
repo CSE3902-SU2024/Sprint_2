@@ -21,6 +21,7 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
+        public bool follow = false;
 
         public ItemType currentItemType { get; set; }
 
@@ -66,27 +67,29 @@ namespace Sprint0.Classes
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(itemBoundingBox))
             {
-                if (_link.currentDirection == Direction.down)
-                {
-                    Position.Y = _link._position.Y - 13 * _scale.Y;
-                    Position.X = _link._position.X;
-                }
-                else if (_link.currentDirection == Direction.up)
-                {
-                    Position.Y = _link._position.Y + 12 * _scale.Y;
-                    Position.X = _link._position.X;
-                }
-                else if (_link.currentDirection == Direction.left)
-                {
-                    Position.Y = _link._position.Y;
-                    Position.X = _link._position.X + 14 * _scale.X;
-                }
-                else if (_link.currentDirection == Direction.right)
-                {
-                    Position.Y = _link._position.Y;
-                    Position.X = _link._position.X - 12 * _scale.X;
-                }
+                follow = true;
             }
+            //if (_link.currentDirection == Direction.down && follow)
+            //{
+            //    Position.Y = _link._position.Y - 13 * _scale.Y;
+            //    Position.X = _link._position.X;
+            //}
+            //else if (_link.currentDirection == Direction.up && follow)
+            //{
+            //    Position.Y = _link._position.Y + 12 * _scale.Y;
+            //    Position.X = _link._position.X;
+            //}
+            //else if (_link.currentDirection == Direction.left && follow)
+            //{
+            //    Position.Y = _link._position.Y;
+            //    Position.X = _link._position.X + 14 * _scale.X;
+            //}
+            //else if (_link.currentDirection == Direction.right && follow )
+            //{
+            //    Position.Y = _link._position.Y;
+            //    Position.X = _link._position.X - 12 * _scale.X;
+            //}
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

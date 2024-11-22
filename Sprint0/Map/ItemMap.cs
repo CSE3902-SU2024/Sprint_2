@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
 
 namespace Sprint2.Map
@@ -22,6 +23,7 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+        private Fairy fairy;
         public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
@@ -34,6 +36,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
+
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
@@ -128,7 +131,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(clock);
                             break;
                         case 5:
-                            Fairy fairy = new Fairy(ItemPosition, _link);
+                            fairy = new Fairy(ItemPosition, _link);
                             fairy.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.fairy, _scale);
                             ItemsInRoom.Add(fairy);
                             break;
@@ -179,15 +182,44 @@ namespace Sprint2.Map
                 ItemPosition.X = 32 * _scale.X;
                 ItemPosition.Y += 16 * _scale.Y;
             }
+            
             return ItemsInRoom;
         }
 
         public void Update(int currentStage, GameTime gameTime)
         {
             List<Iitem> items = GetItems(currentStage);
+            if (fairy.follow)
+            {
+                items.Add(fairy);
+            }
             foreach (Iitem item in items)
             {
                 item.Update(gameTime);
+                if (item is Fairy fairy && fairy.follow)
+                {
+                    if (_link.currentDirection == Direction.down)
+                    {
+                        fairy.Position.Y = _link._position.Y - 13 * _scale.Y;
+                        fairy.Position.X = _link._position.X;
+                    }
+                    else if (_link.currentDirection == Direction.up)
+                    {
+                        fairy.Position.Y = _link._position.Y + 12 * _scale.Y;
+                        fairy.Position.X = _link._position.X;
+                    }
+                    else if (_link.currentDirection == Direction.left)
+                    {
+                        fairy.Position.Y = _link._position.Y;
+                        fairy.Position.X = _link._position.X + 14 * _scale.X;
+                    }
+                    else if (_link.currentDirection == Direction.right)
+                    {
+                        fairy.Position.Y = _link._position.Y;
+                        fairy.Position.X = _link._position.X - 12 * _scale.X;
+                    }
+
+                }
             }
         }
     }
