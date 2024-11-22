@@ -103,6 +103,11 @@ namespace Sprint2.Enemy
                         position = new Vector2(20000, 20000); // Move off screen
                     }
                 }
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles.RemoveAt(i);
+                    i--;
+                }
             }
             else if (alive) { 
                 timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
