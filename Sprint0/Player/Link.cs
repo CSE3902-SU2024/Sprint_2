@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Reflection.Metadata;
 using static Sprint0.Player.ILinkState;
 
 
@@ -30,8 +32,8 @@ namespace Sprint0.Player
         private bool isImmune;
         public bool transitioning;
         public bool hasKey;
+        public Link_Inventory inventory;
         public Direction currentDirection;
-
 
         private SpriteEffects spriteEffects;
 
@@ -40,6 +42,10 @@ namespace Sprint0.Player
 
         public int keyCount { get; set; } = 0; // start with 0 keys
 
+        public int GemCount { get; set; } = 0; // start with 0 gems
+
+        public int BombCount { get; set; } = 3; //start with 3 for now
+
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
         public SoundEffect bombExplosion { get; private set; }
@@ -47,7 +53,7 @@ namespace Sprint0.Player
 
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -69,6 +75,7 @@ namespace Sprint0.Player
             remainingImmunityFrames = 0;
             transitioning = false;
             hasKey = false;
+            inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
             
 
@@ -122,6 +129,7 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
+            if (BombCount >0)
             currentState.UseBomb();
         }
         public void TakeDamage()

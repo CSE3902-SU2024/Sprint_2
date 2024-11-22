@@ -69,14 +69,14 @@ namespace Sprint2.GameStates
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
             linkDeath = Content.Load<SoundEffect>("LinkDeath");
-            _link = new Link(linkFrames, linkTexture, _graphicsDevice, _scale, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound);
+            _link = new Link(linkFrames,linkTexture, _graphicsDevice, _spriteBatch,_scale,Content,swordAttackSound,bowAttackSound, bombExplosion,boomerangSound);
             _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
             _keyboardController = new KeyboardController(_link);
             CurrentGameState = new StartMenu(_graphicsDevice,_spriteBatch, Content, _scale);
             CurrentLevel = new LevelOne(_graphics,_spriteBatch, _scale,_graphicsDevice, _link);
             CurrentLevel.LoadContent(Content);
             PauseMenu = new PauseMenu(linkTexture, _spriteBatch, _graphicsDevice, Content);
-            _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD);
+            _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD, _link);
             content = Content;
         }
         public void Update(GameTime gameTime)

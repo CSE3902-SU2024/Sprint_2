@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using Sprint0.Player;
 using System;
 namespace Sprint2.GameStates
 {
@@ -16,24 +17,32 @@ namespace Sprint2.GameStates
         private float _transitionSpeed;
         private float _targetY;
         private GameHUD _gameHUD;
-        private bool _isVisible;   
-        public InventoryMenu(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, GameHUD gameHUD)
+        private bool _isVisible;
+        private Link _link; 
+
+        // Constants for inventory grid
+        private readonly Vector2 INVENTORY_GRID_START = new Vector2(400, 300); // Adjust these (later)
+        private const int GRID_CELL_SIZE = 32; // Adjust this(later)
+        private const int GRID_COLUMNS = 4;
+        private const int GRID_ROWS = 2;
+        public InventoryMenu(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, GameHUD gameHUD, Link link)
         {
             _spriteBatch = spriteBatch;
             _graphicsDevice = graphicsDevice;
             _gameHUD = gameHUD;
+            _link = link;
             inventoryScreen = content.Load<Texture2D>("NES - The Legend of Zelda - HUD & Pause Screen");
             _scale = new Vector2(4.2f, 5f);
 
-             
             _position = new Vector2(0, -500);
             _targetY = 0;
-            _transitionSpeed = 4f;   
+            _transitionSpeed = 4f;
             _isTransitioning = true;
             _isVisible = false;
         }
 
-         
+
+
 
         public void StartTransitionIn()
         {
@@ -82,15 +91,62 @@ namespace Sprint2.GameStates
 
         public void Draw()
         {
-            // Draw inventory portion (top part of the screen)
+            // inventory background
             Rectangle inventorySource = new Rectangle(1, 11, 256, 88);
             _spriteBatch.Draw(inventoryScreen, _position, inventorySource, Color.White,
                              0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+
+            // Debug  
+            System.Diagnostics.Debug.WriteLine($"Drawing InventoryMenu. Link: {_link != null}, Inventory: {_link?.inventory != null}");
+
+            //   inventory items
+            if (_link?.inventory != null)
+            {
+                _link.inventory.Draw(_spriteBatch);
+            }
 
             // Draw HUD at bottom of inventory
             Vector2 hudPosition = new Vector2(_position.X, _position.Y + (88 * _scale.Y));
             _gameHUD.SetPosition(hudPosition);
             _gameHUD.Draw();
+        }
+        private void DrawInventoryItems()
+        {
+            //   grid start position  
+            Vector2 gridStart = new Vector2(
+                _position.X + (INVENTORY_GRID_START.X * _scale.X),
+                _position.Y + (INVENTORY_GRID_START.Y * _scale.Y)
+            );
+
+            var items = _link.inventory.GetItems();  
+            int itemIndex = 0;
+
+            for (int row = 0; row < GRID_ROWS && itemIndex < items.Count; row++)
+            {
+                for (int col = 0; col < GRID_COLUMNS && itemIndex < items.Count; col++)
+                {
+                    var item = items[itemIndex];
+                    Vector2 itemPosition = new Vector2(
+                        gridStart.X + (col * GRID_CELL_SIZE * _scale.X),
+                        gridStart.Y + (row * GRID_CELL_SIZE * _scale.Y)
+                    );
+
+                    // Draw item
+                    _spriteBatch.Draw(
+                        item.Sprite,
+                        itemPosition,
+                        item.SourceRectangles[0],
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        _scale,
+                        SpriteEffects.None,
+                        0f
+                    );
+
+                    itemIndex++;
+                }
+            }
         }
 
         public int GetLinkHealth()

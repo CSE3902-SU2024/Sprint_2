@@ -73,6 +73,7 @@ namespace Sprint0.Classes
                     else if (state.IsKeyDown(Keys.I) && !previousState.IsKeyDown(Keys.I))
                     {
                         // Game => Inventory  
+                        _link.inventory.ToggleInventory();
                         return 2;
                     }
                     break;
@@ -81,6 +82,7 @@ namespace Sprint0.Classes
                     if (state.IsKeyDown(Keys.Escape))
                     {
                         // Inventory => Game  
+                        _link.inventory.ToggleInventory();
                         return 1;
                     }
                     break;
