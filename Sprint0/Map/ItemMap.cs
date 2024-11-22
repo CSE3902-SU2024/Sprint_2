@@ -189,37 +189,15 @@ namespace Sprint2.Map
         public void Update(int currentStage, GameTime gameTime)
         {
             List<Iitem> items = GetItems(currentStage);
-            if (fairy.follow)
+            if (fairy.follow && _link.transitioning)
             {
                 items.Add(fairy);
             }
             foreach (Iitem item in items)
             {
                 item.Update(gameTime);
-                if (item is Fairy fairy && fairy.follow)
-                {
-                    if (_link.currentDirection == Direction.down)
-                    {
-                        fairy.Position.Y = _link._position.Y - 13 * _scale.Y;
-                        fairy.Position.X = _link._position.X;
-                    }
-                    else if (_link.currentDirection == Direction.up)
-                    {
-                        fairy.Position.Y = _link._position.Y + 12 * _scale.Y;
-                        fairy.Position.X = _link._position.X;
-                    }
-                    else if (_link.currentDirection == Direction.left)
-                    {
-                        fairy.Position.Y = _link._position.Y;
-                        fairy.Position.X = _link._position.X + 14 * _scale.X;
-                    }
-                    else if (_link.currentDirection == Direction.right)
-                    {
-                        fairy.Position.Y = _link._position.Y;
-                        fairy.Position.X = _link._position.X - 12 * _scale.X;
-                    }
-
-                }
+                
+                
             }
         }
     }

@@ -70,30 +70,30 @@ namespace Sprint0.Classes
             {
                 follow = true;
             }
-            //if (_link.currentDirection == Direction.down && follow)
-            //{
-            //    Position.Y = _link._position.Y - 13 * _scale.Y;
-            //    Position.X = _link._position.X;
-            //}
-            //else if (_link.currentDirection == Direction.up && follow)
-            //{
-            //    Position.Y = _link._position.Y + 12 * _scale.Y;
-            //    Position.X = _link._position.X;
-            //}
-            //else if (_link.currentDirection == Direction.left && follow)
-            //{
-            //    Position.Y = _link._position.Y;
-            //    Position.X = _link._position.X + 14 * _scale.X;
-            //}
-            //else if (_link.currentDirection == Direction.right && follow )
-            //{
-            //    Position.Y = _link._position.Y;
-            //    Position.X = _link._position.X - 12 * _scale.X;
-            //}
+                if (_link.currentDirection == Direction.down && follow)
+                {
+                    Position.Y = _link._position.Y - 13 * _scale.Y;
+                    Position.X = _link._position.X;
+                }
+                else if (_link.currentDirection == Direction.up && follow)
+                {
+                    Position.Y = _link._position.Y + 12 * _scale.Y;
+                    Position.X = _link._position.X;
+                }
+                else if (_link.currentDirection == Direction.left && follow)
+                {
+                    Position.Y = _link._position.Y;
+                    Position.X = _link._position.X + 14 * _scale.X;
+                }
+                else if (_link.currentDirection == Direction.right && follow)
+                {
+                    Position.Y = _link._position.Y;
+                    Position.X = _link._position.X - 12 * _scale.X;
+                }
 
-        }
+            }
 
-        public void Draw(SpriteBatch spriteBatch)
+            public void Draw(SpriteBatch spriteBatch)
         {
 
             spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
