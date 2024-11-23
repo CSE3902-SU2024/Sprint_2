@@ -207,5 +207,10 @@ namespace Sprint0.Player
             _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
         }
 
+        public Vector2 GetLocation()
+        {
+            return _position;
+        }
+
     }
 }

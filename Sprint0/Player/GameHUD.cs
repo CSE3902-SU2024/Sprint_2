@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
+using Sprint2.Map;
 using Sprint2.Player;
 using System;
 
@@ -9,7 +10,7 @@ namespace Sprint2
 {
     public class GameHUD
     {
-
+        private StageManager stageManager;
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
@@ -39,7 +40,7 @@ namespace Sprint2
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
-        public GameHUD(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link, Vector2 scale)
+        public GameHUD(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link, Vector2 scale, StageManager StageManager)
         {
             _spriteBatch = spriteBatch;
             _link = link;
@@ -50,8 +51,8 @@ namespace Sprint2
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
-
-            MiniMap = new MiniMap1(_scale);
+            stageManager = StageManager;
+            MiniMap = new MiniMap1(_scale, stageManager, _link);
             MiniMap.LoadMap(content);
 
         }
@@ -334,6 +335,11 @@ namespace Sprint2
 
 
             }
+        }
+
+        public void Update()
+        {
+            MiniMap.Update();
         }
     }
 }

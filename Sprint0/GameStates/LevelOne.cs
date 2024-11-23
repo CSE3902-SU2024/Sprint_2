@@ -55,7 +55,7 @@ namespace Sprint2.GameStates
 
             
             _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
-            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
+            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
             
             _mouseController = new MouseController(_link, _StageManager);
         }
@@ -84,6 +84,7 @@ namespace Sprint2.GameStates
             if (!_StageManager.GetAnimationState())
             {
                 _link.Update();
+                _gameHUD.Update();
                 //_keyboardController.Update();
                 _mouseController.Update();
             }
