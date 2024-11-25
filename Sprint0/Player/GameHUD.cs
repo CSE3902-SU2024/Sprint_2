@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
+using Sprint2.Classes;
 using Sprint2.Map;
 using Sprint2.Player;
 using System;
@@ -124,6 +125,7 @@ namespace Sprint2
             DrawGems();
             DrawBombs();
             DrawSword();
+            DrawCurrentItem();
             MiniMap.Draw(_spriteBatch);
         }
         private void DrawHearts()
@@ -358,7 +360,30 @@ namespace Sprint2
             );
 
         }
+        private void DrawCurrentItem()
+        {
+            // B button slot  
+            Vector2 bSlotPosition = new Vector2(510, 102);  
 
+            if (_link?.inventory?.SelectedItem != null)
+            {
+                Iitem currentItem = _link.inventory.SelectedItem;
+                _spriteBatch.Draw(
+                    currentItem.Sprite,
+                    new Vector2(
+                        _position.X + bSlotPosition.X,
+                        _position.Y + bSlotPosition.Y
+                    ),
+                    currentItem.SourceRectangles[0],  
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    _scale,
+                    SpriteEffects.None,
+                    0f
+                );
+            }
+        }
         private void SetMultipleTransparency()
         {
             if (_hudTexture == null) return;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
+using Sprint2.Classes;
 using System;
 namespace Sprint2.GameStates
 {
@@ -104,7 +105,7 @@ namespace Sprint2.GameStates
             {
                 _link.inventory.Draw(_spriteBatch);
             }
-
+            DrawCurrentItem();
             // Draw HUD at bottom of inventory
             Vector2 hudPosition = new Vector2(_position.X, _position.Y + (88 * _scale.Y));
             _gameHUD.SetPosition(hudPosition);
@@ -146,6 +147,30 @@ namespace Sprint2.GameStates
 
                     itemIndex++;
                 }
+            }
+        }
+        private void DrawCurrentItem()
+        {
+             
+            Vector2 currentItemPosition = new Vector2(280, 230);  
+
+            if (_link?.inventory?.SelectedItem != null)
+            {
+                Iitem currentItem = _link.inventory.SelectedItem;
+                _spriteBatch.Draw(
+                    currentItem.Sprite,
+                    new Vector2(
+                        _position.X + currentItemPosition.X,
+                        _position.Y + currentItemPosition.Y
+                    ),
+                    currentItem.SourceRectangles[0],  
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    _scale,
+                    SpriteEffects.None,
+                    0f
+                );
             }
         }
 
