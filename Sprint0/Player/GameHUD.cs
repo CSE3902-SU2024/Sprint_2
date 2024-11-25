@@ -384,6 +384,8 @@ namespace Sprint2
                 );
             }
         }
+
+        //this is method to remove multiple colors of back ground for inventory
         private void SetMultipleTransparency()
         {
             if (_hudTexture == null) return;

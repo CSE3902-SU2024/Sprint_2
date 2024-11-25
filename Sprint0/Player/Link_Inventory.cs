@@ -19,7 +19,7 @@ namespace Sprint0.Player
         private SpriteBatch _spriteBatch;
 
         //  inventory layout
-        private const int ITEM_SPACING = 110;
+        private const int ITEM_SPACING = 105;
         private ItemType currentItemType;  
 
         // Add property to access current item type
