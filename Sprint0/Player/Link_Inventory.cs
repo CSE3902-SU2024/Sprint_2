@@ -19,7 +19,7 @@ namespace Sprint0.Player
         private SpriteBatch _spriteBatch;
 
         //  inventory layout
-        private const int ITEM_SPACING = 80;
+        private const int ITEM_SPACING = 110;
         
 
         public bool IsInventoryOpen => isInventoryOpen;
@@ -73,14 +73,14 @@ namespace Sprint0.Player
         public void Draw(SpriteBatch spriteBatch)
         {
             // Debug output to check if method is being called
-            System.Diagnostics.Debug.WriteLine($"Drawing inventory. IsOpen: {isInventoryOpen}, Items: {bagItems.Count}");
+            
 
             if (!isInventoryOpen || bagItems.Count == 0) return;
 
             //  fixed positions  for  testing
             Vector2 startPos = new Vector2(550, 230); // Test purpose position (change later)
             const int ITEMS_PER_ROW = 4;
-            const int ROW_SPACING = 40;
+            const int ROW_SPACING = 95;
 
             // Draw each item
             for (int i = 0; i < bagItems.Count; i++)
@@ -93,8 +93,7 @@ namespace Sprint0.Player
                     startPos.Y + (row * ROW_SPACING)
                 );
 
-                // Debug (delete later)
-                System.Diagnostics.Debug.WriteLine($"Drawing item {i} at position {itemPosition}");
+                
 
                 // item drawing
                 spriteBatch.Draw(

@@ -71,8 +71,8 @@ namespace Sprint0.Classes
                 _link.hasKey = true;
                 _link.inventory.AddItem(this);
 
-                // Debug output
-                System.Diagnostics.Debug.WriteLine($"Key collected! Count: {_link.keyCount}, Added to inventory: {_link.inventory.GetItems().Count}");
+                 
+                
             }
         }
 

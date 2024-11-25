@@ -68,6 +68,7 @@ namespace Sprint0.Classes
                 Position.X += 20000;
                 Position.Y += 20000;
                 _link.hasBow = true;
+                _link.inventory.AddItem(this);
             }
         }
 

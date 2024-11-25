@@ -96,8 +96,8 @@ namespace Sprint2.GameStates
             _spriteBatch.Draw(inventoryScreen, _position, inventorySource, Color.White,
                              0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
-            // Debug  
-            System.Diagnostics.Debug.WriteLine($"Drawing InventoryMenu. Link: {_link != null}, Inventory: {_link?.inventory != null}");
+           
+            
 
             //   inventory items
             if (_link?.inventory != null)

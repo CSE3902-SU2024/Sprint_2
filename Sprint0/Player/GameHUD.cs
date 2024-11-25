@@ -63,7 +63,7 @@ namespace Sprint2
             try
             {
                 _hudTexture = content.Load<Texture2D>("NES - The Legend of Zelda - HUD & Pause Screen");
-             
+                SetMultipleTransparency();
             }
             catch (ContentLoadException e)
             {
@@ -96,7 +96,8 @@ namespace Sprint2
                   new Rectangle(591, 117, 8, 8), //7 [12]
                   new Rectangle(600, 117, 8, 8), //8 [13]
                   new Rectangle(609, 117, 8, 8), //9 [14]
-                
+                  new Rectangle(564, 137, 8, 16), //sword [15]
+
              };
 
         }
@@ -122,7 +123,7 @@ namespace Sprint2
             DrawKeys();
             DrawGems();
             DrawBombs();
-
+            DrawSword();
             MiniMap.Draw(_spriteBatch);
         }
         private void DrawHearts()
@@ -335,6 +336,69 @@ namespace Sprint2
 
 
             }
+        }
+        private void DrawSword()
+        {
+            Vector2 baseSwordPosition = new Vector2(610, 102);
+ 
+            Rectangle swordPosition = new Rectangle(
+                (int)(_position.X + baseSwordPosition.X),   //transition
+                (int)(_position.Y + baseSwordPosition.Y),   
+                (int)(8 * _scale.X),    // width
+                (int)(16 * _scale.Y)    // height
+            );
+
+            Rectangle swordSource = cutOuts[15];
+
+            _spriteBatch.Draw(
+                _hudTexture,
+                swordPosition,
+                swordSource,
+                Color.White
+            );
+
+        }
+
+        private void SetMultipleTransparency()
+        {
+            if (_hudTexture == null) return;
+
+            Color[] data = new Color[_hudTexture.Width * _hudTexture.Height];
+            _hudTexture.GetData(data);
+
+            //  color background replace
+            for (int i = 0; i < data.Length; i++)
+            {
+                Color pixel = data[i];
+
+                // Grey (116, 116, 116)
+                if (pixel.R == 116 && pixel.G == 116 && pixel.B == 116)
+                {
+                    data[i] = Color.Transparent;
+                }
+                // Pink (255, 0, 255)
+                else if (pixel.R == 255 && pixel.G == 0 && pixel.B == 255)
+                {
+                    data[i] = Color.Transparent;
+                }
+                // Blue (0, 255, 255)
+                else if (pixel.R == 0 && pixel.G == 255 && pixel.B == 255)
+                {
+                    data[i] = Color.Transparent;
+                }
+                // Dark Cyan (0, 128, 128)
+                else if (pixel.R == 0 && pixel.G == 128 && pixel.B == 128)
+                {
+                    data[i] = Color.Transparent;
+                }
+                // Purple (128, 0, 128)
+                else if (pixel.R == 128 && pixel.G == 0 && pixel.B == 128)
+                {
+                    data[i] = Color.Transparent;
+                }
+            }
+
+            _hudTexture.SetData(data);
         }
 
         public void Update()
