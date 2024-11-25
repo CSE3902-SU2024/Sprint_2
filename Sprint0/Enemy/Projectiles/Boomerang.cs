@@ -22,6 +22,7 @@ namespace Sprint2.Enemy.Projectiles
         private float timePerFrame = 0.1f; 
         private float elapsedTime = 0f;
 
+
         public Vector2 Position
         {
             get { return position; }

@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 
 namespace Sprint0.Player
@@ -27,7 +25,7 @@ namespace Sprint0.Player
             _weaponPosition.X = _link._position.X - 5 * _link._scale.X;
             _weaponPosition.Y = _link._position.Y + 6 * _link._scale.Y;
             _Explode = false;
-            _BombSpeed = 5f;
+            _BombSpeed = 0; //bomb doesnt move
             _boomTimer = 30;
         }
 
@@ -42,6 +40,7 @@ namespace Sprint0.Player
         public void Update()
         {
             _boomTimer--;  //timer ticking down
+          
 
             if (!_Explode)
             {
@@ -74,6 +73,8 @@ namespace Sprint0.Player
                     else if (weaponFrame == 26)
                     {
                         linkFrame = 2;
+                        _link.BombCount--;
+
                         _link.currentState = new LinkLeft(_link);
                     }
                     remainingFrames = _link.framesPerSword;

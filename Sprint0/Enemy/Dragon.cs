@@ -1,15 +1,12 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Sprint0.Classes;
-using System;
-using Sprint2.Enemy.Projectiles;
-using System.Collections.Generic;
-using Sprint0.Player;
-using Microsoft.VisualBasic;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Sprint2.Collisions;
-using Sprint2.Map;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
+using Sprint0.Player;
+using Sprint2.Enemy.Projectiles;
+using System;
+using System.Collections.Generic;
 
 namespace Sprint2.Enemy
 {
@@ -65,13 +62,13 @@ namespace Sprint2.Enemy
 
 
         public List<Fireball> fireballs { get; private set; }
-        public Dragon(Vector2 startPosition)
+        public Dragon(Vector2 startPosition, Link link)
         {
             health = 6;
             position = startPosition;
             initialPosition = startPosition;
             fireballs = new List<Fireball>();
-
+            _link = link;
             alive = true;
         }
 
@@ -263,7 +260,15 @@ namespace Sprint2.Enemy
         {
             if (!isImmune)
             {
-                health = Math.Max(0, health - 1);
+                if (_link.hasPotion)
+                {
+                    health = Math.Max(0, 0);
+                    _link.hasPotion = false;
+                }
+                else
+                {
+                    health = Math.Max(0, health - 1);
+                }
                 remainingImmunityFrames = immunityDuration;
                 isImmune = true;
             }

@@ -1,27 +1,18 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Sprint2.Enemy;
+using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Player;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
-using Sprint0.Player;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint0.Classes
 {
     internal class Key : Iitem
     {
         public Link _link;
-        public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Texture2D Sprite { get; private set; }
+        public Rectangle[] SourceRectangles { get; private set; }
+        public ItemType CurrentItemType => ItemType.key;
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         private int itemFrame;
@@ -62,7 +53,6 @@ namespace Sprint0.Classes
 
         public void Update(GameTime gameTime)
         {
-
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timeElapsed > timePerFrame)
             {
@@ -72,11 +62,17 @@ namespace Sprint0.Classes
 
             Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+
             if (playerBoundingBox.Intersects(itemBoundingBox))
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.keyCount += 1;
                 _link.hasKey = true;
+                _link.inventory.AddItem(this);
+
+                // Debug output
+                System.Diagnostics.Debug.WriteLine($"Key collected! Count: {_link.keyCount}, Added to inventory: {_link.inventory.GetItems().Count}");
             }
         }
 

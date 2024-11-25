@@ -1,16 +1,15 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using Sprint0.Player;
+using Sprint2.Classes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Sprint2.Classes;
+using System.Linq;
+using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
-using Sprint0.Player;
 
 namespace Sprint2.Map
 {
@@ -24,6 +23,7 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+        private Fairy fairy;
         public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
@@ -36,6 +36,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
+
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
@@ -130,7 +131,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(clock);
                             break;
                         case 5:
-                            Fairy fairy = new Fairy(ItemPosition, _link);
+                            fairy = new Fairy(ItemPosition, _link);
                             fairy.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.fairy, _scale);
                             ItemsInRoom.Add(fairy);
                             break;
@@ -181,15 +182,22 @@ namespace Sprint2.Map
                 ItemPosition.X = 32 * _scale.X;
                 ItemPosition.Y += 16 * _scale.Y;
             }
+            
             return ItemsInRoom;
         }
 
         public void Update(int currentStage, GameTime gameTime)
         {
             List<Iitem> items = GetItems(currentStage);
+            if (fairy.follow && _link.transitioning)
+            {
+                items.Add(fairy);
+            }
             foreach (Iitem item in items)
             {
                 item.Update(gameTime);
+                
+                
             }
         }
     }

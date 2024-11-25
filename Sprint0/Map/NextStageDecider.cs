@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint0.Player;
-using Sprint2.Enemy;
-using System.Diagnostics;
-using System.Transactions;
 
 namespace Sprint2.Map
 {
@@ -83,7 +80,7 @@ namespace Sprint2.Map
                     if (doors[0] == 2 && _link.hasKey == true)
                     {
                         doors[0] = 1;
-                        _link.hasKey = false;
+                        _link.keyCount -= 1;
                     }
                 }
                 // bottom middle
@@ -126,7 +123,7 @@ namespace Sprint2.Map
                     if(doors[3] == 2 && _link.hasKey == true)
                     {
                         doors[3] = 1;
-                        _link.hasKey = false;
+                        _link.keyCount -= 1;
                     }
                 }
             }
@@ -188,7 +185,7 @@ namespace Sprint2.Map
                     if(doors[1] == 2 && _link.hasKey == true)
                     {
                         doors[1] = 1;
-                        _link.hasKey = false;
+                        _link.keyCount -= 1;
                     }
                 }
 
@@ -252,7 +249,8 @@ namespace Sprint2.Map
                     if(doors[2] == 2 && _link.hasKey == true)
                     {
                         doors[2] = 1;
-                        _link.hasKey = false;
+
+                        _link.keyCount -= 1;
                     }
                 }
             }

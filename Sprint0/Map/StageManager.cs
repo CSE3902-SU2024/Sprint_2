@@ -1,18 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using System.Diagnostics;
-using Sprint0.Player;
-using Sprint2.Collisions;
-using static System.Formats.Asn1.AsnWriter;
-using Sprint2.Enemy;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Sprint0.Collisions;
-using Sprint0.Classes;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Reflection.Metadata;
-using Sprint2.Classes;
+using Sprint0.Collisions;
+using Sprint0.Player;
+using System;
+using System.Diagnostics;
 
 
 namespace Sprint2.Map
@@ -72,7 +66,7 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
@@ -400,6 +394,11 @@ namespace Sprint2.Map
         public Boolean GetAnimationState()
         {
             return StageAnimating;
+        }
+
+        public int GetCurrentStage()
+        {
+            return StageIndex;
         }
     }
 }

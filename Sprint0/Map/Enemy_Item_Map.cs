@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Player;
+using Sprint2.Classes;
 using Sprint2.Enemy;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,8 @@ namespace Sprint2.Map
         private Vector2 _scale;
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
-        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content)
+        public Link _link;
+        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -30,7 +33,9 @@ namespace Sprint2.Map
             _scale = scale;
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
-            
+            _link = link;
+
+
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
 
@@ -104,27 +109,27 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Keese keese = new Keese(EnemyPosition);
+                            Keese keese = new Keese(EnemyPosition, _link);
                             keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(keese);
                             break;
                         case 2:
-                            Stalfos stalfos = new Stalfos(EnemyPosition);
+                            Stalfos stalfos = new Stalfos(EnemyPosition, _link);
                             stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(stalfos);
                             break;
                         case 3:
-                            Goriya goriya = new Goriya(EnemyPosition);
+                            Goriya goriya = new Goriya(EnemyPosition, _link);
                             goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(goriya);
                             break;
                         case 4:
-                            Dragon dragon = new Dragon(EnemyPosition);
+                            Dragon dragon = new Dragon(EnemyPosition, _link);
                             dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(dragon);
                             break;
                         case 5:
-                           Gel gel = new Gel(EnemyPosition);
+                           Gel gel = new Gel(EnemyPosition, _link);
                             gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;
@@ -145,7 +150,7 @@ namespace Sprint2.Map
                 enemy.Update(gameTime);
             }
         }
-
+        
         // Returns true when there aren't any enemies left
         public Boolean AreThereEnemies(int currentStage)
         {

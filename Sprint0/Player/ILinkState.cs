@@ -1,7 +1,5 @@
 
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 
 namespace Sprint0.Player
@@ -22,5 +20,13 @@ namespace Sprint0.Player
 
 
         void IsDamaged();
+
+        public enum Direction
+        {
+            up,
+            down,
+            left,
+            right
+        }
     }
 }

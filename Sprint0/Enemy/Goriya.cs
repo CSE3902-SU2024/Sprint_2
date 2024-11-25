@@ -1,14 +1,12 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Sprint0.Classes;
+using Sprint0.Player;
+using Sprint2.Enemy.Projectiles;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sprint2.Enemy.Projectiles;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Sprint2.Enemy
 {
@@ -48,6 +46,7 @@ namespace Sprint2.Enemy
         private int immunityDuration = 10;
         private int remainingImmunityFrames = 0;
         private bool isImmune;
+        public Link _link;
 
         private int currentDeathFrame = 0;
         private float deathFrameTime = 0.1f; // Time each death frame is displayed
@@ -64,14 +63,14 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Goriya(Vector2 startPosition)
+        public Goriya(Vector2 startPosition, Link link)
         {
             health = 4;
             alive = true;
             position = startPosition;
             initialPosition = startPosition;
             projectiles = new List<Boomerang>();
-
+            _link = link;
 
         }
 
@@ -105,6 +104,11 @@ namespace Sprint2.Enemy
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
                     }
+                }
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles.RemoveAt(i);
+                    i--;
                 }
             }
             else if (alive) { 
@@ -268,7 +272,15 @@ namespace Sprint2.Enemy
             damageColorTimer = DAMAGE_COLOR_DURATION;
             if (!isImmune)
             {
-                health = Math.Max(0, health - 1);
+                if (_link.hasPotion)
+                {
+                    health = Math.Max(0, 0);
+                    _link.hasPotion = false;
+                }
+                else
+                {
+                    health = Math.Max(0, health - 1);
+                }
                 remainingImmunityFrames = immunityDuration;
                 isImmune = true;
             }

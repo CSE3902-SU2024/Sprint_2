@@ -2,12 +2,15 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
+using Sprint2.Map;
+using Sprint2.Player;
 using System;
 
 namespace Sprint2
 {
     public class GameHUD
     {
+        private StageManager stageManager;
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
@@ -16,22 +19,28 @@ namespace Sprint2
         private Link _link;
         private Vector2 _position;
 
+        private Rectangle _inventoryRegion;
+        private Rectangle _bSlotRegion;
+        private bool isInventoryVisible;
+
         private Rectangle _healthBarPosition;
         private const int HUD_WIDTH = 256;
         private const int HUD_HEIGHT = 48;
 
         private const int HEART_WIDTH = 9;
         private const int HEART_HEIGHT = 9;
-        private const int HEART_SPACING = 0;  // Space between hearts
         const int heartsPerRow = 8;  // Set max hearts per row
-
         private int health;
 
+        private int numKeys;
+        private int keyPos = 0;
+        int Spacing = 8;
 
+        private MiniMap1 MiniMap;
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
-        public GameHUD(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link, Vector2 scale)
+        public GameHUD(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link, Vector2 scale, StageManager StageManager)
         {
             _spriteBatch = spriteBatch;
             _link = link;
@@ -42,13 +51,19 @@ namespace Sprint2
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
+            stageManager = StageManager;
+            MiniMap = new MiniMap1(_scale, stageManager, _link);
+            MiniMap.LoadMap(content);
+
         }
 
         private void LoadContent(ContentManager content)
         {
+ 
             try
             {
                 _hudTexture = content.Load<Texture2D>("NES - The Legend of Zelda - HUD & Pause Screen");
+             
             }
             catch (ContentLoadException e)
             {
@@ -68,7 +83,20 @@ namespace Sprint2
                   new Rectangle(258, 11,255,55) ,  //the background
                   new Rectangle(645, 117, 8, 8),     // 1 full heart
                   new Rectangle(636, 117, 8, 8),     // 1 half heart
-                  new Rectangle(627, 117, 8, 8)     // 1 emtpy heart
+                  new Rectangle(627, 117, 8, 8),     // 1 emtpy heart
+
+                  new Rectangle(519, 117, 8, 8), // X [4]
+                  new Rectangle(528, 117, 8, 8), //0 [5]
+                  new Rectangle(537, 117, 8, 8), //1 [6]
+                  new Rectangle(546, 117, 8, 8), //2 [7]
+                  new Rectangle(555, 117, 8, 8), //3 [8]
+                  new Rectangle(564, 117, 8, 8), //4 [9]
+                  new Rectangle(573, 117, 8, 8), //5 [10]
+                  new Rectangle(582, 117, 8, 8), //6 [11]
+                  new Rectangle(591, 117, 8, 8), //7 [12]
+                  new Rectangle(600, 117, 8, 8), //8 [13]
+                  new Rectangle(609, 117, 8, 8), //9 [14]
+                
              };
 
         }
@@ -80,7 +108,7 @@ namespace Sprint2
 
         public void Draw()
         {
-             
+
             Rectangle adjustedBackground = new Rectangle(
                 (int)_position.X,
                 (int)_position.Y,
@@ -90,6 +118,15 @@ namespace Sprint2
             // adjustedBackground 
             _spriteBatch.Draw(_hudTexture, adjustedBackground, cutOuts[0], Color.White);
 
+            DrawHearts();
+            DrawKeys();
+            DrawGems();
+            DrawBombs();
+
+            MiniMap.Draw(_spriteBatch);
+        }
+        private void DrawHearts()
+        {
             // Adjust heart positions to include offset
             for (int i = 0; i < health; i++)
             {
@@ -112,15 +149,197 @@ namespace Sprint2
                 }
 
                 // Add position offset to heart positions
-                int xPosition = (int)_position.X + _healthBarPosition.X + column * (int)((HEART_WIDTH + HEART_SPACING) * _scale.X);
+                int xPosition = (int)_position.X + _healthBarPosition.X + column * (int)(HEART_WIDTH * _scale.X);
                 int yPosition = (int)_position.Y + _healthBarPosition.Y + row * (int)(HEART_HEIGHT * _scale.Y);
 
                 _spriteBatch.Draw(_hudTexture,
                     new Rectangle(xPosition, yPosition, (int)(HEART_WIDTH * _scale.X), (int)(HEART_HEIGHT * _scale.Y)),
                     heartSource, Color.White);
-            }
-            
 
+            }
+        }
+        private void DrawKeys()
+        {
+
+            int keyCount = _link.keyCount;
+
+            Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseKeyPosition.X, (int)_position.Y + (int)baseKeyPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
+            if (keyCount > 0)
+            {
+                string keyString = keyCount.ToString();
+                for (int i = 0; i < keyString.Length; i++)
+                {
+                    int digit = keyString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
+
+                    // Calculate position for each digit
+                    float xDigitPos = (int)_position.X + baseKeyPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseKeyPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no keys
+                // Calculate position for each digit
+                float xDigitPos = (int)_position.X + baseKeyPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseKeyPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
+        }
+        private void DrawGems()
+        {
+            int GemCount = _link.GemCount;
+
+            Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseGemPosition.X, (int)_position.Y + (int)baseGemPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
+            if (GemCount > 0)
+            {
+                string GemString = GemCount.ToString();
+                for (int i = 0; i < GemString.Length; i++)
+                {
+                    int digit = GemString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
+
+                    // Calculate position for each digit
+                    float xDigitPos = (int)_position.X + baseGemPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseGemPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no gems
+                // Calculate position for each digit
+                float xDigitPos = (int)_position.X + baseGemPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseGemPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
+        }
+        private void DrawBombs()
+        {
+            int BombCount = _link.BombCount;
+
+            Vector2 baseBombPosition = new Vector2(385, 169); //hardcoded
+            Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
+
+            _spriteBatch.Draw(_hudTexture, new Rectangle((int)_position.X + (int)baseBombPosition.X, (int)_position.Y + (int)baseBombPosition.Y, (int)(8 * _scale.X), (int)(8 * _scale.Y)), xSource, Color.White);
+
+
+            //keys:
+            if (BombCount > 0)
+            {
+                string BombString = BombCount.ToString();
+                for (int i = 0; i < BombString.Length; i++)
+                {
+                    int digit = BombString[i] - '0';
+                    Rectangle digitSource = cutOuts[digit + 5];
+
+                    // Calculate position for each digit
+                    float xDigitPos = (int)_position.X + baseBombPosition.X + ((i + 1) * Spacing * _scale.X);
+                    float yDigitPos = (int)_position.Y + baseBombPosition.Y;
+
+                    _spriteBatch.Draw(
+                        _hudTexture,
+                        new Rectangle(
+                            (int)xDigitPos,
+                            (int)yDigitPos,
+                            (int)(8 * _scale.X),
+                            (int)(8 * _scale.Y)
+                        ),
+                        digitSource,
+                        Color.White
+                    );
+                }
+            }
+            else
+            {
+                //0 when no bombs
+                // Calculate position for each digit
+                float xDigitPos = (int)_position.X + baseBombPosition.X + 1 * Spacing * _scale.X;
+                float yDigitPos = (int)_position.Y + baseBombPosition.Y;
+
+                Rectangle digitSource = cutOuts[5];
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
+
+
+            }
+        }
+
+        public void Update()
+        {
+            MiniMap.Update();
         }
     }
 }

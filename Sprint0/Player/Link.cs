@@ -1,12 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Reflection.Metadata;
+using static Sprint0.Player.ILinkState;
 
 
 namespace Sprint0.Player
@@ -34,12 +32,21 @@ namespace Sprint0.Player
         private bool isImmune;
         public bool transitioning;
         public bool hasKey;
-
+        public bool hasBow;
+        public bool hasPotion;
+        public Link_Inventory inventory;
+        public Direction currentDirection;
 
         private SpriteEffects spriteEffects;
 
         //for hud:
         public int Health { get; set; } = 16; // each heart = 2 hp
+
+        public int keyCount { get; set; } = 0; // start with 0 keys
+
+        public int GemCount { get; set; } = 0; // start with 0 gems
+
+        public int BombCount { get; set; } = 3; //start with 3 for now
 
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
@@ -48,7 +55,7 @@ namespace Sprint0.Player
 
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, Vector2 scale, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -70,6 +77,10 @@ namespace Sprint0.Player
             remainingImmunityFrames = 0;
             transitioning = false;
             hasKey = false;
+            hasBow = false;
+            inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+            currentDirection = Direction.down;
+            
 
 
             SwordAttackSound = swordSound;
@@ -80,24 +91,28 @@ namespace Sprint0.Player
 
         public void MoveDown()
         {
+            currentDirection = Direction.down;
             if (!transitioning)
                 currentState.MoveDown();
         }
 
         public void MoveUp()
         {
+            currentDirection = Direction.up;
             if (!transitioning)
             currentState.MoveUp();
         }
 
         public void MoveLeft()
         {
+            currentDirection = Direction.left;
             if (!transitioning)
                 currentState.MoveLeft();
         }
 
         public void MoveRight()
         {
+            currentDirection = Direction.right;
             if (!transitioning)
                 currentState.MoveRight();
         }
@@ -109,6 +124,7 @@ namespace Sprint0.Player
 
         public void ArrowAttack()
         {
+            if (hasBow)
             currentState.UseArrow();
         }
         public void UseBoomerang()
@@ -117,6 +133,7 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
+            if (BombCount >0)
             currentState.UseBomb();
         }
         public void TakeDamage()
@@ -144,6 +161,10 @@ namespace Sprint0.Player
                     isImmune = false;
                 }
             }
+            if (keyCount ==0)
+            {
+                hasKey = false;
+            } else { hasKey = true; }
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -188,6 +209,11 @@ namespace Sprint0.Player
                 spriteEffects = SpriteEffects.None;
             }
             _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
+        }
+
+        public Vector2 GetLocation()
+        {
+            return _position;
         }
 
     }

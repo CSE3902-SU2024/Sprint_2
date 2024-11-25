@@ -4,11 +4,13 @@ using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using Sprint0.Player;
 
 namespace Sprint2.Enemy
 {
     public class Stalfos : IEnemy
     {
+        public Link _link;
         private Texture2D spriteSheet;
         private Rectangle[] sourceRectangles;
         private Vector2 position;
@@ -54,13 +56,14 @@ namespace Sprint2.Enemy
 
 
 
-        public Stalfos(Vector2 startPosition)
+        public Stalfos(Vector2 startPosition, Link link)
         {
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             random = new Random();
             SetNewRandomDirection();
+            _link = link;
            
         }
         public enum Direction
@@ -228,7 +231,15 @@ namespace Sprint2.Enemy
 
             if (!isImmune)
             {
-                healthCount = Math.Max(0, healthCount - 1);
+                if (_link.hasPotion)
+                {
+                    healthCount = Math.Max(0, 0);
+                    _link.hasPotion = false;
+                }
+                else
+                {
+                    healthCount = Math.Max(0, healthCount - 1);
+                }
                 remainingImmunityFrames = immunityDuration;
                 isImmune = true;
             }

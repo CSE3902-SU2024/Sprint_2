@@ -1,27 +1,21 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Sprint2.Enemy;
-using Sprint2.Classes;
-using static Sprint2.Classes.Iitem;
+using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
-using static System.Formats.Asn1.AsnWriter;
+using Sprint2.Classes;
+using System;
+using static Sprint0.Player.ILinkState;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
 {
     internal class Fairy : Iitem
     {
+        public ILinkState currentState;
         public Link _link;
-        public Texture2D Sprite;
-        public Rectangle[] SourceRectangles;
+        public Texture2D Sprite { get; private set; }
+        public Rectangle[] SourceRectangles { get; private set; }
+        public ItemType CurrentItemType => ItemType.fairy;
         public Vector2 Position;
         public Vector2 OriginalPosition { get; set; }
         private int itemFrame;
@@ -29,6 +23,7 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
+        public bool follow = false;
 
         public ItemType currentItemType { get; set; }
 
@@ -74,9 +69,24 @@ namespace Sprint0.Classes
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(itemBoundingBox))
             {
-                Position.X += 20000;
-                Position.Y += 20000;
+                follow = true;
             }
+            if (follow)
+            {
+                float distanceX = (float)_link._position.X - (float)Position.X;
+                float distanceY = (float)_link._position.Y - (float)Position.Y;
+
+                if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                {
+                    Vector2 direction = new Vector2(distanceX, distanceY);
+                    direction.Normalize();
+                    float speed = 180f;
+                    Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Position += movement;
+                }
+            }
+                
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
