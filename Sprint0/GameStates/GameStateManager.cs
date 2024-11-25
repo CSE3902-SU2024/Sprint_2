@@ -70,7 +70,7 @@ namespace Sprint2.GameStates
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
             linkDeath = Content.Load<SoundEffect>("LinkDeath");
             _link = new Link(linkFrames,linkTexture, _graphicsDevice, _spriteBatch,_scale,Content,swordAttackSound,bowAttackSound, bombExplosion,boomerangSound);
-            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale);
+            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
             _keyboardController = new KeyboardController(_link);
             CurrentGameState = new StartMenu(_graphicsDevice,_spriteBatch, Content, _scale);
             CurrentLevel = new LevelOne(_graphics,_spriteBatch, _scale,_graphicsDevice, _link);

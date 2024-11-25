@@ -311,5 +311,10 @@ namespace Sprint2.Map
         {
             return StageAnimating;
         }
+
+        public int GetCurrentStage()
+        {
+            return StageIndex;
+        }
     }
 }
