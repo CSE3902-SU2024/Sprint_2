@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using Sprint0.Player;
 
 namespace Sprint2.Enemy
 {
@@ -28,6 +29,7 @@ namespace Sprint2.Enemy
         private Random random;
         private Vector2 speed;
         private int randCount;
+        public Link _link;
 
         public SpriteBatch spriteBatch;
         public Texture2D enemyDeath;
@@ -50,7 +52,7 @@ namespace Sprint2.Enemy
         public int Width { get; } = 8;
         public int Height { get; } = 16;
 
-        public Gel(Vector2 startPosition)
+        public Gel(Vector2 startPosition, Link link)
         {
             Health = 2;
             position = startPosition;
@@ -59,7 +61,7 @@ namespace Sprint2.Enemy
             random = new Random();
             randCount = 0;
             SetRandomDirection();
-
+            _link = link;
         }
 
         public enum Direction
@@ -217,7 +219,15 @@ namespace Sprint2.Enemy
         {
             if (!isImmune)
             {
-                Health = Math.Max(0, Health - 1);
+                if (_link.hasPotion)
+                {
+                    Health = Math.Max(0, 0);
+                    _link.hasPotion = false;
+                }
+                else
+                {
+                    Health = Math.Max(0, Health - 1);
+                }
                 remainingImmunityFrames = immunityDuration;
                 isImmune = true;
             }

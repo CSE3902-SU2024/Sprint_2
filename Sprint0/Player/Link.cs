@@ -32,6 +32,8 @@ namespace Sprint0.Player
         private bool isImmune;
         public bool transitioning;
         public bool hasKey;
+        public bool hasBow;
+        public bool hasPotion;
         public Link_Inventory inventory;
         public Direction currentDirection;
 
@@ -75,6 +77,7 @@ namespace Sprint0.Player
             remainingImmunityFrames = 0;
             transitioning = false;
             hasKey = false;
+            hasBow = false;
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
             
@@ -121,6 +124,7 @@ namespace Sprint0.Player
 
         public void ArrowAttack()
         {
+            if (hasBow)
             currentState.UseArrow();
         }
         public void UseBoomerang()

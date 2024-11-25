@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Classes;
+using System;
 using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
 
@@ -70,30 +71,25 @@ namespace Sprint0.Classes
             {
                 follow = true;
             }
-                if (_link.currentDirection == Direction.down && follow)
-                {
-                    Position.Y = _link._position.Y - 13 * _scale.Y;
-                    Position.X = _link._position.X;
-                }
-                else if (_link.currentDirection == Direction.up && follow)
-                {
-                    Position.Y = _link._position.Y + 12 * _scale.Y;
-                    Position.X = _link._position.X;
-                }
-                else if (_link.currentDirection == Direction.left && follow)
-                {
-                    Position.Y = _link._position.Y;
-                    Position.X = _link._position.X + 14 * _scale.X;
-                }
-                else if (_link.currentDirection == Direction.right && follow)
-                {
-                    Position.Y = _link._position.Y;
-                    Position.X = _link._position.X - 12 * _scale.X;
-                }
+            if (follow)
+            {
+                float distanceX = (float)_link._position.X - (float)Position.X;
+                float distanceY = (float)_link._position.Y - (float)Position.Y;
 
+                if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                {
+                    Vector2 direction = new Vector2(distanceX, distanceY);
+                    direction.Normalize();
+                    float speed = 180f;
+                    Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Position += movement;
+                }
             }
+                
 
-            public void Draw(SpriteBatch spriteBatch)
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
         {
 
             spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);

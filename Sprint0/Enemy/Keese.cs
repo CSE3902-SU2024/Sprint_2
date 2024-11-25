@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using Sprint0.Player;
 
 namespace Sprint2.Enemy
 {
@@ -38,6 +39,7 @@ namespace Sprint2.Enemy
         private int immunityDuration = 10;
         private int remainingImmunityFrames = 0;
         private bool isImmune;
+        public Link _link;
 
 
 
@@ -62,17 +64,17 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Keese(Vector2 startPosition)
+        public Keese(Vector2 startPosition, Link link)
         {
             health = 2;
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             random = new Random();
-            SetRandomDirection(); 
-            
+            SetRandomDirection();
+            _link = link;
 
-            
+
 
         }
 
@@ -239,7 +241,15 @@ namespace Sprint2.Enemy
             damageColorTimer = DAMAGE_COLOR_DURATION;
             if (!isImmune)
             {
-                health = Math.Max(0, health - 1);
+                if (_link.hasPotion)
+                {
+                    health = Math.Max(0, 0);
+                    _link.hasPotion = false;
+                }
+                else
+                {
+                    health = Math.Max(0, health - 1);
+                }
                 remainingImmunityFrames = immunityDuration;
                 isImmune = true;
             }
