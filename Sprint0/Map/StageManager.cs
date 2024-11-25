@@ -7,6 +7,7 @@ using Sprint0.Collisions;
 using Sprint0.Player;
 using System;
 using System.Diagnostics;
+using Sprint2.Classes;
 
 
 namespace Sprint2.Map
