@@ -55,8 +55,8 @@ namespace Sprint2.Map
         Song backgroundMusic;
         Song titleSequence;
         Song endSequence;
-        private MovableBlock movableBlock14;
-        private MovableBlock movableBlock8;
+        public MovableBlock movableBlock14;
+        public MovableBlock movableBlock8;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -95,14 +95,22 @@ namespace Sprint2.Map
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
             Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
-            MovableBlock movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
-            movableBlock14.LoadContent(content, "DungeonBlock1");
+            movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
+            movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+            if (texture == null)
+            {
+                Debug.WriteLine("Texture not loaded");
+            }
+            else
+            {
+                Debug.WriteLine("Texture loaded: " + texture.Width + "x" + texture.Height);
+            }
 
 
             //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
             Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
-            MovableBlock movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
-            movableBlock8.LoadContent(content, "DungeonBlock1");
+            movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
+            movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
 
         }
@@ -187,20 +195,33 @@ namespace Sprint2.Map
             // stage 14 and 8 have the movable block
             if (StageIndex == 14)
             {
-                //movableBlock14.Update(_link.BoundingBox);
-                //Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
-                //MovableBlock movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
-                movableBlock14.Update(ref _link._position, _scale);
-                //HandlePlayerBlockCollision playerBlockCollision = new HandlePlayerBlockCollision(_link._position, EasierAccessTilePosition, 16, 16, 13, 13);
-                //playerBlockCollision.PlayerBlockCollision(ref _link._position, _link._previousPosition, _scale);
+                if (movableBlock14 != null)
+                {
+                    Console.WriteLine("Updating movable block...");
+                    Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
+                    movableBlock14.Update(ref _link._position, _scale);
+                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+                }
+                //Console.WriteLine("Updating movable block...");
+                //Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
+                //movableBlock14.Update(ref _link._position, _scale);
+                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
 
             }
 
             if (StageIndex == 8)
             {
-                //Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
-                //MovableBlock movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
-                movableBlock8.Update(ref _link._position, _scale); // error right now
+                if (movableBlock8 != null)
+                {
+                    Console.WriteLine("Updating movable block...");
+                    Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
+                    movableBlock8.Update(ref _link._position, _scale); // error right now
+                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+                }
+                //Console.WriteLine("Updating movable block...");
+                //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
+                //movableBlock8.Update(ref _link._position, _scale); // error right now
+                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
@@ -249,6 +270,7 @@ namespace Sprint2.Map
 
         public void Draw()
         {
+            //_spriteBatch.Begin();
 
             if (currentGameStage == GameStage.StartMenu)
             {
@@ -266,6 +288,8 @@ namespace Sprint2.Map
             {
                 DrawEnd();
             }
+
+            //_spriteBatch.End();
 
             //_DrawDungeon.Draw();
             //DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
@@ -309,12 +333,28 @@ namespace Sprint2.Map
 
                 if (StageIndex == 14)
                 {
-                    movableBlock14.Draw(_spriteBatch);
+                    if (movableBlock14 != null)
+                    {
+                        movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
+                        Debug.WriteLine("Drawing movable block 14");
+                    }
+                        //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
+                    //Debug.WriteLine("Drawing movable block 14");
                 }
 
                 if (StageIndex == 8)
                 {
-                    movableBlock8.Draw(_spriteBatch);
+                    if (movableBlock8 != null)
+                    {
+                        Console.WriteLine("Block position: " + movableBlock8.blockPosition);
+                        movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
+                        Debug.WriteLine("Drawing movable block 8");
+                        _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
+                    }
+                    //    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
+                    //movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
+                    //Debug.WriteLine("Drawing movable block 8");
+                    //_spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                 }
 
             } else

@@ -18,11 +18,11 @@ namespace Sprint2.Classes
         private bool isMoving;
         private float speed = 1.0f;
         private Vector2 playerPosition;
-        private Vector2 blockPosition;
+        public Vector2 blockPosition;
         private int playerWidth;
         private int playerHeight;
-        private int blockWidth;
-        private int blockHeight;
+        public int blockWidth;
+        public int blockHeight;
 
         public Rectangle BoundingBox => boundingBox;
 
@@ -47,9 +47,10 @@ namespace Sprint2.Classes
             );
         }
 
-        public void LoadContent(ContentManager content, string texturePath)
+        public void LoadContent(ContentManager content, string texturePath, Rectangle sourceRectangle)
         {
             texture = content.Load<Texture2D>(texturePath);
+            SourceRectangles = new Rectangle[] { sourceRectangle };
             boundingBox = new Rectangle((int)blockPosition.X, (int)blockPosition.Y, texture.Width, texture.Height);
         }
 
@@ -107,9 +108,9 @@ namespace Sprint2.Classes
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 blockPosition2)
         {
-            spriteBatch.Draw(texture, blockPosition, Color.White);
+            spriteBatch.Draw(texture, blockPosition2, SourceRectangles[0], Color.White);
         }
     }
 }
