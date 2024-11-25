@@ -169,7 +169,7 @@ namespace Sprint2.Player
         
         public void Draw(SpriteBatch _spriteBatch)
         {
-            if(currentStage > 0)
+            if(currentStage > 0 && _link.hasMap)
             {
                 _spriteBatch.Draw(_MiniMap, Base, map, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
                 if (Flicker)
@@ -182,7 +182,7 @@ namespace Sprint2.Player
         }
 
     
-            }
+    }
 }
 
 
