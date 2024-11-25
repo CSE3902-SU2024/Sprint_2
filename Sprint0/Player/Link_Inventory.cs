@@ -20,7 +20,10 @@ namespace Sprint0.Player
 
         //  inventory layout
         private const int ITEM_SPACING = 110;
-        
+        private ItemType currentItemType;  
+
+        // Add property to access current item type
+        public ItemType CurrentItemType => currentItemType;
 
         public bool IsInventoryOpen => isInventoryOpen;
         public Iitem SelectedItem => selectedItem;
@@ -34,8 +37,8 @@ namespace Sprint0.Player
             bagItems = new List<Iitem>();
             isInventoryOpen = false;
             selectedIndex = -1;
+            currentItemType = ItemType.bow;
 
-           
         }
 
         public void AddItem(Iitem item)
@@ -51,7 +54,7 @@ namespace Sprint0.Player
                 }
             }
 
-            // If the item doesn't exist in the inventory, add it (may be can be increment the count of the item later I think)
+            
             if (!itemExists)
             {
                 bagItems.Add(item);
@@ -114,11 +117,29 @@ namespace Sprint0.Player
         {
             if (bagItems.Count > 0)
             {
+                // Move to next item index
                 selectedIndex = (selectedIndex + 1) % bagItems.Count;
                 selectedItem = bagItems[selectedIndex];
+
+                // Update the current item type
+                if (selectedItem != null)
+                {
+                    currentItemType = selectedItem.CurrentItemType;
+
+                    //  add logic in work
+                    // playing some sound when switching item...
+                }
             }
         }
 
+        public Iitem GetCurrentItem()
+        {
+            if (bagItems.Count > 0 && selectedIndex >= 0 && selectedIndex < bagItems.Count)
+            {
+                return bagItems[selectedIndex];
+            }
+            return null;
+        }
         public List<Iitem> GetItems()
         {
             return bagItems;

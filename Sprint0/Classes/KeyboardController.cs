@@ -70,15 +70,22 @@ namespace Sprint0.Classes
                         // Game => Pause
                         return 5;
                     }
+                    if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
+                    {
+                        _link.inventory.CycleSelectedItem();
+                    }
                     else if (state.IsKeyDown(Keys.I) && !previousState.IsKeyDown(Keys.I))
                     {
-                        // Game => Inventory  
                         _link.inventory.ToggleInventory();
                         return 2;
                     }
                     break;
                 // Inventory state
                 case 2:
+                    if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
+                    {
+                        _link.inventory.CycleSelectedItem();
+                    }
                     if (state.IsKeyDown(Keys.Escape))
                     {
                         // Inventory => Game  
