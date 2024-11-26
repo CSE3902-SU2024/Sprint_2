@@ -34,6 +34,8 @@ namespace Sprint0.Player
         public bool hasKey;
         public bool hasBow;
         public bool hasPotion;
+        public bool win;
+        public bool hasMap;
         public Link_Inventory inventory;
         public Direction currentDirection;
 
@@ -78,6 +80,8 @@ namespace Sprint0.Player
             transitioning = false;
             hasKey = false;
             hasBow = false;
+            win = false;
+            hasMap = false;
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
             

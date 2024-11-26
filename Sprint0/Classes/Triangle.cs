@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Player;
 using Sprint2.Classes;
+using Sprint2.Map;
 using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
@@ -20,7 +21,7 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-
+        public GameStage currentGameStage;
         public ItemType currentItemType { get; set; }
 
         public Triangle(Vector2 position, Link link)
@@ -67,6 +68,7 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.win = true;
             }
         }
 
