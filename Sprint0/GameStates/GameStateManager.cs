@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Map;
@@ -29,7 +30,7 @@ namespace Sprint2.GameStates
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
 
-        private KeyboardController _keyboardController;
+        public static KeyboardController _keyboardController;
         int keyBoardVal;
 
         IGameState CurrentGameState;
@@ -81,22 +82,34 @@ namespace Sprint2.GameStates
         }
         public void Update(GameTime gameTime)
         {
-            keyBoardVal = _keyboardController.Update(GameStateIndex);
-            if (keyBoardVal == 1)
+            int newStateIndex = _keyboardController.Update(GameStateIndex);
+            
+
+            //   state transitions
+            if (newStateIndex != GameStateIndex)
             {
-                GameStateIndex = 1;
-                CurrentGameState = CurrentLevel;
+                switch (newStateIndex)
+                {
+                    case 1: //to game  
+                        if (GameStateIndex == 2)  //  from inventory
+                        {
+                            _inventoryMenu.Reset();
+                        }
+                        CurrentGameState = CurrentLevel;
+                        break;
+
+                    case 2: // to inventory
+                        CurrentGameState = _inventoryMenu;
+                        _inventoryMenu.StartTransitionIn();
+                        break;
+
+                    case 5: // pause
+                        CurrentGameState = PauseMenu;
+                        break;
+                }
+                GameStateIndex = newStateIndex;
             }
-            else if (keyBoardVal == 2)
-            {
-                GameStateIndex = 2;
-                CurrentGameState = _inventoryMenu;
-            }
-            else if (keyBoardVal == 5)
-            {
-                GameStateIndex = 5;
-                CurrentGameState = PauseMenu;
-            }
+
             CurrentGameState.Update(gameTime);
         }
         public void Draw()

@@ -125,7 +125,7 @@ namespace Sprint2.Map
                 {
                     UpdatePauseMenu(gameTime);
                 }
-                else if (currentGameStage == GameStage.End)
+                else if (currentGameStage == GameStage.End )
                 {
                     UpdateEnd(gameTime);
                 }
@@ -225,7 +225,7 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.G))
+            if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
             {
                 currentGameStage = GameStage.End;
             }
@@ -241,15 +241,17 @@ namespace Sprint2.Map
 
         public void UpdateEnd(GameTime gameTime)
         {
-            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
-            {
-                MediaPlayer.Stop();
-            }
-            if (MediaPlayer.State != MediaState.Playing)
-            {
-                MediaPlayer.Play(endSequence);
-                MediaPlayer.IsRepeating = true; // loop the music
-            }
+            
+                if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
+                {
+                    MediaPlayer.Stop();
+                }
+                if (MediaPlayer.State != MediaState.Playing)
+                {
+                    MediaPlayer.Play(endSequence);
+                    MediaPlayer.IsRepeating = true; // loop the music
+                }
+            
         }
 
         public void NextStage()

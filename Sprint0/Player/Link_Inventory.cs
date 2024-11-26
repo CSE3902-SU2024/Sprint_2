@@ -19,8 +19,11 @@ namespace Sprint0.Player
         private SpriteBatch _spriteBatch;
 
         //  inventory layout
-        private const int ITEM_SPACING = 80;
-        
+        private const int ITEM_SPACING = 105;
+        private ItemType currentItemType;  
+
+        //  access current item type
+        public ItemType CurrentItemType => currentItemType;
 
         public bool IsInventoryOpen => isInventoryOpen;
         public Iitem SelectedItem => selectedItem;
@@ -34,8 +37,8 @@ namespace Sprint0.Player
             bagItems = new List<Iitem>();
             isInventoryOpen = false;
             selectedIndex = -1;
+            currentItemType = ItemType.bow;
 
-           
         }
 
         public void AddItem(Iitem item)
@@ -51,7 +54,7 @@ namespace Sprint0.Player
                 }
             }
 
-            // If the item doesn't exist in the inventory, add it (may be can be increment the count of the item later I think)
+            
             if (!itemExists)
             {
                 bagItems.Add(item);
@@ -70,17 +73,15 @@ namespace Sprint0.Player
             isInventoryOpen = !isInventoryOpen;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 transitionPosition)
         {
-            // Debug output to check if method is being called
-            System.Diagnostics.Debug.WriteLine($"Drawing inventory. IsOpen: {isInventoryOpen}, Items: {bagItems.Count}");
-
             if (!isInventoryOpen || bagItems.Count == 0) return;
 
-            //  fixed positions  for  testing
-            Vector2 startPos = new Vector2(550, 230); // Test purpose position (change later)
+            // Base positions 
+            Vector2 startPos = new Vector2(550, 230);
+
             const int ITEMS_PER_ROW = 4;
-            const int ROW_SPACING = 40;
+            const int ROW_SPACING = 95;
 
             // Draw each item
             for (int i = 0; i < bagItems.Count; i++)
@@ -88,15 +89,12 @@ namespace Sprint0.Player
                 int row = i / ITEMS_PER_ROW;
                 int col = i % ITEMS_PER_ROW;
 
+                // transtion for item
                 Vector2 itemPosition = new Vector2(
-                    startPos.X + (col * ITEM_SPACING),
-                    startPos.Y + (row * ROW_SPACING)
+                    transitionPosition.X + startPos.X + (col * ITEM_SPACING),
+                    transitionPosition.Y + startPos.Y + (row * ROW_SPACING)
                 );
 
-                // Debug (delete later)
-                System.Diagnostics.Debug.WriteLine($"Drawing item {i} at position {itemPosition}");
-
-                // item drawing
                 spriteBatch.Draw(
                     bagItems[i].Sprite,
                     itemPosition,
@@ -104,7 +102,7 @@ namespace Sprint0.Player
                     Color.White,
                     0f,
                     Vector2.Zero,
-                    _scale * 1.2f, // change scale accordingly
+                    _scale * 1.2f,
                     SpriteEffects.None,
                     0f
                 );
@@ -115,11 +113,29 @@ namespace Sprint0.Player
         {
             if (bagItems.Count > 0)
             {
+                // Move to next item index
                 selectedIndex = (selectedIndex + 1) % bagItems.Count;
                 selectedItem = bagItems[selectedIndex];
+
+                // Update the current item type
+                if (selectedItem != null)
+                {
+                    currentItemType = selectedItem.CurrentItemType;
+
+                    //  add logic in work
+                    // playing some sound when switching item...
+                }
             }
         }
 
+        public Iitem GetCurrentItem()
+        {
+            if (bagItems.Count > 0 && selectedIndex >= 0 && selectedIndex < bagItems.Count)
+            {
+                return bagItems[selectedIndex];
+            }
+            return null;
+        }
         public List<Iitem> GetItems()
         {
             return bagItems;

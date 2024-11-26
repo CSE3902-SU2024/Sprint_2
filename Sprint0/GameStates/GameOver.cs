@@ -53,7 +53,6 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
-
             UpdateEnd(gameTime);
 
         }
@@ -64,15 +63,17 @@ namespace Sprint2.GameStates
 
         public void UpdateEnd(GameTime gameTime)
         {
-            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
-            {
-                MediaPlayer.Stop();
-            }
-            if (MediaPlayer.State != MediaState.Playing)
-            {
-                MediaPlayer.Play(endSequence);
-                MediaPlayer.IsRepeating = true; // loop the music
-            }
+            
+                if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
+                {
+                    MediaPlayer.Stop();
+                }
+                if (MediaPlayer.State != MediaState.Playing)
+                {
+                    MediaPlayer.Play(endSequence);
+                    MediaPlayer.IsRepeating = true; // loop the music
+                }
+            
         }
 
         public void Draw()

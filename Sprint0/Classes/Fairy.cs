@@ -80,7 +80,7 @@ namespace Sprint0.Classes
                 {
                     Vector2 direction = new Vector2(distanceX, distanceY);
                     direction.Normalize();
-                    float speed = 180f;
+                    float speed = 200f;
                     Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     Position += movement;
                 }

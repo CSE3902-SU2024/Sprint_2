@@ -156,7 +156,10 @@ namespace Sprint0.Collisions
 
         private static void HandleLinkEnemyCollision(Link link, IEnemy enemy)
         {
-            link.TakeDamage();
+            if (!(enemy is Wizzrobe))
+            {
+                link.TakeDamage();
+            }
         }
 
         private static void HandleBoomerangCollisions(Link link, Goriya goriya, Vector2 scale)
