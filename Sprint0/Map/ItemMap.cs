@@ -192,6 +192,8 @@ namespace Sprint2.Map
             if (fairy.follow && _link.transitioning)
             {
                 items.Add(fairy);
+                fairy.Position.X = _link._position.X;
+                fairy.Position.Y = _link._position.Y;
             }
             foreach (Iitem item in items)
             {
