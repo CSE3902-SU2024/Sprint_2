@@ -89,7 +89,7 @@ namespace Sprint2.Map
             _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition14 = new Vector2(420, 445) + new Vector2(3, 3);
             movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
             movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
             if (texture == null)
@@ -103,7 +103,7 @@ namespace Sprint2.Map
 
 
             //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
@@ -190,13 +190,10 @@ namespace Sprint2.Map
             // stage 14 and 8 have the movable block
             if (StageIndex == 14)
             {
-                if (movableBlock14 != null)
-                {
                     Console.WriteLine("Updating movable block...");
                     Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
                     movableBlock14.Update(ref _link._position, _scale);
                     Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
-                }
                 //Console.WriteLine("Updating movable block...");
                 //Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
                 //movableBlock14.Update(ref _link._position, _scale);
@@ -206,13 +203,11 @@ namespace Sprint2.Map
 
             if (StageIndex == 8)
             {
-                if (movableBlock8 != null)
-                {
+                    //Vector2 scaling = new Vector2(2f, 2f);
                     Console.WriteLine("Updating movable block...");
                     Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
                     movableBlock8.Update(ref _link._position, _scale); // error right now
                     Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
-                }
                 //Console.WriteLine("Updating movable block...");
                 //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
                 //movableBlock8.Update(ref _link._position, _scale); // error right now
@@ -328,24 +323,23 @@ namespace Sprint2.Map
 
                 if (StageIndex == 14)
                 {
-                    if (movableBlock14 != null)
-                    {
-                        movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
-                        Debug.WriteLine("Drawing movable block 14");
-                    }
-                        //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
+                     Vector2 scaling = new Vector2(4f, 4f);
+                     movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition, scaling);
+                     Debug.WriteLine("Drawing movable block 14");
+
+                    //_spriteBatch.Draw(movableBlock14.texture, movableBlock14.blockPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f, 4f), SpriteEffects.None, 1f);
+                    //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
                     //Debug.WriteLine("Drawing movable block 14");
                 }
 
                 if (StageIndex == 8)
                 {
-                    if (movableBlock8 != null)
-                    {
-                        Console.WriteLine("Block position: " + movableBlock8.blockPosition);
-                        movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
-                        Debug.WriteLine("Drawing movable block 8");
-                        _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
-                    }
+                    //_spriteBatch.Draw(movableBlock8.texture, movableBlock8.blockPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f, 4f), SpriteEffects.None, 1f);
+                    Vector2 scaling = new Vector2(4f, 4f);
+                    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
+                    movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
+                    //Debug.WriteLine("Drawing movable block 8");
+                    //_spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                     //    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
                     //movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
                     //Debug.WriteLine("Drawing movable block 8");
