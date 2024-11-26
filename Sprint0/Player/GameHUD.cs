@@ -385,7 +385,7 @@ namespace Sprint2
             }
         }
 
-        //this is method to remove multiple colors of back ground for inventory
+        // remove multiple colors of background for inventory
         private void SetMultipleTransparency()
         {
             if (_hudTexture == null) return;
@@ -413,7 +413,7 @@ namespace Sprint2
                 {
                     data[i] = Color.Transparent;
                 }
-                // Dark Cyan (0, 128, 128)
+                // Cyan (0, 128, 128)
                 else if (pixel.R == 0 && pixel.G == 128 && pixel.B == 128)
                 {
                     data[i] = Color.Transparent;

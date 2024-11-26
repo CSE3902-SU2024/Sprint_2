@@ -18,14 +18,10 @@ namespace Sprint2.GameStates
         private float _transitionSpeed;
         private float _targetY;
         private GameHUD _gameHUD;
-        private bool _isVisible;
+        private bool _isOpen;  
         private Link _link; 
 
-        // Constants for inventory grid
-        private readonly Vector2 INVENTORY_GRID_START = new Vector2(400, 300); // Adjust these (later)
-        private const int GRID_CELL_SIZE = 32; // Adjust this(later)
-        private const int GRID_COLUMNS = 4;
-        private const int GRID_ROWS = 2;
+       
         public InventoryMenu(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, GameHUD gameHUD, Link link)
         {
             _spriteBatch = spriteBatch;
@@ -36,35 +32,35 @@ namespace Sprint2.GameStates
             _scale = new Vector2(4.2f, 5f);
 
             _position = new Vector2(0, -500);
-            _targetY = 0;
+            _targetY = -500;  // Start with closed position
             _transitionSpeed = 4f;
-            _isTransitioning = true;
-            _isVisible = false;
+            _isTransitioning = false;  // Don't start transitioning immediately
+            _isOpen = false;
+
         }
-
-
-
 
         public void StartTransitionIn()
         {
-            if (!_isVisible)   
+            if (!_isOpen)  // Only transition in if we're not already open
             {
-                _position.Y = -500;  
-                _targetY = 0;
+                _position.Y = -500;  // Force to start position
+                _targetY = 0;        // Set target to open position
                 _isTransitioning = true;
-                _isVisible = true;
+                _isOpen = true;
             }
         }
 
         public void StartTransitionOut()
         {
-            if (_isVisible)   
+            if (_isOpen)  // Only transition out if we're currently open
             {
-                _targetY = -500;
+                _targetY = -500;     // Set target to closed position
                 _isTransitioning = true;
-                _isVisible = false;
+                _isOpen = false;
             }
         }
+
+
 
         public void Update(GameTime gameTime)
         {
@@ -75,21 +71,36 @@ namespace Sprint2.GameStates
 
             if (_isTransitioning)
             {
-                
-                _position.Y = MathHelper.Lerp(_position.Y, _targetY, _transitionSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                float lerpAmount = MathHelper.Clamp(_transitionSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0f, 0.1f);
+                float newY = MathHelper.Lerp(_position.Y, _targetY, lerpAmount);
 
-                
-                _gameHUD.SetPosition(_position);
-
-                
-                if (Math.Abs(_position.Y - _targetY) < 0.5f)
+                if (Math.Abs(newY - _targetY) > 0.5f)
                 {
+                    _position.Y = newY;
+                    // Update HUD position
+                    _gameHUD.SetPosition(_position);
+                }
+                else
+                {
+                    // We've reached the target
                     _position.Y = _targetY;
+                    _gameHUD.SetPosition(_position);
                     _isTransitioning = false;
                 }
             }
         }
+        public bool IsTransitionComplete()
+        {
+            return !_isTransitioning;
+        }
 
+        public void Reset()
+        {
+            _position.Y = -500;
+            _targetY = -500;
+            _isTransitioning = false;
+            _isOpen = false;
+        }
         public void Draw()
         {
             // inventory background
@@ -97,58 +108,22 @@ namespace Sprint2.GameStates
             _spriteBatch.Draw(inventoryScreen, _position, inventorySource, Color.White,
                              0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
-           
-            
+
+
 
             //   inventory items
             if (_link?.inventory != null)
             {
-                _link.inventory.Draw(_spriteBatch);
+                _link.inventory.Draw(_spriteBatch, _position);
             }
+
             DrawCurrentItem();
             // Draw HUD at bottom of inventory
             Vector2 hudPosition = new Vector2(_position.X, _position.Y + (88 * _scale.Y));
             _gameHUD.SetPosition(hudPosition);
             _gameHUD.Draw();
         }
-        private void DrawInventoryItems()
-        {
-            //   grid start position  
-            Vector2 gridStart = new Vector2(
-                _position.X + (INVENTORY_GRID_START.X * _scale.X),
-                _position.Y + (INVENTORY_GRID_START.Y * _scale.Y)
-            );
-
-            var items = _link.inventory.GetItems();  
-            int itemIndex = 0;
-
-            for (int row = 0; row < GRID_ROWS && itemIndex < items.Count; row++)
-            {
-                for (int col = 0; col < GRID_COLUMNS && itemIndex < items.Count; col++)
-                {
-                    var item = items[itemIndex];
-                    Vector2 itemPosition = new Vector2(
-                        gridStart.X + (col * GRID_CELL_SIZE * _scale.X),
-                        gridStart.Y + (row * GRID_CELL_SIZE * _scale.Y)
-                    );
-
-                    // Draw item
-                    _spriteBatch.Draw(
-                        item.Sprite,
-                        itemPosition,
-                        item.SourceRectangles[0],
-                        Color.White,
-                        0f,
-                        Vector2.Zero,
-                        _scale,
-                        SpriteEffects.None,
-                        0f
-                    );
-
-                    itemIndex++;
-                }
-            }
-        }
+        
         private void DrawCurrentItem()
         {
              
