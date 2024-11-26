@@ -75,6 +75,16 @@ namespace Sprint0.Classes
 
             };
         }
+
+        public static Rectangle[] CreateWizzrobeFrames()
+        {
+            return new Rectangle[]
+            {
+            new Rectangle(127, 90, 14, 16),
+            new Rectangle(144, 90, 14, 16),
+
+            };
+        }
         public static Rectangle[] CreateBowItemFrames()
         {
             return new Rectangle[] { new Rectangle(144, 0, 8, 16), new Rectangle(144, 0, 8, 16) };

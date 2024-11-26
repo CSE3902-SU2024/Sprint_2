@@ -41,6 +41,12 @@ namespace Sprint2.Map
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
 
+            //initializing fairy
+            Vector2 W = Vector2.Zero;
+            fairy = new Fairy(W, _link);
+            fairy.follow = false;
+
+
             foreach (string line in lines)
             {
                 if (line.Length < 20)

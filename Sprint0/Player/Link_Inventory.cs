@@ -22,7 +22,7 @@ namespace Sprint0.Player
         private const int ITEM_SPACING = 105;
         private ItemType currentItemType;  
 
-        // Add property to access current item type
+        //  access current item type
         public ItemType CurrentItemType => currentItemType;
 
         public bool IsInventoryOpen => isInventoryOpen;
@@ -73,15 +73,13 @@ namespace Sprint0.Player
             isInventoryOpen = !isInventoryOpen;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 transitionPosition)
         {
-            // Debug output to check if method is being called
-            
-
             if (!isInventoryOpen || bagItems.Count == 0) return;
 
-            //  fixed positions  for  testing
-            Vector2 startPos = new Vector2(550, 230); // Test purpose position (change later)
+            // Base positions 
+            Vector2 startPos = new Vector2(550, 230);
+
             const int ITEMS_PER_ROW = 4;
             const int ROW_SPACING = 95;
 
@@ -91,14 +89,12 @@ namespace Sprint0.Player
                 int row = i / ITEMS_PER_ROW;
                 int col = i % ITEMS_PER_ROW;
 
+                // transtion for item
                 Vector2 itemPosition = new Vector2(
-                    startPos.X + (col * ITEM_SPACING),
-                    startPos.Y + (row * ROW_SPACING)
+                    transitionPosition.X + startPos.X + (col * ITEM_SPACING),
+                    transitionPosition.Y + startPos.Y + (row * ROW_SPACING)
                 );
 
-                
-
-                // item drawing
                 spriteBatch.Draw(
                     bagItems[i].Sprite,
                     itemPosition,
@@ -106,7 +102,7 @@ namespace Sprint0.Player
                     Color.White,
                     0f,
                     Vector2.Zero,
-                    _scale * 1.2f, // change scale accordingly
+                    _scale * 1.2f,
                     SpriteEffects.None,
                     0f
                 );
