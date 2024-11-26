@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0;
+using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Classes;
 using Sprint2.Enemy;
+using Sprint2.GameStates;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +25,7 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+       
         public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
@@ -136,6 +140,7 @@ namespace Sprint2.Map
                         case 6:  
                             Wizzrobe wizzrobe = new Wizzrobe(EnemyPosition, _link);
                             wizzrobe.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
+                            GameStateManager._keyboardController.SetWizzrobe(wizzrobe);
                             EnemiesInRoom.Add(wizzrobe);
                             break;
                     }

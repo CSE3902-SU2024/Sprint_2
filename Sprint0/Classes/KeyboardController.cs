@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
+using Sprint2.Enemy;
+using Sprint2.Map;
+using System.Collections.Generic;
 
 
 namespace Sprint0.Classes
@@ -8,13 +11,18 @@ namespace Sprint0.Classes
     {
         KeyboardState previousState;
         public Link _link;
-      //  private StageManager _StageManager;
-   
+        private Wizzrobe _wizzrobe;
+        //  private StageManager _StageManager;
 
-       public KeyboardController(Link link) //,StageManager stageManager )
+
+        public KeyboardController(Link link)
         {
             _link = link;
-         //   _StageManager = stageManager;
+             
+        }
+        public void SetWizzrobe(Wizzrobe wizzrobe)
+        {
+            _wizzrobe = wizzrobe;
         }
         public int Update(int GameStateIndex)
         {
@@ -48,7 +56,21 @@ namespace Sprint0.Classes
                     {
                         _link.MoveRight();
                     }
-
+                    if (state.IsKeyDown(Keys.F) && !previousState.IsKeyDown(Keys.F))
+                    {
+                        //check if wizzrobe is in the room
+                        if (_wizzrobe != null && _wizzrobe.CanInteract)
+                        {
+                            if (!_wizzrobe.chatBox.IsVisible)
+                            {
+                                _wizzrobe.StartConversation();
+                            }
+                            else
+                            {
+                                _wizzrobe.AdvanceConversation();
+                            }
+                        }
+                    }
                     if (state.IsKeyDown(Keys.Z))
                     {
                         _link.SwordAttack();
@@ -108,5 +130,7 @@ namespace Sprint0.Classes
             previousState = state;
             return GameStateIndex; // Return current state if no change
         }
+       
     }
+
 }

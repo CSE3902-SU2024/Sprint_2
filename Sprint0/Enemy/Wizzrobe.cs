@@ -18,8 +18,8 @@ namespace Sprint2.Enemy
         private float timeElapsed;
         private Vector2 _scale;
         private Boolean alive;
-        private ChatBox chatBox;
-        private bool isPlayerNearby;
+        public ChatBox chatBox;
+        private bool isPlayerNearby = false;
         private const float INTERACTION_DISTANCE = 32f;  
         public Link _link;
 
@@ -27,7 +27,14 @@ namespace Sprint2.Enemy
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
-         
+        private readonly string[] conversationLines = new string[]
+        {
+        "Hello traveler",
+        "Welcome to Dungeon",
+        "Pick up your weapon"
+        };
+        private readonly string finalMessage = "Go, traveler";
+        private bool canInteract = false;
 
         public Wizzrobe(Vector2 startPosition, Link link)
         {
@@ -51,7 +58,7 @@ namespace Sprint2.Enemy
 
         public void Update(GameTime gameTime)
         {
-            if (alive)
+            if (alive && chatBox != null)
             {
                
                 timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -63,38 +70,52 @@ namespace Sprint2.Enemy
                     timeElapsed = 0f;
                 }
                 float distance = Vector2.Distance(_link._position, position);
-                bool wasNearby = isPlayerNearby;
-                isPlayerNearby = distance < INTERACTION_DISTANCE * _scale.X;
+                bool wasNearby = canInteract;
+                canInteract = distance < 32 * _scale.X; // Interaction distance
 
-                // Show chat box when player close to chat box
-                if (isPlayerNearby && !wasNearby)
+                if (canInteract && !wasNearby)
                 {
-                    chatBox.Show("Hello traveler!");
+                    chatBox.Show("Press F to talk");
                 }
-                else if (!isPlayerNearby && wasNearby)
+                else if (!canInteract && wasNearby)
                 {
                     chatBox.Hide();
                 }
 
-                chatBox.Update();
+                chatBox?.Update();
 
 
 
             }
             }
-        
+        public bool CanInteract => canInteract;
+
+        public void StartConversation()
+        {
+            if (chatBox != null)   
+            {
+                chatBox.StartConversation(conversationLines, finalMessage);
+            }
+        }
+
+        public void AdvanceConversation()
+        {
+            if (chatBox != null)   
+            {
+                chatBox.AdvanceConversation();
+            }
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (alive)
             {
                 spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
-                if (isPlayerNearby)
-                {
-                    chatBox.Draw(spriteBatch);
-                }
+                chatBox?.Draw(spriteBatch);
             }
         }
+        
 
         
         public void TakeDamage()

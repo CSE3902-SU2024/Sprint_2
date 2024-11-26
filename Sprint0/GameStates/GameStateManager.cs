@@ -30,7 +30,7 @@ namespace Sprint2.GameStates
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
 
-        private KeyboardController _keyboardController;
+        public static KeyboardController _keyboardController;
         int keyBoardVal;
 
         IGameState CurrentGameState;
@@ -83,6 +83,7 @@ namespace Sprint2.GameStates
         public void Update(GameTime gameTime)
         {
             int newStateIndex = _keyboardController.Update(GameStateIndex);
+            
 
             //   state transitions
             if (newStateIndex != GameStateIndex)
