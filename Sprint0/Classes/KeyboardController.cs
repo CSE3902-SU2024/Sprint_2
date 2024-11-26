@@ -2,6 +2,7 @@
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
+using System;
 using System.Collections.Generic;
 
 
@@ -58,16 +59,29 @@ namespace Sprint0.Classes
                     }
                     if (state.IsKeyDown(Keys.F) && !previousState.IsKeyDown(Keys.F))
                     {
+
+                        System.Diagnostics.Debug.WriteLine($"F Key Pressed");
+                        System.Diagnostics.Debug.WriteLine($"Wizzrobe Null: {_wizzrobe == null}");
                         //check if wizzrobe is in the room
-                        if (_wizzrobe != null && _wizzrobe.CanInteract)
+                        if (_wizzrobe != null)
                         {
-                            if (!_wizzrobe.chatBox.IsVisible)
+                            System.Diagnostics.Debug.WriteLine($"CanInteract: {_wizzrobe.CanInteract}");
+                            System.Diagnostics.Debug.WriteLine($"ChatBox Null: {_wizzrobe.chatBox == null}");
+
+                            if (_wizzrobe.chatBox != null)
                             {
-                                _wizzrobe.StartConversation();
+                                System.Diagnostics.Debug.WriteLine($"ChatBox Visible: {_wizzrobe.chatBox.IsVisible}");
+                                System.Diagnostics.Debug.WriteLine($"ChatBox Conversation Complete: {_wizzrobe.chatBox.IsConversationComplete}");
+                            }
+
+                            // If chatbox is visible, explicitly call AdvanceConversation
+                            if (_wizzrobe.chatBox != null && _wizzrobe.chatBox.IsVisible)
+                            {
+                                _wizzrobe.AdvanceConversation();
                             }
                             else
                             {
-                                _wizzrobe.AdvanceConversation();
+                                _wizzrobe.StartConversation();
                             }
                         }
                     }

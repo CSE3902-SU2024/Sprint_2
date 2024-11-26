@@ -25,7 +25,7 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
-       
+
         public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
@@ -75,7 +75,7 @@ namespace Sprint2.Map
             for (int x = 0; x < rooms.Count; x++)
             {
                 int[,] _currentRoom = GetRoom(x);
-                List<IEnemy> enemies = GetEnemiesInRoom(_currentRoom);
+                List<IEnemy> enemies = GetEnemiesInRoom(_currentRoom, x);
                 _EnemyMap.Add(enemies);
             }
 
@@ -99,9 +99,10 @@ namespace Sprint2.Map
             return rooms.ElementAt(roomNum);
         }
 
-        public List<IEnemy> GetEnemiesInRoom(int[,] room)
+        public List<IEnemy> GetEnemiesInRoom(int[,] room, int roomNum)
         {
             List<IEnemy> EnemiesInRoom = new List<IEnemy>();
+           
 
             Vector2 EnemyPosition = new Vector2(32 * _scale.X, 87 * _scale.Y);
             for (int i = 0; i < 7; i++)
@@ -137,11 +138,16 @@ namespace Sprint2.Map
                             gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;
-                        case 6:  
-                            Wizzrobe wizzrobe = new Wizzrobe(EnemyPosition, _link);
+                        case 6:
+                            Vector2 wizzrobePosition = new Vector2(
+                                 (j * 16 + 32) * _scale.X,  //column index to calculate X
+                                 (i * 16 + 87) * _scale.Y);  //row index to calculate Y
+                            Wizzrobe wizzrobe = new Wizzrobe(wizzrobePosition, _link, roomNum);
                             wizzrobe.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             GameStateManager._keyboardController.SetWizzrobe(wizzrobe);
                             EnemiesInRoom.Add(wizzrobe);
+                            wizzrobe.ResetConversationState();
+
                             break;
                     }
                     EnemyPosition.X += 16 * _scale.X;

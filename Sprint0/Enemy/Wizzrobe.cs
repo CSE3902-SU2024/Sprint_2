@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using System;
 using Sprint0.Player;
 using Sprint2.UI;
+using System.Collections.Generic;
 
 namespace Sprint2.Enemy
 {
@@ -20,29 +21,60 @@ namespace Sprint2.Enemy
         private Boolean alive;
         public ChatBox chatBox;
         private bool isPlayerNearby = false;
+        private bool isActiveConversation = false;
         private const float INTERACTION_DISTANCE = 32f;  
         public Link _link;
+
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
-        private readonly string[] conversationLines = new string[]
-        {
-        "Hello traveler",
-        "Welcome to Dungeon",
-        "Pick up your weapon"
-        };
-        private readonly string finalMessage = "Go, traveler";
-        private bool canInteract = false;
 
-        public Wizzrobe(Vector2 startPosition, Link link)
+
+        private Dictionary<int, string[]> stageConversations = new Dictionary<int, string[]>
+    {
+        //convo for dungeon 0... cont
+        { 0, new string[] {
+            "Hello traveler (F to continue)",
+            "Welcome to the Dungeon",
+            "Pick up your weapon"
+        }},
+         { 1, new string[] {
+            "This is the first dungeon...",
+            "Be careful ahead",
+            "Monsters are everywhere"
+        }},
+         { 2, new string[] {
+            "yes",
+            "yes",
+            "yes"
+        }}
+        };
+        private string defaultFinalMessage = "Go, traveler";
+
+        private Dictionary<int, string> stageFinalMessages = new Dictionary<int, string>
+    {
+        { 0, "Go, traveler" },
+        { 1, "Good luck in this dungeon" },
+        { 2, "The path ahead is treacherous" }
+    };
+
+        private int _currentStage;
+
+
+        private bool canInteract;
+        private bool wasNearby;
+
+        public Wizzrobe(Vector2 startPosition, Link link, int currentStage)
         {
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             _link = link;
             isPlayerNearby = false;
+            _currentStage = currentStage;
+
 
         }
 
@@ -70,16 +102,26 @@ namespace Sprint2.Enemy
                     timeElapsed = 0f;
                 }
                 float distance = Vector2.Distance(_link._position, position);
-                bool wasNearby = canInteract;
+
+                //ISSUE IS SOMEWHERE RIGHT HERE
+                wasNearby = canInteract;
+
                 canInteract = distance < 32 * _scale.X; // Interaction distance
 
+                //SOMEWHERE HERE
+
+                System.Diagnostics.Debug.WriteLine($"Player Position: {_link._position}, Wizzrobe Position: {Position}, Distance: {distance}");
                 if (canInteract && !wasNearby)
                 {
-                    chatBox.Show("Press F to talk");
+                    wasNearby = true;
+                    StartConversation();
                 }
                 else if (!canInteract && wasNearby)
                 {
+                    isActiveConversation = false;
                     chatBox.Hide();
+                    wasNearby = false;
+
                 }
 
                 chatBox?.Update();
@@ -88,21 +130,51 @@ namespace Sprint2.Enemy
 
             }
             }
+        public void ResetConversationState()
+        {
+            wasNearby = false;
+            canInteract = false;
+            isActiveConversation = false;
+
+            chatBox?.Hide();
+        }
         public bool CanInteract => canInteract;
 
         public void StartConversation()
         {
             if (chatBox != null)   
             {
-                chatBox.StartConversation(conversationLines, finalMessage);
+                string[] conversationLines = stageConversations.ContainsKey(_currentStage)
+               ? stageConversations[_currentStage]
+               : stageConversations[0];
+                string finalMessage = stageFinalMessages.ContainsKey(_currentStage)
+                ? stageFinalMessages[_currentStage]
+                : defaultFinalMessage;
+
+                isActiveConversation = true;
+                System.Diagnostics.Debug.WriteLine($"Conversation Lines: {conversationLines.Length}");
+                System.Diagnostics.Debug.WriteLine($"Final Message: {finalMessage}");
+                chatBox.StartConversation(conversationLines, finalMessage, position);
+
             }
         }
 
         public void AdvanceConversation()
         {
-            if (chatBox != null)   
+            System.Diagnostics.Debug.WriteLine($"AdvanceConversation called. CanInteract: {CanInteract}");
+            System.Diagnostics.Debug.WriteLine($"ChatBox is null: {chatBox == null}");
+
+            if (chatBox != null && isActiveConversation)
             {
-                chatBox.AdvanceConversation();
+                bool conversationContinues = chatBox.AdvanceConversation(position);
+
+
+                if (!conversationContinues)
+                {
+                    isActiveConversation = false;
+                    chatBox.Hide();
+
+                }
             }
         }
 

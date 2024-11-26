@@ -17,6 +17,8 @@ namespace Sprint2.UI
         private const int TEXT_PADDING_X = 3;
         private const int TEXT_PADDING_Y = 10;
         private const int MIN_WIDTH = 2;
+        private Vector2? _referencePosition;
+
 
         // Conversation  
         private string[] conversationLines;
@@ -36,10 +38,15 @@ namespace Sprint2.UI
             UpdateBounds("");
         }
 
-        private void UpdateBounds(string message)
+        private void UpdateBounds(string message, Vector2? referencePosition = null)
         {
             // get text size
             Vector2 textSize = font.MeasureString(message);
+
+            if (referencePosition.HasValue)
+            {
+                _referencePosition = referencePosition;
+            }
 
             // calculate  width by text but ensure it's at least MIN_WIDTH
             int requiredWidth = (int)MathHelper.Max(
@@ -47,12 +54,19 @@ namespace Sprint2.UI
                 (textSize.X/3) * _scale.X
             );
 
+            int xPosition = referencePosition.HasValue
+        ? (int)(referencePosition.Value.X - requiredWidth / 2)  // Center horizontally above Wizzrobe
+        : (int)(50 * _scale.X);
+            int yPosition = referencePosition.HasValue
+        ? (int)(referencePosition.Value.Y - 30 * _scale.Y)  // Position above Wizzrobe
+        : (int)(100 * _scale.Y);
+
             bounds = new Rectangle(
-                (int)(160 * _scale.X),  // X position
-                (int)(130 * _scale.Y),  // Y position 
-                requiredWidth,          // Dynamic width change based on text
-                (int)(25 * _scale.Y)    // make height fixed
-            );
+             xPosition,          // Dynamic X position
+             yPosition,          // Dynamic Y position
+             requiredWidth,      // Dynamic width change based on text
+            (int)(25 * _scale.Y)// make height fixed
+    );
 
             textPosition = new Vector2(
                 bounds.X + TEXT_PADDING_X * _scale.X,
@@ -60,19 +74,23 @@ namespace Sprint2.UI
             );
         }
 
-        public void StartConversation(string[] lines, string lastMessage)
+        public void StartConversation(string[] lines, string lastMessage, Vector2 referencePosition)
         {
             conversationLines = lines;
             currentLineIndex = 0;
             isVisible = true;
             conversationComplete = false;
             finalMessage = lastMessage;
-            UpdateBounds(lines[0]);
+            UpdateBounds(lines[0], referencePosition);
             currentMessage = lines[0];
+            System.Diagnostics.Debug.WriteLine($"ChatBox State: Visible: {isVisible}, LineIndex: {currentLineIndex}, Message: {currentMessage}");
+
         }
 
-        public bool AdvanceConversation()
+        public bool AdvanceConversation(Vector2? referencePosition = null)
         {
+            System.Diagnostics.Debug.WriteLine($"ChatBox AdvanceConversation. IsVisible: {isVisible}, ConversationLines: {conversationLines?.Length}, CurrentLineIndex: {currentLineIndex}");
+
             if (!isVisible) return false;
 
             // check if conversation
@@ -87,7 +105,7 @@ namespace Sprint2.UI
             {
                 // Show final message repeatedly  
                 currentMessage = finalMessage;
-                UpdateBounds(finalMessage);
+                UpdateBounds(finalMessage, referencePosition ?? _referencePosition);
                 return true;
             }
 
@@ -102,7 +120,7 @@ namespace Sprint2.UI
                 currentMessage = conversationLines[currentLineIndex];
             }
 
-            UpdateBounds(currentMessage);
+            UpdateBounds(currentMessage, referencePosition ?? _referencePosition);
             return true;
         }
         public void Show(string message)
