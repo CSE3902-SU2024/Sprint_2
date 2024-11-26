@@ -133,6 +133,11 @@ namespace Sprint2.Map
                             gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;
+                        case 6:  
+                            Wizzrobe wizzrobe = new Wizzrobe(EnemyPosition, _link);
+                            wizzrobe.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
+                            EnemiesInRoom.Add(wizzrobe);
+                            break;
                     }
                     EnemyPosition.X += 16 * _scale.X;
                 }

@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:Bosses1.png
 
+#begin ChatBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ChatBox.png
+
 #begin Dungeon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -151,6 +163,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont
+
+#begin font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font.spritefont
 
 #begin LinkDeath.ogg
 /importer:OggImporter
