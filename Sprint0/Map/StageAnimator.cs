@@ -111,6 +111,8 @@ namespace Sprint2.Map
             _drawDungeon.Draw(Offset2, true, _nextStage);
 
         }
+
+       
     }
 }
 

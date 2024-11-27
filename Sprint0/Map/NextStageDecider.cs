@@ -38,8 +38,12 @@ namespace Sprint2.Map
                 // top middle
                 if ((_link._position.Y >= 0 * _scale.Y && _link._position.Y <= 115 * _scale.Y))
                 {
-
-                    if (doors[0] == 1)
+                    if(_link.HasKey() && doors[0] ==2)
+                    {
+                        _link.DecrementKey();
+                        _doorMap.KeyLogic(_stage);
+                    }
+                    else if (doors[0] == 1 || doors[0] ==4)
                     {
                         _link._position.X = 120 * _scale.X;
                         _link._position.Y = 180 * _scale.Y;
@@ -49,18 +53,26 @@ namespace Sprint2.Map
                                 _link.transitioning = true;
                                 _stageManager.Animate(0, 1, 3);
                                 return 1;
-                            case 1:
+                            case 1:                                 
                                 _link.transitioning = true;
-                                _stageManager.Animate(1, 4, 3);
+                                _stageManager.Animate(1, 4, 3);                              
                                 return 4;
                             case 4:
                                 _link.transitioning = true;
                                 _stageManager.Animate(4, 5, 3);
                                 return 5;
+                            case 5:
+                                _link.transitioning = true;
+                                _stageManager.Animate(5, 10, 3);
+                                return 10;
                             case 6:
                                 _link.transitioning = true;
                                 _stageManager.Animate(6,8, 3);
                                 return 8;
+                            case 7:
+                                _link.transitioning = true;
+                                _stageManager.Animate(7, 11, 3);
+                                return 11;
                             case 10:
                                 _link.transitioning = true;
                                 _stageManager.Animate(_stage, 12, 3);
@@ -87,7 +99,7 @@ namespace Sprint2.Map
                 // bottom middle
                 else if ((_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 201 * _scale.Y))
                 {
-                    if (doors[3] == 1)
+                    if (doors[3] == 1 || doors[3] == 4)
                     {
                         _link._position.X = 120 * _scale.X;
                         _link._position.Y = 87 * _scale.Y;
@@ -101,10 +113,19 @@ namespace Sprint2.Map
                                 _link.transitioning = true;
                                 _stageManager.Animate(5, 4, 4);
                                 return 4;
+                            
                             case 8:
                                 _link.transitioning = true;
                                 _stageManager.Animate(8, 6, 4);
                                 return 6;
+                            case 10:
+                                _link.transitioning = true;
+                                _stageManager.Animate(10, 5, 4);
+                                return 5;
+                            case 11:
+                                _link.transitioning = true;
+                                _stageManager.Animate(11, 7, 4);
+                                return 7;
                             case 12:
                                 _link.transitioning = true;
                                 _stageManager.Animate(12,10, 4);
@@ -133,7 +154,7 @@ namespace Sprint2.Map
             {
                 if (_link._position.Y >= 110 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
                 {
-                    if (doors[1] == 1)
+                    if (doors[1] == 1 || doors[1] ==4)
                     {
                         _link._position.X = 210 * _scale.X;
                         _link._position.Y = 135 * _scale.Y;
@@ -196,7 +217,7 @@ namespace Sprint2.Map
             {
                 if (_link._position.Y >= 120 * _scale.Y && _link._position.Y <= 170 * _scale.Y)
                 {
-                    if (doors[2] == 1)
+                    if (doors[2] == 1 || doors[2] == 4)
                     {
                         _link._position.X = 32 * _scale.X;
                         _link._position.Y = 135 * _scale.Y;
@@ -247,12 +268,7 @@ namespace Sprint2.Map
                                 break;
                         }
                     }
-                    if(doors[2] == 2 && _link.hasKey == true)
-                    {
-                        doors[2] = 1;
-
-                        _link.keyCount -= 1;
-                    }
+                    
                 }
             }
 

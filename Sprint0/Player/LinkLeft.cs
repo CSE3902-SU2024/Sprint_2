@@ -74,7 +74,7 @@ namespace Sprint0.Player
             }
             else
             {
-                _link._position.X = wallBoundingBox.Right;
+              //  _link._position.X = wallBoundingBox.Right;
             }
             if (--remainingFrames <= 0)
             {

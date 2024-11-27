@@ -115,6 +115,12 @@ namespace Sprint0.Classes
                         _link.inventory.ToggleInventory();
                         return 2;
                     }
+                    else if (state.IsKeyDown(Keys.K) && !previousState.IsKeyDown(Keys.K))
+                    {
+                        _link.IncrementKey();
+              
+                    }
+
                     break;
                 // Inventory state
                 case 2:

@@ -8,6 +8,7 @@ using Sprint0.Player;
 using System;
 using System.Diagnostics;
 using Sprint2.Classes;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace Sprint2.Map
@@ -171,6 +172,7 @@ namespace Sprint2.Map
             if (AnimatingCount <= 0)
             {
                 StageAnimating = false;
+                _DoorMap.SpecialDoorLogic(StageIndex);
             }
 
             if (!StageAnimating)
@@ -186,7 +188,39 @@ namespace Sprint2.Map
                 Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
                 _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
             }
+            if (StageIndex == 3)
+            {
+                if (_EnemyItem.AreThereEnemies(StageIndex))
+                {
 
+                    _ItemMap.SpawnKey(StageIndex);
+                }
+            }
+
+            if(StageIndex == 5)
+            {
+                Vector2 BoomCoords = _link.GetBoomCoords();
+                if (BoomCoords.X > 115* _scale.X && BoomCoords.X < 150 * _scale.X)
+                {
+                    if(BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
+                    {
+                        _DoorMap.BoomLogic(5);
+                    }
+                    
+                }
+            }
+            if (StageIndex == 6)
+            {
+                Vector2 BoomCoords = _link.GetBoomCoords();
+                if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
+                {
+                    if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
+                    {
+                        _DoorMap.BoomLogic(6);
+                    }
+
+                }
+            }
             // stage 14 and 8 have the movable block
             if (StageIndex == 14)
             {
@@ -234,6 +268,8 @@ namespace Sprint2.Map
             {
                 currentGameStage = GameStage.End;
             }
+
+            _link.SetExplosionCoords(Vector2.Zero);
         }
 
         public void UpdatePauseMenu(GameTime gameTime)

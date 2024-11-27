@@ -24,10 +24,11 @@ namespace Sprint2.Map
         private ContentManager _ContentManager;
         public Link _link;
         private Fairy fairy;
+        private bool AddedKey3;
         public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
-
+            AddedKey3 = false;
             rooms = new List<int[,]>();
             _itemMap = new List<List<Iitem>>();
             roomHeight = 7;
@@ -207,6 +208,24 @@ namespace Sprint2.Map
                 
                 
             }
+        }
+
+        public void SpawnKey(int roomNum)
+        {
+            switch(roomNum)
+            {
+                case 3:
+                    if (!AddedKey3)
+                    {
+                        Key key = new Key(new Vector2(208 * _scale.X, 127 * _scale.Y), _link);
+                        key.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.key, _scale);
+                        _itemMap[3].Add(key);
+                        AddedKey3 = true;
+                    }
+                    break;
+                default:
+                    break;
+            }        
         }
     }
 }
