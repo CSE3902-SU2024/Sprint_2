@@ -24,7 +24,7 @@ namespace Sprint2.Enemy
         private bool isActiveConversation = false;
         private const float INTERACTION_DISTANCE = 32f;  
         public Link _link;
-
+        private bool hasStartedConversation = false;
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
@@ -47,8 +47,8 @@ namespace Sprint2.Enemy
         }},
          { 2, new string[] {
             "yes",
-            "yes",
-            "yes"
+            "go",
+            "111"
         }}
         };
         private string defaultFinalMessage = "Go, traveler";
@@ -124,6 +124,10 @@ namespace Sprint2.Enemy
 
                 }
 
+                if (!canInteract)
+                {
+                    hasStartedConversation = false;
+                }
                 chatBox?.Update();
 
 
@@ -142,20 +146,18 @@ namespace Sprint2.Enemy
 
         public void StartConversation()
         {
-            if (chatBox != null)   
+            if (chatBox != null && !hasStartedConversation)
             {
                 string[] conversationLines = stageConversations.ContainsKey(_currentStage)
-               ? stageConversations[_currentStage]
-               : stageConversations[0];
+                    ? stageConversations[_currentStage]
+                    : stageConversations[0];
                 string finalMessage = stageFinalMessages.ContainsKey(_currentStage)
-                ? stageFinalMessages[_currentStage]
-                : defaultFinalMessage;
+                    ? stageFinalMessages[_currentStage]
+                    : defaultFinalMessage;
 
                 isActiveConversation = true;
-                System.Diagnostics.Debug.WriteLine($"Conversation Lines: {conversationLines.Length}");
-                System.Diagnostics.Debug.WriteLine($"Final Message: {finalMessage}");
+                hasStartedConversation = true;
                 chatBox.StartConversation(conversationLines, finalMessage, position);
-
             }
         }
 
@@ -205,7 +207,12 @@ namespace Sprint2.Enemy
             position = initialPosition;
             currentFrame = 0;
             timeElapsed = 0f;
-            
+            hasStartedConversation = false;
+            isActiveConversation = false;
+            if (chatBox != null)
+            {
+                chatBox.Hide();
+            }
         }
     }
 }

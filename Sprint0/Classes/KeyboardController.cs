@@ -12,19 +12,24 @@ namespace Sprint0.Classes
     {
         KeyboardState previousState;
         public Link _link;
-        private Wizzrobe _wizzrobe;
+        private List<Wizzrobe> _wizzrobes;
         //  private StageManager _StageManager;
 
 
         public KeyboardController(Link link)
         {
             _link = link;
-             
+            _wizzrobes = new List<Wizzrobe>();
+
         }
         public void SetWizzrobe(Wizzrobe wizzrobe)
         {
-            _wizzrobe = wizzrobe;
+            if (!_wizzrobes.Contains(wizzrobe))
+            {
+                _wizzrobes.Add(wizzrobe);
+            }
         }
+        
         public int Update(int GameStateIndex)
         {
             KeyboardState state = Keyboard.GetState();
@@ -60,32 +65,24 @@ namespace Sprint0.Classes
                     if (state.IsKeyDown(Keys.F) && !previousState.IsKeyDown(Keys.F))
                     {
 
-                        System.Diagnostics.Debug.WriteLine($"F Key Pressed");
-                        System.Diagnostics.Debug.WriteLine($"Wizzrobe Null: {_wizzrobe == null}");
-                        //check if wizzrobe is in the room
-                        if (_wizzrobe != null)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"CanInteract: {_wizzrobe.CanInteract}");
-                            System.Diagnostics.Debug.WriteLine($"ChatBox Null: {_wizzrobe.chatBox == null}");
-
-                            if (_wizzrobe.chatBox != null)
+                        
+                            foreach (var wizzrobe in _wizzrobes)
                             {
-                                System.Diagnostics.Debug.WriteLine($"ChatBox Visible: {_wizzrobe.chatBox.IsVisible}");
-                                System.Diagnostics.Debug.WriteLine($"ChatBox Conversation Complete: {_wizzrobe.chatBox.IsConversationComplete}");
+                                if (wizzrobe.CanInteract)
+                                {
+                                    if (wizzrobe.chatBox != null && wizzrobe.chatBox.IsVisible)
+                                    {
+                                        wizzrobe.AdvanceConversation();
+                                    }
+                                    else
+                                    {
+                                        wizzrobe.StartConversation();
+                                    }
+                                    break; // Only interact with one Wizzrobe at a time
+                                }
                             }
-
-                            // If chatbox is visible, explicitly call AdvanceConversation
-                            if (_wizzrobe.chatBox != null && _wizzrobe.chatBox.IsVisible)
-                            {
-                                _wizzrobe.AdvanceConversation();
-                            }
-                            else
-                            {
-                                _wizzrobe.StartConversation();
-                            }
-                        }
-                    }
-                    if (state.IsKeyDown(Keys.Z))
+                     }
+                        if (state.IsKeyDown(Keys.Z))
                     {
                         _link.SwordAttack();
                     }
