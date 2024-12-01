@@ -68,6 +68,8 @@ namespace Sprint0.Classes
                 Position.X += 20000;
                 Position.Y += 20000;
                 _link.inventory.AddItem(this);
+                _link.isPaused = true;
+                _link.pauseTimer = _link.pauseDuration;
             }
         }
 

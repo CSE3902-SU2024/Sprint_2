@@ -69,7 +69,9 @@ namespace Sprint2.Player
 
         public void LoadMap(ContentManager content)
         {
+            
             _MiniMap = content.Load<Texture2D>("MiniMap_Level1");
+
         }
 
         public void Update()
@@ -90,14 +92,7 @@ namespace Sprint2.Player
             if (FlickerCount < 0)
             {
                 FlickerCount = 10;
-                if (Flicker)
-                {
-                    Flicker = false;
-                }
-                else if (!Flicker)
-                {
-                    Flicker = true;
-                }
+                Flicker = !Flicker;
             }
             
         }
@@ -175,7 +170,10 @@ namespace Sprint2.Player
                 if (Flicker)
                 {
                     _spriteBatch.Draw(_MiniMap, IconPosition, linkIcon, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
-                    _spriteBatch.Draw(_MiniMap, TriForcePosition, TriForce, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+                    if (_link.hasCompass)
+                    {
+                        _spriteBatch.Draw(_MiniMap, TriForcePosition, TriForce, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+                    }
                 }
             }
             

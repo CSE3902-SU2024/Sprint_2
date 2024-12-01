@@ -110,6 +110,16 @@ namespace Sprint2.GameStates
                 GameStateIndex = newStateIndex;
             }
 
+            if (_link.isPaused)
+            {
+                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_link.pauseTimer <= 0f)
+                {
+                    _link.isPaused = false; // Resume game logic
+                }
+                return;
+            }
+
             CurrentGameState.Update(gameTime);
         }
         public void Draw()

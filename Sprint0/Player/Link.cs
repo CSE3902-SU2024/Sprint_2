@@ -36,6 +36,10 @@ namespace Sprint0.Player
         public bool hasPotion;
         public bool win;
         public bool hasMap;
+        public bool isPaused;
+        public float pauseTimer = 0f;
+        public float pauseDuration = 2f;
+        public bool hasCompass;
         public Link_Inventory inventory;
         public Direction currentDirection;
 
@@ -82,6 +86,8 @@ namespace Sprint0.Player
             hasBow = false;
             win = false;
             hasMap = false;
+            isPaused = false;
+            hasCompass = false;
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
             
