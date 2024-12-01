@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Sprint0.Player;
+using Sprint0;
 
 namespace Sprint2.Enemy
 {
@@ -51,6 +52,9 @@ namespace Sprint2.Enemy
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
+
         public enum Direction
         {
             Left,
@@ -64,7 +68,7 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Keese(Vector2 startPosition, Link link)
+        public Keese(Vector2 startPosition, Link link, Game1 game)
         {
             health = 2;
             position = startPosition;
@@ -73,7 +77,7 @@ namespace Sprint2.Enemy
             random = new Random();
             SetRandomDirection();
             _link = link;
-
+            this.game = game;
 
 
         }
@@ -106,6 +110,7 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
                     }
                 }
             }

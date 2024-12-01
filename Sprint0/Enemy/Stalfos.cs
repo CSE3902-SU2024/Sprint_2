@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Sprint0.Player;
+using Sprint0;
 
 namespace Sprint2.Enemy
 {
@@ -54,9 +55,12 @@ namespace Sprint2.Enemy
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
 
 
-        public Stalfos(Vector2 startPosition, Link link)
+
+        public Stalfos(Vector2 startPosition, Link link, Game1 game)
         {
             position = startPosition;
             initialPosition = startPosition;
@@ -64,6 +68,7 @@ namespace Sprint2.Enemy
             random = new Random();
             SetNewRandomDirection();
             _link = link;
+            this.game = game;
            
         }
         public enum Direction
@@ -103,6 +108,7 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
                     }
                 }
             }

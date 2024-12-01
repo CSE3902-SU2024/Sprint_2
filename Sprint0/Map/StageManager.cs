@@ -8,6 +8,8 @@ using Sprint0.Player;
 using System;
 using System.Diagnostics;
 using Sprint2.Classes;
+using Sprint2.GameStates;
+using Sprint0;
 
 
 namespace Sprint2.Map
@@ -52,6 +54,10 @@ namespace Sprint2.Map
         Song endSequence;
         public MovableBlock movableBlock14;
         public MovableBlock movableBlock8;
+        public AchievementManager achievementManager { get; private set; }
+        public int enemyDefeatedCount { get; private set; }
+        public int itemCollectedCount { get; private set; }
+        public bool isDungeonComplete { get; private set; }
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -67,7 +73,7 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link, this);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
@@ -106,6 +112,8 @@ namespace Sprint2.Map
             Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+
+            achievementManager = new AchievementManager();
 
 
         }
@@ -173,6 +181,25 @@ namespace Sprint2.Map
                 StageAnimating = false;
             }
 
+            // stage 14 and 8 have the movable block
+            if (StageIndex == 14)
+            {
+                Console.WriteLine("Updating movable block...");
+                Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
+                movableBlock14.Update(ref _link._position, _scale);
+                Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+
+            }
+
+            if (StageIndex == 8)
+            {
+                //Vector2 scaling = new Vector2(2f, 2f);
+                Console.WriteLine("Updating movable block...");
+                Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
+                movableBlock8.Update(ref _link._position, _scale); // error right now
+                Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+            }
+
             if (!StageAnimating)
             {
                 _nextStageDecider.Update(StageIndex);
@@ -188,31 +215,23 @@ namespace Sprint2.Map
             }
 
             // stage 14 and 8 have the movable block
-            if (StageIndex == 14)
-            {
-                    Console.WriteLine("Updating movable block...");
-                    Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
-                    movableBlock14.Update(ref _link._position, _scale);
-                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
-                //Console.WriteLine("Updating movable block...");
-                //Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
-                //movableBlock14.Update(ref _link._position, _scale);
-                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+            //if (StageIndex == 14)
+            //{
+            //        Console.WriteLine("Updating movable block...");
+            //        Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
+            //        movableBlock14.Update(ref _link._position, _scale);
+            //        Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
 
-            }
+            //}
 
-            if (StageIndex == 8)
-            {
-                    //Vector2 scaling = new Vector2(2f, 2f);
-                    Console.WriteLine("Updating movable block...");
-                    Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                    movableBlock8.Update(ref _link._position, _scale); // error right now
-                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
-                //Console.WriteLine("Updating movable block...");
-                //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                //movableBlock8.Update(ref _link._position, _scale); // error right now
-                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
-            }
+            //if (StageIndex == 8)
+            //{
+            //        //Vector2 scaling = new Vector2(2f, 2f);
+            //        Console.WriteLine("Updating movable block...");
+            //        Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
+            //        movableBlock8.Update(ref _link._position, _scale); // error right now
+            //        Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+            //}
 
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
@@ -221,9 +240,11 @@ namespace Sprint2.Map
 
             if (MediaPlayer.State != MediaState.Playing)
             {
-                MediaPlayer.Play(backgroundMusic);
+                //MediaPlayer.Play(backgroundMusic);
                 MediaPlayer.IsRepeating = true; // loop the music
             }
+
+            achievementManager.Update(gameTime); // for achievements
 
             if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
             {
@@ -318,6 +339,8 @@ namespace Sprint2.Map
 
         public void DrawDungeon()
         {
+            achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
+
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
@@ -396,6 +419,31 @@ namespace Sprint2.Map
         public int GetCurrentStage()
         {
             return StageIndex;
+        }
+
+        public void InitializeAchievements(Game1 game)
+        {
+            achievementManager.AddAchievement(new Achievement(
+                "First Blood",
+                "Defeat your first enemy.",
+                () => enemyDefeatedCount >= 1
+            ));
+
+            achievementManager.AddAchievement(new Achievement(
+                "Treasure Hunter",
+                "Collect 10 items.",
+                () => itemCollectedCount >= 10
+            ));
+
+            achievementManager.AddAchievement(new Achievement(
+                "Dungeon Master",
+                "Complete the dungeon.",
+                () => isDungeonComplete
+            ));
+        }
+        public void IncrementEnemyDefeatedCount()
+        {
+            enemyDefeatedCount++;
         }
     }
 }

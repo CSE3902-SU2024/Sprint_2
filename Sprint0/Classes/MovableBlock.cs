@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint0.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +63,7 @@ namespace Sprint2.Classes
 
             if (blockBoundingBox.Intersects(playerBoundingBox))
             {
+                Debug.Write("Actually colliding");
                 Rectangle intersection = Rectangle.Intersect(playerBoundingBox, blockBoundingBox);
 
                 // First, resolve vertical collisions  
@@ -71,11 +73,13 @@ namespace Sprint2.Classes
                     {
                         spritePosition.Y = blockBoundingBox.Top - (playerHeight * scale.Y);
                         isMoving = true; // Set isMoving to true when player is on top of the block  
+                        Debug.Write("Top is colliding");
                     }
                     else if (spritePosition.Y > blockBoundingBox.Y) // Coming from below  
                     {
                         spritePosition.Y = blockBoundingBox.Bottom;
                         isMoving = false;
+                        Debug.Write("Bottom is colliding");
                     }
                 }
                 // Then, resolve horizontal collisions  
@@ -85,11 +89,13 @@ namespace Sprint2.Classes
                     {
                         spritePosition.X -= intersection.Width;
                         isMoving = false;
+                        Debug.Write("Left is colliding");
                     }
                     else if (spritePosition.X > blockBoundingBox.X) // Coming from the right  
                     {
                         spritePosition.X = blockBoundingBox.Right;
                         isMoving = false;
+                        Debug.Write("Right is colliding");
                     }
                 }
             }

@@ -24,6 +24,9 @@ namespace Sprint0
         //public SoundEffect linkDeath;
 
         private GameStateManager _GameStateManager;
+        public int enemyDefeatedCount = 0;
+        public int itemCollectedCount = 0;
+        public bool isDungeonComplete = false;
 
 
         public Game1()
@@ -33,7 +36,7 @@ namespace Sprint0
             _graphics.PreferredBackBufferWidth = 1020;
             _graphics.PreferredBackBufferHeight = 920;
           //  _graphics.IsFullScreen = true;
-            _graphics.ApplyChanges(); 
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()

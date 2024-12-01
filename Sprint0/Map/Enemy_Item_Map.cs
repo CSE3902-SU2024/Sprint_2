@@ -25,8 +25,10 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+        public Game1 game;
+        private StageManager _stageManager;
 
-        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
+        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, StageManager stageManager)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -38,6 +40,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
+            _stageManager = stageManager;
 
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
@@ -114,27 +117,28 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Keese keese = new Keese(EnemyPosition, _link);
+                            Keese keese = new Keese(EnemyPosition, _link, game);
                             keese.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(keese);
                             break;
                         case 2:
-                            Stalfos stalfos = new Stalfos(EnemyPosition, _link);
+                            Stalfos stalfos = new Stalfos(EnemyPosition, _link, game);
                             stalfos.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(stalfos);
                             break;
                         case 3:
-                            Goriya goriya = new Goriya(EnemyPosition, _link);
+                            Goriya goriya = new Goriya(EnemyPosition, _link, game);
                             goriya.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(goriya);
                             break;
                         case 4:
-                            Dragon dragon = new Dragon(EnemyPosition, _link);
+                            Dragon dragon = new Dragon(EnemyPosition, _link, game);
                             dragon.LoadContent(_ContentManager, "Bosses1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(dragon);
                             break;
                         case 5:
-                           Gel gel = new Gel(EnemyPosition, _link);
+                            //Gel gel = new Gel(EnemyPosition, _link, game
+                            Gel gel = new Gel(EnemyPosition, _link, _stageManager);
                             gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;

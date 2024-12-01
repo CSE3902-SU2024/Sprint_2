@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0;
 using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy.Projectiles;
@@ -55,6 +56,9 @@ namespace Sprint2.Enemy
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
+
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; private set; } = 24;
@@ -62,7 +66,7 @@ namespace Sprint2.Enemy
 
 
         public List<Fireball> fireballs { get; private set; }
-        public Dragon(Vector2 startPosition, Link link)
+        public Dragon(Vector2 startPosition, Link link, Game1 game)
         {
             health = 6;
             position = startPosition;
@@ -70,6 +74,7 @@ namespace Sprint2.Enemy
             fireballs = new List<Fireball>();
             _link = link;
             alive = true;
+            this.game = game;
         }
 
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -113,6 +118,7 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000);
+                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
                     }
                 }
 

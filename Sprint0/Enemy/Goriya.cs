@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0;
 using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy.Projectiles;
@@ -54,6 +55,9 @@ namespace Sprint2.Enemy
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
+
         public List<Boomerang> projectiles { get; private set; }
 
 
@@ -63,7 +67,7 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Goriya(Vector2 startPosition, Link link)
+        public Goriya(Vector2 startPosition, Link link, Game1 game)
         {
             health = 4;
             alive = true;
@@ -71,6 +75,7 @@ namespace Sprint2.Enemy
             initialPosition = startPosition;
             projectiles = new List<Boomerang>();
             _link = link;
+            this.game = game;
 
         }
 
@@ -103,6 +108,7 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
                     }
                 }
                 for (int i = 0; i < projectiles.Count; i++)
