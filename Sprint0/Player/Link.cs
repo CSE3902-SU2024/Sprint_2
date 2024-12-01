@@ -59,6 +59,7 @@ namespace Sprint0.Player
         public SoundEffect bombExplosion { get; private set; }
         public SoundEffect BoomerangSound { get; private set; }
 
+        private Vector2 BoomCoords;
 
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
@@ -90,6 +91,7 @@ namespace Sprint0.Player
             hasCompass = false;
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
+            BoomCoords = new Vector2(0,0);
             
 
 
@@ -226,5 +228,34 @@ namespace Sprint0.Player
             return _position;
         }
 
+        public int GetKeyCount()
+        {
+            return keyCount;
+        }
+
+        public bool HasKey()
+        {
+            return hasKey;
+        }
+
+        public void DecrementKey()
+        {
+            keyCount--;
+        }
+
+        public void SetExplosionCoords(Vector2 boomCoords)
+        {
+            BoomCoords = boomCoords;
+        }
+
+        public Vector2 GetBoomCoords()
+        {
+            return BoomCoords;
+        }
+
+        public void IncrementKey()
+        {
+            keyCount++;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Sprint2.Map
     {
         public List<int[]> doors;
         static int doorLength;
-      
+
         public DoorMap(String filename)
         {
             string[] lines = File.ReadAllLines(filename);
@@ -66,6 +66,53 @@ namespace Sprint2.Map
             //    doors[0][1] = 1;
             //    doors[0][2] = 1;
             //}
+        }
+
+        public void SpecialDoorLogic(int roomNum)
+        {
+            switch (roomNum)
+            {
+                case 1:
+                    doors[1][3] = 3;
+                    break;
+                case 6:
+                    doors[6][2] = 3;
+                    break;
+                default:
+                    break;
+
+            }
+        }
+        public void KeyLogic(int roomNum)
+        {
+            switch (roomNum)
+            {
+                case 1:
+                    doors[1][0] = 1;
+                    break;
+                case 6:
+                    doors[6][0] = 1;
+                    break;
+                default:
+                    break;
+
+            }
+        }
+        public void BoomLogic(int roomNum)
+        {
+            switch (roomNum)
+            {
+                case 5:
+                    doors[5][0] = 4;
+                    doors[10][3] = 4;
+                    break;
+                case 7:
+                    doors[7][0] = 4;
+                    doors[11][3] = 4;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

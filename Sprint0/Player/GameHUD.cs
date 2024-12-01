@@ -161,6 +161,14 @@ namespace Sprint2
 
             }
         }
+
+        private void DecrementKeys()
+        {
+            if (_link.hasKey)
+            {
+
+            }
+        }
         private void DrawKeys()
         {
 
