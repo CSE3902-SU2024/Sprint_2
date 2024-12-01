@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
 using Microsoft.Xna.Framework.Content;
+using System.Linq;
 
 namespace Sprint0.Player
 {
@@ -37,36 +38,88 @@ namespace Sprint0.Player
             bagItems = new List<Iitem>();
             isInventoryOpen = false;
             selectedIndex = -1;
-            currentItemType = ItemType.bow;
+            currentItemType = ItemType.boom;
 
         }
 
-        public void AddItem(Iitem item)
+        public void InitializeStartingItems()
         {
-            // Check if the item is already in the inventory
-            bool itemExists = false;
-            foreach (var existingItem in bagItems)
+            if (_link.BombCount > 0)
             {
-                if (existingItem.CurrentItemType == item.CurrentItemType)
+                var bombItem = bagItems.FirstOrDefault(item => item.CurrentItemType == ItemType.boom);
+                if (bombItem != null)
                 {
-                    itemExists = true;
-                    break;
+                    selectedItem = bombItem;
+                    selectedIndex = bagItems.IndexOf(bombItem);
+                    currentItemType = ItemType.boom;
                 }
             }
+        }
+        public void AddItem(Iitem item)
+        {
+            bool itemExists = bagItems.Any(existingItem => existingItem.CurrentItemType == item.CurrentItemType);
 
-            
             if (!itemExists)
             {
                 bagItems.Add(item);
-
-                // If this is the first item, select it
-                if (selectedIndex == -1)
+                
+                if (selectedIndex == -1 || (item.CurrentItemType == ItemType.boom && _link.BombCount > 0))
                 {
-                    selectedIndex = 0;
+                    selectedIndex = bagItems.Count - 1;
                     selectedItem = item;
+                    currentItemType = item.CurrentItemType;
                 }
             }
         }
+
+        public bool ShouldDisplayItem(ItemType itemType)
+        {
+            switch (itemType)
+            {
+                case ItemType.key:
+                    return _link.keyCount > 0;
+                case ItemType.boom:
+                    return _link.BombCount > 0;
+                default:
+                    return true;
+            }
+        }
+        public void UpdateInventoryItems()
+        {
+         
+            var previousType = selectedItem?.CurrentItemType;
+
+            // Update inventory based on counts
+            var updatedItems = bagItems.Where(item =>
+                (item.CurrentItemType != ItemType.key || _link.keyCount > 0) &&
+                (item.CurrentItemType != ItemType.boom || _link.BombCount > 0)).ToList();
+
+             
+            if (updatedItems.Count != bagItems.Count)
+            {
+                bagItems = updatedItems;
+
+                // If selected item was removed, select next available item
+                if (selectedItem != null && !bagItems.Contains(selectedItem))
+                {
+                    if (bagItems.Count > 0)
+                    {
+                        selectedIndex = 0;
+                        selectedItem = bagItems[0];
+                        currentItemType = selectedItem.CurrentItemType;
+                    }
+                    else
+                    {
+                        selectedIndex = -1;
+                        selectedItem = null;
+                        currentItemType = ItemType.bow;  
+                    }
+                }
+            }
+        }
+
+
+       
 
         public void ToggleInventory()
         {
@@ -75,30 +128,31 @@ namespace Sprint0.Player
 
         public void Draw(SpriteBatch spriteBatch, Vector2 transitionPosition)
         {
-            if (!isInventoryOpen || bagItems.Count == 0) return;
+            UpdateInventoryItems();  
 
-            // Base positions 
+            if (!isInventoryOpen) return;
+
             Vector2 startPos = new Vector2(550, 230);
-
             const int ITEMS_PER_ROW = 4;
             const int ROW_SPACING = 95;
 
-            // Draw each item
-            for (int i = 0; i < bagItems.Count; i++)
+            // Draw  available items
+            var availableItems = bagItems.Where(item => ShouldDisplayItem(item.CurrentItemType)).ToList();
+
+            for (int i = 0; i < availableItems.Count; i++)
             {
                 int row = i / ITEMS_PER_ROW;
                 int col = i % ITEMS_PER_ROW;
 
-                // transtion for item
                 Vector2 itemPosition = new Vector2(
                     transitionPosition.X + startPos.X + (col * ITEM_SPACING),
                     transitionPosition.Y + startPos.Y + (row * ROW_SPACING)
                 );
 
                 spriteBatch.Draw(
-                    bagItems[i].Sprite,
+                    availableItems[i].Sprite,
                     itemPosition,
-                    bagItems[i].SourceRectangles[0],
+                    availableItems[i].SourceRectangles[0],
                     Color.White,
                     0f,
                     Vector2.Zero,
@@ -111,34 +165,30 @@ namespace Sprint0.Player
 
         public void CycleSelectedItem()
         {
-            if (bagItems.Count > 0)
+            UpdateInventoryItems();
+            var availableItems = bagItems.Where(item => ShouldDisplayItem(item.CurrentItemType)).ToList();
+
+            if (availableItems.Count > 0)
             {
-                // Move to next item index
-                selectedIndex = (selectedIndex + 1) % bagItems.Count;
-                selectedItem = bagItems[selectedIndex];
-
-                // Update the current item type
-                if (selectedItem != null)
-                {
-                    currentItemType = selectedItem.CurrentItemType;
-
-                    //  add logic in work
-                    // playing some sound when switching item...
-                }
+                // Find  index in available items
+                int currentIndex = availableItems.IndexOf(selectedItem);
+                // Cycle to next item
+                int nextIndex = (currentIndex + 1) % availableItems.Count;
+                selectedItem = availableItems[nextIndex];
+                selectedIndex = bagItems.IndexOf(selectedItem);
+                currentItemType = selectedItem.CurrentItemType;
             }
         }
-
         public Iitem GetCurrentItem()
         {
-            if (bagItems.Count > 0 && selectedIndex >= 0 && selectedIndex < bagItems.Count)
-            {
-                return bagItems[selectedIndex];
-            }
-            return null;
+            UpdateInventoryItems();
+            return selectedItem;
         }
+
         public List<Iitem> GetItems()
         {
-            return bagItems;
+            UpdateInventoryItems();
+            return bagItems.Where(item => ShouldDisplayItem(item.CurrentItemType)).ToList();
         }
     }
 }

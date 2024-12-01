@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
 using System;
 using System.Reflection.Metadata;
 using static Sprint0.Player.ILinkState;
+using static Sprint2.Classes.Iitem;
 
 
 namespace Sprint0.Player
@@ -92,7 +94,12 @@ namespace Sprint0.Player
             inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
             currentDirection = Direction.down;
             BoomCoords = new Vector2(0,0);
+            var startingBomb = new Boom(Vector2.Zero, this);
+            startingBomb.LoadContent(content, "NES - The Legend of Zelda - Items & Weapons", graphicsDevice, ItemType.boom, scale);
+            inventory.AddItem(startingBomb);
+
             
+            inventory.InitializeStartingItems();
 
 
             SwordAttackSound = swordSound;
