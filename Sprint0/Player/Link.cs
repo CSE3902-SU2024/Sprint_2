@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 using Sprint0.Classes;
 using System;
 using System.Reflection.Metadata;
@@ -42,6 +43,7 @@ namespace Sprint0.Player
         public float pauseTimer = 0f;
         public float pauseDuration = 2f;
         public bool hasCompass;
+      
         public Link_Inventory inventory;
         public Direction currentDirection;
 
@@ -54,7 +56,7 @@ namespace Sprint0.Player
 
         public int GemCount { get; set; } = 0; // start with 0 gems
 
-        public int BombCount { get; set; } = 3; //start with 3 for now
+        public int BombCount; //start with 3 for now
 
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
@@ -161,9 +163,12 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
+            Debug.WriteLine("Bomb used");
             if (BombCount > 0 && inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
             {
                 currentState.UseBomb();
+                
+                inventory.DecrementBombCount();
                 
             }
         }
@@ -182,7 +187,7 @@ namespace Sprint0.Player
         public void Update()
         {
             currentState.Update();
-
+            BombCount = inventory.GetBombCount();
             if (isImmune)
             {
                 remainingImmunityFrames--;

@@ -254,9 +254,27 @@ namespace Sprint0.Classes
                     {
                         _link.UseBoomerang();
                     }
-                    else if (state.IsKeyDown(Keys.D3))
+                    else if (state.IsKeyDown(Keys.D3) && !previousState.IsKeyDown(Keys.D3))
                     {
                         _link.UseBomb();
+                    }
+
+                    if (state.IsKeyDown(Keys.NumPad1))
+                    {
+                        _link2.SwordAttack();
+                    }
+                    else if (state.IsKeyDown(Keys.NumPad4))
+                    {
+                        _link2.ArrowAttack();
+                    }
+                    else if (state.IsKeyDown(Keys.NumPad0))
+                    {
+                        _link2.UseBoomerang();
+                    }
+                    else if (state.IsKeyDown(Keys.RightShift))
+                    {
+                        Debug.WriteLine("Tried Bomb");
+                        _link2.UseBomb();
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
