@@ -88,6 +88,8 @@ namespace Sprint2.GameStates
             _keyboardController = new KeyboardController(_link, null);
             _StartMenu = new StartMenu(_graphicsDevice,_spriteBatch, Content, _scale);
             PauseMenu = new PauseMenu(linkTexture, _spriteBatch, _graphicsDevice, Content);
+            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
+          
             _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD, _link);
             CurrentGameState = _StartMenu;
             TwoPlayerMenu = new TwoPlayerMenu(_graphicsDevice,_spriteBatch,Content, _scale);
