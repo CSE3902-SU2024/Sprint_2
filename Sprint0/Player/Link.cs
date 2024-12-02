@@ -2,9 +2,12 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using Sprint0.Classes;
 using System;
 using System.Reflection.Metadata;
 using static Sprint0.Player.ILinkState;
+using static Sprint2.Classes.Iitem;
 
 
 namespace Sprint0.Player
@@ -40,8 +43,11 @@ namespace Sprint0.Player
         public float pauseTimer = 0f;
         public float pauseDuration = 2f;
         public bool hasCompass;
+      
         public Link_Inventory inventory;
         public Direction currentDirection;
+        int playerNumber = 1;
+
 
         private SpriteEffects spriteEffects;
 
@@ -52,7 +58,7 @@ namespace Sprint0.Player
 
         public int GemCount { get; set; } = 0; // start with 0 gems
 
-        public int BombCount { get; set; } = 3; //start with 3 for now
+        public int BombCount; //start with 3 for now
 
         public SoundEffect SwordAttackSound { get; private set; }
         public SoundEffect bowAttackSound { get; private set; }
@@ -62,12 +68,15 @@ namespace Sprint0.Player
         private Vector2 BoomCoords;
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
-            _position = new Vector2(500.0f, 500.0f);
-            _scale = scale;
+
+            _position = (playerNumber == 1)
+                    ? new Vector2(468.0f, 500.0f)
+                    : new Vector2(532.0f, 500.0f); _scale = scale;
+
             _texture = texture;
             speed = 5.0f;
             boomerangSpeed = 10.0f;
@@ -89,16 +98,28 @@ namespace Sprint0.Player
             hasMap = false;
             isPaused = false;
             hasCompass = false;
-            inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+            if(_inventory == null)
+            {
+                inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+                var startingBomb = new Boom(Vector2.Zero, this);
+                startingBomb.LoadContent(content, "NES - The Legend of Zelda - Items & Weapons", graphicsDevice, ItemType.boom, scale);
+                inventory.AddItem(startingBomb);
+                inventory.InitializeStartingItems();
+            }
+            else
+            {
+                inventory = _inventory;
+                _position = new Vector2(532.0f, 500.0f);
+            }
+
             currentDirection = Direction.down;
             BoomCoords = new Vector2(0,0);
             
-
-
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;
             bombExplosion = bombSound;
             BoomerangSound = boomerangSound;
+
         }
 
         public void MoveDown()
@@ -136,8 +157,10 @@ namespace Sprint0.Player
 
         public void ArrowAttack()
         {
-            if (hasBow)
-            currentState.UseArrow();
+            if (hasBow && inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+            {
+                currentState.UseArrow();
+            }
         }
         public void UseBoomerang()
         {
@@ -145,8 +168,14 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
-            if (BombCount >0)
-            currentState.UseBomb();
+            Debug.WriteLine("Bomb used");
+            if (BombCount > 0 && inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+            {
+                currentState.UseBomb();
+                
+                inventory.DecrementBombCount();
+                
+            }
         }
         public void TakeDamage()
         {
@@ -163,7 +192,7 @@ namespace Sprint0.Player
         public void Update()
         {
             currentState.Update();
-
+            BombCount = inventory.GetBombCount();
             if (isImmune)
             {
                 remainingImmunityFrames--;
@@ -256,6 +285,16 @@ namespace Sprint0.Player
         public void IncrementKey()
         {
             keyCount++;
+        }
+
+        public Link_Inventory GetInventory()
+        {
+            return inventory;
+        }
+
+        public bool CanUnlockDoor()
+        {
+            return hasKey && inventory?.SelectedItem?.CurrentItemType == ItemType.key;
         }
     }
 }

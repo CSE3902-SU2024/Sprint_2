@@ -5,20 +5,22 @@ using Sprint0.Player;
 using Sprint2.Classes;
 using Sprint2.Map;
 using Sprint2.Player;
+using Sprint2.TwoPlayer;
 using System;
 using static Sprint2.Classes.Iitem;
 
 namespace Sprint2
 {
-    public class GameHUD
+    public class GameHUD2
     {
-        private StageManager stageManager;
+        private StageManager2 stageManager2;
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
         private Rectangle[] cutOuts;
         private Vector2 _scale;
         private Link _link;
+        private Link _link2;
         private Vector2 _position;
 
         private Rectangle _inventoryRegion;
@@ -42,10 +44,11 @@ namespace Sprint2
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
-        public GameHUD(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link, Vector2 scale, StageManager StageManager)
+        public GameHUD2(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content, Link link,Link link2, Vector2 scale, StageManager2 StageManager2)
         {
             _spriteBatch = spriteBatch;
             _link = link;
+            _link2 = link2;
             _scale = scale;
             _position = Vector2.Zero;
             this.graphicsDevice = graphicsDevice;
@@ -53,15 +56,15 @@ namespace Sprint2
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
-            stageManager = StageManager;
-            MiniMap = new MiniMap1(_scale, stageManager, _link);
-            MiniMap.LoadMap(content);
+            stageManager2 = StageManager2;
+           // MiniMap = new MiniMap1(_scale, stageManager, _link);
+            //MiniMap.LoadMap(content);
 
         }
 
         private void LoadContent(ContentManager content)
         {
- 
+
             try
             {
                 _hudTexture = content.Load<Texture2D>("NES - The Legend of Zelda - HUD & Pause Screen");
@@ -127,7 +130,7 @@ namespace Sprint2
             DrawBombs();
             DrawSword();
             DrawCurrentItem();
-            MiniMap.Draw(_spriteBatch);
+            //MiniMap.Draw(_spriteBatch);
         }
         private void DrawHearts()
         {
@@ -351,10 +354,10 @@ namespace Sprint2
         private void DrawSword()
         {
             Vector2 baseSwordPosition = new Vector2(610, 102);
- 
+
             Rectangle swordPosition = new Rectangle(
                 (int)(_position.X + baseSwordPosition.X),   //transition
-                (int)(_position.Y + baseSwordPosition.Y),   
+                (int)(_position.Y + baseSwordPosition.Y),
                 (int)(8 * _scale.X),    // width
                 (int)(16 * _scale.Y)    // height
             );
@@ -454,7 +457,7 @@ namespace Sprint2
 
         public void Update()
         {
-            MiniMap.Update();
+            //MiniMap.Update();
         }
     }
 }

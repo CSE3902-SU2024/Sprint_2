@@ -46,7 +46,7 @@ namespace Sprint0.Collisions
                 (int)(height * scale.Y)
             );
         }
-        public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
+        public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale, Link link2 = null)
         {
             Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
             
@@ -58,6 +58,15 @@ namespace Sprint0.Collisions
                 if (linkHitbox.Intersects(enemyHitbox))
                 {
                     HandleLinkEnemyCollision(link, enemy);
+                }
+                if (link2 != null)
+                {
+                    Rectangle link2Hitbox = GetScaledRectangle((int)link2._position.X, (int)link2._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
+
+                    if (link2Hitbox.Intersects(enemyHitbox))
+                    {
+                        HandleLinkEnemyCollision(link2, enemy);
+                    }
                 }
 
                 if (enemy is Dragon dragon)

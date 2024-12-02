@@ -114,22 +114,22 @@ namespace Sprint2.Map
         public void Update(GameTime gameTime)
         {
             
-                if (currentGameStage == GameStage.StartMenu)
-                {
-                    UpdateStartMenu(gameTime);
-                }
-                else if (currentGameStage == GameStage.Dungeon)
-                {
+                //if (currentGameStage == GameStage.StartMenu)
+                //{
+                //    UpdateStartMenu(gameTime);
+                //}
+                //else if (currentGameStage == GameStage.Dungeon)
+                //{
                     UpdateDungeon(gameTime);
-                }
-                else if (currentGameStage == GameStage.PauseMenu)
-                {
-                    UpdatePauseMenu(gameTime);
-                }
-                else if (currentGameStage == GameStage.End )
-                {
-                    UpdateEnd(gameTime);
-                }
+                //}
+                //else if (currentGameStage == GameStage.PauseMenu)
+                //{
+                //    UpdatePauseMenu(gameTime);
+                //}
+                //else if (currentGameStage == GameStage.End )
+                //{
+                //    UpdateEnd(gameTime);
+                //}
           
 
             //_nextStageDecider.Update(StageIndex);
@@ -305,22 +305,22 @@ namespace Sprint2.Map
         {
             //_spriteBatch.Begin();
 
-            if (currentGameStage == GameStage.StartMenu)
-            {
-                DrawStartMenu();
-            }
-            else if (currentGameStage == GameStage.Dungeon)
-            {
+            //if (currentGameStage == GameStage.StartMenu)
+            //{
+            //    DrawStartMenu();
+            //}
+            //else if (currentGameStage == GameStage.Dungeon)
+            //{
                 DrawDungeon();
-            }
-            else if (currentGameStage == GameStage.PauseMenu)
-            {
-               DrawPauseMenu();
-            }
-            else if (currentGameStage == GameStage.End)
-            {
-                DrawEnd();
-            }
+            //}
+            //else if (currentGameStage == GameStage.PauseMenu)
+            //{
+            //   DrawPauseMenu();
+            //}
+            //else if (currentGameStage == GameStage.End)
+            //{
+            //    DrawEnd();
+            //}
 
             //_spriteBatch.End();
 

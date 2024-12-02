@@ -11,6 +11,7 @@ namespace Sprint2.GameStates
         private Vector2 _scale;
         static GraphicsDevice _graphicsDevice;
         private SpriteBatch _spriteBatch;
+      
 
         // Start Menu
         private Texture2D titleScreen;
@@ -18,10 +19,10 @@ namespace Sprint2.GameStates
         private float timer;
         private bool showText;
         Song titleSequence;
+        
 
         public StartMenu(GraphicsDevice graphicsDevice,SpriteBatch spriteBatch, ContentManager content, Vector2 scale)
         {
-
             titleScreen = content.Load<Texture2D>("TitleScreen");
             font = content.Load<SpriteFont>("File");
             timer = 0f;
@@ -52,6 +53,14 @@ namespace Sprint2.GameStates
 
         public void UpdateStartMenu(GameTime gameTime)
         {
+           
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer >= 0.5f)
+            {
+                showText = !showText;
+                timer = 0;
+            }
+
             // Blinking text effect
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timer >= 0.5f)
@@ -99,16 +108,16 @@ namespace Sprint2.GameStates
                 //    400
                 //);
                 //_spriteBatch.DrawString(font, startText, textPosition, Color.White);
-                string startText = "PUSH  START   BUTTON";
+                string startText = "PRESS 1 FOR SINGLE PLAYER, 2 FOR 2 PLAYER";
                 Vector2 textSize = font.MeasureString(startText); // Measure text size in pixels
-                float targetTextHeight = 1.5f; // Example target height in cm
+                float targetTextHeight = 1f; // Example target height in cm
 
                 // Assuming a screen DPI, e.g., 96 (adjust for actual DPI if known)
                 float dpi = 96;
                 float targetHeightInPixels = (targetTextHeight / 2.54f) * dpi;
                 float scaled = targetHeightInPixels / textSize.Y; // Scale based on target height
 
-                Vector2 textPosition = new Vector2(265,612);
+                Vector2 textPosition = new Vector2(150,652);
 
                 // Draw the text with scaling
                 _spriteBatch.DrawString(font, startText, textPosition, Color.White, 0f, Vector2.Zero, scaled, SpriteEffects.None, 0f);
