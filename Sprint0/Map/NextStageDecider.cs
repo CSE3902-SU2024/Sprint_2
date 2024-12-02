@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint0.Player;
 using Sprint2.Enemy;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint2.Map
 {
@@ -33,12 +34,13 @@ namespace Sprint2.Map
         {
             int[] doors = _doorMap.GetDoors(_stage);
 
+            bool canUnlockDoor = _link.HasKey() && _link.inventory?.SelectedItem?.CurrentItemType == ItemType.key;
             if (_link._position.X >= 110 * _scale.X && _link._position.X <= 150 * _scale.X)
             {
                 // top middle
                 if ((_link._position.Y >= 0 * _scale.Y && _link._position.Y <= 115 * _scale.Y))
                 {
-                    if(_link.HasKey() && doors[0] ==2)
+                    if(canUnlockDoor && doors[0] == 2)
                     {
                         _link.DecrementKey();
                         _doorMap.KeyLogic(_stage);
@@ -90,7 +92,7 @@ namespace Sprint2.Map
                         }
                         
                     }
-                    if (doors[0] == 2 && _link.hasKey == true)
+                    if (doors[0] == 2 && canUnlockDoor)
                     {
                         doors[0] = 1;
                         _link.keyCount -= 1;
@@ -142,7 +144,7 @@ namespace Sprint2.Map
                                 break;
                         }
                     }
-                    if(doors[3] == 2 && _link.hasKey == true)
+                    if(doors[3] == 2 && canUnlockDoor)
                     {
                         doors[3] = 1;
                         _link.keyCount -= 1;
@@ -204,7 +206,7 @@ namespace Sprint2.Map
                                 break;
                         }
                     }
-                    if(doors[1] == 2 && _link.hasKey == true)
+                    if(doors[1] == 2 && canUnlockDoor)
                     {
                         doors[1] = 1;
                         _link.keyCount -= 1;

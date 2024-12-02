@@ -269,5 +269,10 @@ namespace Sprint0.Player
         {
             keyCount++;
         }
+
+        public bool CanUnlockDoor()
+        {
+            return hasKey && inventory?.SelectedItem?.CurrentItemType == ItemType.key;
+        }
     }
 }
