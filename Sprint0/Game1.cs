@@ -96,8 +96,7 @@ namespace Sprint0
                 Reset();
             }
             _GameStateManager.Update(gameTime);
-           // CurrentGameState.Update(gameTime);
-            base.Update(gameTime);
+                   base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -105,7 +104,6 @@ namespace Sprint0
             _spriteBatch.Begin();
             GraphicsDevice.Clear(Color.Black);
             _GameStateManager.Draw();
-           // CurrentGameState.Draw();
            _spriteBatch.End();
             base.Draw(gameTime);
         }      

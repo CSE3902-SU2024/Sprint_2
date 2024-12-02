@@ -64,7 +64,7 @@ namespace Sprint0.Player
         private Vector2 BoomCoords;
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory)
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
@@ -91,21 +91,27 @@ namespace Sprint0.Player
             hasMap = false;
             isPaused = false;
             hasCompass = false;
-            inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+            if(_inventory == null)
+            {
+                inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
+                var startingBomb = new Boom(Vector2.Zero, this);
+                startingBomb.LoadContent(content, "NES - The Legend of Zelda - Items & Weapons", graphicsDevice, ItemType.boom, scale);
+                inventory.AddItem(startingBomb);
+                inventory.InitializeStartingItems();
+            }
+            else
+            {
+                inventory = _inventory;
+            }
+
             currentDirection = Direction.down;
             BoomCoords = new Vector2(0,0);
-            var startingBomb = new Boom(Vector2.Zero, this);
-            startingBomb.LoadContent(content, "NES - The Legend of Zelda - Items & Weapons", graphicsDevice, ItemType.boom, scale);
-            inventory.AddItem(startingBomb);
-
             
-            inventory.InitializeStartingItems();
-
-
             SwordAttackSound = swordSound;
             bowAttackSound = bowSound;
             bombExplosion = bombSound;
             BoomerangSound = boomerangSound;
+
         }
 
         public void MoveDown()
@@ -263,6 +269,11 @@ namespace Sprint0.Player
         public void IncrementKey()
         {
             keyCount++;
+        }
+
+        public Link_Inventory GetInventory()
+        {
+            return inventory;
         }
     }
 }
