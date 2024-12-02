@@ -4,6 +4,7 @@ using Sprint2.Enemy;
 using Sprint2.Map;
 using System;
 using System.Collections.Generic;
+using static Sprint2.Classes.Iitem;
 
 
 namespace Sprint0.Classes
@@ -88,7 +89,10 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.D1))
                     {
-                        _link.ArrowAttack();
+                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+                        {
+                            _link.ArrowAttack();
+                        }
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
@@ -96,7 +100,10 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.D3))
                     {
-                        _link.UseBomb();
+                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+                        {
+                            _link.UseBomb();
+                        }
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
