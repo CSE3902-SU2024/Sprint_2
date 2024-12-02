@@ -149,8 +149,10 @@ namespace Sprint0.Player
 
         public void ArrowAttack()
         {
-            if (hasBow)
-            currentState.UseArrow();
+            if (hasBow && inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+            {
+                currentState.UseArrow();
+            }
         }
         public void UseBoomerang()
         {
@@ -158,8 +160,11 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
-            if (BombCount >0)
-            currentState.UseBomb();
+            if (BombCount > 0 && inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+            {
+                currentState.UseBomb();
+                
+            }
         }
         public void TakeDamage()
         {
