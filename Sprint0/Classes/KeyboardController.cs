@@ -98,7 +98,10 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.D1))
                     {
-                        _link.ArrowAttack();
+                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+                        {
+                            _link.ArrowAttack();
+                        }
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
@@ -106,7 +109,10 @@ namespace Sprint0.Classes
                     }
                     else if (state.IsKeyDown(Keys.D3))
                     {
-                        _link.UseBomb();
+                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+                        {
+                            _link.UseBomb();
+                        }
                     }
                     else if (state.IsKeyDown(Keys.Space))
                     {
