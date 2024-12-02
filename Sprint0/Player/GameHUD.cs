@@ -6,6 +6,7 @@ using Sprint2.Classes;
 using Sprint2.Map;
 using Sprint2.Player;
 using System;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint2
 {
@@ -370,26 +371,41 @@ namespace Sprint2
         }
         private void DrawCurrentItem()
         {
-            // B button slot  
-            Vector2 bSlotPosition = new Vector2(510, 102);  
+            // B   slot  
+            Vector2 bSlotPosition = new Vector2(510, 102);
 
             if (_link?.inventory?.SelectedItem != null)
             {
                 Iitem currentItem = _link.inventory.SelectedItem;
-                _spriteBatch.Draw(
-                    currentItem.Sprite,
-                    new Vector2(
-                        _position.X + bSlotPosition.X,
-                        _position.Y + bSlotPosition.Y
-                    ),
-                    currentItem.SourceRectangles[0],  
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    _scale,
-                    SpriteEffects.None,
-                    0f
-                );
+
+                // Check if item need to be displayed (in case key decremented to 0)
+                bool shouldDisplayItem = true;
+                if (currentItem.CurrentItemType == ItemType.boom && _link.BombCount <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+                else if (currentItem.CurrentItemType == ItemType.key && _link.keyCount <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+
+                if (shouldDisplayItem)
+                {
+                    _spriteBatch.Draw(
+                        currentItem.Sprite,
+                        new Vector2(
+                            _position.X + bSlotPosition.X,
+                            _position.Y + bSlotPosition.Y
+                        ),
+                        currentItem.SourceRectangles[0],
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        _scale,
+                        SpriteEffects.None,
+                        0f
+                    );
+                }
             }
         }
 

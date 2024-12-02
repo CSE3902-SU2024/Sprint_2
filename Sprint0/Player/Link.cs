@@ -157,7 +157,7 @@ namespace Sprint0.Player
             if (BombCount > 0 && inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
             {
                 currentState.UseBomb();
-                BombCount--;
+                
             }
         }
         public void TakeDamage()
