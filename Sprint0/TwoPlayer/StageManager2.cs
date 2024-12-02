@@ -112,7 +112,8 @@ namespace Sprint2.TwoPlayer
             {
                 _nextStageDecider2.Update(StageIndex);
                 _DrawDungeon2.Update(StageIndex);
-
+                _EnemyItem.Update(StageIndex, gameTime);
+                _ItemMap.Update(StageIndex, gameTime);
                 LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
                 LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale);
             }
