@@ -240,9 +240,9 @@ namespace Sprint0.Classes
                                     }
                                     break; // Only interact with one Wizzrobe at a time
                                 }
-                            }
-                     }
-                        if (state.IsKeyDown(Keys.Z))
+                        }
+                    }
+                    if (state.IsKeyDown(Keys.Z))
                     {
                         _link.SwordAttack();
                     }
@@ -264,6 +264,28 @@ namespace Sprint0.Classes
                         previousIdx = 4;
                         returnVal = 5;
                     }
+                    if (state.IsKeyDown(Keys.M))
+                    {
+                        _link2.SwordAttack();
+                    }
+                    else if (state.IsKeyDown(Keys.D7))
+                    {
+                        _link2.ArrowAttack();
+                    }
+                    else if (state.IsKeyDown(Keys.D8))
+                    {
+                        _link2.UseBoomerang();
+                    }
+                    else if (state.IsKeyDown(Keys.D9))
+                    {
+                        _link2.UseBomb();
+                    }
+                    else if (state.IsKeyDown(Keys.Space))
+                    {
+                        // Game => Pause
+                        previousIdx = 4;
+                        returnVal = 5;
+                    }
                     if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     {
                         _link.inventory.CycleSelectedItem();
@@ -277,7 +299,7 @@ namespace Sprint0.Classes
                     else if (state.IsKeyDown(Keys.K) && !previousState.IsKeyDown(Keys.K))
                     {
                         _link.IncrementKey();
-              
+              //cheat code for now
                     }
                     break;
                 // Pause menu

@@ -44,6 +44,8 @@ namespace Sprint0.Player
         public bool hasCompass;
         public Link_Inventory inventory;
         public Direction currentDirection;
+        int playerNumber = 1;
+
 
         private SpriteEffects spriteEffects;
 
@@ -68,8 +70,11 @@ namespace Sprint0.Player
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
-            _position = new Vector2(468.0f, 500.0f);
-            _scale = scale;
+
+            _position = (playerNumber == 1)
+                    ? new Vector2(468.0f, 500.0f)
+                    : new Vector2(532.0f, 500.0f); _scale = scale;
+
             _texture = texture;
             speed = 5.0f;
             boomerangSpeed = 10.0f;
