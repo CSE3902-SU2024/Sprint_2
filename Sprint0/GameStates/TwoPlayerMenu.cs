@@ -28,6 +28,9 @@ namespace Sprint2.GameStates
         string goback;
         string colorSelect;
         string color1;
+        string color2;
+        string color3;  
+        string color4;
 
         float scale1;
         float scale2;
@@ -49,7 +52,9 @@ namespace Sprint2.GameStates
             goback = "PRESS B TO RETURN TO START";
             colorSelect = "Press a key 1-5 to select player 2's color:";
             color1 = "1: Pink";
-            
+            color2 = "2: Cyan";
+            color3 = "3: Black";
+            color4 = "4: Navy Blue";
 
             float dpi = 96;
 
@@ -107,7 +112,9 @@ namespace Sprint2.GameStates
             _spriteBatch.DrawString(font, welcome2, new Vector2(50, 80), Color.White, 0f, Vector2.Zero, scale3, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, colorSelect, new Vector2(200, 140), Color.White, 0f, Vector2.Zero, scale4, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, color1, new Vector2(450, 200), Color.White, 0f, Vector2.Zero, scale5, SpriteEffects.None, 0f);
-
+            _spriteBatch.DrawString(font, color2, new Vector2(450, 260), Color.White, 0f, Vector2.Zero, scale5, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, color3, new Vector2(450, 320), Color.White, 0f, Vector2.Zero, scale5, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, color4, new Vector2(450, 380), Color.White, 0f, Vector2.Zero, scale5, SpriteEffects.None, 0f);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Sprint0.Player
         {
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
-            _position = new Vector2(500.0f, 500.0f);
+            _position = new Vector2(468.0f, 500.0f);
             _scale = scale;
             _texture = texture;
             speed = 5.0f;
@@ -102,6 +102,7 @@ namespace Sprint0.Player
             else
             {
                 inventory = _inventory;
+                _position = new Vector2(532.0f, 500.0f);
             }
 
             currentDirection = Direction.down;
@@ -279,6 +280,11 @@ namespace Sprint0.Player
         public Link_Inventory GetInventory()
         {
             return inventory;
+        }
+
+        public bool CanUnlockDoor()
+        {
+            return hasKey && inventory?.SelectedItem?.CurrentItemType == ItemType.key;
         }
     }
 }

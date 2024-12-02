@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
+using Sprint2.TwoPlayer;
 
 
 namespace Sprint2.GameStates
@@ -16,7 +17,7 @@ namespace Sprint2.GameStates
         private SpriteBatch _spriteBatch;
         public Link _link;
         public Link _link2;
-        public StageManager _StageManager;
+        public StageManager2 _StageManager2;
         private LinkSpriteFactory _linkSpriteFactory;
         private DungeonBlockSpriteFactory _dungeonBlockSpriteFactory;
         private IEnemy enemy;
@@ -28,7 +29,7 @@ namespace Sprint2.GameStates
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
         private GameHUD _gameHUD;
-        private MouseController _mouseController;
+        private MouseController2 _mouseController2;
 
         public TwoPlayerMode(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice, Link link, Link link2)
         {
@@ -52,23 +53,23 @@ namespace Sprint2.GameStates
             Texture2D dungeonTexture = Content.Load<Texture2D>("DungeonSheet");
 
 
-            _StageManager = new StageManager(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link, Content, _scale);
-            _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
+            _StageManager2 = new StageManager2(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link,_link2, Content, _scale);
+            // _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
 
-            _mouseController = new MouseController(_link, _StageManager);
+            _mouseController2 = new MouseController2(_StageManager2);
         }
 
 
         public void Draw()
         {
-            _StageManager.Draw();
-            if (!_StageManager.GetAnimationState())
+            _StageManager2.Draw();
+            if (!_StageManager2.GetAnimationState())
             {
                 _link.Draw(_spriteBatch);
                 _link2.Draw(_spriteBatch);
             }
 
-            _gameHUD.Draw();
+            ///w_gameHUD.Draw();
         }
 
         public int GetLinkHealth()
@@ -79,14 +80,14 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
-            _StageManager.Update(gameTime);
-            if (!_StageManager.GetAnimationState())
+            _StageManager2.Update(gameTime);
+            if (!_StageManager2.GetAnimationState())
             {
                 _link.Update();
                 _link2.Update();
-                _gameHUD.Update();
-               
-                _mouseController.Update();
+                //    _gameHUD.Update();
+
+                _mouseController2.Update();
             }
 
         }

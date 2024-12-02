@@ -186,8 +186,20 @@ namespace Sprint2.GameStates
             switch (colorIdx)
             {
                 case 11:
-                    _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "zeldaLinkPink");
-                    texture2 = content.Load<Texture2D>("zeldaLinkPink");
+                    _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "LinkSpriteSheetPink");
+                    texture2 = content.Load<Texture2D>("LinkSpriteSheetPink");
+                    break;
+                case 12:
+                    _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "LinkSpriteSheetCyan");
+                    texture2 = content.Load<Texture2D>("LinkSpriteSheetCyan");
+                    break;
+                case 13:
+                    _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "LinkSpriteSheetBlack");
+                    texture2 = content.Load<Texture2D>("LinkSpriteSheetBlack");
+                    break;
+                case 14:
+                    _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "LinkSpriteSheetBlue");
+                    texture2 = content.Load<Texture2D>("LinkSpriteSheetBlue");
                     break;
                 default:
                     _linkSpriteFactory2 = new LinkSpriteFactory(_graphicsDevice, content, "LinkSpriteSheet2");

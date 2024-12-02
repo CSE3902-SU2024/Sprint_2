@@ -110,7 +110,7 @@ namespace Sprint2.Enemy
 
                 //SOMEWHERE HERE
 
-                System.Diagnostics.Debug.WriteLine($"Player Position: {_link._position}, Wizzrobe Position: {Position}, Distance: {distance}");
+               // System.Diagnostics.Debug.WriteLine($"Player Position: {_link._position}, Wizzrobe Position: {Position}, Distance: {distance}");
                 if (canInteract && !wasNearby)
                 {
                     wasNearby = true;

@@ -9,9 +9,10 @@ using System;
 using System.Diagnostics;
 using Sprint2.Classes;
 using System.Reflection.Metadata.Ecma335;
+using Sprint2.Map;
 
 
-namespace Sprint2.Map
+namespace Sprint2.TwoPlayer
 {
 
 
@@ -19,39 +20,31 @@ namespace Sprint2.Map
     {
         public GameStage currentGameStage; // To track the current game stage
         public int StageIndex;
-        public DrawDungeon _DrawDungeon;
+        public DrawDungeon2 _DrawDungeon2;
         public Texture2D _texture;
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
         static GraphicsDevice _graphicsDevice;
         private DoorDecoder _doorDecoder;
-        public NextStageDecider2 _nextStageDecider;
+        public NextStageDecider2 _nextStageDecider2;
         DungeonMap _DungeonMap;
         DoorMap _DoorMap;
         Enemy_Item_Map _EnemyItem;
         ItemMap _ItemMap;
-        Boolean StageAnimating;
+        bool StageAnimating;
         int AnimatingCount;
         private Link _link;
         private Link _link2;
-        private StageAnimator _StageAnimator;
-  
+        private StageAnimator2 _StageAnimator2;
+
         // Start Menu
-        public Texture2D titleScreen;
-        public Texture2D pauseScreen;
-        public Texture2D endScreen;
-        public SpriteFont font;
-        public float timer;
-        public bool showText;
         Song backgroundMusic;
-        Song titleSequence;
-        Song endSequence;
         public MovableBlock movableBlock14;
         public MovableBlock movableBlock8;
 
-        public StageManager2(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link,Link link2, ContentManager content, Vector2 scale)
+        public StageManager2(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, Link link2, ContentManager content, Vector2 scale)
         {
-
+            Debug.WriteLine("load 2");
             currentGameStage = GameStage.StartMenu;
             StageAnimating = false;
             AnimatingCount = 0;
@@ -64,26 +57,19 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-          //  _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
-           // _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
+            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
 
-            _nextStageDecider = new NextStageDecider2(_link,_link2, _scale, _DoorMap, this);
-            _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
-            //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            _nextStageDecider2 = new NextStageDecider2(_link, _link2, _scale, _DoorMap, this);
+            _DrawDungeon2 = new DrawDungeon2(sourceRectangles, texture, spriteBatch, _scale, _link, _link2, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
 
-            titleScreen = content.Load<Texture2D>("TitleScreen");
-            pauseScreen = content.Load<Texture2D>("Pause");
-            endScreen = content.Load<Texture2D>("EndingofZelda");
-            font = content.Load<SpriteFont>("File");         
-            timer = 0f;
-            showText = true;
+           
 
             //Music
-            titleSequence = content.Load<Song>("TitleTheme");
+          
             backgroundMusic = content.Load<Song>("DungeonTheme");
-            endSequence = content.Load<Song>("EndingTheme");
-
-            _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
+           
+            _StageAnimator2 = new StageAnimator2(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon2);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
             Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
@@ -95,14 +81,14 @@ namespace Sprint2.Map
             }
             else
             {
-                Debug.WriteLine("Texture loaded: " + texture.Width + "x" + texture.Height);
+                //  Debug.WriteLine("Texture loaded: " + texture.Width + "x" + texture.Height);
             }
 
 
             //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
-            movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
-            movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+            //Vector2 EasierAccessTilePosition8 = new Vector2(100, 100) + new Vector2(3, 3);
+            //movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
+            //movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
 
         }
@@ -113,8 +99,8 @@ namespace Sprint2.Map
         {
             if (StageAnimating)
             {
-                AnimatingCount-=2;
-                _StageAnimator.Update();
+                AnimatingCount -= 2;
+                _StageAnimator2.Update();
             }
             if (AnimatingCount <= 0)
             {
@@ -124,36 +110,35 @@ namespace Sprint2.Map
 
             if (!StageAnimating)
             {
-                _nextStageDecider.Update(StageIndex);
-                _DrawDungeon.Update(StageIndex);
-                _EnemyItem.Update(StageIndex, gameTime);
-                _ItemMap.Update(StageIndex, gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+                _nextStageDecider2.Update(StageIndex);
+                _DrawDungeon2.Update(StageIndex);
+
+                //     LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
             }
             if (StageIndex == 0)
             {
-                Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
-                _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
+                //     Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
+                //     _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
             }
             if (StageIndex == 3)
             {
                 if (_EnemyItem.AreThereEnemies(StageIndex))
                 {
 
-                    _ItemMap.SpawnKey(StageIndex);
+                    //     _ItemMap.SpawnKey(StageIndex);
                 }
             }
 
-            if(StageIndex == 5)
+            if (StageIndex == 5)
             {
                 Vector2 BoomCoords = _link.GetBoomCoords();
-                if (BoomCoords.X > 115* _scale.X && BoomCoords.X < 150 * _scale.X)
+                if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
                 {
-                    if(BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
+                    if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
                     {
                         _DoorMap.BoomLogic(5);
                     }
-                    
+
                 }
             }
             if (StageIndex == 6)
@@ -200,10 +185,7 @@ namespace Sprint2.Map
                 //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
-            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
-            {
-                MediaPlayer.Stop();
-            }
+          
 
             if (MediaPlayer.State != MediaState.Playing)
             {
@@ -222,14 +204,15 @@ namespace Sprint2.Map
         public void NextStage()
         {
 
-            StageIndex = _nextStageDecider.DecideStage();
+            StageIndex = _nextStageDecider2.DecideStage();
         }
         public void Draw()
         {
             if (!StageAnimating)
             {
-                _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-               // DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+                _DrawDungeon2.Draw(Vector2.Zero, false, StageIndex);
+                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+                DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale);
 
                 if (StageIndex == 14)
                 {
@@ -238,7 +221,7 @@ namespace Sprint2.Map
                         movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
                         Debug.WriteLine("Drawing movable block 14");
                     }
-               
+
                 }
 
                 if (StageIndex == 8)
@@ -251,28 +234,30 @@ namespace Sprint2.Map
                         _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                     }
                 }
-            } else
+            }
+            else
             {
-                _StageAnimator.Draw();
-            }  
+                _StageAnimator2.Draw();
+            }
         }
 
-       
+
         public void Animate(int currentStage, int nextStage, int direction)
         {
             StageAnimating = true;
             if (direction <= 2)
             {
                 AnimatingCount = 255;
-            } else
+            }
+            else
             {
                 AnimatingCount = 176;
             }
-         
-            _StageAnimator.Animate(currentStage, nextStage, direction);
+
+            _StageAnimator2.Animate(currentStage, nextStage, direction);
         }
 
-        public Boolean GetAnimationState()
+        public bool GetAnimationState()
         {
             return StageAnimating;
         }

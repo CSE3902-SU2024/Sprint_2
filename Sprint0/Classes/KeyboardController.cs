@@ -5,6 +5,7 @@ using Sprint2.Map;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using  static Sprint2.Classes.Iitem;
 
 
 namespace Sprint0.Classes
@@ -37,7 +38,7 @@ namespace Sprint0.Classes
         public int Update(int GameStateIndex)
         {
             KeyboardState state = Keyboard.GetState();
-
+            int returnVal = GameStateIndex;
             switch (GameStateIndex)
             {
                 // Start Menu
@@ -46,12 +47,12 @@ namespace Sprint0.Classes
                     {
                         // Start => Game
                         previousIdx = 1;
-                        return 1;
+                        returnVal = 1;
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
                         previousIdx = 2;
-                        return 2;
+                        returnVal = 2;
                     }
                     break;
                 // Game state
@@ -118,7 +119,7 @@ namespace Sprint0.Classes
                     {
                         // Game => Pause
                         previousIdx = 1;
-                        return 5;
+                        returnVal = 5;
                     }
                     if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     {
@@ -128,7 +129,7 @@ namespace Sprint0.Classes
                     {
                         _link.inventory.ToggleInventory();
                         previousIdx = 1;
-                        return 3;
+                        returnVal = 3;
                     }
                     else if (state.IsKeyDown(Keys.K) && !previousState.IsKeyDown(Keys.K))
                     {
@@ -141,16 +142,28 @@ namespace Sprint0.Classes
                     if (state.IsKeyDown(Keys.B))
                     {
 
-                        return 0;
+                        returnVal = 0;
                     }
-                    if (state.IsKeyDown(Keys.D1))
+                    if (state.IsKeyDown(Keys.D1) && !previousState.IsKeyDown(Keys.D1))
                     {
                         previousIdx = 4;
-                        Debug.WriteLine("To two Player");
-                        return 11;
+                        returnVal = 11;
                     }
-                    
-
+                    else if (state.IsKeyDown(Keys.D2) && !previousState.IsKeyDown(Keys.D2))
+                    {
+                        previousIdx = 4;
+                        returnVal = 12;
+                    }
+                    else if (state.IsKeyDown(Keys.D3) && !previousState.IsKeyDown(Keys.D3))
+                    {
+                        previousIdx = 4;
+                        returnVal = 13;
+                    }
+                    else if (state.IsKeyDown(Keys.D4) && !previousState.IsKeyDown(Keys.D4))
+                    {
+                        previousIdx = 4;
+                        returnVal = 14;
+                    }
                     break;
                 // Inventory state
                 case 3:
@@ -164,10 +177,10 @@ namespace Sprint0.Classes
                         _link.inventory.ToggleInventory();
                         if(previousIdx == 1)
                         {
-                            return 1;
+                            returnVal = 1;
                         } else
                         {
-                            return 4;
+                            returnVal = 4;
                         }
                        
                     }
@@ -249,7 +262,7 @@ namespace Sprint0.Classes
                     {
                         // Game => Pause
                         previousIdx = 4;
-                        return 5;
+                        returnVal = 5;
                     }
                     if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     {
@@ -259,7 +272,7 @@ namespace Sprint0.Classes
                     {
                         _link.inventory.ToggleInventory();
                         previousIdx = 4;
-                        return 3;
+                        returnVal = 3;
                     }
                     else if (state.IsKeyDown(Keys.K) && !previousState.IsKeyDown(Keys.K))
                     {
@@ -274,10 +287,10 @@ namespace Sprint0.Classes
                         // Pause => Game
                         if(previousIdx == 1)
                         {
-                            return 1;
+                            returnVal = 1;
                         } else
                         {
-                            return 4;
+                            returnVal = 4;
                         }
                         
                     }
@@ -287,7 +300,7 @@ namespace Sprint0.Classes
             }
 
             previousState = state;
-            return GameStateIndex; // Return current state if no change
+            return returnVal; // Return current state if no change
         }
        
     }
