@@ -113,19 +113,20 @@ namespace Sprint2.TwoPlayer
                 _nextStageDecider2.Update(StageIndex);
                 _DrawDungeon2.Update(StageIndex);
 
-                //     LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+                LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale);
             }
             if (StageIndex == 0)
             {
-                //     Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
-                //     _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
+                Boolean enemiesPresent = _EnemyItem.AreThereEnemies(StageIndex);
+                _DoorMap.AllEnemiesDead(StageIndex, enemiesPresent);
             }
             if (StageIndex == 3)
             {
                 if (_EnemyItem.AreThereEnemies(StageIndex))
                 {
 
-                    //     _ItemMap.SpawnKey(StageIndex);
+                    _ItemMap.SpawnKey(StageIndex);
                 }
             }
 

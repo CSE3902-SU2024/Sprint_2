@@ -182,13 +182,3 @@ namespace Sprint2.Player
     
     }
 }
-
-
-
-
-
-//        // Calculate the range size for each segment
-//        int rangeSize = (224 - 32 + 1) / 5; // This will be 39
-
-//// Determine the output value based on the segment
-//return (input - 32) / rangeSize;

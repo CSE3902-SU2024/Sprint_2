@@ -41,7 +41,7 @@ namespace Sprint2.TwoPlayer
             _dungeonMap = dungeon;
             _EnemyItem = enemy_Item_Map;
             _itemMap = itemMap;
-            //_EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content);
+           
 
         }
 

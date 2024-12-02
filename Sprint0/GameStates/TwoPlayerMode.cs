@@ -28,7 +28,7 @@ namespace Sprint2.GameStates
         private Enemy_Item_Map enemyItemMap;
         private KeyboardController _keyboardController;
         private int currentRoomNumber;
-        private GameHUD _gameHUD;
+        private GameHUD2 _gameHUD2;
         private MouseController2 _mouseController2;
 
         public TwoPlayerMode(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice, Link link, Link link2)
@@ -54,7 +54,7 @@ namespace Sprint2.GameStates
 
 
             _StageManager2 = new StageManager2(dungeonTiles, dungeonTexture, _spriteBatch, _graphicsDevice, _link,_link2, Content, _scale);
-            // _gameHUD = new GameHUD(_spriteBatch, _graphicsDevice, Content, _link, _scale, _StageManager);
+            _gameHUD2 = new GameHUD2(_spriteBatch, _graphicsDevice, Content, _link,_link2, _scale, _StageManager2);
 
             _mouseController2 = new MouseController2(_StageManager2);
         }
@@ -69,7 +69,7 @@ namespace Sprint2.GameStates
                 _link2.Draw(_spriteBatch);
             }
 
-            ///w_gameHUD.Draw();
+             _gameHUD2.Draw();
         }
 
         public int GetLinkHealth()
@@ -85,7 +85,7 @@ namespace Sprint2.GameStates
             {
                 _link.Update();
                 _link2.Update();
-                //    _gameHUD.Update();
+                _gameHUD2.Update();
 
                 _mouseController2.Update();
             }
