@@ -131,7 +131,10 @@ namespace Sprint2.GameStates
                         _inventoryMenu.StartTransitionIn();
                         break;
                     case 4:
-                   
+                        if (levelCreated)
+                        {
+                            CurrentGameState = TwoPlayer;
+                        }
                         break;
                     case 5: // pause
                         CurrentGameState = PauseMenu;
