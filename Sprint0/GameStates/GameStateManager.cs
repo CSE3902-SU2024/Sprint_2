@@ -115,7 +115,7 @@ namespace Sprint2.GameStates
                 _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (_link.pauseTimer <= 0f)
                 {
-                    _link.isPaused = false; // Resume game logic
+                    _link.isPaused = false; 
                 }
                 return;
             }
