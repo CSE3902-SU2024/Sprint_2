@@ -75,6 +75,18 @@ namespace Sprint0.Classes
                 currentFrame = (currentFrame + 1) % SourceRectangles.Length;
                 timeElapsed = 0f;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock)
+                {
+                    _link.isPaused = true;
+                    if (TwoPlayer)
+                    {
+                        _link2.isPaused = true;
+                    }
+                }
+            }
+
             if (!TwoPlayer)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.F))
@@ -90,14 +102,12 @@ namespace Sprint0.Classes
                             Position.X += 20000;
                             Position.Y += 20000;
                             _link.inventory.AddItem(this);
+                            _link.pauseTimer = _link.pauseDuration;
                         }
                     }
+                    
                 }
-                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
-                {
-                    _link.isPaused = true;
-
-                }
+                
             } else
             {
                 Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
@@ -113,15 +123,11 @@ namespace Sprint0.Classes
                             Position.X += 20000;
                             Position.Y += 20000;
                             _link.inventory.AddItem(this);
+                            _link.pauseTimer = _link.pauseDuration;
                         }
                     }
                 }
-                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
-                {
-                    _link.isPaused = true;
-                    _link2.isPaused = true;
-
-                }
+                
             }
             
 
