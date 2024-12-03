@@ -8,6 +8,7 @@ using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
 {
+    
     internal class Clock : Iitem
     {
         public Link _link;
@@ -21,7 +22,9 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-        
+
+     
+         
 
         public ItemType currentItemType { get; set; }
 
@@ -63,16 +66,23 @@ namespace Sprint0.Classes
                 timeElapsed = 0f;
             }
 
-            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
             {
-                Position.X += 20000;
-                Position.Y += 20000;
-                _link.inventory.AddItem(this);
-                
-                _link.pauseTimer = _link.pauseDuration;
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    if (_link.GemCount >= 2)  // Price check
+                    {
+                        _link.GemCount -= 2;
+                        Position.X += 20000;
+                        Position.Y += 20000;
+                        _link.inventory.AddItem(this);
+                    }
+                }
             }
+
             if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
             {
                 _link.isPaused = true;
@@ -86,5 +96,7 @@ namespace Sprint0.Classes
             spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
         }
+
+         
     }
 }
