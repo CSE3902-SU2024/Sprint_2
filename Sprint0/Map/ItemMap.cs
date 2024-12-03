@@ -23,9 +23,10 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+        public Link _link2;
         private Fairy fairy;
         private bool AddedKey3;
-        public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
+        public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, Link link2)
         {
             string[] lines = File.ReadAllLines(filename);
             AddedKey3 = false;
@@ -37,6 +38,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
+            _link2 = link2;
 
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
@@ -84,7 +86,7 @@ namespace Sprint2.Map
                 _itemMap.Add(items);
             }
 
-
+            
         }
         public List<Iitem> GetItems(int roomNum)
         {
@@ -173,7 +175,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(bow);
                             break;
                         case 12:
-                            Boom boom = new Boom(ItemPosition, _link);
+                            Boom boom = new Boom(ItemPosition, _link, null);
                             boom.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.boom, _scale);
                             ItemsInRoom.Add(boom);
                             break;

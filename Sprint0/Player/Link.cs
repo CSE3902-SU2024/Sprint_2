@@ -101,7 +101,7 @@ namespace Sprint0.Player
             if(_inventory == null)
             {
                 inventory = new Link_Inventory(this, spriteBatch, scale, graphicsDevice, content);
-                var startingBomb = new Boom(Vector2.Zero, this);
+                var startingBomb = new Boom(Vector2.Zero, this, null);
                 startingBomb.LoadContent(content, "NES - The Legend of Zelda - Items & Weapons", graphicsDevice, ItemType.boom, scale);
                 inventory.AddItem(startingBomb);
                 inventory.InitializeStartingItems();
@@ -168,12 +168,10 @@ namespace Sprint0.Player
         }
         public void UseBomb()
         {
-            Debug.WriteLine("Bomb used");
             if (BombCount > 0 && inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
             {
                 currentState.UseBomb();
-                
-                inventory.DecrementBombCount();
+            
                 
             }
         }
@@ -295,6 +293,16 @@ namespace Sprint0.Player
         public bool CanUnlockDoor()
         {
             return hasKey && inventory?.SelectedItem?.CurrentItemType == ItemType.key;
+        }
+
+        public void DecrementBomb()
+        {
+            inventory.DecrementBombCount();
+        }
+
+        public void IncrementBomb()
+        {
+            inventory.IncrementBombCount();
         }
     }
 }

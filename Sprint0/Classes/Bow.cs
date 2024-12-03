@@ -9,7 +9,8 @@ namespace Sprint0.Classes
 {
     internal class Bow : Iitem
     {
-        public Link _link;
+        private Link _link;
+        private Link _link2;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public Vector2 Position;
@@ -21,14 +22,18 @@ namespace Sprint0.Classes
         private int currentFrame;
         public ItemType CurrentItemType => ItemType.bow;
         public ItemType currentItemType { get; set; }
-
-        public Bow(Vector2 position, Link link)
+        public bool TwoPlayer;
+        public Bow(Vector2 position, Link link, Link link2)
         {
-
+            TwoPlayer = false;
             Position = position;
             OriginalPosition = position;
             _link = link;
-
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
@@ -61,14 +66,28 @@ namespace Sprint0.Classes
                 timeElapsed = 0f;
             }
 
-            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+           
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+            if (!TwoPlayer)
             {
-                Position.X += 20000;
-                Position.Y += 20000;
-                _link.hasBow = true;
-                _link.inventory.AddItem(this);
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.hasBow = true;
+                    _link.inventory.AddItem(this);
+                }
+            } else
+            {
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.hasBow = true;
+                    _link.inventory.AddItem(this);
+                }
             }
         }
 
