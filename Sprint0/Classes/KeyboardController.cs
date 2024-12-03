@@ -104,6 +104,13 @@ namespace Sprint0.Classes
                             _link.ArrowAttack();
                         }
                     }
+                    else if (state.IsKeyDown(Keys.D4))
+                    {
+                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
+                        {
+                            _link.ShootAk();
+                        }
+                    }
                     else if (state.IsKeyDown(Keys.D2))
                     {
                         _link.UseBoomerang();

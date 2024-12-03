@@ -96,6 +96,11 @@ namespace Sprint0.Player
         public void UseArrow()
         {
             _link.currentState = new ArrowRight(_link);
+
+        }
+        public void UseAk()
+        {
+            _link.currentState = new AkRight(_link);
         }
         public void UseBoomerang()
         {

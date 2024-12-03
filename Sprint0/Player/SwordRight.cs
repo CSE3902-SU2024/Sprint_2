@@ -94,6 +94,10 @@ namespace Sprint0.Player
         {
 
         }
+        public void UseAk()
+        {
+
+        }
         public void IsDamaged()
         {
             _link.Damaged = true;

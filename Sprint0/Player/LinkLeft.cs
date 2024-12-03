@@ -109,6 +109,11 @@ namespace Sprint0.Player
         {
           _link.currentState = new BombLeft(_link);
         }
+        public void UseAk()
+        {
+            _link.currentState = new AkLeft(_link);
+
+        }
 
         public void IsDamaged()
         {
