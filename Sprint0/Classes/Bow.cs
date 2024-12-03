@@ -68,8 +68,7 @@ namespace Sprint0.Classes
 
            
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (!TwoPlayer)
-            {
+            
                 Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
                 if (playerBoundingBox.Intersects(itemBoundingBox))
                 {
@@ -78,18 +77,23 @@ namespace Sprint0.Classes
                     _link.hasBow = true;
                     _link.inventory.AddItem(this);
                 }
-            } else
+
+            if (TwoPlayer)
             {
-                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-                if (playerBoundingBox.Intersects(itemBoundingBox))
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox2.Intersects(itemBoundingBox))
                 {
                     Position.X += 20000;
                     Position.Y += 20000;
+                    _link2.hasBow = true;
                     _link.hasBow = true;
-                    _link.inventory.AddItem(this);
+                    _link2.inventory.AddItem(this);
                 }
             }
-        }
+            }
+                
+            
+        
 
         public void Draw(SpriteBatch spriteBatch)
         {

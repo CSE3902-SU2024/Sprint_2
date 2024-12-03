@@ -139,7 +139,10 @@ namespace Sprint2
             {
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
-                int heartValue = _link.Health - (i * 2);
+                int tempHearts = Math.Min(_link.Health, _link2.Health);
+                _link.Health = tempHearts;
+                _link2.Health = tempHearts;
+                int heartValue = tempHearts - (i * 2);
 
                 Rectangle heartSource;
                 if (heartValue >= 2)

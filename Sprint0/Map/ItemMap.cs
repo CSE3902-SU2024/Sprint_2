@@ -26,10 +26,12 @@ namespace Sprint2.Map
         public Link _link2;
         private Fairy fairy;
         private bool AddedKey3;
+        private bool TwoPlayer;
         public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, Link link2)
         {
             string[] lines = File.ReadAllLines(filename);
             AddedKey3 = false;
+            TwoPlayer = false;
             rooms = new List<int[,]>();
             _itemMap = new List<List<Iitem>>();
             roomHeight = 7;
@@ -38,7 +40,14 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
-            _link2 = link2;
+            if (link2 != null) 
+            { 
+                _link2 = link2;
+                TwoPlayer = true;
+            }
+
+
+     
 
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
@@ -120,12 +129,28 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Fire fire = new Fire(ItemPosition, _link);
+                            Fire fire;
+                            if (TwoPlayer)
+                            {
+                                fire = new Fire(ItemPosition, _link, _link2);
+                            } else
+                            {
+                                fire = new Fire(ItemPosition, _link, null);
+                            }
+                           
                             fire.LoadContent(_ContentManager, "zeldaLink", _GraphicsDevice, ItemType.fire, _scale);
                             ItemsInRoom.Add(fire);
                             break;
                         case 2:
-                            Health health = new Health(ItemPosition, _link);
+                            Health health;
+                            if (TwoPlayer)
+                            {
+                                health = new Health(ItemPosition, _link, _link2);
+                            }
+                            else
+                            {
+                                health = new Health(ItemPosition, _link, null);
+                            }
                             health.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.health, _scale);
                             ItemsInRoom.Add(health);
                             break;
@@ -170,7 +195,15 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(key);
                             break;
                         case 11:
-                            Bow bow = new Bow(ItemPosition, _link);
+                            Bow bow;
+                            if (TwoPlayer)
+                            {
+                                bow = new Bow(ItemPosition, _link, _link2);
+                            } else
+                            {
+                                bow = new Bow(ItemPosition, _link, null);
+                            }
+                            
                             bow.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.bow, _scale);
                             ItemsInRoom.Add(bow);
                             break;

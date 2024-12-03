@@ -69,7 +69,7 @@ namespace Sprint2.Map
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
-            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link);
+            _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link, null);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
