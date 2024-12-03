@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
@@ -67,7 +68,13 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.inventory.AddItem(this);
+                
+            }
+            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
+            {
                 _link.hasPotion = true;
+
             }
         }
 

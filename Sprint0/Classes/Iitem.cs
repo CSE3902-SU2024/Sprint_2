@@ -23,7 +23,9 @@ namespace Sprint2.Classes
             map,
             potion,
             triangle,
-            diamond
+            diamond,
+            ak47
+            
         }
         void LoadContent(ContentManager content, string texturePath, GraphicsDevice graphicsdevice, ItemType itemType, Vector2 scale);
         void Update(GameTime gameTime);

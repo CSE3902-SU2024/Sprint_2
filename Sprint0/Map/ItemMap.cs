@@ -184,6 +184,11 @@ namespace Sprint2.Map
                             compass.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.compass, _scale);
                             ItemsInRoom.Add(compass);
                             break;
+                        case 14:
+                            Ak47 ak47 = new Ak47(ItemPosition, _link);
+                            ak47.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.ak47, _scale);
+                            ItemsInRoom.Add(ak47);
+                            break;
 
                     }
                     ItemPosition.X += 16 * _scale.X;
