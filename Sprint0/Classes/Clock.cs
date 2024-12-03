@@ -8,6 +8,7 @@ using static Sprint2.Classes.Iitem;
 
 namespace Sprint0.Classes
 {
+    
     internal class Clock : Iitem
     {
         public Link _link;
@@ -24,7 +25,9 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-        
+
+     
+         
 
         public ItemType currentItemType { get; set; }
 
@@ -118,5 +121,7 @@ namespace Sprint0.Classes
             spriteBatch.Draw(Sprite, Position, SourceRectangles[currentFrame], Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
 
         }
+
+         
     }
 }

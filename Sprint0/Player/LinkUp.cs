@@ -33,7 +33,7 @@ namespace Sprint0.Player
                 (int)(height * scale.Y)
             );
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CollideWall = false;
 

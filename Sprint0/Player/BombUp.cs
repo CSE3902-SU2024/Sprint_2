@@ -36,7 +36,7 @@ namespace Sprint0.Player
 
 
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             _boomTimer--;  //timer ticking down
 

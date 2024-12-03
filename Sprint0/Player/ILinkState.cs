@@ -1,4 +1,5 @@
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -7,7 +8,7 @@ namespace Sprint0.Player
     public interface ILinkState
     {
         void Draw(SpriteBatch spriteBatch);
-        void Update();
+        void Update(GameTime gameTime);
 
         void MoveUp();
         void MoveDown();
