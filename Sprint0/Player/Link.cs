@@ -55,7 +55,7 @@ namespace Sprint0.Player
         //for hud:
         public int Health { get; set; } = 16; // each heart = 2 hp
 
-        public int keyCount { get; set; } = 0; // start with 0 keys
+       // public int keyCount { get; set; } = 0; // start with 0 keys
 
         public int GemCount { get; set; } = 0; // start with 0 gems
 
@@ -200,6 +200,7 @@ namespace Sprint0.Player
         {
             currentState.Update();
             BombCount = inventory.GetBombCount();
+            //keyCount = inventory.GetKeyCount();
             if (isImmune)
             {
                 remainingImmunityFrames--;
@@ -209,7 +210,7 @@ namespace Sprint0.Player
                     isImmune = false;
                 }
             }
-            if (keyCount ==0)
+            if (inventory.GetKeyCount() <=0)
             {
                 hasKey = false;
             } else { hasKey = true; }
@@ -266,7 +267,7 @@ namespace Sprint0.Player
 
         public int GetKeyCount()
         {
-            return keyCount;
+            return inventory.GetKeyCount();
         }
 
         public bool HasKey()
@@ -276,7 +277,7 @@ namespace Sprint0.Player
 
         public void DecrementKey()
         {
-            keyCount--;
+           inventory.DecrementKeyCount();
         }
 
         public void SetExplosionCoords(Vector2 boomCoords)
@@ -291,7 +292,7 @@ namespace Sprint0.Player
 
         public void IncrementKey()
         {
-            keyCount++;
+            inventory.IncrementKeyCount();
         }
 
         public Link_Inventory GetInventory()
@@ -312,6 +313,16 @@ namespace Sprint0.Player
         public void IncrementBomb()
         {
             inventory.IncrementBombCount();
+        }
+
+        public void IncrementGem()
+        {
+            inventory.IncrementGemCount();
+        }
+
+        public void DecrementGem()
+        {
+            inventory.DecrementGemCount();
         }
     }
 }

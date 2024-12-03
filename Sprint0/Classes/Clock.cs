@@ -11,6 +11,9 @@ namespace Sprint0.Classes
     internal class Clock : Iitem
     {
         public Link _link;
+        public Link _link2;
+
+        private bool TwoPlayer;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.clock;
@@ -25,12 +28,19 @@ namespace Sprint0.Classes
 
         public ItemType currentItemType { get; set; }
 
-        public Clock(Vector2 position, Link link)
+        public Clock(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+            TwoPlayer = false;
+
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
 
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -62,22 +72,44 @@ namespace Sprint0.Classes
                 currentFrame = (currentFrame + 1) % SourceRectangles.Length;
                 timeElapsed = 0f;
             }
+            if (!TwoPlayer)
+            {
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.inventory.AddItem(this);
 
-            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+                    _link.pauseTimer = _link.pauseDuration;
+                }
+                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    _link.isPaused = true;
+
+                }
+            } else
             {
-                Position.X += 20000;
-                Position.Y += 20000;
-                _link.inventory.AddItem(this);
-                
-                _link.pauseTimer = _link.pauseDuration;
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.inventory.AddItem(this);
+                    _link.pauseTimer = _link.pauseDuration;
+                }
+                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    _link.isPaused = true;
+                    _link2.isPaused = true;
+
+                }
             }
-            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
-            {
-                _link.isPaused = true;
-                
-            }
+            
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

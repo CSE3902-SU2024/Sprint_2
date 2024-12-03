@@ -78,6 +78,7 @@ namespace Sprint2.TwoPlayer
             if (!Transitioning)
             {
                 _link.transitioning = false;
+                _link2.transitioning = false;
                 DrawEnemies(GetEnemies(currentStage));
                 DrawItems(Getitems(currentStage));
 
