@@ -75,6 +75,7 @@ namespace Sprint0.Player
                         linkFrame = 2;
                         _link.BombCount--;
                         _link.SetExplosionCoords(_weaponPosition);
+                        _link.DecrementBomb();
                         _link.currentState = new LinkRight(_link);
                     }
                     remainingFrames = _link.framesPerSword;

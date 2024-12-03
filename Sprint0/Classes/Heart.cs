@@ -10,6 +10,8 @@ namespace Sprint0.Classes
     internal class Heart : Iitem
     {
         public Link _link;
+        private Link _link2;
+        private bool TwoPlayer;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.heart;

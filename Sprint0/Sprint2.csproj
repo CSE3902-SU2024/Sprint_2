@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Player\Link_Inventory.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

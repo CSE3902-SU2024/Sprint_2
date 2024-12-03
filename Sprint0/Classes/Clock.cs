@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
@@ -20,6 +21,7 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
+        
 
         public ItemType currentItemType { get; set; }
 
@@ -68,8 +70,13 @@ namespace Sprint0.Classes
                 Position.X += 20000;
                 Position.Y += 20000;
                 _link.inventory.AddItem(this);
-                _link.isPaused = true;
+                
                 _link.pauseTimer = _link.pauseDuration;
+            }
+            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                _link.isPaused = true;
+                
             }
         }
 

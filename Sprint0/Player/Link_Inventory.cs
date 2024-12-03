@@ -201,5 +201,10 @@ namespace Sprint0.Player
         {
             BombCount--;
         }
+
+        public void IncrementBombCount()
+        {
+            BombCount++;
+        }
     }
 }

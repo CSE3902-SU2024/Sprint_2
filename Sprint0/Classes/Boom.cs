@@ -10,6 +10,7 @@ namespace Sprint0.Classes
     internal class Boom : Iitem
     {
         public Link _link;
+        public Link _link2;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.boom;
@@ -21,14 +22,23 @@ namespace Sprint0.Classes
         private float timeElapsed;
         private int currentFrame;
 
+        private bool twoPlayerMode;
+
         public ItemType currentItemType { get; set; }
 
-        public Boom(Vector2 position, Link link)
+        public Boom(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+
+            // TWO PLAYER
+            if (link2 != null)
+            {
+                _link2 = link2;
+                twoPlayerMode = true;
+            }
 
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -67,7 +77,7 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
-                _link.BombCount += 1;
+                _link.IncrementBomb();
                 _link.inventory.AddItem(this);
             }
         }

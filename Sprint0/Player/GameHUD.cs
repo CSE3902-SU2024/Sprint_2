@@ -37,6 +37,7 @@ namespace Sprint2
         private int numKeys;
         private int keyPos = 0;
         int Spacing = 8;
+        private int Health;
 
         private MiniMap1 MiniMap;
 
@@ -49,7 +50,7 @@ namespace Sprint2
             _scale = scale;
             _position = Vector2.Zero;
             this.graphicsDevice = graphicsDevice;
-            health = _link.Health;
+            Health = 16;
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
@@ -136,7 +137,7 @@ namespace Sprint2
             {
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
-                int heartValue = _link.Health - (i * 2);
+                int heartValue = Health - (i * 2);
 
                 Rectangle heartSource;
                 if (heartValue >= 2)
@@ -169,6 +170,15 @@ namespace Sprint2
             {
 
             }
+        }
+
+        public void IncrementHealth()
+        {
+            Health++;
+        }
+        public void DecrementHealth()
+        {
+            Health--;
         }
         private void DrawKeys()
         {
