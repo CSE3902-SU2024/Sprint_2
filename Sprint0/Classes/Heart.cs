@@ -25,12 +25,19 @@ namespace Sprint0.Classes
 
         public ItemType currentItemType { get; set; }
 
-        public Heart(Vector2 position, Link link)
+        public Heart(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+            TwoPlayer = false;
+
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
 
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -62,14 +69,29 @@ namespace Sprint0.Classes
                 currentFrame = (currentFrame + 1) % SourceRectangles.Length;
                 timeElapsed = 0f;
             }
-
-            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+
+            if (TwoPlayer)
             {
-                Position.X += 20000;
-                Position.Y += 20000;
-                _link.Health += 2;
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.Health += 2;
+                    _link2.Health += 2;
+                }
+            }
+            else
+            {
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.Health += 2;
+                }
             }
         }
 

@@ -10,6 +10,9 @@ namespace Sprint0.Classes
     internal class Diamond : Iitem
     {
         public Link _link;
+        public Link _link2;
+
+        private bool TwoPlayer;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.diamond;
@@ -23,12 +26,19 @@ namespace Sprint0.Classes
 
         public ItemType currentItemType { get; set; }
 
-        public Diamond(Vector2 position, Link link)
+        public Diamond(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+            TwoPlayer = false;
+
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
 
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -67,8 +77,20 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
-                _link.GemCount += 1;
+                _link.IncrementGem();
                 _link.inventory.AddItem(this);
+            }
+
+            if (TwoPlayer)
+            {
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.IncrementGem();
+                    _link.inventory.AddItem(this);
+                }
             }
         }
 

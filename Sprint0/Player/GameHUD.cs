@@ -50,7 +50,7 @@ namespace Sprint2
             _scale = scale;
             _position = Vector2.Zero;
             this.graphicsDevice = graphicsDevice;
-            Health = 16;
+            Health = _link.Health;
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
@@ -135,6 +135,7 @@ namespace Sprint2
             // Adjust heart positions to include offset
             for (int i = 0; i < health; i++)
             {
+                Health = _link.Health;
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
                 int heartValue = Health - (i * 2);
@@ -172,18 +173,18 @@ namespace Sprint2
             }
         }
 
-        public void IncrementHealth()
-        {
-            Health++;
-        }
-        public void DecrementHealth()
-        {
-            Health--;
-        }
+        //public void IncrementHealth()
+        //{
+        //    Health++;
+        //}
+        //public void DecrementHealth()
+        //{
+        //    Health--;
+        //}
         private void DrawKeys()
         {
 
-            int keyCount = _link.keyCount;
+            int keyCount = _link.GetKeyCount();
 
             Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -242,7 +243,7 @@ namespace Sprint2
         }
         private void DrawGems()
         {
-            int GemCount = _link.GemCount;
+            int GemCount = _link.GetGemCount();
 
             Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -394,7 +395,7 @@ namespace Sprint2
                 {
                     shouldDisplayItem = false;
                 }
-                else if (currentItem.CurrentItemType == ItemType.key && _link.keyCount <= 0)
+                else if (currentItem.CurrentItemType == ItemType.key && _link.GetKeyCount() <= 0)
                 {
                     shouldDisplayItem = false;
                 }

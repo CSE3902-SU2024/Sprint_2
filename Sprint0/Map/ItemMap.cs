@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
 
@@ -31,7 +32,7 @@ namespace Sprint2.Map
         {
             string[] lines = File.ReadAllLines(filename);
             AddedKey3 = false;
-            TwoPlayer = false;
+           // TwoPlayer = false;
             rooms = new List<int[,]>();
             _itemMap = new List<List<Iitem>>();
             roomHeight = 7;
@@ -40,11 +41,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
-            if (link2 != null) 
-            { 
-                _link2 = link2;
-                TwoPlayer = true;
-            }
+            _link2 = link2;
 
 
      
@@ -55,7 +52,14 @@ namespace Sprint2.Map
 
             //initializing fairy
             Vector2 W = Vector2.Zero;
-            fairy = new Fairy(W, _link);
+            if (TwoPlayer)
+            {
+                fairy = new Fairy(W, _link, _link2);
+            } else
+            {
+                fairy = new Fairy(W, _link, null);
+            }
+          
             fairy.follow = false;
 
 
@@ -129,53 +133,37 @@ namespace Sprint2.Map
                     switch (tileIdx)
                     {
                         case 1:
-                            Fire fire;
-                            if (TwoPlayer)
-                            {
-                                fire = new Fire(ItemPosition, _link, _link2);
-                            } else
-                            {
-                                fire = new Fire(ItemPosition, _link, null);
-                            }
-                           
+                            Fire fire = new Fire(ItemPosition, _link, _link2);
                             fire.LoadContent(_ContentManager, "zeldaLink", _GraphicsDevice, ItemType.fire, _scale);
                             ItemsInRoom.Add(fire);
                             break;
                         case 2:
-                            Health health;
-                            if (TwoPlayer)
-                            {
-                                health = new Health(ItemPosition, _link, _link2);
-                            }
-                            else
-                            {
-                                health = new Health(ItemPosition, _link, null);
-                            }
+                            Health health = new Health(ItemPosition, _link, _link2);
                             health.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.health, _scale);
                             ItemsInRoom.Add(health);
                             break;
                         case 3:
-                            Heart heart = new Heart(ItemPosition, _link);
+                            Heart heart = new Heart(ItemPosition, _link, _link2);
                             heart.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.heart, _scale);
                             ItemsInRoom.Add(heart);
                             break;
                         case 4:
-                            Clock clock = new Clock(ItemPosition, _link);
+                            Clock clock = new Clock(ItemPosition, _link, _link2);
                             clock.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.clock, _scale);
                             ItemsInRoom.Add(clock);
                             break;
                         case 5:
-                            fairy = new Fairy(ItemPosition, _link);
+                            fairy = new Fairy(ItemPosition, _link, _link2);
                             fairy.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.fairy, _scale);
                             ItemsInRoom.Add(fairy);
                             break;
                         case 6:
-                            Diamond diamond = new Diamond(ItemPosition, _link);
+                            Diamond diamond = new Diamond(ItemPosition, _link, _link2);
                             diamond.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.diamond, _scale);
                             ItemsInRoom.Add(diamond);
                             break;
                         case 7:
-                            Potion potion = new Potion(ItemPosition, _link);
+                            Potion potion = new Potion(ItemPosition, _link, _link2);
                             potion.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.potion, _scale);
                             ItemsInRoom.Add(potion);
                             break;
@@ -185,25 +173,17 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(triangle);
                             break;
                         case 9:
-                            Maps map = new Maps(ItemPosition, _link);
+                            Maps map = new Maps(ItemPosition, _link, _link2);
                             map.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.map, _scale);
                             ItemsInRoom.Add(map);
                             break;
                         case 10:
-                            Key key = new Key(ItemPosition, _link);
+                            Key key = new Key(ItemPosition, _link, _link2);
                             key.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.key, _scale);
                             ItemsInRoom.Add(key);
                             break;
                         case 11:
-                            Bow bow;
-                            if (TwoPlayer)
-                            {
-                                bow = new Bow(ItemPosition, _link, _link2);
-                            } else
-                            {
-                                bow = new Bow(ItemPosition, _link, null);
-                            }
-                            
+                            Bow bow = new Bow(ItemPosition, _link, _link2);
                             bow.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.bow, _scale);
                             ItemsInRoom.Add(bow);
                             break;
@@ -213,7 +193,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(boom);
                             break;
                         case 13:
-                            Compass compass = new Compass(ItemPosition, _link);
+                            Compass compass= new Compass(ItemPosition, _link,_link2);
                             compass.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.compass, _scale);
                             ItemsInRoom.Add(compass);
                             break;
@@ -236,18 +216,29 @@ namespace Sprint2.Map
         public void Update(int currentStage, GameTime gameTime)
         {
             List<Iitem> items = GetItems(currentStage);
-            if (fairy.follow && _link.transitioning)
-            {
-                items.Add(fairy);
-                fairy.Position.X = _link._position.X;
-                fairy.Position.Y = _link._position.Y;
-            }
-            foreach (Iitem item in items)
-            {
-                item.Update(gameTime);
-                
-                
-            }
+
+                if (fairy.follow && _link.transitioning)
+                {
+                    items.Add(fairy);
+                    fairy.Position.X = _link._position.X;
+                    fairy.Position.Y = _link._position.Y;
+                }
+                else if (fairy.F1 && _link.transitioning || fairy.F1 && _link2.transitioning)
+                {
+                    items.Add(fairy);
+                    fairy.Position.X = _link._position.X;
+                    fairy.Position.Y = _link._position.Y;
+                } 
+                else if (fairy.F2 && _link2.transitioning || fairy.F2 && _link.transitioning)
+                {
+                        items.Add(fairy);
+                        fairy.Position.X = _link2._position.X;
+                        fairy.Position.Y = _link2._position.Y;
+                 }
+                foreach (Iitem item in items)
+                {
+                item.Update(gameTime);                              
+                }
         }
 
         public void SpawnKey(int roomNum)
@@ -257,7 +248,16 @@ namespace Sprint2.Map
                 case 3:
                     if (!AddedKey3)
                     {
-                        Key key = new Key(new Vector2(208 * _scale.X, 127 * _scale.Y), _link);
+                        Vector2 ItemPosition = new Vector2(208 * _scale.X, 127 * _scale.Y);
+                        Key key;
+                        if (TwoPlayer)
+                        {
+                            key = new Key(ItemPosition, _link, _link2);
+                        }
+                        else
+                        {
+                            key = new Key(ItemPosition, _link, null);
+                        }
                         key.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.key, _scale);
                         _itemMap[3].Add(key);
                         AddedKey3 = true;

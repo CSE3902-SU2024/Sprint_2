@@ -26,6 +26,8 @@ namespace Sprint0.Player
         //  access current item type
         public ItemType CurrentItemType => currentItemType;
         private int BombCount;
+        private int GemCount;
+        private int KeyCount;
         public bool IsInventoryOpen => isInventoryOpen;
         public Iitem SelectedItem => selectedItem;
 
@@ -40,6 +42,8 @@ namespace Sprint0.Player
             selectedIndex = -1;
             currentItemType = ItemType.boom;
             BombCount = 3;
+            GemCount = 0;
+            KeyCount = 0;
 
         }
 
@@ -78,7 +82,7 @@ namespace Sprint0.Player
             switch (itemType)
             {
                 case ItemType.key:
-                    return _link.keyCount > 0;
+                    return KeyCount > 0;
                 case ItemType.boom:
                     return BombCount > 0;
                 default:
@@ -92,7 +96,7 @@ namespace Sprint0.Player
 
             // Update inventory based on counts
             var updatedItems = bagItems.Where(item =>
-                (item.CurrentItemType != ItemType.key || _link.keyCount > 0) &&
+                (item.CurrentItemType != ItemType.key || KeyCount > 0) &&
                 (item.CurrentItemType != ItemType.boom || BombCount > 0)).ToList();
 
              
@@ -206,5 +210,31 @@ namespace Sprint0.Player
         {
             BombCount++;
         }
+
+        public int GetGemCount()
+        {
+            return GemCount;
+        }
+        public void DecrementGemCount(int deficit)
+        {
+            GemCount -= deficit;
+        }
+        public void IncrementGemCount()
+        {
+            GemCount++;
+        }
+
+        public int GetKeyCount()
+        {
+            return KeyCount;
+        }
+        public void DecrementKeyCount()
+        {
+            KeyCount--;
+        }
+        public void IncrementKeyCount()
+        {
+            KeyCount++;
+        }        
     }
 }

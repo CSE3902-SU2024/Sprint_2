@@ -40,7 +40,7 @@ namespace Sprint2
         private int keyPos = 0;
         int Spacing = 8;
 
-        private MiniMap1 MiniMap;
+        private MiniMap2 MiniMap2;
 
         private readonly GraphicsDevice graphicsDevice;
         private readonly ContentManager content;
@@ -57,8 +57,8 @@ namespace Sprint2
             LoadContent(content);
             InitializeHUDPositions();
             stageManager2 = StageManager2;
-           // MiniMap = new MiniMap1(_scale, stageManager, _link);
-            //MiniMap.LoadMap(content);
+            MiniMap2 = new MiniMap2(_scale, stageManager2, _link, _link2);
+            MiniMap2.LoadMap(content);
 
         }
 
@@ -130,7 +130,7 @@ namespace Sprint2
             DrawBombs();
             DrawSword();
             DrawCurrentItem();
-            //MiniMap.Draw(_spriteBatch);
+            MiniMap2.Draw(_spriteBatch);
         }
         private void DrawHearts()
         {
@@ -179,7 +179,7 @@ namespace Sprint2
         private void DrawKeys()
         {
 
-            int keyCount = _link.keyCount;
+            int keyCount = _link.GetKeyCount();
 
             Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -238,7 +238,7 @@ namespace Sprint2
         }
         private void DrawGems()
         {
-            int GemCount = _link.GemCount;
+            int GemCount = _link.GetGemCount();
 
             Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -390,7 +390,7 @@ namespace Sprint2
                 {
                     shouldDisplayItem = false;
                 }
-                else if (currentItem.CurrentItemType == ItemType.key && _link.keyCount <= 0)
+                else if (currentItem.CurrentItemType == ItemType.key && _link.GetKeyCount() <= 0)
                 {
                     shouldDisplayItem = false;
                 }
@@ -460,7 +460,7 @@ namespace Sprint2
 
         public void Update()
         {
-            //MiniMap.Update();
+            MiniMap2.Update();
         }
     }
 }
