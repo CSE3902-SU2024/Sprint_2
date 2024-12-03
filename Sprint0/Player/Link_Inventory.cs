@@ -85,6 +85,8 @@ namespace Sprint0.Player
                     return KeyCount > 0;
                 case ItemType.boom:
                     return BombCount > 0;
+                case ItemType.diamond:
+                    return GemCount > 0;    
                 default:
                     return true;
             }
@@ -97,7 +99,9 @@ namespace Sprint0.Player
             // Update inventory based on counts
             var updatedItems = bagItems.Where(item =>
                 (item.CurrentItemType != ItemType.key || KeyCount > 0) &&
-                (item.CurrentItemType != ItemType.boom || BombCount > 0)).ToList();
+                (item.CurrentItemType != ItemType.boom || BombCount > 0) && 
+                (item.CurrentItemType != ItemType.diamond || GemCount > 0)).ToList();
+                
 
              
             if (updatedItems.Count != bagItems.Count)
