@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Sprint0.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 
 namespace Sprint0.Player
@@ -23,7 +24,7 @@ namespace Sprint0.Player
 
         private BulletManager _bulletManager;
 
-        private bool isShooting;
+       private bool isShooting;
         private float animationTimer;
         private const float FIRE_RATE = 0.15f; // Time in seconds between shots
         private float _timeSinceLastShot = 0f;
@@ -35,7 +36,6 @@ namespace Sprint0.Player
 
 
 
-        private Texture2D _bulletTexture;
 
         public AkRight(Link link)//, BulletManager bulletManager)
         {
@@ -47,7 +47,6 @@ namespace Sprint0.Player
             _totalFrames = 3;  //3 ak animation frames
 
           
-            LoadBulletTexture();
 
         }
 
@@ -55,7 +54,6 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
 
-            _bulletManager.Draw(_spriteBatch);
 
         }
         public void Update(GameTime gameTime)
@@ -78,9 +76,8 @@ namespace Sprint0.Player
                 overheating = true;
             }
 
-            _bulletManager.Update(gameTime);
 
-            if (keyboardState.IsKeyDown(Keys.D4)) // D4 corresponds to the "4" key on the keyboard
+            if (keyboardState.IsKeyDown(Keys.D4)) 
             {
                 _timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (isShooting && _timeSinceLastShot >= FIRE_RATE)
@@ -98,7 +95,6 @@ namespace Sprint0.Player
 
             }
 
-            _bulletManager.Update(gameTime);    
 
 
             if (_link.Damaged)
@@ -112,43 +108,33 @@ namespace Sprint0.Player
 
             
         }
-        public void LoadBulletTexture()
-        {
-            Texture2D bulletTexture = _link._texture;
-            Rectangle bulletSourceRectangle = _link._sourceRectangles[31];
-
-            // Initialize BulletManager with the existing texture and rectangle
-            _bulletManager = new BulletManager(
-                bulletTexture,
-                bulletSourceRectangle,
-                _link._scale,
-                2f,   // Bullet speed
-                3f     // Bullet lifetime in seconds
-            );
-
-        }
         public void Fire(Vector2 direction)
         {
-            Console.WriteLine("Bullet fired!");
 
-            bulletStartPosition.X = _link._position.X + 30 * _link._scale.X;
-            bulletStartPosition.Y = _link._position.Y + 6 * _link._scale.Y;
 
+            Vector2 bulletStartPosition = new Vector2(
+            _link._position.X + 30 * _link._scale.X,
+            _link._position.Y + 6 * _link._scale.Y
+        );
             bulletStartPosition = RandomizeBullet(bulletStartPosition);
-            _bulletManager.SpawnBullet(bulletStartPosition, direction);
+           
+            _link.BulletManager.SpawnBullet(bulletStartPosition, direction);
+            _link._position.X -=3;
         }
         private Vector2 RandomizeBullet(Vector2 basePosition)
         {
+            float offset;
             if (overheating)
             {
-                overheatMult = (90f-70f); //between 20 and -70
-                basePosition.Y = _link._position.Y +4 * _link._scale.Y;
+                //overheatMult = (-30f-40f);
+                offset = (float)(-15 + (_random.NextDouble() * 30)); //range [-15,15 
+
             }
             else {
-                overheatMult= (25f - 20f); //between 5 and -20
+
+                 offset = (float)(-7 + (_random.NextDouble() * 14)); //range [-7, 7
             }
 
-            float offset = (float)_random.NextDouble() * overheatMult;
             basePosition.Y += offset;
             return basePosition;
         }

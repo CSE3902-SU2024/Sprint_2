@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics;
 namespace Sprint0.Classes
 {
     public class Bullet
@@ -12,6 +14,8 @@ namespace Sprint0.Classes
         public float Speed { get; private set; }
         public float Lifetime { get; private set; }
         private float currentLifetime;
+        public bool IsExpired => currentLifetime >= Lifetime;
+
 
         public Bullet(Vector2 startPosition, Vector2 direction, Texture2D texture, Rectangle sourceRectangle, Vector2 scale, float speed, float lifetime)
         {
@@ -27,13 +31,11 @@ namespace Sprint0.Classes
 
         public void Update(GameTime gameTime)
         {
-            Position += Velocity;
-            currentLifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        }
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        public bool IsExpired()
-        {
-            return currentLifetime >= Lifetime;
+            Position += Velocity * deltaTime * 60; ;
+            currentLifetime += deltaTime;
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

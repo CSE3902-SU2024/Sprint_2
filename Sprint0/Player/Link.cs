@@ -16,8 +16,6 @@ namespace Sprint0.Player
     {
 
         public ILinkState currentState;
-        public BulletManager bulletManager;
-
         public Rectangle[] _sourceRectangles;
         public Vector2 _position;
         public Vector2 _previousPosition;
@@ -69,24 +67,22 @@ namespace Sprint0.Player
         public SoundEffect BoomerangSound { get; private set; }
 
         private Vector2 BoomCoords;
-        //public BulletManager BulletManager { get; private set; }
-
-
-
-
+        public BulletManager BulletManager { get; private set; }
 
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory)
         {
+            _sourceRectangles = sourceRectangles;
 
-            //bulletManager = new BulletManager(texture, sourceRectangles[30], Vector2.One, 300f, 2f);
+            BulletManager = new BulletManager(texture, _sourceRectangles[31], Vector2.One, 3f, 2f);
 
             currentState = new LinkDown(this);
-            _sourceRectangles = sourceRectangles;
 
             _position = (playerNumber == 1)
                     ? new Vector2(468.0f, 500.0f)
                     : new Vector2(532.0f, 500.0f); _scale = scale;
+
+            
 
             _texture = texture;
             speed = 5.0f;
@@ -180,8 +176,6 @@ namespace Sprint0.Player
             
                 currentState.UseAk();
             
-            
-            
         }
         public void UseBoomerang()
         {
@@ -211,6 +205,9 @@ namespace Sprint0.Player
         public void Update(GameTime gameTime)
         {
             currentState.Update(gameTime);
+            UpdateBullets(gameTime);       //update bullets globally
+
+
             BombCount = inventory.GetBombCount();
             if (isImmune)
             {
@@ -230,6 +227,9 @@ namespace Sprint0.Player
         public void Draw(SpriteBatch _spriteBatch)
         {
             currentState.Draw(_spriteBatch);
+
+            DrawBullets(_spriteBatch);       //draw bullets globally
+
         }
 
         public void DrawSprite(SpriteBatch _spriteBatch, int frame, Boolean flipped)
@@ -270,10 +270,16 @@ namespace Sprint0.Player
             }
             _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
 
-            //_bulletManager.Draw(_spriteBatch);
 
         }
-
+        public void UpdateBullets(GameTime gameTime)
+        {
+            BulletManager?.Update(gameTime); //null check for safety
+        }
+        public void DrawBullets(SpriteBatch spriteBatch)
+        {
+            BulletManager?.Draw(spriteBatch);
+        }
         public Vector2 GetLocation()
         {
             return _position;

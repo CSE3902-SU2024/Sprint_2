@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 namespace Sprint0.Classes
 {
     public class BulletManager
@@ -12,36 +14,33 @@ namespace Sprint0.Classes
         private float bulletSpeed;
         private float bulletLifetime;
 
-        public BulletManager(Texture2D texture, Rectangle sourceRectangle, Vector2 scale, float speed, float lifetime)
+        public BulletManager(Texture2D texture, Rectangle sourceRectangles, Vector2 scale, float speed, float lifetime)
         {
             activeBullets = new List<Bullet>();
             bulletTexture = texture;
-            bulletSourceRectangle = sourceRectangle;
-            bulletScale = scale;
+            bulletSourceRectangle = sourceRectangles;
+            bulletScale = scale*4;
             bulletSpeed = speed;
             bulletLifetime = lifetime;
+
         }
 
         public void SpawnBullet(Vector2 startPosition, Vector2 direction)
         {
-           
-                Bullet newBullet = new Bullet(startPosition, direction, bulletTexture, bulletSourceRectangle, bulletScale, bulletSpeed, bulletLifetime);
-                activeBullets.Add(newBullet);
-            
+
+            Bullet newBullet = new Bullet(startPosition, direction, bulletTexture, bulletSourceRectangle, bulletScale, bulletSpeed, bulletLifetime);
+            activeBullets.Add(newBullet);
+
         }
 
         public void Update(GameTime gameTime)
         {
-            for (int i = activeBullets.Count - 1; i >= 0; i--)
+            foreach (var bullet in activeBullets)
             {
-                activeBullets[i].Update(gameTime);
-
-                // Remove expired bullets
-                if (activeBullets[i].IsExpired())
-                {
-                    activeBullets.RemoveAt(i);
-                }
+                bullet.Update(gameTime);
             }
+            activeBullets.RemoveAll(b => b.IsExpired);
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
