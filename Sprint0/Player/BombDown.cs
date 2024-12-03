@@ -109,6 +109,10 @@ namespace Sprint0.Player
         {
 
         }
+        public void UseAk()
+        {
+
+        }
         public void UseBoomerang()
         {
 

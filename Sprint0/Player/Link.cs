@@ -36,6 +36,7 @@ namespace Sprint0.Player
         public bool transitioning;
         public bool hasKey;
         public bool hasBow;
+        public bool hasAk;
         public bool hasPotion;
         public bool win;
         public bool hasMap;
@@ -94,6 +95,7 @@ namespace Sprint0.Player
             transitioning = false;
             hasKey = false;
             hasBow = false;
+            hasAk = false;
             win = false;
             hasMap = false;
             isPaused = false;
@@ -161,6 +163,13 @@ namespace Sprint0.Player
             {
                 currentState.UseArrow();
             }
+        }
+        public void ShootAk()
+        {
+           // if (hasAk && inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
+            //{
+                currentState.UseAk();
+            //}
         }
         public void UseBoomerang()
         {

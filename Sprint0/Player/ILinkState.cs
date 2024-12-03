@@ -17,6 +17,7 @@ namespace Sprint0.Player
         void UseArrow();
         void UseBoomerang();
         void UseBomb();
+        void UseAk();
 
 
         void IsDamaged();
