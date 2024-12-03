@@ -83,7 +83,7 @@ namespace Sprint2.GameStates
             _StageManager.Update(gameTime);
             if (!_StageManager.GetAnimationState())
             {
-                _link.Update();
+                _link.Update(gameTime);
                 _gameHUD.Update();
                 //_keyboardController.Update();
                 _mouseController.Update();

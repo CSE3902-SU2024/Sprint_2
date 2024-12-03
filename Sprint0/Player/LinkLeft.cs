@@ -35,7 +35,7 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, frame, true);
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CollideWall = false;
             wallBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(300 * _link._scale.Y));

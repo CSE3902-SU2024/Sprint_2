@@ -16,6 +16,8 @@ namespace Sprint0.Player
     {
 
         public ILinkState currentState;
+        public BulletManager bulletManager;
+
         public Rectangle[] _sourceRectangles;
         public Vector2 _position;
         public Vector2 _previousPosition;
@@ -67,10 +69,18 @@ namespace Sprint0.Player
         public SoundEffect BoomerangSound { get; private set; }
 
         private Vector2 BoomCoords;
+        //public BulletManager BulletManager { get; private set; }
+
+
+
+
 
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory)
         {
+
+            //bulletManager = new BulletManager(texture, sourceRectangles[30], Vector2.One, 300f, 2f);
+
             currentState = new LinkDown(this);
             _sourceRectangles = sourceRectangles;
 
@@ -150,6 +160,7 @@ namespace Sprint0.Player
             currentDirection = Direction.right;
             if (!transitioning)
                 currentState.MoveRight();
+
         }
 
         public void SwordAttack()
@@ -166,10 +177,11 @@ namespace Sprint0.Player
         }
         public void ShootAk()
         {
-           // if (hasAk && inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
-            //{
+            
                 currentState.UseAk();
-            //}
+            
+            
+            
         }
         public void UseBoomerang()
         {
@@ -198,9 +210,9 @@ namespace Sprint0.Player
             }
 
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            currentState.Update();
+            currentState.Update(gameTime);
             BombCount = inventory.GetBombCount();
             if (isImmune)
             {
@@ -259,6 +271,9 @@ namespace Sprint0.Player
                 spriteEffects = SpriteEffects.None;
             }
             _spriteBatch.Draw(_texture, _weaponPosition, _sourceRectangles[frame], Color.White, 0f, Vector2.Zero, _scale, spriteEffects, 0f);
+
+            //_bulletManager.Draw(_spriteBatch);
+
         }
 
         public Vector2 GetLocation()

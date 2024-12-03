@@ -71,7 +71,7 @@ namespace Sprint0.Classes
                 new Rectangle (172,185,16,16),       //26 BOMB 4
 
                 new  Rectangle (245,220,36,14),       //27 AK Right 1
-                new  Rectangle (282,220,33,14),       //28 AK Right 2
+                new  Rectangle (282,220,36,14),       //28 AK Right 2
                 new  Rectangle (318,218,38,15),       //29 AK Right 3
 
                  new Rectangle (325,158,3,6),       //30 BULLET Up 1
