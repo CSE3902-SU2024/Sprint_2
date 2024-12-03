@@ -215,9 +215,9 @@ namespace Sprint0.Player
         {
             return GemCount;
         }
-        public void DecrementGemCount()
+        public void DecrementGemCount(int deficit)
         {
-            GemCount -= 1;
+            GemCount -= deficit;
         }
         public void IncrementGemCount()
         {

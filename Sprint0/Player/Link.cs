@@ -59,7 +59,7 @@ namespace Sprint0.Player
 
        // public int keyCount { get; set; } = 0; // start with 0 keys
 
-        public int GemCount { get; set; } = 0; // start with 0 gems
+       // public int GemCount { get; set; } = 0; // start with 0 gems
 
         public int BombCount; //start with 3 for now
 
@@ -335,9 +335,14 @@ namespace Sprint0.Player
             inventory.IncrementGemCount();
         }
 
-        public void DecrementGem()
+        public void DecrementGem(int deficit)
         {
-            inventory.DecrementGemCount();
+            inventory.DecrementGemCount(deficit);
+        }
+
+        public int GetGemCount()
+        {
+            return inventory.GetGemCount();
         }
     }
 }

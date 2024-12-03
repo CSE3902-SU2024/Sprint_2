@@ -77,15 +77,21 @@ namespace Sprint0.Classes
             }
             if (!TwoPlayer)
             {
-                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-                if (playerBoundingBox.Intersects(itemBoundingBox))
+                if (Keyboard.GetState().IsKeyDown(Keys.F))
                 {
-                    Position.X += 20000;
-                    Position.Y += 20000;
-                    _link.inventory.AddItem(this);
+                    Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                    Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
 
-                    _link.pauseTimer = _link.pauseDuration;
+                    if (playerBoundingBox.Intersects(itemBoundingBox))
+                    {
+                        if (_link.GetGemCount() >= 2)  // Price check
+                        {
+                            _link.DecrementGem(2);
+                            Position.X += 20000;
+                            Position.Y += 20000;
+                            _link.inventory.AddItem(this);
+                        }
+                    }
                 }
                 if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
                 {
@@ -97,12 +103,18 @@ namespace Sprint0.Classes
                 Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
                 Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
                 Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
-                if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                if (Keyboard.GetState().IsKeyDown(Keys.F) || Keyboard.GetState().IsKeyDown(Keys.NumPad7))
                 {
-                    Position.X += 20000;
-                    Position.Y += 20000;
-                    _link.inventory.AddItem(this);
-                    _link.pauseTimer = _link.pauseDuration;
+                    if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                    {
+                        if (_link.GetGemCount() >= 2)  // Price check
+                        {
+                            _link.DecrementGem(2);
+                            Position.X += 20000;
+                            Position.Y += 20000;
+                            _link.inventory.AddItem(this);
+                        }
+                    }
                 }
                 if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock && Keyboard.GetState().IsKeyDown(Keys.B))
                 {
@@ -112,7 +124,7 @@ namespace Sprint0.Classes
                 }
             }
             
-            
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

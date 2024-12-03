@@ -238,7 +238,7 @@ namespace Sprint2
         }
         private void DrawGems()
         {
-            int GemCount = _link.GemCount;
+            int GemCount = _link.GetGemCount();
 
             Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
