@@ -198,7 +198,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(compass);
                             break;
                         case 14:
-                            Ak47 ak47 = new Ak47(ItemPosition, _link);
+                            Ak47 ak47 = new Ak47(ItemPosition, _link,_link2);
                             ak47.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.ak47, _scale);
                             ItemsInRoom.Add(ak47);
                             break;
