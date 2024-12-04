@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
@@ -57,6 +58,15 @@ namespace Sprint0.Classes
                     break;
                 // Game state
                 case 1:
+                    if (state.IsKeyDown(Keys.OemMinus))
+                    {
+                        MediaPlayer.Volume = 0f; // mute
+                    }
+
+                    if (state.IsKeyDown(Keys.OemPlus))
+                    {
+                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.1f); // Increase volume, but not above 1.0
+                    }
                     if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
                     {
                         _link.MoveDown();
@@ -197,7 +207,16 @@ namespace Sprint0.Classes
                 case 4: // Two PlayerMode
 
                     //Player2 Controls
-                     if (state.IsKeyDown(Keys.Down))
+                    if (state.IsKeyDown(Keys.OemMinus))
+                    {
+                        MediaPlayer.Volume = 0f; // mute
+                    }
+
+                    if (state.IsKeyDown(Keys.OemPlus))
+                    {
+                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.1f); // Increase volume, but not above 1.0
+                    }
+                    if (state.IsKeyDown(Keys.Down))
                     {
                         _link2.MoveDown();
                     }
@@ -311,6 +330,7 @@ namespace Sprint0.Classes
                         previousIdx = 4;
                         returnVal = 5;
                     }
+
                     if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     {
                         _link.inventory.CycleSelectedItem();

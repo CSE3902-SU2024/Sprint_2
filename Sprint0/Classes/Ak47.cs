@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
 using Sprint2.Classes;
 using System;
@@ -22,6 +23,9 @@ namespace Sprint0.Classes
         private int currentFrame;
         public ItemType CurrentItemType => ItemType.ak47;
         public ItemType currentItemType { get; set; }
+
+        private Song akBackgroundMusic;
+
 
         //ak47 specific variables
         private float nextFireTime = 0f;
@@ -56,11 +60,13 @@ namespace Sprint0.Classes
 
             SourceRectangles = SpriteSheetHelper.CreateAk47ItemFrames();
 
-           // _bulletManager wip
 
             currentItemType = ItemType.ak47;
 
             _scale = scale;
+
+            akBackgroundMusic = content.Load<Song>("doom");
+
         }
 
         public void Update(GameTime gameTime)
@@ -80,6 +86,10 @@ namespace Sprint0.Classes
                 Position.X += 20000;
                 Position.Y += 20000;
                 _link.inventory.AddItem(this);
+                MediaPlayer.Stop();
+                MediaPlayer.Play(akBackgroundMusic);
+                MediaPlayer.Volume = 0.5f;
+                MediaPlayer.IsRepeating = true;
             }
         }
         public void Draw(SpriteBatch spriteBatch)
