@@ -16,7 +16,9 @@ namespace Sprint2
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
-        private Rectangle[] cutOuts;
+        public Rectangle[] cutOuts { get; private set; }
+        public Texture2D HUDTexture => _hudTexture;
+
         private Vector2 _scale;
         private Link _link;
         private Vector2 _position;
@@ -57,6 +59,7 @@ namespace Sprint2
             stageManager = StageManager;
             MiniMap = new MiniMap1(_scale, stageManager, _link);
             MiniMap.LoadMap(content);
+            
 
         }
 
@@ -103,6 +106,10 @@ namespace Sprint2
 
              };
 
+        }
+        public Rectangle[] GetCutOuts()
+        {
+            return cutOuts;
         }
 
         public void SetPosition(Vector2 position)

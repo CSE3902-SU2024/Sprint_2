@@ -26,8 +26,8 @@ namespace Sprint0.Classes
         private float timeElapsed;
         private int currentFrame;
 
-     
-         
+        public bool isPurchased { get; private set; }
+
 
         public ItemType currentItemType { get; set; }
 
@@ -44,7 +44,7 @@ namespace Sprint0.Classes
                 _link2 = link2;
                 TwoPlayer = true;
             }
-
+            isPurchased = false;
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
@@ -103,6 +103,7 @@ namespace Sprint0.Classes
                             Position.Y += 20000;
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
+                            isPurchased = true;
                         }
                     }
                     
@@ -124,6 +125,7 @@ namespace Sprint0.Classes
                             Position.Y += 20000;
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
+                            isPurchased = true;
                         }
                     }
                 }
