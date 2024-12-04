@@ -77,7 +77,12 @@ namespace Sprint2.Map
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            GameHUD gameHUD = new GameHUD(spriteBatch, graphicsDevice, content, link, scale, this);
+            
+            _DrawDungeon.SetHUDResources(gameHUD);
 
+            Texture2D itemTexture = content.Load<Texture2D>("NES - The Legend of Zelda - Items & Weapons");
+            _DrawDungeon.SetItemTexture(itemTexture);
             titleScreen = content.Load<Texture2D>("TitleScreen");
             pauseScreen = content.Load<Texture2D>("Pause");
             endScreen = content.Load<Texture2D>("EndingofZelda");

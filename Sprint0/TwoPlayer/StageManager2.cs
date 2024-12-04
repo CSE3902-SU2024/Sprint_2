@@ -62,11 +62,16 @@ namespace Sprint2.TwoPlayer
 
             _nextStageDecider2 = new NextStageDecider2(_link, _link2, _scale, _DoorMap, this);
             _DrawDungeon2 = new DrawDungeon2(sourceRectangles, texture, spriteBatch, _scale, _link, _link2, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
+            GameHUD2 gameHUD = new GameHUD2(spriteBatch, graphicsDevice, content, link,link2, scale, this);
 
-           
+            _DrawDungeon2.SetHUDResources(gameHUD);
+
+            Texture2D itemTexture = content.Load<Texture2D>("NES - The Legend of Zelda - Items & Weapons");
+            _DrawDungeon2.SetItemTexture(itemTexture);
+
 
             //Music
-          
+
             backgroundMusic = content.Load<Song>("DungeonTheme");
            
             _StageAnimator2 = new StageAnimator2(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon2);

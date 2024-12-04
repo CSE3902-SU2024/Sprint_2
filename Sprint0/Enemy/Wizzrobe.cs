@@ -49,15 +49,21 @@ namespace Sprint2.Enemy
             "yes",
             "go",
             "111"
-        }}
-        };
+        }},
+         { 9, new string[] {
+            "Welcome to my secrete shop",
+            "Spend Gem to buy the item you want",
+            "Thanks for coming" }
+        } };
         private string defaultFinalMessage = "Go, traveler";
 
         private Dictionary<int, string> stageFinalMessages = new Dictionary<int, string>
     {
         { 0, "Go, traveler" },
         { 1, "Good luck in this dungeon" },
-        { 2, "The path ahead is treacherous" }
+        { 2, "The path ahead is treacherous" },
+        { 9, "Thanks for coming" }
+
     };
 
         private int _currentStage;

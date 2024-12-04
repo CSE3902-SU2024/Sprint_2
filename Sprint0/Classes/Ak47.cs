@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
 using Sprint2.Classes;
@@ -27,6 +28,7 @@ namespace Sprint0.Classes
         public ItemType CurrentItemType => ItemType.ak47;
         public ItemType currentItemType { get; set; }
 
+        public bool isPurchased { get; private set; }
         private Song akBackgroundMusic;
 
 
@@ -51,7 +53,7 @@ namespace Sprint0.Classes
                 _link2 = link2;
                 TwoPlayer = true;
             }
-
+            isPurchased = false;
         }
 
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -94,31 +96,47 @@ namespace Sprint0.Classes
 
             if (!TwoPlayer)
             {
-                if (playerBoundingBox.Intersects(itemBoundingBox))
+                if (Keyboard.GetState().IsKeyDown(Keys.F))
                 {
-                    Position.X += 20000;
-                    Position.Y += 20000;
-                    _link.inventory.AddItem(this);
-                    MediaPlayer.Stop();
-                    MediaPlayer.Play(akBackgroundMusic);
-                    MediaPlayer.Volume = 0.5f;
-                    MediaPlayer.IsRepeating = true;
-                }
-            } else
-            {
-                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
-                if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
-                {
-                    Position.X += 20000;
-                    Position.Y += 20000;
-                    _link.inventory.AddItem(this);
-                    MediaPlayer.Stop();
-                    MediaPlayer.Play(akBackgroundMusic);
-                    MediaPlayer.Volume = 0.5f;
-                    MediaPlayer.IsRepeating = true;
+                    if (playerBoundingBox.Intersects(itemBoundingBox))
+                    {
+                        if (_link.GetGemCount() >= 5)
+                        {
+                            _link.DecrementGem(5);
+                            Position.X += 20000;
+                            Position.Y += 20000;
+                            _link.inventory.AddItem(this);
+                            MediaPlayer.Stop();
+                            MediaPlayer.Play(akBackgroundMusic);
+                            MediaPlayer.Volume = 0.5f;
+                            MediaPlayer.IsRepeating = true;
+                            isPurchased = true;
+                        }
+                    }
                 }
             }
-           
+            else
+            {
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (Keyboard.GetState().IsKeyDown(Keys.F) || Keyboard.GetState().IsKeyDown(Keys.NumPad7))
+                {
+                    if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                    {
+                        if (_link.GetGemCount() >= 5)
+                        {
+                            _link.DecrementGem(5);
+                            Position.X += 20000;
+                            Position.Y += 20000;
+                            _link.inventory.AddItem(this);
+                            MediaPlayer.Stop();
+                            MediaPlayer.Play(akBackgroundMusic);
+                            MediaPlayer.Volume = 0.5f;
+                            MediaPlayer.IsRepeating = true;
+                            isPurchased = true;
+                        }
+                    }
+                }
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
