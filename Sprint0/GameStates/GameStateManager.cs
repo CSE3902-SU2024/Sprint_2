@@ -46,6 +46,8 @@ namespace Sprint2.GameStates
         IGameState TwoPlayerMenu;
         IGameState SinglePlayerControls;
         IGameState TwoPlayerControls;
+        IGameState WinState;
+        IGameState GameOver;
        
         private GameHUD _gameHUD;
         private InventoryMenu _inventoryMenu;
@@ -105,6 +107,8 @@ namespace Sprint2.GameStates
             _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD, _link);
             CurrentGameState = _StartMenu;
             TwoPlayerMenu = new TwoPlayerMenu(_graphicsDevice,_spriteBatch,Content, _scale);
+            WinState = new WinState(_spriteBatch,_graphicsDevice,Content, _scale);
+            GameOver = new GameOver1(_spriteBatch, Content, _graphicsDevice);
             content = Content;
 
             _currentKeyboardController = _keyboardController;
