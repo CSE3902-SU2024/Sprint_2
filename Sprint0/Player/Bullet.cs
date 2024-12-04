@@ -15,18 +15,24 @@ namespace Sprint0.Classes
         public float Lifetime { get; private set; }
         private float currentLifetime;
         public bool IsExpired => currentLifetime >= Lifetime;
+        private Vector2 Bulldirection;
+
+        private SpriteEffects spriteEffects;
+
 
 
         public Bullet(Vector2 startPosition, Vector2 direction, Texture2D texture, Rectangle sourceRectangle, Vector2 scale, float speed, float lifetime)
         {
             Position = startPosition;
-            Velocity = Vector2.Normalize(direction) * speed;
+            Bulldirection = direction;
+            Velocity = Vector2.Normalize(Bulldirection) * speed;
             Texture = texture;
             SourceRectangle = sourceRectangle;
             Scale = scale;
             Speed = speed;
             Lifetime = lifetime;
             currentLifetime = 0;
+            spriteEffects = SpriteEffects.None;
         }
 
         public void Update(GameTime gameTime)
@@ -40,7 +46,20 @@ namespace Sprint0.Classes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+            if ((Bulldirection.Y) > 0) //going down
+            {
+                spriteEffects = SpriteEffects.FlipVertically;
+            }
+            else if ((Bulldirection.X) < 0) //going left
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                spriteEffects = SpriteEffects.None;
+            }
+
+                spriteBatch.Draw(Texture, Position, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, spriteEffects, 0f);
         }
     }
 }

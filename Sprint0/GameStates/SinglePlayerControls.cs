@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace Sprint2.GameStates
 {
-    public class PauseMenu : IGameState
+    public class SinglePlayerControls : IGameState
     {
-       // public GameStage currentGameStage;
+        // public GameStage currentGameStage;
         public Texture2D _texture;
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
@@ -19,8 +18,8 @@ namespace Sprint2.GameStates
 
         public Texture2D pauseScreen;
 
-        private string PauseText = "PAUSE MENU";
-        private string Return = "PRESS ESC TO RETURN TO GAME";
+        private string PauseText = "HOW TO PLAY SINGLE PLAYER";
+        private string Return = "PRESS SPACE TO CONTINUE";
         string volUp = "PRESS + T0 RAISE VOLUME";
         string volDown = "PRESS - TO LOWER VOLUME";
         string mute = "PRESS 0 TO MUTE / UNMUTE";
@@ -38,7 +37,7 @@ namespace Sprint2.GameStates
         Vector2 restartSize;
         Vector2 startSize;
         Vector2 quitSize;
-        
+
 
         float PauseScale;
         float ReturnScale;
@@ -49,7 +48,7 @@ namespace Sprint2.GameStates
         float restartScale;
         float startScale;
         float quitScale;
-        public PauseMenu(SpriteBatch spriteBatch, ContentManager content, GraphicsDevice graphics)
+        public SinglePlayerControls(SpriteBatch spriteBatch, ContentManager content, GraphicsDevice graphics)
         {
             font = content.Load<SpriteFont>("File");
             titleSequence = content.Load<Song>("TitleTheme");
@@ -61,13 +60,13 @@ namespace Sprint2.GameStates
 
             float dpi = 96;
 
-            float targetHeight1 = (2f / 2.45f) * dpi;
+            float targetHeight1 = (1.5f / 2.45f) * dpi;
             float targetHeight2 = (1f / 2.45f) * dpi;
 
             PauseSize = font.MeasureString(PauseText);
             ReturnSize = font.MeasureString(Return);
             UpSize = font.MeasureString(volUp);
-            DownSize = font.MeasureString (volDown);
+            DownSize = font.MeasureString(volDown);
             MuteSize = font.MeasureString(mute);
             controlSize = font.MeasureString(controls);
             restartSize = font.MeasureString(restart);
@@ -84,13 +83,13 @@ namespace Sprint2.GameStates
             quitScale = targetHeight2 / quitSize.Y;
         }
 
-       // public bool IsPaused => isPaused;
+        // public bool IsPaused => isPaused;
 
         public void TogglePause()
         {
-          
-                MediaPlayer.Pause();
-            
+
+            MediaPlayer.Pause();
+
         }
         public void LoadContent(ContentManager Content)
         {
@@ -111,30 +110,29 @@ namespace Sprint2.GameStates
                 MediaPlayer.Play(titleSequence);
                 MediaPlayer.IsRepeating = true;
             }
-            
         }
 
-      
+
 
         public void Draw()
         {
-                DrawPauseMenu();       
+            DrawPauseMenu();
         }
 
         public void DrawPauseMenu()
         {
             if (showText)
             {
-                _spriteBatch.DrawString(font, PauseText, GetCenter(PauseSize,20,PauseScale), Color.White, 0f, Vector2.Zero, PauseScale, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize,800,ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, PauseText, GetCenter(PauseSize, 20, PauseScale), Color.White, 0f, Vector2.Zero, PauseScale, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize, 800, ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
             }
-            _spriteBatch.DrawString(font, volUp, GetCenter(UpSize,90,UpScale), Color.White, 0f, Vector2.Zero, UpScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, volDown, GetCenter(UpSize, 140, UpScale), Color.White, 0f, Vector2.Zero, DownScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, mute, GetCenter(UpSize, 190, UpScale), Color.White, 0f, Vector2.Zero, MuteScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, controls, GetCenter(UpSize, 240, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, restart, GetCenter(UpSize, 290, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, start, GetCenter(UpSize, 340, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, quit, GetCenter(UpSize, 390, UpScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, volUp, GetCenter(UpSize, 90, UpScale), Color.White, 0f, Vector2.Zero, UpScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, volDown, GetCenter(UpSize, 140, UpScale), Color.White, 0f, Vector2.Zero, DownScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, mute, GetCenter(UpSize, 190, UpScale), Color.White, 0f, Vector2.Zero, MuteScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, controls, GetCenter(UpSize, 240, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, restart, GetCenter(UpSize, 290, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, start, GetCenter(UpSize, 340, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
+            //_spriteBatch.DrawString(font, quit, GetCenter(UpSize, 390, UpScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
 
 
         }
@@ -144,9 +142,9 @@ namespace Sprint2.GameStates
             return 1;
         }
 
-        public Vector2 GetCenter(Vector2 size, int y , float scale)
+        public Vector2 GetCenter(Vector2 size, int y, float scale)
         {
-            return new Vector2((_graphics.Viewport.Width - (size.X *scale))/2, y);
+            return new Vector2((_graphics.Viewport.Width - (size.X * scale)) / 2, y);
         }
     }
 }

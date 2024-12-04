@@ -65,24 +65,24 @@ namespace Sprint0.Player
         public SoundEffect bowAttackSound { get; private set; }
         public SoundEffect bombExplosion { get; private set; }
         public SoundEffect BoomerangSound { get; private set; }
+        public SoundEffect ak47shootSound { get; private set; }
 
         private Vector2 BoomCoords;
         public BulletManager BulletManager { get; private set; }
 
 
-        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory)
+        public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory, SoundEffect ak47Sound)
         {
             _sourceRectangles = sourceRectangles;
-
-            BulletManager = new BulletManager(texture, _sourceRectangles[31], Vector2.One, 3f, 2f);
+            
+            //here is where u alter bullet speed or lifetime
+            BulletManager = new BulletManager(texture, _sourceRectangles, Vector2.One, 5f, 3f);
 
             currentState = new LinkDown(this);
 
             _position = (playerNumber == 1)
                     ? new Vector2(468.0f, 500.0f)
                     : new Vector2(532.0f, 500.0f); _scale = scale;
-
-            
 
             _texture = texture;
             speed = 5.0f;
@@ -127,6 +127,7 @@ namespace Sprint0.Player
             bowAttackSound = bowSound;
             bombExplosion = bombSound;
             BoomerangSound = boomerangSound;
+            ak47shootSound = ak47Sound;
 
         }
 
@@ -273,6 +274,7 @@ namespace Sprint0.Player
 
 
         }
+
         public void UpdateBullets(GameTime gameTime)
         {
             BulletManager?.Update(gameTime); //null check for safety

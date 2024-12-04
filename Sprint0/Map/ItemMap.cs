@@ -168,7 +168,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(potion);
                             break;
                         case 8:
-                            Triangle triangle = new Triangle(ItemPosition, _link);
+                            Triangle triangle = new Triangle(ItemPosition, _link, _link2);
                             triangle.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.triangle, _scale);
                             ItemsInRoom.Add(triangle);
                             break;
@@ -188,7 +188,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(bow);
                             break;
                         case 12:
-                            Boom boom = new Boom(ItemPosition, _link, null);
+                            Boom boom = new Boom(ItemPosition, _link, _link2);
                             boom.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.boom, _scale);
                             ItemsInRoom.Add(boom);
                             break;
@@ -198,7 +198,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(compass);
                             break;
                         case 14:
-                            Ak47 ak47 = new Ak47(ItemPosition, _link);
+                            Ak47 ak47 = new Ak47(ItemPosition, _link,_link2);
                             ak47.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.ak47, _scale);
                             ItemsInRoom.Add(ak47);
                             break;

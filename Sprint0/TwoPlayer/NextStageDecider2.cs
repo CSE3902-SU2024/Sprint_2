@@ -34,7 +34,7 @@ namespace Sprint2.TwoPlayer
             Door1 = GetDoorRectangle(112, 87, 32, 16, _scale);
             Door2 = GetDoorRectangle(32, 127, 16, 32, _scale);
             Door3 = GetDoorRectangle(208,127,16, 32, _scale);
-            Door4 = GetDoorRectangle(112,150,32,16, _scale);
+            Door4 = GetDoorRectangle(112,182,32,16, _scale);
 
         }
         public void Update(int stage)
@@ -51,7 +51,7 @@ namespace Sprint2.TwoPlayer
             Rectangle playerBoundingBox = GetScaledRectangle((int)_link.GetLocation().X, (int)_link.GetLocation().Y, 16, 16, _link._scale);
             Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2.GetLocation().X, (int)_link2.GetLocation().Y, 16, 16, _link2._scale);
             
-
+            // Top
             if(playerBoundingBox.Intersects(Door1) || playerBoundingBox2.Intersects(Door1))
             {
                 if (canUnlockDoor && doors[0] == 2)
@@ -102,6 +102,7 @@ namespace Sprint2.TwoPlayer
                     }
 
                 }
+            // BOTTOM
             } else if (playerBoundingBox.Intersects(Door4) || playerBoundingBox2.Intersects(Door4))
             {
                 if (canUnlockDoor && doors[3] == 2)

@@ -16,7 +16,9 @@ namespace Sprint2
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
-        private Rectangle[] cutOuts;
+        public Rectangle[] cutOuts { get; private set; }
+        public Texture2D HUDTexture => _hudTexture;
+
         private Vector2 _scale;
         private Link _link;
         private Vector2 _position;
@@ -32,7 +34,7 @@ namespace Sprint2
         private const int HEART_WIDTH = 9;
         private const int HEART_HEIGHT = 9;
         const int heartsPerRow = 8;  // Set max hearts per row
-        private int health;
+       
 
         private int numKeys;
         private int keyPos = 0;
@@ -57,6 +59,7 @@ namespace Sprint2
             stageManager = StageManager;
             MiniMap = new MiniMap1(_scale, stageManager, _link);
             MiniMap.LoadMap(content);
+            
 
         }
 
@@ -104,6 +107,10 @@ namespace Sprint2
              };
 
         }
+        public Rectangle[] GetCutOuts()
+        {
+            return cutOuts;
+        }
 
         public void SetPosition(Vector2 position)
         {
@@ -133,7 +140,7 @@ namespace Sprint2
         private void DrawHearts()
         {
             // Adjust heart positions to include offset
-            for (int i = 0; i < health; i++)
+            for (int i = 0; i < Health; i++)
             {
                 Health = _link.Health;
                 int row = i / heartsPerRow;

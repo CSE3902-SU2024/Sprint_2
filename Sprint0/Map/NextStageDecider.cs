@@ -32,7 +32,7 @@ namespace Sprint2.Map
             Door1 = GetDoorRectangle(112, 87, 32, 16, _scale);
             Door2 = GetDoorRectangle(32, 127, 16, 32, _scale);
             Door3 = GetDoorRectangle(208, 127, 16, 32, _scale);
-            Door4 = GetDoorRectangle(112, 150, 32, 16, _scale);
+            Door4 = GetDoorRectangle(112, 182, 32, 16, _scale);
         }
         public void Update(int stage)
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
@@ -43,30 +44,39 @@ namespace Sprint0.Collisions
 
 
 
-        public static void DrawHitboxes(SpriteBatch spriteBatch, Link link, Enemy_Item_Map enemyMap, int currentRoom, Vector2 scale)
+        public static void DrawHitboxes(SpriteBatch spriteBatch, Link link, Enemy_Item_Map enemyMap, int currentRoom, Vector2 scale, BulletManager bulletManager)
         {
             // Draw Link's hitbox
             Rectangle linkHitbox = new Rectangle((int)link._position.X, (int)link._position.Y, LinkEnemyCollision.LinkHitboxWidth, LinkEnemyCollision.LinkHitboxHeight);
             DrawRectangle(spriteBatch, linkHitbox, Color.Blue, scale);
+
+            //bullets that may be present whenever
+            List<Bullet> activeBullets = bulletManager.GetActiveBullets();
+            foreach (Bullet bullet in activeBullets)
+            {
+                Rectangle BulletHitbox = LinkEnemyCollision.GetBulletHitbox(scale, bullet);
+                DrawRectangle(spriteBatch, BulletHitbox, Color.Crimson, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
+            }
 
             // Draw sword hitbox if Link is attacking
             if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
             {
                 Rectangle swordHitbox = LinkEnemyCollision.GetSwordHitbox(link, scale);
                 DrawRectangle(spriteBatch, swordHitbox, Color.Red, new Vector2(1.0f, 1.0f)); //I already scale it in GetSwordHitbox
-            }
+            } else
             //Draw arrow hitbox if Link is arrow attack
             if (link.currentState is ArrowRight || link.currentState is ArrowLeft || link.currentState is ArrowUp || link.currentState is ArrowDown)
             {
                 Rectangle ArrowHitbox = LinkEnemyCollision.GetArrowHitbox(link, scale);
                 DrawRectangle(spriteBatch, ArrowHitbox, Color.Azure, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
             }
+            else
             //Draw boomerang hitbox if Link is boomerang attack
             if (link.currentState is BoomerangRight || link.currentState is BoomerangLeft || link.currentState is BoomerangUp || link.currentState is BoomerangDown)
             {
                 Rectangle BoomerangHitbox = LinkEnemyCollision.GetBoomerangHitbox(link, scale);
                 DrawRectangle(spriteBatch, BoomerangHitbox, Color.Azure, new Vector2(1.0f, 1.0f)); //I already scale it in GetArrowHitbox
-            }
+            } else
             //Draw bomb hitbox if Link is bomb attack
             if (link.currentState is BombRight || link.currentState is BombLeft || link.currentState is BombUp || link.currentState is BombDown)
             {

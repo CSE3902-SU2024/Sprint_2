@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
+using Sprint2.TwoPlayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,16 +17,22 @@ namespace Sprint0.Classes
         KeyboardState previousState;
         public Link _link;
         public Link _link2;
+        private StageManager _stageManager;
+        private StageManager2 _stageManager2;
+
         private List<Wizzrobe> _wizzrobes;
         int previousIdx;
-
-
+        float VolumeSave;
+        bool fromPause;
         public KeyboardController(Link link, Link link2)
         {
             _link = link;
             _link2 = link2;
+
             _wizzrobes = new List<Wizzrobe>();
             previousIdx = 0;
+            VolumeSave = MediaPlayer.Volume;
+            fromPause = false;
 
         }
         public void SetWizzrobe(Wizzrobe wizzrobe)
@@ -47,7 +55,7 @@ namespace Sprint0.Classes
                     {
                         // Start => Game
                         previousIdx = 1;
-                        returnVal = 1;
+                        returnVal = 6;
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
@@ -97,33 +105,35 @@ namespace Sprint0.Classes
                     {
                         _link.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.D1))
+                    if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
                     {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+                        if (state.IsKeyDown(Keys.D3))
                         {
                             _link.ArrowAttack();
                         }
-                    }
-                    else if (state.IsKeyDown(Keys.D4))
+                           
+                    } else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
                     {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
+                       
+                        if (state.IsKeyDown(Keys.D3))
                         {
                             _link.ShootAk();
+                        }
+                    } else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+                    {
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.UseBomb();
                         }
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
                         _link.UseBoomerang();
                     }
-                    else if (state.IsKeyDown(Keys.D3))
+                  
+                    if (state.IsKeyDown(Keys.Space))
                     {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
-                        {
-                            _link.UseBomb();
-                        }
-                    }
-                    else if (state.IsKeyDown(Keys.Space))
-                    {
+                        fromPause = true;
                         // Game => Pause
                         previousIdx = 1;
                         returnVal = 5;
@@ -197,7 +207,7 @@ namespace Sprint0.Classes
                 case 4: // Two PlayerMode
 
                     //Player2 Controls
-                     if (state.IsKeyDown(Keys.Down))
+                    if (state.IsKeyDown(Keys.Down))
                     {
                         _link2.MoveDown();
                     }
@@ -230,6 +240,7 @@ namespace Sprint0.Classes
                     {
                         _link.MoveRight();
                     }
+
                     if (state.IsKeyDown(Keys.F) && !previousState.IsKeyDown(Keys.F))
                     {
 
@@ -253,64 +264,56 @@ namespace Sprint0.Classes
                     {
                         _link.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.D1))
-                    {
-                        _link.ArrowAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D2))
-                    {
-                        _link.UseBoomerang();
-                    }
-                    else if (state.IsKeyDown(Keys.D3) && !previousState.IsKeyDown(Keys.D3))
-                    {
-                        _link.UseBomb();
-                    }
-
                     if (state.IsKeyDown(Keys.NumPad1))
                     {
                         _link2.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.NumPad4))
+
+                    if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
                     {
-                        _link2.ArrowAttack();
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.ArrowAttack();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.ArrowAttack();
+                        }
                     }
-                    else if (state.IsKeyDown(Keys.NumPad0))
+                    else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
                     {
-                        _link2.UseBoomerang();
+
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.ShootAk();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.ShootAk();
+                        }
+
                     }
-                    else if (state.IsKeyDown(Keys.RightShift))
+                    else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
                     {
-                        Debug.WriteLine("Tried Bomb");
-                        _link2.UseBomb();
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.UseBomb();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.UseBomb();
+                        }
+
                     }
-                    else if (state.IsKeyDown(Keys.Space))
+
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
                     {
+                        fromPause = true;
                         // Game => Pause
                         previousIdx = 4;
                         returnVal = 5;
                     }
-                    if (state.IsKeyDown(Keys.M))
-                    {
-                        _link2.SwordAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D7))
-                    {
-                        _link2.ArrowAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D8))
-                    {
-                        _link2.UseBoomerang();
-                    }
-                    else if (state.IsKeyDown(Keys.D9))
-                    {
-                        _link2.UseBomb();
-                    }
-                    else if (state.IsKeyDown(Keys.Space))
-                    {
-                        // Game => Pause
-                        previousIdx = 4;
-                        returnVal = 5;
-                    }
+
                     if (state.IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     {
                         _link.inventory.CycleSelectedItem();
@@ -329,8 +332,35 @@ namespace Sprint0.Classes
                     break;
                 // Pause menu
                 case 5:
+                    if (state.IsKeyDown(Keys.D0) && !previousState.IsKeyDown(Keys.D0))
+                    {
+                        if(MediaPlayer.Volume <= 0f)
+                        {
+                            MediaPlayer.Volume = VolumeSave;
+                        } else
+                        {
+                            VolumeSave = MediaPlayer.Volume;
+                            MediaPlayer.Volume = 0f; // mute
+                        }
+                        
+                    }
+                    if (state.IsKeyDown(Keys.OemMinus))
+                    {
+                        MediaPlayer.Volume = Math.Max(0.0f, MediaPlayer.Volume - 0.05f); // Decrease But not below zero
+                    }
+                    if (state.IsKeyDown(Keys.OemComma))
+                    {
+                        StageManager.Instance?.switchHitbox();
+                        StageManager2.Instance?.switchHitbox();
+                    }
+
+                    if (state.IsKeyDown(Keys.OemPlus) || state.IsKeyDown(Keys.OemEnlW))
+                    {
+                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.05f); // Increase volume, but not above 1.0
+                    }
                     if (state.IsKeyDown(Keys.Escape))
                     {
+                        fromPause = false;
                         // Pause => Game
                         if(previousIdx == 1)
                         {
@@ -341,10 +371,71 @@ namespace Sprint0.Classes
                         }
                         
                     }
+                    // RESTART LOGIC
+                    if (state.IsKeyDown(Keys.R))
+                    {
+                        if(previousIdx == 1)
+                        {
+                            returnVal = 8;
+                        }
+                        if(previousIdx == 4)
+                        {
+                            returnVal = 9;
+                        }
+                    }
+
+                    if (state.IsKeyDown(Keys.S))
+                    {
+                        returnVal = 0;
+                    }
+
+                    if (state.IsKeyDown(Keys.Q))
+                    {
+                        return 100;
+                    }
+
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        
+                        if(previousIdx == 1)
+                        {
+                            returnVal = 6;
+                        } else
+                        {
+                            returnVal = 7;
+                        }
+                    }
+                    break;
+                case 6:
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        if (fromPause)
+                        {
+                            returnVal = 5;
+                        } else
+                        {
+                            returnVal = 1;
+                        }
+                       
+                    }
+                    break;
+                case 7:
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        if (fromPause)
+                        {
+                            returnVal = 5;
+                        }
+                        else
+                        {
+                            returnVal = 4;
+                        }
+                    }
                     break;
                 default:
                     break;
             }
+            
 
             previousState = state;
             return returnVal; // Return current state if no change

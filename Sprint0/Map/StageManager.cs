@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using Sprint2.Classes;
 using System.Reflection.Metadata.Ecma335;
+using Sprint0.Classes;
 
 
 namespace Sprint2.Map
@@ -40,7 +41,10 @@ namespace Sprint2.Map
         int AnimatingCount;
         private Link _link;
         private StageAnimator _StageAnimator;
-  
+
+        public static StageManager Instance { get; private set; }
+        public Boolean drawHitboxes;
+
         // Start Menu
         public Texture2D titleScreen;
         public Texture2D pauseScreen;
@@ -53,6 +57,8 @@ namespace Sprint2.Map
         Song endSequence;
         public MovableBlock movableBlock14;
         public MovableBlock movableBlock8;
+        private BulletManager bulletManager;
+
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -65,6 +71,8 @@ namespace Sprint2.Map
             _spriteBatch = spriteBatch;
             _link = link;
             _scale = scale;
+            Instance = this;
+            drawHitboxes = false;
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
@@ -74,7 +82,12 @@ namespace Sprint2.Map
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
+            GameHUD gameHUD = new GameHUD(spriteBatch, graphicsDevice, content, link, scale, this);
+            
+            _DrawDungeon.SetHUDResources(gameHUD);
 
+            Texture2D itemTexture = content.Load<Texture2D>("NES - The Legend of Zelda - Items & Weapons");
+            _DrawDungeon.SetItemTexture(itemTexture);
             titleScreen = content.Load<Texture2D>("TitleScreen");
             pauseScreen = content.Load<Texture2D>("Pause");
             endScreen = content.Load<Texture2D>("EndingofZelda");
@@ -110,59 +123,7 @@ namespace Sprint2.Map
 
 
         }
-
         public void Update(GameTime gameTime)
-        {
-            
-                //if (currentGameStage == GameStage.StartMenu)
-                //{
-                //    UpdateStartMenu(gameTime);
-                //}
-                //else if (currentGameStage == GameStage.Dungeon)
-                //{
-                    UpdateDungeon(gameTime);
-                //}
-                //else if (currentGameStage == GameStage.PauseMenu)
-                //{
-                //    UpdatePauseMenu(gameTime);
-                //}
-                //else if (currentGameStage == GameStage.End )
-                //{
-                //    UpdateEnd(gameTime);
-                //}
-          
-
-            //_nextStageDecider.Update(StageIndex);
-            //_DrawDungeon.Update(StageIndex);
-            //_EnemyItem.Update(StageIndex, gameTime);
-            //_ItemMap.Update(StageIndex, gameTime);
-            //LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
-        }
-
-        public void UpdateStartMenu(GameTime gameTime)
-        {
-            // Blinking text effect
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timer >= 0.5f)
-            {
-                showText = !showText;
-                timer = 0;
-            }
-
-            if (Keyboard.GetState().GetPressedKeys().Length > 0)
-            {
-                currentGameStage = GameStage.Dungeon;
-            }
-
-            if (MediaPlayer.State != MediaState.Playing)
-            {
-                MediaPlayer.Play(titleSequence);
-                MediaPlayer.IsRepeating = true;
-            }
-        }
-
-
-        public void UpdateDungeon(GameTime gameTime)
         {
             if (StageAnimating)
             {
@@ -181,7 +142,7 @@ namespace Sprint2.Map
                 _DrawDungeon.Update(StageIndex);
                 _EnemyItem.Update(StageIndex, gameTime);
                 _ItemMap.Update(StageIndex, gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale, _link.BulletManager);
             }
             if (StageIndex == 0)
             {
@@ -271,15 +232,11 @@ namespace Sprint2.Map
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
-
-        public void UpdatePauseMenu(GameTime gameTime)
+        public void switchHitbox()
         {
-            if (MediaPlayer.State == MediaState.Playing)
-            {
-                MediaPlayer.Stop();
-            }
+            drawHitboxes = !drawHitboxes;
+            Debug.WriteLine($"drawHitboxes: {drawHitboxes}");
         }
-
         public void UpdateEnd(GameTime gameTime)
         {
             
@@ -300,69 +257,15 @@ namespace Sprint2.Map
 
             StageIndex = _nextStageDecider.DecideStage();
         }
-
         public void Draw()
-        {
-            //_spriteBatch.Begin();
-
-            //if (currentGameStage == GameStage.StartMenu)
-            //{
-            //    DrawStartMenu();
-            //}
-            //else if (currentGameStage == GameStage.Dungeon)
-            //{
-                DrawDungeon();
-            //}
-            //else if (currentGameStage == GameStage.PauseMenu)
-            //{
-            //   DrawPauseMenu();
-            //}
-            //else if (currentGameStage == GameStage.End)
-            //{
-            //    DrawEnd();
-            //}
-
-            //_spriteBatch.End();
-
-            //_DrawDungeon.Draw();
-            //DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
-
-        }
-
-        public void DrawStartMenu()
-        {
-            //_spriteBatch.Begin();
-
-            Rectangle sourceRectangle = new Rectangle(0, 10, 245, 225);
-
-            Vector2 position = new Vector2(0, 240);
-
-            Vector2 scale = new Vector2(4.2f, 3.05f);
-           
-            // Draw the title screen
-            _spriteBatch.Draw(titleScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
-            // Draw text
-            if (showText)
-            {
-                string startText = "PUSH START BUTTON";
-                Vector2 textSize = font.MeasureString(startText);
-                Vector2 textPosition = new Vector2(
-                    (_spriteBatch.GraphicsDevice.Viewport.Width - textSize.X) / 2,
-                    400
-                );
-                _spriteBatch.DrawString(font, startText, textPosition, Color.White);
-            }
-
-            //_spriteBatch.End();
-        }
-
-        public void DrawDungeon()
         {
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+                if (drawHitboxes)
+                {
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                }
 
                 if (StageIndex == 14)
                 {
@@ -395,20 +298,6 @@ namespace Sprint2.Map
                 _StageAnimator.Draw();
             }  
         }
-
-        public void DrawPauseMenu()
-        {
-            Rectangle sourceRectangle = new Rectangle(1, 1, 210, 58);
-
-            Vector2 position = new Vector2(0, 240);
-
-            Vector2 scale = new Vector2(1f, 1f);
-
-            // Draw the title screen
-            _spriteBatch.Draw(pauseScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
-        }
-
         public void DrawEnd()
         {
             Vector2 position = new Vector2(100, 240);
@@ -425,9 +314,8 @@ namespace Sprint2.Map
             {
                 AnimatingCount = 176;
             }
-         
+
             _StageAnimator.Animate(currentStage, nextStage, direction);
-            Debug.WriteLine("FREEZE!\n");
         }
 
         public Boolean GetAnimationState()

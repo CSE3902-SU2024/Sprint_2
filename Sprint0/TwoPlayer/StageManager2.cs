@@ -37,6 +37,9 @@ namespace Sprint2.TwoPlayer
         private Link _link2;
         private StageAnimator2 _StageAnimator2;
 
+        public static StageManager2 Instance { get; private set; }
+        public Boolean drawHitboxes;
+
         // Start Menu
         Song backgroundMusic;
         public MovableBlock movableBlock14;
@@ -54,6 +57,8 @@ namespace Sprint2.TwoPlayer
             _link = link;
             _link2 = link2;
             _scale = scale;
+            Instance = this;
+            drawHitboxes = false;
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
@@ -62,11 +67,16 @@ namespace Sprint2.TwoPlayer
 
             _nextStageDecider2 = new NextStageDecider2(_link, _link2, _scale, _DoorMap, this);
             _DrawDungeon2 = new DrawDungeon2(sourceRectangles, texture, spriteBatch, _scale, _link, _link2, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
+            GameHUD2 gameHUD = new GameHUD2(spriteBatch, graphicsDevice, content, link,link2, scale, this);
 
-           
+            _DrawDungeon2.SetHUDResources(gameHUD);
+
+            Texture2D itemTexture = content.Load<Texture2D>("NES - The Legend of Zelda - Items & Weapons");
+            _DrawDungeon2.SetItemTexture(itemTexture);
+
 
             //Music
-          
+
             backgroundMusic = content.Load<Song>("DungeonTheme");
            
             _StageAnimator2 = new StageAnimator2(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon2);
@@ -93,6 +103,11 @@ namespace Sprint2.TwoPlayer
 
         }
 
+        public void switchHitbox()
+        {
+            drawHitboxes = !drawHitboxes;
+            Debug.WriteLine($"drawHitboxes: {drawHitboxes}");
+        }
 
 
         public void Update(GameTime gameTime)
@@ -114,8 +129,8 @@ namespace Sprint2.TwoPlayer
                 _DrawDungeon2.Update(StageIndex);
                 _EnemyItem.Update(StageIndex, gameTime);
                 _ItemMap.Update(StageIndex, gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
-                LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale, _link.BulletManager);
+                LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale, _link2.BulletManager);
             }
             if (StageIndex == 0)
             {
@@ -213,8 +228,11 @@ namespace Sprint2.TwoPlayer
             if (!StageAnimating)
             {
                 _DrawDungeon2.Draw(Vector2.Zero, false, StageIndex);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale);
+                if (drawHitboxes)
+                {
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale, _link2.BulletManager);
+                }
 
                 if (StageIndex == 14)
                 {

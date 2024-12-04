@@ -17,7 +17,8 @@ namespace Sprint2
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
-        private Rectangle[] cutOuts;
+        public Rectangle[] cutOuts { get; private set; }
+        public Texture2D HUDTexture => _hudTexture;
         private Vector2 _scale;
         private Link _link;
         private Link _link2;
@@ -110,6 +111,10 @@ namespace Sprint2
         public void SetPosition(Vector2 position)
         {
             _position = position;
+        }
+        public Rectangle[] GetCutOuts()
+        {
+            return cutOuts;
         }
 
         public void Draw()

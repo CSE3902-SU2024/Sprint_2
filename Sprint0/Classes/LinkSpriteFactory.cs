@@ -70,21 +70,40 @@ namespace Sprint0.Classes
                 new Rectangle (155,185,16,16),      //25 BOMB 3 
                 new Rectangle (172,185,16,16),       //26 BOMB 4
 
+                //original full sprite (ak + link)
                 new  Rectangle (245,220,36,14),       //27 AK Right 1
-                new  Rectangle (282,220,36,14),       //28 AK Right 2
+                new  Rectangle (282,220,35,14),       //28 AK Right 2
                 new  Rectangle (318,218,38,15),       //29 AK Right 3
 
-                 new Rectangle (325,158,3,6),       //30 BULLET Up 1
+                 new Rectangle (326,158,3,6),       //30 BULLET Up 1
 
                 new Rectangle (310,158,6,3),       //31 BULLET Right 1
 
-                new  Rectangle (297,95,13,29),       //32 AK Up 1
-                new  Rectangle (316,92,11,32),       //33 AK Up 2
-                new  Rectangle (333,92,15,32),       //34 AK Up 3
+                //original full sprite (ak + link)
+                //new  Rectangle (297,95,13,29),       
+                //new  Rectangle (316,92,11,32),       
+                //new  Rectangle (333,92,15,32),       
+
+                new  Rectangle (296,109,14,16),       //32 AK Up 1
+                new  Rectangle (314,109,14,16),       //33 AK Up 2
+                new  Rectangle (331,109,19,16),       //34 AK Up 3  //link
 
                 new  Rectangle (297,47,15,27),       //35 AK Down 1
-                new  Rectangle (328,47,12,30),       //36 AK Down 2
-                new  Rectangle (333,47,32,32),       //37 AK Down 3
+                new  Rectangle (314,47,15,30),       //36 AK Down 2
+                new  Rectangle (331,47,16,32),       //37 AK Down 3
+                
+                new  Rectangle (297,95,13,14),       //38 AK Up 1.5
+                new  Rectangle (316,92,11,17),       //39 AK Up 2.5   //separating link from ak
+                new  Rectangle (333,92,17,17),       //40 AK Up 3.5  //the ak
+
+                
+                new  Rectangle (261,220,20,14),       //41 AK Left 1.5
+                new  Rectangle (298,220,19,14),       //42 AK Left 2.5  //the ak
+                new  Rectangle (334,218,20,15),       //43 AK Left 3.5
+
+                new  Rectangle (245,220,16,14),       //44 AK Left 1
+                new  Rectangle (282,220,16,14),       //45 AK Left 2  //link
+                new  Rectangle (318,218,18,15),       //46 AK Left 3
 
 
 

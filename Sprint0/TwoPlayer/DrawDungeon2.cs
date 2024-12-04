@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Classes;
 using Sprint2.Collisions;
@@ -7,6 +8,8 @@ using Sprint2.Enemy;
 using Sprint2.Map;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint2.TwoPlayer
 {
@@ -25,7 +28,10 @@ namespace Sprint2.TwoPlayer
         private SpriteEffects _spriteEffects;
         private Enemy_Item_Map _EnemyItem;
         private ItemMap _itemMap;
-
+        private Rectangle[] _cutOuts;
+        private Texture2D _hudTexture;
+        private Texture2D _itemTexture;
+        private const int Spacing = 8;
         public DrawDungeon2(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, Link link2, DungeonMap dungeon, DoorMap doorMap, Enemy_Item_Map enemy_Item_Map, ItemMap itemMap)
         {
             _sourceRectangles = sourceRectangles;
@@ -41,9 +47,8 @@ namespace Sprint2.TwoPlayer
             _dungeonMap = dungeon;
             _EnemyItem = enemy_Item_Map;
             _itemMap = itemMap;
-           
-
         }
+        
 
         public void Update(int currentStage)
         {
@@ -72,7 +77,14 @@ namespace Sprint2.TwoPlayer
         public void Draw(Vector2 Offset, bool Transitioning, int currentStage)
         {
             DrawWalls(Offset);
-            DrawTiles(GetStage(currentStage), Offset, Transitioning);
+            if (currentStage != 9)
+            {
+                DrawTiles(GetStage(currentStage), Offset, Transitioning);
+            }
+            else
+            {
+                DrawShopItems(Offset);
+            }
             DrawDoors(GetDoor(currentStage), Offset);
 
             if (!Transitioning)
@@ -171,6 +183,85 @@ namespace Sprint2.TwoPlayer
             foreach (Iitem item in items)
             {
                 item.Draw(_spriteBatch);
+            }
+        }
+        public void SetHUDResources(GameHUD2 gameHUD2)
+        {
+            _cutOuts = gameHUD2.GetCutOuts();
+            _hudTexture = gameHUD2.HUDTexture;
+        }
+
+        public void SetItemTexture(Texture2D itemTexture)
+        {
+            _itemTexture = itemTexture;
+        }
+
+        private void DrawShopItems(Vector2 Offset)
+        {
+            List<Iitem> items = Getitems(stage);
+            Clock clockItem = (Clock)items.FirstOrDefault(item => item.CurrentItemType == ItemType.clock);
+            Ak47 ak47Item = (Ak47)items.FirstOrDefault(item => item.CurrentItemType == ItemType.ak47);
+
+            // Draw Clock price display number "X 2"
+            if (clockItem != null && !clockItem.isPurchased)
+            {
+                // First item position
+                Vector2 gemPosition = new Vector2(53 * _scale.X + Offset.X, 172 * _scale.Y + Offset.Y);
+                DrawPriceDisplay(gemPosition, Offset, "2");
+            }
+
+            // Draw AK47 price display number "X 5"
+            if (ak47Item != null && !ak47Item.isPurchased)
+            {
+                // Second item position  
+                Vector2 gemPosition = new Vector2(100 * _scale.X + Offset.X, 172 * _scale.Y + Offset.Y);
+                DrawPriceDisplay(gemPosition, Offset, "5");
+            }
+        }
+
+        private void DrawPriceDisplay(Vector2 gemPosition, Vector2 Offset, string price)
+        {
+            // Draw Diamond (GEM) this is just display of Diamond that you will not able to pick it up
+            Rectangle diamondRect = SpriteSheetHelper.CreateDiamondItemFrames()[0];
+            _spriteBatch.Draw(_itemTexture, gemPosition, diamondRect, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0f);
+
+            // vertical center ( X number should display in the middle of the diamond)
+            float verticalCenter = gemPosition.Y + (16 - 8) / 2 * _scale.Y;
+            Vector2 xPosition = new Vector2(gemPosition.X + 12 * _scale.X, verticalCenter);
+
+            // Draw X
+            _spriteBatch.Draw(
+                _hudTexture,
+                new Rectangle(
+                    (int)xPosition.X,
+                    (int)xPosition.Y,
+                    (int)(8 * _scale.X),
+                    (int)(8 * _scale.Y)
+                ),
+                _cutOuts[4],
+                Color.White
+            );
+
+            // Draw price number
+            for (int i = 0; i < price.Length; i++)
+            {
+                int digit = int.Parse(price[i].ToString());
+                Rectangle digitSource = _cutOuts[digit + 5];
+
+                float xDigitPos = xPosition.X + (16 * _scale.X) + (i * Spacing * _scale.X);
+                float yDigitPos = verticalCenter;
+
+                _spriteBatch.Draw(
+                    _hudTexture,
+                    new Rectangle(
+                        (int)xDigitPos,
+                        (int)yDigitPos,
+                        (int)(8 * _scale.X),
+                        (int)(8 * _scale.Y)
+                    ),
+                    digitSource,
+                    Color.White
+                );
             }
         }
 
