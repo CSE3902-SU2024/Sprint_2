@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ak47SoundEffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ak47SoundEffect.wav
+
 #begin Bosses.png
 /importer:TextureImporter
 /processor:TextureProcessor

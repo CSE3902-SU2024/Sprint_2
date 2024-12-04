@@ -27,6 +27,7 @@ namespace Sprint2.GameStates
         private SoundEffect bombExplosion;
         private SoundEffect boomerangSound;
         private SoundEffect linkDeath;
+        private SoundEffect ak47Sound;
         public Link _link;
         public StageManager _StageManager;
         private LinkSpriteFactory _linkSpriteFactory;
@@ -84,7 +85,9 @@ namespace Sprint2.GameStates
             bombExplosion = Content.Load<SoundEffect>("LTTP_Bomb_Blow");
             boomerangSound = Content.Load<SoundEffect>("OOT_Boomerang_Throw");
             linkDeath = Content.Load<SoundEffect>("LinkDeath");
-            _link = new Link(linkFrames,linkTexture, _graphicsDevice, _spriteBatch,_scale,Content,swordAttackSound,bowAttackSound, bombExplosion,boomerangSound, null);
+            ak47Sound =  Content.Load<SoundEffect>("ak47SoundEffect");
+
+            _link = new Link(linkFrames,linkTexture, _graphicsDevice, _spriteBatch,_scale,Content,swordAttackSound,bowAttackSound, bombExplosion,boomerangSound, null, ak47Sound);
             _keyboardController = new KeyboardController(_link, null);
             _StartMenu = new StartMenu(_graphicsDevice,_spriteBatch, Content, _scale);
             PauseMenu = new PauseMenu(linkTexture, _spriteBatch, _graphicsDevice, Content);
@@ -211,7 +214,7 @@ namespace Sprint2.GameStates
             }
             linkFrames2 = _linkSpriteFactory2.CreateFrames();
             Link_Inventory inventory = _link.GetInventory();
-            _link2 = new Link(linkFrames2, texture2, _graphicsDevice, _spriteBatch, _scale, content, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound, inventory);
+            _link2 = new Link(linkFrames2, texture2, _graphicsDevice, _spriteBatch, _scale, content, swordAttackSound, bowAttackSound, bombExplosion, boomerangSound, inventory, ak47Sound);
             _currentKeyboardController = new KeyboardController(_link, _link2);
 
             TwoPlayer = new TwoPlayerMode(_graphics, _spriteBatch, _scale, _graphicsDevice, _link, _link2);

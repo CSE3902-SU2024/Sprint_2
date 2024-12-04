@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using Sprint2.Classes;
 using System.Reflection.Metadata.Ecma335;
+using Sprint0.Classes;
 
 
 namespace Sprint2.Map
@@ -53,6 +54,8 @@ namespace Sprint2.Map
         Song endSequence;
         public MovableBlock movableBlock14;
         public MovableBlock movableBlock8;
+        private BulletManager bulletManager;
+
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -181,7 +184,7 @@ namespace Sprint2.Map
                 _DrawDungeon.Update(StageIndex);
                 _EnemyItem.Update(StageIndex, gameTime);
                 _ItemMap.Update(StageIndex, gameTime);
-                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale);
+                LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale, _link.BulletManager);
             }
             if (StageIndex == 0)
             {
@@ -362,7 +365,7 @@ namespace Sprint2.Map
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale);
+                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
 
                 if (StageIndex == 14)
                 {

@@ -83,7 +83,7 @@ namespace Sprint0.Player
                 if (isShooting && _timeSinceLastShot >= FIRE_RATE)
                 {
                     Fire(new Vector2(1, 0)); // Fire bullets to the right
-                    _link.bowAttackSound.Play();
+                    _link.ak47shootSound.Play();
                     _timeSinceLastShot = 0f; // Reset the timer
                 }
             }
@@ -119,7 +119,8 @@ namespace Sprint0.Player
             bulletStartPosition = RandomizeBullet(bulletStartPosition);
            
             _link.BulletManager.SpawnBullet(bulletStartPosition, direction);
-            _link._position.X -=3;
+            
+           // _link._position.X -=3;   //unfixed playerBlock collisions
         }
         private Vector2 RandomizeBullet(Vector2 basePosition)
         {
