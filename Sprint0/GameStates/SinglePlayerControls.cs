@@ -19,14 +19,15 @@ namespace Sprint2.GameStates
         public Texture2D pauseScreen;
 
         private string PauseText = "HOW TO PLAY SINGLE PLAYER";
-        private string Return = "PRESS SPACE TO CONTINUE";
-        string volUp = "PRESS + T0 RAISE VOLUME";
-        string volDown = "PRESS - TO LOWER VOLUME";
-        string mute = "PRESS 0 TO MUTE / UNMUTE";
-        string controls = "PRESS SPACE TO VIEW INSTRUCTIONS";
-        string restart = "PRESS R TO RESTART LEVEL";
-        string start = "PRESS S TO RETURN TO START MENU";
-        string quit = "PRESS Q TO EXIT";
+        private string Return = "PRESS SPACE TO ENTER PAUSE MENU";
+
+        string volUp = "PRESS Z TO USE SWORD";
+        string volDown = "PRESS P TO CYCLE EQUIPPED ITEM";
+        string mute = "PRESS i TO VIEW INVENTORY";
+        string controls = "PRESS 3 TO USE EQUPPIED ITEM";
+        string restart = "CLICK M1 TO GO THROUGH/UNLOCK DOORS";
+        string start = "PRESS F TO TALK/BUY SHOPKEEPER";
+        string quit = "PRESS ESC TO GO BACK";
 
         Vector2 PauseSize;
         Vector2 ReturnSize;
@@ -80,6 +81,7 @@ namespace Sprint2.GameStates
             MuteScale = targetHeight2 / MuteSize.Y;
             ControlScale = targetHeight2 / controlSize.Y;
             restartScale = targetHeight2 / restartSize.Y;
+            startScale = targetHeight2 / startSize.Y;
             quitScale = targetHeight2 / quitSize.Y;
         }
 
@@ -126,13 +128,13 @@ namespace Sprint2.GameStates
                 _spriteBatch.DrawString(font, PauseText, GetCenter(PauseSize, 20, PauseScale), Color.White, 0f, Vector2.Zero, PauseScale, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize, 800, ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
             }
-            //_spriteBatch.DrawString(font, volUp, GetCenter(UpSize, 90, UpScale), Color.White, 0f, Vector2.Zero, UpScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, volDown, GetCenter(UpSize, 140, UpScale), Color.White, 0f, Vector2.Zero, DownScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, mute, GetCenter(UpSize, 190, UpScale), Color.White, 0f, Vector2.Zero, MuteScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, controls, GetCenter(UpSize, 240, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, restart, GetCenter(UpSize, 290, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, start, GetCenter(UpSize, 340, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, quit, GetCenter(UpSize, 390, UpScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, volUp, GetCenter(UpSize, 190, UpScale), Color.White, 0f, Vector2.Zero, UpScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, volDown, GetCenter(DownSize, 240, DownScale), Color.White, 0f, Vector2.Zero, DownScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, mute, GetCenter(MuteSize, 290, MuteScale), Color.White, 0f, Vector2.Zero, MuteScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, controls, GetCenter(controlSize, 340, ControlScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, restart, GetCenter(restartSize, 390, restartScale), Color.White, 0f, Vector2.Zero, restartScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, start, GetCenter(startSize, 440, startScale), Color.White, 0f, Vector2.Zero, startScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, quit, GetCenter(quitSize, 490, quitScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
 
 
         }
