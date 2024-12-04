@@ -399,6 +399,10 @@ namespace Sprint2
                 {
                     shouldDisplayItem = false;
                 }
+                else if ( currentItem.CurrentItemType == ItemType.diamond && _link.GetGemCount() <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
 
                 if (shouldDisplayItem)
                 {

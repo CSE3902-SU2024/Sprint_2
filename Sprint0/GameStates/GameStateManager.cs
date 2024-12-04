@@ -105,8 +105,16 @@ namespace Sprint2.GameStates
         public void Update(GameTime gameTime)
         {
             int newStateIndex = _currentKeyboardController.Update(GameStateIndex);
-            
-            
+
+            if (_link.isPaused)
+            {
+                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_link.pauseTimer <= 0f)
+                {
+                    _link.isPaused = false;
+                }
+                return;
+            }
             //   state transitions
             if (newStateIndex != GameStateIndex)
             {
@@ -167,15 +175,7 @@ namespace Sprint2.GameStates
                 GameStateIndex = newStateIndex;
             }
 
-            if (_link.isPaused)
-            {
-                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (_link.pauseTimer <= 0f)
-                {
-                    _link.isPaused = false; 
-                }
-                return;
-            }
+            
 
             CurrentGameState.Update(gameTime);
         }
