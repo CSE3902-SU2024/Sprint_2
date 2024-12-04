@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Media;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Map;
+using Sprint2.TwoPlayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,9 @@ namespace Sprint0.Classes
         KeyboardState previousState;
         public Link _link;
         public Link _link2;
+        private StageManager _stageManager;
+        private StageManager2 _stageManager2;
+
         private List<Wizzrobe> _wizzrobes;
         int previousIdx;
         float VolumeSave;
@@ -24,6 +28,7 @@ namespace Sprint0.Classes
         {
             _link = link;
             _link2 = link2;
+
             _wizzrobes = new List<Wizzrobe>();
             previousIdx = 0;
             VolumeSave = MediaPlayer.Volume;
@@ -342,6 +347,11 @@ namespace Sprint0.Classes
                     if (state.IsKeyDown(Keys.OemMinus))
                     {
                         MediaPlayer.Volume = Math.Max(0.0f, MediaPlayer.Volume - 0.05f); // Decrease But not below zero
+                    }
+                    if (state.IsKeyDown(Keys.OemComma))
+                    {
+                        StageManager.Instance?.switchHitbox();
+                        StageManager2.Instance?.switchHitbox();
                     }
 
                     if (state.IsKeyDown(Keys.OemPlus) || state.IsKeyDown(Keys.OemEnlW))

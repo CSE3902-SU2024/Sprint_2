@@ -41,7 +41,10 @@ namespace Sprint2.Map
         int AnimatingCount;
         private Link _link;
         private StageAnimator _StageAnimator;
-  
+
+        public static StageManager Instance { get; private set; }
+        public Boolean drawHitboxes;
+
         // Start Menu
         public Texture2D titleScreen;
         public Texture2D pauseScreen;
@@ -68,6 +71,8 @@ namespace Sprint2.Map
             _spriteBatch = spriteBatch;
             _link = link;
             _scale = scale;
+            Instance = this;
+            drawHitboxes = false;
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
@@ -227,7 +232,11 @@ namespace Sprint2.Map
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
-
+        public void switchHitbox()
+        {
+            drawHitboxes = !drawHitboxes;
+            Debug.WriteLine($"drawHitboxes: {drawHitboxes}");
+        }
         public void UpdateEnd(GameTime gameTime)
         {
             
@@ -253,7 +262,10 @@ namespace Sprint2.Map
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                if (drawHitboxes)
+                {
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                }
 
                 if (StageIndex == 14)
                 {

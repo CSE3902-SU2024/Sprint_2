@@ -37,6 +37,9 @@ namespace Sprint2.TwoPlayer
         private Link _link2;
         private StageAnimator2 _StageAnimator2;
 
+        public static StageManager2 Instance { get; private set; }
+        public Boolean drawHitboxes;
+
         // Start Menu
         Song backgroundMusic;
         public MovableBlock movableBlock14;
@@ -54,6 +57,8 @@ namespace Sprint2.TwoPlayer
             _link = link;
             _link2 = link2;
             _scale = scale;
+            Instance = this;
+            drawHitboxes = false;
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
@@ -98,6 +103,11 @@ namespace Sprint2.TwoPlayer
 
         }
 
+        public void switchHitbox()
+        {
+            drawHitboxes = !drawHitboxes;
+            Debug.WriteLine($"drawHitboxes: {drawHitboxes}");
+        }
 
 
         public void Update(GameTime gameTime)
@@ -218,8 +228,11 @@ namespace Sprint2.TwoPlayer
             if (!StageAnimating)
             {
                 _DrawDungeon2.Draw(Vector2.Zero, false, StageIndex);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale, _link2.BulletManager);
+                if (drawHitboxes)
+                {
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                    DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale, _link2.BulletManager);
+                }
 
                 if (StageIndex == 14)
                 {
