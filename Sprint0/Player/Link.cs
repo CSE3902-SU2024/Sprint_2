@@ -292,6 +292,15 @@ namespace Sprint0.Player
         {
             return inventory.GetKeyCount();
         }
+        public int GetClockCount()
+        {
+            return inventory.GetClockCount();
+        }
+
+        public int GetPotionCount()
+        {
+            return inventory.GetPotionCount();
+        }
 
         public bool HasKey()
         {
@@ -351,6 +360,26 @@ namespace Sprint0.Player
         public int GetGemCount()
         {
             return inventory.GetGemCount();
+        }
+
+        public void DecrementClock()
+        {
+            inventory.DecrementClockCount();
+        }
+
+        public void IncrementClock()
+        {
+            inventory.IncrementClockCount();
+        }
+
+        public void DecrementPotion()
+        {
+            inventory.DecrementPotionCount();
+        }
+
+        public void IncrementPotion()
+        {
+            inventory.IncrementPotionCount();
         }
     }
 }

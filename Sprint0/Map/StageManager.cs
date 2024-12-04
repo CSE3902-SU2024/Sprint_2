@@ -125,6 +125,15 @@ namespace Sprint2.Map
         }
         public void Update(GameTime gameTime)
         {
+            if (_link.isPaused)
+            {
+                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_link.pauseTimer <= 0f)
+                {
+                    _link.isPaused = false;
+                }
+                return;
+            }
             if (StageAnimating)
             {
                 AnimatingCount-=2;

@@ -25,7 +25,6 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-
         public bool isPurchased { get; private set; }
 
 
@@ -38,7 +37,6 @@ namespace Sprint0.Classes
             OriginalPosition = position;
             _link = link;
             TwoPlayer = false;
-
             if (link2 != null)
             {
                 _link2 = link2;
@@ -79,6 +77,8 @@ namespace Sprint0.Classes
             {
                 if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.clock)
                 {
+                    
+                    _link.DecrementClock();
                     _link.isPaused = true;
                     if (TwoPlayer)
                     {
@@ -101,6 +101,8 @@ namespace Sprint0.Classes
                             _link.DecrementGem(2);
                             Position.X += 20000;
                             Position.Y += 20000;
+                            
+                            _link.IncrementClock();
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
                             isPurchased = true;
@@ -120,9 +122,11 @@ namespace Sprint0.Classes
                     {
                         if (_link.GetGemCount() >= 2)  // Price check
                         {
+                            
                             _link.DecrementGem(2);
                             Position.X += 20000;
                             Position.Y += 20000;
+                            _link.IncrementClock();
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
                             isPurchased = true;
@@ -131,7 +135,16 @@ namespace Sprint0.Classes
                 }
                 
             }
-            
+            if (_link.isPaused)
+            {
+                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_link.pauseTimer <= 0f)
+                {
+                    _link.isPaused = false;
+                    _link.pauseTimer = _link.pauseDuration;
+                }
+                return;
+            }
 
         }
 
