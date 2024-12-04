@@ -9,16 +9,16 @@ namespace Sprint0.Classes
     {
         private List<Bullet> activeBullets;
         private Texture2D bulletTexture;
-        private Rectangle bulletSourceRectangle;
+        private Rectangle[] bulletSourceRectangles;
         private Vector2 bulletScale;
         private float bulletSpeed;
         private float bulletLifetime;
-
-        public BulletManager(Texture2D texture, Rectangle sourceRectangles, Vector2 scale, float speed, float lifetime)
+        private Rectangle bulletDirection;
+        public BulletManager(Texture2D texture, Rectangle[] sourceRectangles, Vector2 scale, float speed, float lifetime)
         {
             activeBullets = new List<Bullet>();
             bulletTexture = texture;
-            bulletSourceRectangle = sourceRectangles;
+            bulletSourceRectangles = sourceRectangles;
             bulletScale = scale*4;
             bulletSpeed = speed;
             bulletLifetime = lifetime;
@@ -27,8 +27,17 @@ namespace Sprint0.Classes
 
         public void SpawnBullet(Vector2 startPosition, Vector2 direction)
         {
+            if (Math.Abs(direction.X) > Math.Abs(direction.Y))
+            {
+                bulletDirection = bulletSourceRectangles[31]; //horizontal if shooting left or right
+            }
+            else
+            {
+                bulletDirection = bulletSourceRectangles[30]; //verticle if shooting up or down
+            }
 
-            Bullet newBullet = new Bullet(startPosition, direction, bulletTexture, bulletSourceRectangle, bulletScale, bulletSpeed, bulletLifetime);
+
+            Bullet newBullet = new Bullet(startPosition, direction, bulletTexture, bulletDirection, bulletScale, bulletSpeed, bulletLifetime);
             activeBullets.Add(newBullet);
 
         }

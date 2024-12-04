@@ -37,7 +37,6 @@ namespace Sprint0.Classes
             OriginalPosition = position;
             _link = link;
             currentAmmo = ammoCount;
-            //_bulletManager wip
 
         }
 
