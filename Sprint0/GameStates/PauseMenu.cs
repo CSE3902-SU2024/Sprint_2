@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Sprint2.Map;
 
@@ -13,6 +14,7 @@ namespace Sprint2.GameStates
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
         static GraphicsDevice _graphicsDevice;
+        private SpriteFont font;
 
 
         public Texture2D pauseScreen;
@@ -23,7 +25,8 @@ namespace Sprint2.GameStates
             _spriteBatch = spriteBatch;
             _graphicsDevice = graphicsDevice;
             pauseScreen = content.Load<Texture2D>("Pause");
-        //    isPaused = false;
+            font = content.Load<SpriteFont>("File");
+            //    isPaused = false;
         }
 
        // public bool IsPaused => isPaused;
@@ -41,10 +44,11 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
-            //if (isPaused)
-            //{
-                UpdatePauseMenu(gameTime);
-           // }
+            UpdatePauseMenu(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.D1))
+            {
+                currentGameStage = GameStage.StartMenu;
+            }
         }
 
         public void UpdatePauseMenu(GameTime gameTime)
@@ -53,6 +57,7 @@ namespace Sprint2.GameStates
             {
                 MediaPlayer.Stop();
             }
+            
         }
 
         public void Draw()

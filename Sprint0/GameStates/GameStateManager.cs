@@ -146,6 +146,7 @@ namespace Sprint2.GameStates
                         break;
                     case 5: // pause
                         CurrentGameState = PauseMenu;
+                        
                         break;
                     default: break;
                 }
