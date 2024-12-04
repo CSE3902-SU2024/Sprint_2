@@ -107,31 +107,32 @@ namespace Sprint0.Classes
                     {
                         _link.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.D1))
+                    if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
                     {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
+                        if (state.IsKeyDown(Keys.D3))
                         {
                             _link.ArrowAttack();
                         }
-                    }
-                    else if (state.IsKeyDown(Keys.D4))
+                           
+                    } else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
                     {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
+                       
+                        if (state.IsKeyDown(Keys.D3))
                         {
                             _link.ShootAk();
+                        }
+                    } else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+                    {
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.UseBomb();
                         }
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
                         _link.UseBoomerang();
                     }
-                    else if (state.IsKeyDown(Keys.D3))
-                    {
-                        if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
-                        {
-                            _link.UseBomb();
-                        }
-                    }
+                  
                     else if (state.IsKeyDown(Keys.Space))
                     {
                         // Game => Pause
@@ -240,6 +241,7 @@ namespace Sprint0.Classes
                     {
                         _link.MoveRight();
                     }
+
                     if (state.IsKeyDown(Keys.F) && !previousState.IsKeyDown(Keys.F))
                     {
 
@@ -263,30 +265,46 @@ namespace Sprint0.Classes
                     {
                         _link.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.D1))
-                    {
-                        _link.ArrowAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D2))
-                    {
-                        _link.UseBoomerang();
-                    }
-                    else if (state.IsKeyDown(Keys.D3) && !previousState.IsKeyDown(Keys.D3))
-                    {
-                        _link.UseBomb();
-                    }
-
                     if (state.IsKeyDown(Keys.NumPad1))
                     {
                         _link2.SwordAttack();
                     }
-                    else if (state.IsKeyDown(Keys.NumPad4))
+
+                    if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.bow)
                     {
-                        _link2.ArrowAttack();
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.ArrowAttack();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.ArrowAttack();
+                        }
                     }
-                    else if (state.IsKeyDown(Keys.NumPad0))
+                    else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.ak47)
                     {
-                        _link2.UseBoomerang();
+
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.ShootAk();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.ShootAk();
+                        }
+
+                    }
+                    else if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.boom)
+                    {
+                        if (state.IsKeyDown(Keys.D3))
+                        {
+                            _link.UseBomb();
+                        }
+                        if (state.IsKeyDown(Keys.Enter))
+                        {
+                            _link2.UseBomb();
+                        }
+
                     }
                     else if (state.IsKeyDown(Keys.RightShift))
                     {
@@ -299,22 +317,7 @@ namespace Sprint0.Classes
                         previousIdx = 4;
                         returnVal = 5;
                     }
-                    if (state.IsKeyDown(Keys.M))
-                    {
-                        _link2.SwordAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D7))
-                    {
-                        _link2.ArrowAttack();
-                    }
-                    else if (state.IsKeyDown(Keys.D8))
-                    {
-                        _link2.UseBoomerang();
-                    }
-                    else if (state.IsKeyDown(Keys.D9))
-                    {
-                        _link2.UseBomb();
-                    }
+                   
                     else if (state.IsKeyDown(Keys.Space))
                     {
                         // Game => Pause

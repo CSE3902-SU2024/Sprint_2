@@ -77,7 +77,7 @@ namespace Sprint0.Player
             }
 
 
-            if (keyboardState.IsKeyDown(Keys.D4)) 
+            if (keyboardState.IsKeyDown(Keys.D3) || keyboardState.IsKeyDown(Keys.Enter)) 
             {
                 _timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (isShooting && _timeSinceLastShot >= FIRE_RATE)
