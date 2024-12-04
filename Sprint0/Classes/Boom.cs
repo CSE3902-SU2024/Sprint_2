@@ -32,6 +32,7 @@ namespace Sprint0.Classes
             Position = position;
             OriginalPosition = position;
             _link = link;
+            twoPlayerMode = false;
 
             // TWO PLAYER
             if (link2 != null)
@@ -73,13 +74,27 @@ namespace Sprint0.Classes
 
             Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+            if (!twoPlayerMode)
             {
-                Position.X += 20000;
-                Position.Y += 20000;
-                _link.IncrementBomb();
-                _link.inventory.AddItem(this);
-            }
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.IncrementBomb();
+                    _link.inventory.AddItem(this);
+                }
+            } else 
+            {
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox) || playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.IncrementBomb();
+                    _link.inventory.AddItem(this);
+                }
+ 
+            }      
         }
 
         public void Draw(SpriteBatch spriteBatch)
