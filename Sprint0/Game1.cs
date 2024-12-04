@@ -6,6 +6,7 @@ using Sprint0.Classes;
 using Sprint0.Collisions;
 using Sprint0.Player;
 using Sprint2.GameStates;
+using Sprint2.Map;
 
 namespace Sprint0
 {
@@ -27,6 +28,7 @@ namespace Sprint0
         public int enemyDefeatedCount = 0;
         public int itemCollectedCount = 0;
         public bool isDungeonComplete = false;
+        private StageManager _stageManager;
 
 
         public Game1()
@@ -63,6 +65,7 @@ namespace Sprint0
 
             _GameStateManager = new GameStateManager(_graphics, GraphicsDevice, _spriteBatch, _scale);
             _GameStateManager.LoadContent(Content);
+            //_stageManager.InitializeAchievements();
         }
 
 

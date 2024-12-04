@@ -6,6 +6,7 @@ using Sprint0;
 using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy.Projectiles;
+using Sprint2.Map;
 using System;
 using System.Collections.Generic;
 
@@ -57,6 +58,7 @@ namespace Sprint2.Enemy
 
         //public int enemyDefeatedCount { get; private set; }
         private Game1 game;
+        private StageManager _stageManager;
 
         public List<Boomerang> projectiles { get; private set; }
 
@@ -108,7 +110,7 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
-                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
+                        _stageManager.IncrementEnemyDefeatedCount();
                     }
                 }
                 for (int i = 0; i < projectiles.Count; i++)

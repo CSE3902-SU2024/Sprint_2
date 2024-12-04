@@ -114,6 +114,7 @@ namespace Sprint2.Classes
 
         public void Draw(SpriteBatch spriteBatch, Vector2 blockPosition2, Vector2 scale)
         {
+            Debug.Write("drawing movable block");
             spriteBatch.Draw(texture, blockPosition2, SourceRectangles[0], Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             //_spriteBatch.Draw(pauseScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }

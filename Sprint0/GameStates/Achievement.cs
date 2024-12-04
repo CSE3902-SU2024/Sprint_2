@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,17 +25,28 @@ namespace Sprint2.GameStates
 
         public void Update()
         {
-            if (!IsUnlocked && UnlockCondition())
+            if (IsUnlocked)
+            {
+                return;
+            }
+            Debug.WriteLine($"Updating achievement: {Name}");
+            bool unlockConditionResult = UnlockCondition();
+            Debug.WriteLine($"UnlockCondition result: {unlockConditionResult}");
+            //if (!IsUnlocked && unlockConditionResult)
+            //{
+            //    IsUnlocked = true;
+            //    Debug.WriteLine($"Achievement Unlocked: {Name}");
+            //}
+            if (unlockConditionResult)
             {
                 IsUnlocked = true;
-                OnUnlock();
+                Debug.WriteLine($"Achievement Unlocked: {Name}");
             }
         }
-
-        private void OnUnlock()
+        public void Reset()
         {
-            // Trigger UI notification or other behavior
-            Console.WriteLine($"Achievement Unlocked: {Name}");
+            IsUnlocked = false;
         }
+
     }
 }

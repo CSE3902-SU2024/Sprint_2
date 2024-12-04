@@ -58,10 +58,13 @@ namespace Sprint2.Map
         public int enemyDefeatedCount { get; private set; }
         public int itemCollectedCount { get; private set; }
         public bool isDungeonComplete { get; private set; }
+        private float achievementUpdateCooldown = 1f; // 1 second cooldown  
+        private float achievementUpdateTimer = 0f;
+        private bool isFirstBloodAchievementUnlockedbool = false;
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
-
+            Console.WriteLine("StageManager constructor started");
             currentGameStage = GameStage.StartMenu;
             StageAnimating = false;
             AnimatingCount = 0;
@@ -113,8 +116,9 @@ namespace Sprint2.Map
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
-            achievementManager = new AchievementManager();
-
+            //achievementManager = new AchievementManager();
+            InitializeAchievements();
+            Console.WriteLine("StageManager constructor completed");
 
         }
 
@@ -171,6 +175,13 @@ namespace Sprint2.Map
 
         public void UpdateDungeon(GameTime gameTime)
         {
+            achievementUpdateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (achievementUpdateTimer >= achievementUpdateCooldown)
+            {
+                achievementManager.Update(gameTime); // for achievements  
+                achievementUpdateTimer = 0f;
+            }
+
             if (StageAnimating)
             {
                 AnimatingCount-=2;
@@ -244,7 +255,7 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            achievementManager.Update(gameTime); // for achievements
+            //achievementManager.Update(gameTime); // for achievements
 
             if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
             {
@@ -339,7 +350,7 @@ namespace Sprint2.Map
 
         public void DrawDungeon()
         {
-            achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
+            //achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
 
             if (!StageAnimating)
             {
@@ -374,7 +385,8 @@ namespace Sprint2.Map
             } else
             {
                 _StageAnimator.Draw();
-            }  
+            }
+            achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
         }
 
         public void DrawPauseMenu()
@@ -416,34 +428,62 @@ namespace Sprint2.Map
             return StageAnimating;
         }
 
-        public int GetCurrentStage()
+        public int GetCurrentStage() 
         {
             return StageIndex;
         }
 
-        public void InitializeAchievements(Game1 game)
+        public bool IsFirstBloodAchievementUnlocked()
         {
-            achievementManager.AddAchievement(new Achievement(
-                "First Blood",
-                "Defeat your first enemy.",
-                () => enemyDefeatedCount >= 1
-            ));
-
-            achievementManager.AddAchievement(new Achievement(
-                "Treasure Hunter",
-                "Collect 10 items.",
-                () => itemCollectedCount >= 10
-            ));
-
-            achievementManager.AddAchievement(new Achievement(
-                "Dungeon Master",
-                "Complete the dungeon.",
-                () => isDungeonComplete
-            ));
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
+            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            {
+                isFirstBloodAchievementUnlockedbool = true;
+                return true;
+            }
+            return false;
         }
+
+        public void InitializeAchievements()
+        {
+            Debug.WriteLine("Entering InitializeAchievements method");
+            try
+            {
+                Debug.WriteLine("Entering InitializeAchievements method");
+                achievementManager = new AchievementManager(_link, _scale);
+                Debug.WriteLine("Initialize achievements");
+                achievementManager.AddAchievement(new Achievement(
+                    "First Blood",
+                    "Defeat your first enemy.",
+                    () => IsFirstBloodAchievementUnlocked()
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Treasure Hunter",
+                    "Collect 10 items.",
+                    () => itemCollectedCount >= 10
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Dungeon Master",
+                    "Complete the dungeon.",
+                    () => isDungeonComplete
+                ));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error initializing achievements: " + ex.Message);
+            }
+        }
+
         public void IncrementEnemyDefeatedCount()
         {
+            Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine("Adding enemy count");
             enemyDefeatedCount++;
         }
+
+
     }
 }
