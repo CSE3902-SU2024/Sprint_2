@@ -67,7 +67,7 @@ namespace Sprint0.Player
                 _weaponPosition.X -= _link.boomerangSpeed;
             }
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (--remainingFrames <= 0)
             {
@@ -121,6 +121,10 @@ namespace Sprint0.Player
 
         }
         public void UseArrow()
+        {
+
+        }
+        public void UseAk()
         {
 
         }

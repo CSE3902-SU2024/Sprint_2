@@ -31,7 +31,7 @@ namespace Sprint0.Player
             }
            
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (--remainingFrames <= 0)
             {
@@ -91,6 +91,10 @@ namespace Sprint0.Player
 
         }
         public void UseBomb()
+        {
+
+        }
+        public void UseAk()
         {
 
         }

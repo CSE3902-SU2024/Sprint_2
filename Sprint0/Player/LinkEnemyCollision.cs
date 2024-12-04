@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy;
 using Sprint2.Enemy.Projectiles;
@@ -46,18 +48,30 @@ namespace Sprint0.Collisions
                 (int)(height * scale.Y)
             );
         }
-        public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale)
+        public static void HandleCollisions(Link link, Enemy_Item_Map enemyItemMap, int currentRoomNumber, Vector2 scale, BulletManager bulletManager, Link link2 = null)
         {
             Rectangle linkHitbox = GetScaledRectangle((int)link._position.X, (int)link._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
             
                 List<IEnemy> enemiesInRoom = enemyItemMap.GetEnemies(currentRoomNumber);
-                foreach (IEnemy enemy in enemiesInRoom)
+            List<Bullet> activeBullets = bulletManager.GetActiveBullets();
+
+
+            foreach (IEnemy enemy in enemiesInRoom)
                 {
                 Rectangle enemyHitbox = GetScaledRectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.Width, enemy.Height, scale);
 
                 if (linkHitbox.Intersects(enemyHitbox))
                 {
                     HandleLinkEnemyCollision(link, enemy);
+                }
+                if (link2 != null)
+                {
+                    Rectangle link2Hitbox = GetScaledRectangle((int)link2._position.X, (int)link2._position.Y, LinkHitboxWidth, LinkHitboxHeight, scale);
+
+                    if (link2Hitbox.Intersects(enemyHitbox))
+                    {
+                        HandleLinkEnemyCollision(link2, enemy);
+                    }
                 }
 
                 if (enemy is Dragon dragon)
@@ -69,7 +83,6 @@ namespace Sprint0.Collisions
                 {
                     HandleBoomerangCollisions(link, goriya, scale);
                 }
-
                 if (link.currentState is SwordRight || link.currentState is SwordLeft || link.currentState is SwordUp || link.currentState is SwordDown)
                 {
                     Rectangle swordHitbox = GetSwordHitbox(link, scale);
@@ -77,7 +90,7 @@ namespace Sprint0.Collisions
                     {
                         HandleSwordEnemyCollision(link, enemy);
                     }
-                }
+                } else
                 if (link.currentState is ArrowRight || link.currentState is ArrowLeft || link.currentState is ArrowUp || link.currentState is ArrowDown)
                 {
                     Rectangle ArrowHitbox = GetArrowHitbox(link, scale);
@@ -85,7 +98,7 @@ namespace Sprint0.Collisions
                     {
                         HandleArrowEnemyCollision(link, enemy);
                     }
-                }
+                } else
                 if (link.currentState is BoomerangRight || link.currentState is BoomerangLeft || link.currentState is BoomerangUp || link.currentState is BoomerangDown)
                 {
                     Rectangle BoomerangHitbox = GetBoomerangHitbox(link, scale);
@@ -93,7 +106,7 @@ namespace Sprint0.Collisions
                     {
                         HandleBoomerangEnemyCollision(link, enemy);
                     }
-                }
+                } else
                 if (link.currentState is BombRight)
                 {
                     Rectangle BombHitbox = GetBombHitbox(link, scale);
@@ -123,7 +136,16 @@ namespace Sprint0.Collisions
                         HandleBombEnemyCollision(link, enemy);
                     }
                 }
+                foreach (Bullet bullet in activeBullets)
+                {
+                    Rectangle BulletHitbox = GetBulletHitbox(scale, bullet);
+                    if (BulletHitbox.Intersects(enemyHitbox))
+                    {
+                        HandleBulletEnemyCollision(link, enemy);
+                    }
+                }
             }
+
         }
 
         private static void HandleFireballCollisions(Link link, Dragon dragon, Vector2 scale)
@@ -209,6 +231,10 @@ namespace Sprint0.Collisions
             {
                 link.currentState = new LinkDown(link);
             }
+        }
+        private static void HandleBulletEnemyCollision(Link link, IEnemy enemy)
+        {
+            enemy.TakeDamage();
         }
         private static void HandleBoomerangEnemyCollision(Link link, IEnemy enemy)  //if we later want death by arrow, death by sword etc
         {
@@ -298,6 +324,24 @@ namespace Sprint0.Collisions
             }
 
             return GetScaledRectangle((int)ArrowPosition.X, (int)ArrowPosition.Y, width, height, scale);
+        }
+        public static Rectangle GetBulletHitbox(Vector2 scale, Bullet bullet)
+        {
+            int width, height;
+
+            if (bullet.Velocity.X != 0) {
+                width = 6;
+                height = 3;
+            } else if (bullet.Velocity.Y != 0)
+            {
+                width = 3;
+                height = 6;
+            } else
+            {
+                return Rectangle.Empty;
+            }
+
+            return GetScaledRectangle((int)bullet.Position.X, (int)bullet.Position.Y, width, height, scale);
         }
         public static Rectangle GetBoomerangHitbox(Link link, Vector2 scale)
         {

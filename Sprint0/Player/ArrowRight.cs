@@ -31,11 +31,11 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, linkFrame, false);
 
-                _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
+            _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
             
 
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             
                 if (weaponFrame == 19)
@@ -86,6 +86,10 @@ namespace Sprint0.Player
 
         }
         public void UseArrow()
+        {
+
+        }
+        public void UseAk()
         {
 
         }

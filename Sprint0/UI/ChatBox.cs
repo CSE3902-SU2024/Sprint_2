@@ -16,7 +16,7 @@ namespace Sprint2.UI
         private Vector2 _scale;
         private const int TEXT_PADDING_X = 3;
         private const int TEXT_PADDING_Y = 10;
-        private const int MIN_WIDTH = 2;
+        private const int MIN_WIDTH = 13;
         private Vector2? _referencePosition;
 
 
@@ -50,7 +50,7 @@ namespace Sprint2.UI
 
             // calculate  width by text but ensure it's at least MIN_WIDTH
             int requiredWidth = (int)MathHelper.Max(
-                25,
+                MIN_WIDTH * _scale.X,
                 (textSize.X/3) * _scale.X
             );
 
@@ -83,13 +83,13 @@ namespace Sprint2.UI
             finalMessage = lastMessage;
             UpdateBounds(lines[0], referencePosition);
             currentMessage = lines[0];
-            System.Diagnostics.Debug.WriteLine($"ChatBox State: Visible: {isVisible}, LineIndex: {currentLineIndex}, Message: {currentMessage}");
+            
 
         }
 
         public bool AdvanceConversation(Vector2? referencePosition = null)
         {
-            System.Diagnostics.Debug.WriteLine($"ChatBox AdvanceConversation. IsVisible: {isVisible}, ConversationLines: {conversationLines?.Length}, CurrentLineIndex: {currentLineIndex}");
+            
 
             if (!isVisible) return false;
 

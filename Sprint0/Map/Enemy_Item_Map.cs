@@ -101,7 +101,7 @@ namespace Sprint2.Map
             }
             return rooms.ElementAt(roomNum);
         }
-
+        
         public List<IEnemy> GetEnemiesInRoom(int[,] room, int roomNum)
         {
             List<IEnemy> EnemiesInRoom = new List<IEnemy>();
@@ -150,8 +150,7 @@ namespace Sprint2.Map
                             wizzrobe.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             GameStateManager._keyboardController.SetWizzrobe(wizzrobe);
                             EnemiesInRoom.Add(wizzrobe);
-                            wizzrobe.ResetConversationState();
-
+                            
                             break;
                     }
                     EnemyPosition.X += 16 * _scale.X;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Sprint0.Player;
 using Sprint2.Map;
 
 namespace Sprint0.Classes
@@ -7,11 +6,11 @@ namespace Sprint0.Classes
     public class MouseController
     {
         private MouseState previousState;
-        public Link _link;
+    
         private StageManager _StageManager;
-        public MouseController(Link link, StageManager stageManager)
+        public MouseController(StageManager stageManager)
         {
-            _link = link;
+     
             _StageManager = stageManager;
         }
 

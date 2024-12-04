@@ -137,6 +137,11 @@ namespace Sprint0.Classes
         {
             return new Rectangle[] { new Rectangle(191, 185, 16, 16), new Rectangle(191, 185, 16, 16) }; ;
         }
+        public static Rectangle[] CreateAk47ItemFrames()
+        {
+            return new Rectangle[] { new Rectangle(16, 41, 8, 23), new Rectangle(16, 41, 8, 23) }; ;
+        }
+
 
         public static Rectangle[] CreateBlockFrames()
         {

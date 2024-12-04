@@ -35,7 +35,7 @@ namespace Sprint0.Player
 
 
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
 
             if (weaponFrame == 19)
@@ -86,6 +86,10 @@ namespace Sprint0.Player
 
         }
         public void UseArrow()
+        {
+
+        }
+        public void UseAk()
         {
 
         }

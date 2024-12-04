@@ -6,6 +6,7 @@ using Sprint2.Classes;
 using Sprint2.Map;
 using Sprint2.Player;
 using System;
+using static Sprint2.Classes.Iitem;
 
 namespace Sprint2
 {
@@ -15,7 +16,9 @@ namespace Sprint2
         private SpriteBatch _spriteBatch;
         private Texture2D _hudTexture;
         private Rectangle _hudBackground;
-        private Rectangle[] cutOuts;
+        public Rectangle[] cutOuts { get; private set; }
+        public Texture2D HUDTexture => _hudTexture;
+
         private Vector2 _scale;
         private Link _link;
         private Vector2 _position;
@@ -31,11 +34,12 @@ namespace Sprint2
         private const int HEART_WIDTH = 9;
         private const int HEART_HEIGHT = 9;
         const int heartsPerRow = 8;  // Set max hearts per row
-        private int health;
+       
 
         private int numKeys;
         private int keyPos = 0;
         int Spacing = 8;
+        private int Health;
 
         private MiniMap1 MiniMap;
 
@@ -48,13 +52,14 @@ namespace Sprint2
             _scale = scale;
             _position = Vector2.Zero;
             this.graphicsDevice = graphicsDevice;
-            health = _link.Health;
+            Health = _link.Health;
             this.content = content;
             LoadContent(content);
             InitializeHUDPositions();
             stageManager = StageManager;
             MiniMap = new MiniMap1(_scale, stageManager, _link);
             MiniMap.LoadMap(content);
+            
 
         }
 
@@ -102,6 +107,10 @@ namespace Sprint2
              };
 
         }
+        public Rectangle[] GetCutOuts()
+        {
+            return cutOuts;
+        }
 
         public void SetPosition(Vector2 position)
         {
@@ -131,11 +140,12 @@ namespace Sprint2
         private void DrawHearts()
         {
             // Adjust heart positions to include offset
-            for (int i = 0; i < health; i++)
+            for (int i = 0; i < Health; i++)
             {
+                Health = _link.Health;
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
-                int heartValue = _link.Health - (i * 2);
+                int heartValue = Health - (i * 2);
 
                 Rectangle heartSource;
                 if (heartValue >= 2)
@@ -161,10 +171,27 @@ namespace Sprint2
 
             }
         }
+
+        private void DecrementKeys()
+        {
+            if (_link.hasKey)
+            {
+
+            }
+        }
+
+        //public void IncrementHealth()
+        //{
+        //    Health++;
+        //}
+        //public void DecrementHealth()
+        //{
+        //    Health--;
+        //}
         private void DrawKeys()
         {
 
-            int keyCount = _link.keyCount;
+            int keyCount = _link.GetKeyCount();
 
             Vector2 baseKeyPosition = new Vector2(385, 135); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -223,7 +250,7 @@ namespace Sprint2
         }
         private void DrawGems()
         {
-            int GemCount = _link.GemCount;
+            int GemCount = _link.GetGemCount();
 
             Vector2 baseGemPosition = new Vector2(385, 68); //hardcoded
             Rectangle xSource = cutOuts[4]; // Index 4 is the 'x'
@@ -362,26 +389,45 @@ namespace Sprint2
         }
         private void DrawCurrentItem()
         {
-            // B button slot  
-            Vector2 bSlotPosition = new Vector2(510, 102);  
+            // B   slot  
+            Vector2 bSlotPosition = new Vector2(510, 102);
 
             if (_link?.inventory?.SelectedItem != null)
             {
                 Iitem currentItem = _link.inventory.SelectedItem;
-                _spriteBatch.Draw(
-                    currentItem.Sprite,
-                    new Vector2(
-                        _position.X + bSlotPosition.X,
-                        _position.Y + bSlotPosition.Y
-                    ),
-                    currentItem.SourceRectangles[0],  
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    _scale,
-                    SpriteEffects.None,
-                    0f
-                );
+
+                // Check if item need to be displayed (in case key decremented to 0)
+                bool shouldDisplayItem = true;
+                if (currentItem.CurrentItemType == ItemType.boom && _link.BombCount <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+                else if (currentItem.CurrentItemType == ItemType.key && _link.GetKeyCount() <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+                else if ( currentItem.CurrentItemType == ItemType.diamond && _link.GetGemCount() <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+
+                if (shouldDisplayItem)
+                {
+                    _spriteBatch.Draw(
+                        currentItem.Sprite,
+                        new Vector2(
+                            _position.X + bSlotPosition.X,
+                            _position.Y + bSlotPosition.Y
+                        ),
+                        currentItem.SourceRectangles[0],
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        _scale,
+                        SpriteEffects.None,
+                        0f
+                    );
+                }
             }
         }
 

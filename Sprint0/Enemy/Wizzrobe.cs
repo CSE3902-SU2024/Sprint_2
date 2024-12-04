@@ -24,7 +24,7 @@ namespace Sprint2.Enemy
         private bool isActiveConversation = false;
         private const float INTERACTION_DISTANCE = 32f;  
         public Link _link;
-
+        private bool hasStartedConversation = false;
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 16;
@@ -47,17 +47,23 @@ namespace Sprint2.Enemy
         }},
          { 2, new string[] {
             "yes",
-            "yes",
-            "yes"
-        }}
-        };
+            "go",
+            "111"
+        }},
+         { 9, new string[] {
+            "Welcome to my secrete shop",
+            "Spend Gem to buy the item you want",
+            "Thanks for coming" }
+        } };
         private string defaultFinalMessage = "Go, traveler";
 
         private Dictionary<int, string> stageFinalMessages = new Dictionary<int, string>
     {
         { 0, "Go, traveler" },
         { 1, "Good luck in this dungeon" },
-        { 2, "The path ahead is treacherous" }
+        { 2, "The path ahead is treacherous" },
+        { 9, "Thanks for coming" }
+
     };
 
         private int _currentStage;
@@ -110,7 +116,7 @@ namespace Sprint2.Enemy
 
                 //SOMEWHERE HERE
 
-                System.Diagnostics.Debug.WriteLine($"Player Position: {_link._position}, Wizzrobe Position: {Position}, Distance: {distance}");
+               // System.Diagnostics.Debug.WriteLine($"Player Position: {_link._position}, Wizzrobe Position: {Position}, Distance: {distance}");
                 if (canInteract && !wasNearby)
                 {
                     wasNearby = true;
@@ -124,6 +130,10 @@ namespace Sprint2.Enemy
 
                 }
 
+                if (!canInteract)
+                {
+                    hasStartedConversation = false;
+                }
                 chatBox?.Update();
 
 
@@ -142,20 +152,18 @@ namespace Sprint2.Enemy
 
         public void StartConversation()
         {
-            if (chatBox != null)   
+            if (chatBox != null && !hasStartedConversation)
             {
                 string[] conversationLines = stageConversations.ContainsKey(_currentStage)
-               ? stageConversations[_currentStage]
-               : stageConversations[0];
+                    ? stageConversations[_currentStage]
+                    : stageConversations[0];
                 string finalMessage = stageFinalMessages.ContainsKey(_currentStage)
-                ? stageFinalMessages[_currentStage]
-                : defaultFinalMessage;
+                    ? stageFinalMessages[_currentStage]
+                    : defaultFinalMessage;
 
                 isActiveConversation = true;
-                System.Diagnostics.Debug.WriteLine($"Conversation Lines: {conversationLines.Length}");
-                System.Diagnostics.Debug.WriteLine($"Final Message: {finalMessage}");
+                hasStartedConversation = true;
                 chatBox.StartConversation(conversationLines, finalMessage, position);
-
             }
         }
 
@@ -205,7 +213,12 @@ namespace Sprint2.Enemy
             position = initialPosition;
             currentFrame = 0;
             timeElapsed = 0f;
-            
+            hasStartedConversation = false;
+            isActiveConversation = false;
+            if (chatBox != null)
+            {
+                chatBox.Hide();
+            }
         }
     }
 }

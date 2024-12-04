@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Sprint0.Player;
 using Sprint2.Classes;
 using static Sprint2.Classes.Iitem;
@@ -9,7 +10,10 @@ namespace Sprint0.Classes
 {
     internal class Potion : Iitem
     {
-        public Link _link;
+        private Link _link;
+        private Link _link2;
+
+        private bool TwoPlayer;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.potion;
@@ -23,12 +27,19 @@ namespace Sprint0.Classes
 
         public ItemType currentItemType { get; set; }
 
-        public Potion(Vector2 position, Link link)
+        public Potion(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+            TwoPlayer = false;
+
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
 
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
@@ -67,8 +78,32 @@ namespace Sprint0.Classes
             {
                 Position.X += 20000;
                 Position.Y += 20000;
-                _link.hasPotion = true;
+                _link.inventory.AddItem(this);
+                
             }
+            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                _link.hasPotion = true;
+
+            }
+            if (TwoPlayer)
+            {
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                if (playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    Position.X += 20000;
+                    Position.Y += 20000;
+                    _link.inventory.AddItem(this);
+
+                }
+                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    _link.hasPotion = true;
+                    _link2.hasPotion = true;
+
+                }
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

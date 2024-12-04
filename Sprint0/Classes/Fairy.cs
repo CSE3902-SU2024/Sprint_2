@@ -13,6 +13,9 @@ namespace Sprint0.Classes
     {
         public ILinkState currentState;
         public Link _link;
+        public Link _link2;
+
+        private bool TwoPlayer;
         public Texture2D Sprite { get; private set; }
         public Rectangle[] SourceRectangles { get; private set; }
         public ItemType CurrentItemType => ItemType.fairy;
@@ -24,16 +27,24 @@ namespace Sprint0.Classes
         private float timeElapsed;
         private int currentFrame;
         public bool follow = false;
+        public bool F1 = false;
+        public bool F2 = false;
 
         public ItemType currentItemType { get; set; }
 
-        public Fairy(Vector2 position, Link link)
+        public Fairy(Vector2 position, Link link, Link link2)
         {
 
             Position = position;
             OriginalPosition = position;
             _link = link;
+            TwoPlayer = false;
 
+            if (link2 != null)
+            {
+                _link2 = link2;
+                TwoPlayer = true;
+            }
         }
         private static Rectangle GetScaledRectangle(int x, int y, int width, int height, Vector2 scale)
         {
@@ -64,27 +75,77 @@ namespace Sprint0.Classes
                 currentFrame = (currentFrame + 1) % SourceRectangles.Length;
                 timeElapsed = 0f;
             }
-
-            Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
-            Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
-            if (playerBoundingBox.Intersects(itemBoundingBox))
+            if (!TwoPlayer)
             {
-                follow = true;
-            }
-            if (follow)
-            {
-                float distanceX = (float)_link._position.X - (float)Position.X;
-                float distanceY = (float)_link._position.Y - (float)Position.Y;
-
-                if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
                 {
-                    Vector2 direction = new Vector2(distanceX, distanceY);
-                    direction.Normalize();
-                    float speed = 200f;
-                    Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Position += movement;
+                    follow = true;
                 }
+                if (follow)
+                {
+                    float distanceX = (float)_link._position.X - (float)Position.X;
+                    float distanceY = (float)_link._position.Y - (float)Position.Y;
+
+                    if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                    {
+                        Vector2 direction = new Vector2(distanceX, distanceY);
+                        direction.Normalize();
+                        float speed = 200f;
+                        Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        Position += movement;
+                    }
+                }
+            } else
+            {
+                Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
+                Rectangle playerBoundingBox2 = GetScaledRectangle((int)_link2._position.X, (int)_link2._position.Y, 16, 16, _link2._scale);
+                Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
+                if (playerBoundingBox.Intersects(itemBoundingBox))
+                {
+                    F1 = true;
+                  //  follow = true;
+                }
+                
+               else if (playerBoundingBox2.Intersects(itemBoundingBox))
+                {
+                    F2 = true;
+                  //  follow = true;
+                }
+                
+                    if (F1)
+                    {
+                        float distanceX = (float)_link._position.X - (float)Position.X;
+                        float distanceY = (float)_link._position.Y - (float)Position.Y;
+
+                        if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                        {
+                            Vector2 direction = new Vector2(distanceX, distanceY);
+                            direction.Normalize();
+                            float speed = 200f;
+                            Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            Position += movement;
+                        }
+                    }
+                    else if (F2)
+                    {
+                        float distanceX = (float)_link2._position.X - (float)Position.X;
+                        float distanceY = (float)_link2._position.Y - (float)Position.Y;
+
+                        if (Math.Abs(distanceX) > 20 * _scale.X || Math.Abs(distanceY) > 20 * _scale.Y)
+                        {
+                            Vector2 direction = new Vector2(distanceX, distanceY);
+                            direction.Normalize();
+                            float speed = 200f;
+                            Vector2 movement = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            Position += movement;
+                        }
+                    }
+                
+               
             }
+            
                 
 
         }

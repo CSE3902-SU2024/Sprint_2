@@ -68,24 +68,51 @@ namespace Sprint0.Classes
                 new Rectangle (129,185,8,16),       //23 BOMB 1
                 new Rectangle (138,185,16,16),      //24 BOMB 2
                 new Rectangle (155,185,16,16),      //25 BOMB 3 
-                new Rectangle (172,185,16,16)       //26 BOMB 4
+                new Rectangle (172,185,16,16),       //26 BOMB 4
+
+                //original full sprite (ak + link)
+                new  Rectangle (245,220,36,14),       //27 AK Right 1
+                new  Rectangle (282,220,35,14),       //28 AK Right 2
+                new  Rectangle (318,218,38,15),       //29 AK Right 3
+
+                 new Rectangle (326,158,3,6),       //30 BULLET Up 1
+
+                new Rectangle (310,158,6,3),       //31 BULLET Right 1
+
+                //original full sprite (ak + link)
+                //new  Rectangle (297,95,13,29),       
+                //new  Rectangle (316,92,11,32),       
+                //new  Rectangle (333,92,15,32),       
+
+                new  Rectangle (296,109,14,16),       //32 AK Up 1
+                new  Rectangle (314,109,14,16),       //33 AK Up 2
+                new  Rectangle (331,109,19,16),       //34 AK Up 3  //link
+
+                new  Rectangle (297,47,15,27),       //35 AK Down 1
+                new  Rectangle (314,47,15,30),       //36 AK Down 2
+                new  Rectangle (331,47,16,32),       //37 AK Down 3
+                
+                new  Rectangle (297,95,13,14),       //38 AK Up 1.5
+                new  Rectangle (316,92,11,17),       //39 AK Up 2.5   //separating link from ak
+                new  Rectangle (333,92,17,17),       //40 AK Up 3.5  //the ak
+
+                
+                new  Rectangle (261,220,20,14),       //41 AK Left 1.5
+                new  Rectangle (298,220,19,14),       //42 AK Left 2.5  //the ak
+                new  Rectangle (334,218,20,15),       //43 AK Left 3.5
+
+                new  Rectangle (245,220,16,14),       //44 AK Left 1
+                new  Rectangle (282,220,16,14),       //45 AK Left 2  //link
+                new  Rectangle (318,218,18,15),       //46 AK Left 3
 
 
 
 
-                //new Rectangle(94, 77, 15, 15),    // 8 Sword Right 1
-                //new Rectangle(111, 78, 27, 14),   // 9 Sword Right 2
-                //new Rectangle(139, 78, 23, 14),   // 10 Sword Right 3
-                //new Rectangle(163, 77, 18, 15),   // 11 Sword Right 4
-                //new Rectangle(94,109,16,16),      // 12 Sword Up 1                 //#12
-                //new Rectangle(111,97,16,28),      // 13  Sword Up 2
-                //new Rectangle(128,98,16, 28),     // 14 Sword up 3
-                //new Rectangle(145,106,16, 19),    // 15 Sword up 4
-                //new Rectangle(94,47,16,16),       // 16 Sword down 1
-                //new Rectangle(111,47,16,27),      // 17 Sword down 2
-                //new Rectangle(128,47,16,23),      // 18 Sword down 3
-                //new Rectangle(145,47,16,19),      // 19 Sword down 4
-                //new Rectangle(35,232,16,16)       // 20 hurt animation              
+
+
+
+
+                          
              };
 
             return sourceRectangles;

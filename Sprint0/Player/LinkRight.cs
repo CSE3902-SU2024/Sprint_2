@@ -33,7 +33,7 @@ namespace Sprint0.Player
                 (int)(height * scale.Y)
             );
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CollideWall = false;
             wallBoundingBox = new Rectangle((int)(224 * _link._scale.X), (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(300 * _link._scale.Y));
@@ -62,13 +62,14 @@ namespace Sprint0.Player
         }
         public void MoveRight()
         {
+
             if (!CollideWall)
             {
                 _link._position.X += _link.speed;
             }
             else
             {
-                _link._position.X = wallBoundingBox.Left - (16 * _link._scale.X);
+             //   _link._position.X = wallBoundingBox.Left - (16 * _link._scale.X);
             }
             if (--remainingFrames <= 0)
             {
@@ -96,6 +97,11 @@ namespace Sprint0.Player
         public void UseArrow()
         {
             _link.currentState = new ArrowRight(_link);
+
+        }
+        public void UseAk()
+        {
+            _link.currentState = new AkRight(_link);
         }
         public void UseBoomerang()
         {

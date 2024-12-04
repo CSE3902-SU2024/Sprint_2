@@ -37,7 +37,7 @@ namespace Sprint0.Player
 
 
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             _boomTimer--;  //timer ticking down
           
@@ -74,7 +74,8 @@ namespace Sprint0.Player
                     {
                         linkFrame = 2;
                         _link.BombCount--;
-
+                        _link.SetExplosionCoords(_weaponPosition);
+                        _link.DecrementBomb();
                         _link.currentState = new LinkLeft(_link);
                     }
                     remainingFrames = _link.framesPerSword;
@@ -110,6 +111,10 @@ namespace Sprint0.Player
 
         }
         public void UseArrow()
+        {
+
+        }
+        public void UseAk()
         {
 
         }

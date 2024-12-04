@@ -41,7 +41,7 @@ namespace Sprint0.Player
                 _link.DrawWeapon(_spriteBatch, weaponFrame, false, false, _weaponPosition);
             }
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (--remainingFrames <= 0)
             {
@@ -92,7 +92,10 @@ namespace Sprint0.Player
         {
 
         }
-       
+        public void UseAk()
+        {
+
+        }
 
         public void UseArrow()
         {

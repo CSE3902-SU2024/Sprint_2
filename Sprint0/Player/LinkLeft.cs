@@ -35,7 +35,7 @@ namespace Sprint0.Player
         {
             _link.DrawSprite(_spriteBatch, frame, true);
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CollideWall = false;
             wallBoundingBox = new Rectangle(0, (int)(32 * _link._scale.Y), (int)(32 * _link._scale.X), (int)(300 * _link._scale.Y));
@@ -74,7 +74,7 @@ namespace Sprint0.Player
             }
             else
             {
-                _link._position.X = wallBoundingBox.Right;
+              //  _link._position.X = wallBoundingBox.Right;
             }
             if (--remainingFrames <= 0)
             {
@@ -108,6 +108,11 @@ namespace Sprint0.Player
         public void UseBomb()
         {
           _link.currentState = new BombLeft(_link);
+        }
+        public void UseAk()
+        {
+            _link.currentState = new AkLeft(_link);
+
         }
 
         public void IsDamaged()

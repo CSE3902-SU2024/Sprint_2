@@ -33,7 +33,7 @@ namespace Sprint0.Player
                 (int)(height * scale.Y)
             );
         }
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CollideWall = false;
 
@@ -65,7 +65,7 @@ namespace Sprint0.Player
             }
             else
             {
-                _link._position.Y = wallBoundingBox.Bottom;
+              //  _link._position.Y = wallBoundingBox.Bottom;
             }
             if (--remainingFrames <= 0)
             {
@@ -104,6 +104,11 @@ namespace Sprint0.Player
         public void UseBomb()
         {
             _link.currentState = new BombUp(_link);
+        }
+        public void UseAk()
+        {
+            _link.currentState = new AkUp(_link);
+
         }
 
         public void IsDamaged()
