@@ -55,6 +55,12 @@
 /processorParam:TextureFormat=Color
 /build:ChatBox.png
 
+#begin doom.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:doom.mp3
+
 #begin Dungeon.png
 /importer:TextureImporter
 /processor:TextureProcessor
