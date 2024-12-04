@@ -120,7 +120,7 @@ namespace Sprint2.TwoPlayer
                 _EnemyItem.Update(StageIndex, gameTime);
                 _ItemMap.Update(StageIndex, gameTime);
                 LinkEnemyCollision.HandleCollisions(_link, _EnemyItem, StageIndex, _link._scale, _link.BulletManager);
-                LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale, _link.BulletManager);
+                LinkEnemyCollision.HandleCollisions(_link2, _EnemyItem, StageIndex, _link2._scale, _link2.BulletManager);
             }
             if (StageIndex == 0)
             {
@@ -219,7 +219,7 @@ namespace Sprint2.TwoPlayer
             {
                 _DrawDungeon2.Draw(Vector2.Zero, false, StageIndex);
                 DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
-                DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale, _link.BulletManager);
+                DebugDraw.DrawHitboxes(_spriteBatch, _link2, _EnemyItem, StageIndex, _scale, _link2.BulletManager);
 
                 if (StageIndex == 14)
                 {
