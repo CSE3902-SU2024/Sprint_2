@@ -32,7 +32,7 @@ namespace Sprint2
         private const int HEART_WIDTH = 9;
         private const int HEART_HEIGHT = 9;
         const int heartsPerRow = 8;  // Set max hearts per row
-        private int health;
+       
 
         private int numKeys;
         private int keyPos = 0;
@@ -133,7 +133,7 @@ namespace Sprint2
         private void DrawHearts()
         {
             // Adjust heart positions to include offset
-            for (int i = 0; i < health; i++)
+            for (int i = 0; i < Health; i++)
             {
                 Health = _link.Health;
                 int row = i / heartsPerRow;
