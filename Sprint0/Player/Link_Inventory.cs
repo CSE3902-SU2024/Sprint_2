@@ -28,6 +28,8 @@ namespace Sprint0.Player
         private int BombCount;
         private int GemCount;
         private int KeyCount;
+        private int ClockCount;
+        private int PotionCount;
         public bool IsInventoryOpen => isInventoryOpen;
         public Iitem SelectedItem => selectedItem;
 
@@ -44,6 +46,8 @@ namespace Sprint0.Player
             BombCount = 3;
             GemCount = 0;
             KeyCount = 0;
+            ClockCount = 0;
+            PotionCount = 0;
 
         }
 
@@ -86,7 +90,11 @@ namespace Sprint0.Player
                 case ItemType.boom:
                     return BombCount > 0;
                 case ItemType.diamond:
-                    return GemCount > 0;    
+                    return GemCount > 0;
+                case ItemType.clock:
+                    return ClockCount > 0;
+                case ItemType.potion:
+                    return PotionCount > 0;
                 default:
                     return true;
             }
@@ -100,7 +108,9 @@ namespace Sprint0.Player
             var updatedItems = bagItems.Where(item =>
                 (item.CurrentItemType != ItemType.key || KeyCount > 0) &&
                 (item.CurrentItemType != ItemType.boom || BombCount > 0) && 
-                (item.CurrentItemType != ItemType.diamond || GemCount > 0)).ToList();
+                (item.CurrentItemType != ItemType.diamond || GemCount > 0) &&
+                (item.CurrentItemType != ItemType.clock || ClockCount > 0) &&
+                (item.CurrentItemType != ItemType.potion || PotionCount > 0)).ToList();
                 
 
              
@@ -205,6 +215,16 @@ namespace Sprint0.Player
             return BombCount;
         }
 
+        public int GetClockCount()
+        {
+            return ClockCount;
+        }
+
+        public int GetPotionCount()
+        {
+            return PotionCount;
+        }
+
         public void DecrementBombCount()
         {
             BombCount--;
@@ -239,6 +259,26 @@ namespace Sprint0.Player
         public void IncrementKeyCount()
         {
             KeyCount++;
-        }        
+        }
+
+        public void IncrementClockCount()
+        {
+            ClockCount++;
+        }
+
+        public void DecrementClockCount()
+        {
+            ClockCount--;
+        }
+
+        public void IncrementPotionCount()
+        {
+            PotionCount++;
+        }
+
+        public void DecrementPotionCount()
+        {
+            PotionCount--;
+        }
     }
 }

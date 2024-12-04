@@ -410,6 +410,15 @@ namespace Sprint2
                 {
                     shouldDisplayItem = false;
                 }
+                else if (currentItem.CurrentItemType == ItemType.clock && _link.GetClockCount() <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+                else if (currentItem.CurrentItemType == ItemType.potion && _link.GetPotionCount() <= 0)
+                {
+                    shouldDisplayItem = false;
+                }
+
 
                 if (shouldDisplayItem)
                 {

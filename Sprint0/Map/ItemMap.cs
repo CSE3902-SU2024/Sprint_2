@@ -26,6 +26,8 @@ namespace Sprint2.Map
         public Link _link;
         public Link _link2;
         private Fairy fairy;
+        private Clock clock;
+        private Potion potion;
         private bool AddedKey3;
         private bool TwoPlayer;
         public ItemMap(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, Link link2)
@@ -148,7 +150,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(heart);
                             break;
                         case 4:
-                            Clock clock = new Clock(ItemPosition, _link, _link2);
+                            clock = new Clock(ItemPosition, _link, _link2);
                             clock.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.clock, _scale);
                             ItemsInRoom.Add(clock);
                             break;
@@ -163,7 +165,7 @@ namespace Sprint2.Map
                             ItemsInRoom.Add(diamond);
                             break;
                         case 7:
-                            Potion potion = new Potion(ItemPosition, _link, _link2);
+                            potion = new Potion(ItemPosition, _link, _link2);
                             potion.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.potion, _scale);
                             ItemsInRoom.Add(potion);
                             break;
@@ -217,7 +219,20 @@ namespace Sprint2.Map
         {
             List<Iitem> items = GetItems(currentStage);
 
-                if (fairy.follow && _link.transitioning)
+            if (_link.GetClockCount() > 0)
+            {
+                items.Add(clock);
+                clock.Position.X += 20000;
+                clock.Position.Y += 20000;
+            }
+            if (_link.GetPotionCount() > 0)
+            {
+                items.Add(potion);
+                potion.Position.X += 20000;
+                potion.Position.Y += 20000;
+            }
+
+            if (fairy.follow && _link.transitioning)
                 {
                     items.Add(fairy);
                     fairy.Position.X = _link._position.X;

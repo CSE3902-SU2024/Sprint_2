@@ -26,10 +26,10 @@ namespace Sprint2.GameStates
             titleScreen = content.Load<Texture2D>("TitleScreen");
             font = content.Load<SpriteFont>("File");
             timer = 0f;
-            showText = true;
+            showText = true;    
             _scale = scale;
 
-        _spriteBatch = spriteBatch;
+            _spriteBatch = spriteBatch;
             //Music
             titleSequence = content.Load<Song>("TitleTheme");
 
