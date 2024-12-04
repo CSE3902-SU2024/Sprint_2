@@ -3,27 +3,53 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using Sprint2.Map;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Sprint2.GameStates
 {
     public class PauseMenu : IGameState
     {
-        public GameStage currentGameStage;
+       // public GameStage currentGameStage;
         public Texture2D _texture;
         public SpriteBatch _spriteBatch;
         public Vector2 _scale;
-        static GraphicsDevice _graphicsDevice;
+        static GraphicsDevice _graphics;
+        private SpriteFont font;
 
+        private float timer;
+        private bool showText;
 
         public Texture2D pauseScreen;
-      //  private bool isPaused;
-        public PauseMenu(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, ContentManager content)
+
+        private string PauseText = "PAUSE MENU";
+        private string Return = "Press SPACE to return to game";
+
+        Vector2 PauseSize;
+        Vector2 ReturnSize;
+
+        float PauseScale;
+        float ReturnScale;
+        public PauseMenu(SpriteBatch spriteBatch, ContentManager content, GraphicsDevice graphics)
         {
-            currentGameStage = GameStage.PauseMenu;
+            font = content.Load<SpriteFont>("File");
+            showText = true;
+            timer = 0f;
+
             _spriteBatch = spriteBatch;
-            _graphicsDevice = graphicsDevice;
-            pauseScreen = content.Load<Texture2D>("Pause");
-        //    isPaused = false;
+            _graphics = graphics;
+
+            float dpi = 96;
+
+            float targetHeight1 = (2f / 2.45f) * dpi;
+            float targetHeight2 = (1f / 2.45f) * dpi;
+
+            PauseSize = font.MeasureString(PauseText);
+            ReturnSize = font.MeasureString(Return);
+
+            PauseScale = targetHeight1 / PauseSize.Y;
+            ReturnScale = targetHeight2 / ReturnSize.Y;
+
+
         }
 
        // public bool IsPaused => isPaused;
@@ -41,10 +67,13 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
-            //if (isPaused)
-            //{
-                UpdatePauseMenu(gameTime);
-           // }
+            UpdatePauseMenu(gameTime);
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer >= 0.5f)
+            {
+                showText = !showText;
+                timer = 0;
+            }
         }
 
         public void UpdatePauseMenu(GameTime gameTime)
@@ -65,19 +94,21 @@ namespace Sprint2.GameStates
 
         public void DrawPauseMenu()
         {
-            Rectangle sourceRectangle = new Rectangle(1, 1, 210, 58);
-
-            Vector2 position = new Vector2(0, 240);
-
-            Vector2 scale = new Vector2(1f, 1f);
-
-            // Draw the title screen
-            _spriteBatch.Draw(pauseScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            if (showText)
+            {
+                _spriteBatch.DrawString(font, PauseText, GetCenter(PauseSize,20,PauseScale), Color.White, 0f, Vector2.Zero, PauseScale, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize,800,ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
+            }
         }
 
         public int GetLinkHealth()
         {
             return 1;
+        }
+
+        public Vector2 GetCenter(Vector2 size, int y , float scale)
+        {
+            return new Vector2((_graphics.Viewport.Width - (size.X *scale))/2, y);
         }
     }
 }
