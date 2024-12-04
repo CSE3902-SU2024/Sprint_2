@@ -18,14 +18,16 @@ namespace Sprint0.Classes
         public Link _link2;
         private List<Wizzrobe> _wizzrobes;
         int previousIdx;
-
-
+        float VolumeSave;
+        bool fromPause;
         public KeyboardController(Link link, Link link2)
         {
             _link = link;
             _link2 = link2;
             _wizzrobes = new List<Wizzrobe>();
             previousIdx = 0;
+            VolumeSave = MediaPlayer.Volume;
+            fromPause = false;
 
         }
         public void SetWizzrobe(Wizzrobe wizzrobe)
@@ -48,7 +50,7 @@ namespace Sprint0.Classes
                     {
                         // Start => Game
                         previousIdx = 1;
-                        returnVal = 1;
+                        returnVal = 6;
                     }
                     else if (state.IsKeyDown(Keys.D2))
                     {
@@ -58,15 +60,6 @@ namespace Sprint0.Classes
                     break;
                 // Game state
                 case 1:
-                    if (state.IsKeyDown(Keys.OemMinus))
-                    {
-                        MediaPlayer.Volume = 0f; // mute
-                    }
-
-                    if (state.IsKeyDown(Keys.OemPlus))
-                    {
-                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.1f); // Increase volume, but not above 1.0
-                    }
                     if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
                     {
                         _link.MoveDown();
@@ -133,8 +126,9 @@ namespace Sprint0.Classes
                         _link.UseBoomerang();
                     }
                   
-                    else if (state.IsKeyDown(Keys.Space))
+                    if (state.IsKeyDown(Keys.Space))
                     {
+                        fromPause = true;
                         // Game => Pause
                         previousIdx = 1;
                         returnVal = 5;
@@ -306,20 +300,10 @@ namespace Sprint0.Classes
                         }
 
                     }
-                    else if (state.IsKeyDown(Keys.RightShift))
+
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
                     {
-                        Debug.WriteLine("Tried Bomb");
-                        _link2.UseBomb();
-                    }
-                    else if (state.IsKeyDown(Keys.Space))
-                    {
-                        // Game => Pause
-                        previousIdx = 4;
-                        returnVal = 5;
-                    }
-                   
-                    else if (state.IsKeyDown(Keys.Space))
-                    {
+                        fromPause = true;
                         // Game => Pause
                         previousIdx = 4;
                         returnVal = 5;
@@ -343,17 +327,30 @@ namespace Sprint0.Classes
                     break;
                 // Pause menu
                 case 5:
+                    if (state.IsKeyDown(Keys.D0) && !previousState.IsKeyDown(Keys.D0))
+                    {
+                        if(MediaPlayer.Volume <= 0f)
+                        {
+                            MediaPlayer.Volume = VolumeSave;
+                        } else
+                        {
+                            VolumeSave = MediaPlayer.Volume;
+                            MediaPlayer.Volume = 0f; // mute
+                        }
+                        
+                    }
                     if (state.IsKeyDown(Keys.OemMinus))
                     {
-                        MediaPlayer.Volume = 0f; // mute
+                        MediaPlayer.Volume = Math.Max(0.0f, MediaPlayer.Volume - 0.05f); // Decrease But not below zero
                     }
 
-                    if (state.IsKeyDown(Keys.OemPlus))
+                    if (state.IsKeyDown(Keys.OemPlus) || state.IsKeyDown(Keys.OemEnlW))
                     {
-                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.1f); // Increase volume, but not above 1.0
+                        MediaPlayer.Volume = Math.Min(1.0f, MediaPlayer.Volume + 0.05f); // Increase volume, but not above 1.0
                     }
                     if (state.IsKeyDown(Keys.Escape))
                     {
+                        fromPause = false;
                         // Pause => Game
                         if(previousIdx == 1)
                         {
@@ -364,10 +361,71 @@ namespace Sprint0.Classes
                         }
                         
                     }
+                    // RESTART LOGIC
+                    if (state.IsKeyDown(Keys.R))
+                    {
+                        if(previousIdx == 1)
+                        {
+                            returnVal = 8;
+                        }
+                        if(previousIdx == 4)
+                        {
+                            returnVal = 9;
+                        }
+                    }
+
+                    if (state.IsKeyDown(Keys.S))
+                    {
+                        returnVal = 0;
+                    }
+
+                    if (state.IsKeyDown(Keys.Q))
+                    {
+                        return 100;
+                    }
+
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        
+                        if(previousIdx == 1)
+                        {
+                            returnVal = 6;
+                        } else
+                        {
+                            returnVal = 7;
+                        }
+                    }
+                    break;
+                case 6:
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        if (fromPause)
+                        {
+                            returnVal = 5;
+                        } else
+                        {
+                            returnVal = 1;
+                        }
+                       
+                    }
+                    break;
+                case 7:
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
+                    {
+                        if (fromPause)
+                        {
+                            returnVal = 5;
+                        }
+                        else
+                        {
+                            returnVal = 4;
+                        }
+                    }
                     break;
                 default:
                     break;
             }
+            
 
             previousState = state;
             return returnVal; // Return current state if no change
