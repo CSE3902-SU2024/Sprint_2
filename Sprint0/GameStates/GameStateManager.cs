@@ -200,6 +200,7 @@ namespace Sprint2.GameStates
                 ResetSinglePlayer();
                 CurrentGameState = GameOver;
                 newStateIndex = -1;
+                linkDeath.Play();
             }
 
             if (CurrentGameState == TwoPlayer && CurrentGameState.GetLinkHealth() <= 0)
@@ -207,6 +208,7 @@ namespace Sprint2.GameStates
                 ResetTwoPlayer(colorIndex);
                 CurrentGameState = GameOver;
                 newStateIndex = -2;
+                linkDeath.Play();
             }
 
             if (_link.win)
