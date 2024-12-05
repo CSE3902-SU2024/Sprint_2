@@ -68,7 +68,7 @@ namespace Sprint2.Enemy
         public List<Fireball> fireballs { get; private set; }
         public Dragon(Vector2 startPosition, Link link, Game1 game)
         {
-            health = 6;
+            health = 70;
             position = startPosition;
             initialPosition = startPosition;
             fireballs = new List<Fireball>();
