@@ -92,9 +92,15 @@ namespace Sprint2.TwoPlayer
             _StageAnimator2 = new StageAnimator2(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon2);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition14 = new Vector2(100, 100) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition14 = new Vector2(420, 445) + new Vector2(3, 3);
             movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
             movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+
+            //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
+            Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
+            movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
+            movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+
             if (texture == null)
             {
                 Debug.WriteLine("Texture not loaded");

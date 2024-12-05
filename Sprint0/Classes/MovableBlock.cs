@@ -58,6 +58,7 @@ namespace Sprint2.Classes
 
         public void Update(ref Vector2 spritePosition, Vector2 scale)
         {
+            playerPosition = spritePosition;
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
             Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight, scale);
 
