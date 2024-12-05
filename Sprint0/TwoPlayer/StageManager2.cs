@@ -177,14 +177,14 @@ namespace Sprint2.TwoPlayer
 
                 }
             }
-            if (StageIndex == 6)
+            if (StageIndex == 7)
             {
                 Vector2 BoomCoords = _link.GetBoomCoords();
                 if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
                 {
                     if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
                     {
-                        _DoorMap.BoomLogic(6);
+                        _DoorMap.BoomLogic(7);
                     }
 
                 }
@@ -193,7 +193,7 @@ namespace Sprint2.TwoPlayer
                 {
                     if (BoomCoords2.Y < 125 * _scale.Y && BoomCoords2.Y > 75 * _scale.Y)
                     {
-                        _DoorMap.BoomLogic(6);
+                        _DoorMap.BoomLogic(7);
                     }
 
                 }
@@ -232,7 +232,7 @@ namespace Sprint2.TwoPlayer
 
             if (StageIndex == 16)
             {
-                if (_EnemyItem.AreThereEnemies(StageIndex))
+                if (_EnemyItem.AreThereEnemies(16))
                 {
 
                     _DoorMap.SpecialDoorLogic(StageIndex);
