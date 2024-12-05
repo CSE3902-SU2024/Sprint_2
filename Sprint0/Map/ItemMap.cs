@@ -264,15 +264,7 @@ namespace Sprint2.Map
                     if (!AddedKey3)
                     {
                         Vector2 ItemPosition = new Vector2(208 * _scale.X, 127 * _scale.Y);
-                        Key key;
-                        if (TwoPlayer)
-                        {
-                            key = new Key(ItemPosition, _link, _link2);
-                        }
-                        else
-                        {
-                            key = new Key(ItemPosition, _link, null);
-                        }
+                        Key key = new Key(ItemPosition, _link, _link2);
                         key.LoadContent(_ContentManager, "NES - The Legend of Zelda - Items & Weapons", _GraphicsDevice, ItemType.key, _scale);
                         _itemMap[3].Add(key);
                         AddedKey3 = true;

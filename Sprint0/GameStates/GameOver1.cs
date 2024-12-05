@@ -33,10 +33,6 @@ namespace Sprint2.GameStates
 
         float PauseScale;
         float ReturnScale;
-        float UpScale;
-        float DownScale;
-        float MuteScale;
-        float ControlScale;
         float restartScale;
         float startScale;
         float quitScale;
@@ -64,6 +60,7 @@ namespace Sprint2.GameStates
 
             PauseScale = targetHeight1 / PauseSize.Y;
             ReturnScale = targetHeight2 / ReturnSize.Y;
+            startScale =   targetHeight2 / startSize.Y;
       
             restartScale = targetHeight2 / restartSize.Y;
             quitScale = targetHeight2 / quitSize.Y;
@@ -102,23 +99,19 @@ namespace Sprint2.GameStates
 
         public void Draw()
         {
-            DrawPauseMenu();
+            DrawGameOverMenu();
         }
 
-        public void DrawPauseMenu()
+        public void DrawGameOverMenu()
         {
             if (showText)
             {
                 _spriteBatch.DrawString(font, PauseText, GetCenter(PauseSize, 20, PauseScale), Color.Red, 0f, Vector2.Zero, PauseScale, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize, 800, ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, Return, GetCenter(ReturnSize, 90, ReturnScale), Color.White, 0f, Vector2.Zero, ReturnScale, SpriteEffects.None, 0f);
             }
-            //_spriteBatch.DrawString(font, volUp, GetCenter(UpSize, 90, UpScale), Color.White, 0f, Vector2.Zero, UpScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, volDown, GetCenter(UpSize, 140, UpScale), Color.White, 0f, Vector2.Zero, DownScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, mute, GetCenter(UpSize, 190, UpScale), Color.White, 0f, Vector2.Zero, MuteScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, controls, GetCenter(UpSize, 240, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, restart, GetCenter(UpSize, 290, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, start, GetCenter(UpSize, 340, UpScale), Color.White, 0f, Vector2.Zero, ControlScale, SpriteEffects.None, 0f);
-            //_spriteBatch.DrawString(font, quit, GetCenter(UpSize, 390, UpScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, restart, GetCenter(restartSize, 290, restartScale), Color.White, 0f, Vector2.Zero, restartScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, start, GetCenter(startSize, 340, startScale), Color.White, 0f, Vector2.Zero, startScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, quit, GetCenter(quitSize, 390, quitScale), Color.White, 0f, Vector2.Zero, quitScale, SpriteEffects.None, 0f);
 
 
         }

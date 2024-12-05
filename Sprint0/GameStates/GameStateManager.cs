@@ -128,7 +128,9 @@ namespace Sprint2.GameStates
                 switch (newStateIndex)
                 {
                     case 0:
-                        CurrentGameState = _StartMenu;
+                        CurrentGameState = new StartMenu(_graphicsDevice, _spriteBatch, content, _scale);
+                        levelCreated = false;
+                        
                         break;
                     case 1: //to game  
                         if (!levelCreated)
@@ -194,15 +196,19 @@ namespace Sprint2.GameStates
             }
             if (CurrentGameState == SinglePlayer && CurrentGameState.GetLinkHealth() <= 0)
             {
+                
                 ResetSinglePlayer();
-                CurrentGameState = SinglePlayer;
+                CurrentGameState = GameOver;
+                newStateIndex = -1;
             }
 
             if (CurrentGameState == TwoPlayer && CurrentGameState.GetLinkHealth() <= 0)
             {
                 ResetTwoPlayer(colorIndex);
-                CurrentGameState = TwoPlayer;
+                CurrentGameState = GameOver;
+                newStateIndex = -2;
             }
+
             GameStateIndex = newStateIndex;
 
             
