@@ -6,6 +6,7 @@ using System;
 using Sprint0.Player;
 using Sprint2.UI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Sprint2.Enemy
 {
@@ -24,6 +25,8 @@ namespace Sprint2.Enemy
         private bool isActiveConversation = false;
         private const float INTERACTION_DISTANCE = 32f;  
         public Link _link;
+        private Link _link2;
+        private bool TwoPlayer;
         private bool hasStartedConversation = false;
 
         public Vector2 Position { get => position; set => position = value; }
@@ -72,12 +75,14 @@ namespace Sprint2.Enemy
         private bool canInteract;
         private bool wasNearby;
 
-        public Wizzrobe(Vector2 startPosition, Link link, int currentStage)
+        public Wizzrobe(Vector2 startPosition, Link link,Link link2, int currentStage)
         {
             position = startPosition;
             initialPosition = startPosition;
             alive = true;
             _link = link;
+            _link2 = link2;
+           
             isPlayerNearby = false;
             _currentStage = currentStage;
 
@@ -108,6 +113,18 @@ namespace Sprint2.Enemy
                     timeElapsed = 0f;
                 }
                 float distance = Vector2.Distance(_link._position, position);
+
+                float distance2;
+                if (_link2 != null)
+                {
+                    distance2 = Vector2.Distance(_link2._position, position);
+
+                } else
+                {
+                    distance2 = 999;
+                }
+
+                distance = Math.Min(distance, distance2);
 
                 //ISSUE IS SOMEWHERE RIGHT HERE
                 wasNearby = canInteract;

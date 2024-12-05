@@ -26,11 +26,12 @@ namespace Sprint2.Map
         private GraphicsDevice _GraphicsDevice;
         private ContentManager _ContentManager;
         public Link _link;
+        public Link _link2;
         public Game1 game;
         private StageManager _stageManager;
         private StageManager2 stageManager2;
 
-        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
+        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, Link link2)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -42,6 +43,7 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
+            _link2 = link2;
             //_stageManager = stageManager;
             //this.stageManager2 = stageManager2;
 
@@ -159,7 +161,7 @@ namespace Sprint2.Map
                             Vector2 wizzrobePosition = new Vector2(
                                  (j * 16 + 32) * _scale.X,  //column index to calculate X
                                  (i * 16 + 87) * _scale.Y);  //row index to calculate Y
-                            Wizzrobe wizzrobe = new Wizzrobe(wizzrobePosition, _link, roomNum);
+                            Wizzrobe wizzrobe = new Wizzrobe(wizzrobePosition, _link,_link2, roomNum);
                             wizzrobe.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             GameStateManager._keyboardController.SetWizzrobe(wizzrobe);
                             EnemiesInRoom.Add(wizzrobe);

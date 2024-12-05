@@ -85,7 +85,7 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link, null);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link, null);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
@@ -252,10 +252,7 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
-            {
-                currentGameStage = GameStage.End;
-            }
+            
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
