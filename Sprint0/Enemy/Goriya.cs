@@ -30,7 +30,7 @@ namespace Sprint2.Enemy
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;
         private float boomerangTimer = 0f;
-
+        private Vector2 boomerangVelocity = new Vector2(200, 0);
         private float timeElapsed;
         private bool isFlipped = false;
         private bool alive;
@@ -195,46 +195,62 @@ namespace Sprint2.Enemy
                 return;
             }
 
+            float movementSpeed = 1.5f; 
+
             if (movingRight)
             {
-                position.X += 1f;
-
+                position.X += movementSpeed;
                 if (position.X >= initialPosition.X + movementRange)
                 {
                     ShootBoomerang();
-                    if (waitingForBoomerang == false)
+                    if (!waitingForBoomerang)
                     {
                         movingRight = false;
                         movingUp = true;
                     }
                 }
-
             }
             else if (movingUp)
             {
-                position.Y -= 1f;
-
+                position.Y -= movementSpeed;
                 if (position.Y <= initialPosition.Y - movementRange)
-                    movingUp = false;
-                movingLeft = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingUp = false;
+                        movingLeft = true;
+                    }
+                }
             }
             else if (movingLeft)
             {
-                position.X -= 1f;
+                position.X -= movementSpeed;
                 if (position.X <= initialPosition.X - movementRange)
-                    movingLeft = false;
-                movingDown = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingLeft = false;
+                        movingDown = true;
+                    }
+                }
             }
             else if (movingDown)
             {
-                position.Y += 1f;
-
+                position.Y += movementSpeed;
                 if (position.Y >= initialPosition.Y + movementRange)
-                    movingRight = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingDown = false;
+                        movingRight = true;
+                    }
+                }
             }
-
-
         }
+
 
 
 
@@ -243,12 +259,23 @@ namespace Sprint2.Enemy
             if (!hasThrownBoomerang)
             {
                 Vector2 projectilePosition = new Vector2(position.X, position.Y);
-                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(200, 0), SpriteSheetHelper.CreateBoomerangFrames(), 5.0f));
+                Vector2 direction = Vector2.Zero;
+
+                // direction based on move
+                if (movingRight)
+                    direction = new Vector2(200, 0);
+                else if (movingLeft)
+                    direction = new Vector2(-200, 0);
+                else if (movingUp)
+                    direction = new Vector2(0, -200);
+                else if (movingDown)
+                    direction = new Vector2(0, 200);
+
+                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, direction, SpriteSheetHelper.CreateBoomerangFrames(), 5.0f));
                 hasThrownBoomerang = true;
                 waitingForBoomerang = true;
             }
         }
-
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -266,12 +293,7 @@ namespace Sprint2.Enemy
                 }
             }
 
-            //SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            //spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
-            //foreach (var projectile in projectiles)
-            //{
-            //    projectile.Draw(spriteBatch);
-            //}
+           
         }
 
 
@@ -302,12 +324,6 @@ namespace Sprint2.Enemy
                 deathSound.Play();
             }
 
-            //if (health <= 0)
-            //{
-            //    alive = false;
-            //    position.X = 20000;
-            //    position.Y = 20000;
-            //}
         }
 
 
