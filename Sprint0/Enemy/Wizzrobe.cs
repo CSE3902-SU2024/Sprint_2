@@ -50,9 +50,9 @@ namespace Sprint2.Enemy
             "Monsters are everywhere"
         }},
          { 2, new string[] {
-            "yes",
-            "go",
-            "111"
+            "Pick up the key on the ground, it will help u open door",
+            "Map will show you the overview of dungeon",
+            "You can use gems to buy stuff somewhere..."
         }},
          { 9, new string[] {
             "Welcome to my secrete shop",
