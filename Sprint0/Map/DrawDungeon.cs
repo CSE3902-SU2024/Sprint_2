@@ -76,7 +76,12 @@ namespace Sprint2.Map
             DrawWalls(Offset);
             if (currentStage != 9)
             {
-                DrawTiles(GetStage(currentStage), Offset, Transitioning);
+                int[,] tiles = GetStage(currentStage);
+                if (currentStage == 12)
+                {
+                    tiles[0, 0] = 3;
+                }
+                DrawTiles(tiles, Offset, Transitioning);
             }
             else
             {

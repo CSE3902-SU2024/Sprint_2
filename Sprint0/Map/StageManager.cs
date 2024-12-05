@@ -188,14 +188,14 @@ namespace Sprint2.Map
 
                 }
             }
-            if (StageIndex == 6)
+            if (StageIndex == 7)
             {
                 Vector2 BoomCoords = _link.GetBoomCoords();
                 if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
                 {
                     if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
                     {
-                        _DoorMap.BoomLogic(6);
+                        _DoorMap.BoomLogic(7);
                     }
 
                 }
@@ -230,6 +230,15 @@ namespace Sprint2.Map
                 //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
                 //movableBlock8.Update(ref _link._position, _scale); // error right now
                 //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+            }
+
+            if (StageIndex == 16)
+            {
+                if (_EnemyItem.AreThereEnemies(16))
+                {
+                    Debug.WriteLine("Dragon slane");
+                    _DoorMap.SpecialDoorLogic(StageIndex);
+                }
             }
 
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)

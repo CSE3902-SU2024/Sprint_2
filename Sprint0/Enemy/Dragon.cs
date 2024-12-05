@@ -255,6 +255,7 @@ namespace Sprint2.Enemy
         {
             position = initialPosition;
             movingRight = true;
+            alive = true;
             currentFrame = 0;
             timeElapsed = 0f;
             damageColorTimer = 0f;

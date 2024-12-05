@@ -167,6 +167,15 @@ namespace Sprint2.TwoPlayer
                     }
 
                 }
+                Vector2 BoomCoords2 = _link2.GetBoomCoords();
+                if (BoomCoords2.X > 115 * _scale.X && BoomCoords2.X < 150 * _scale.X)
+                {
+                    if (BoomCoords2.Y < 125 * _scale.Y && BoomCoords2.Y > 75 * _scale.Y)
+                    {
+                        _DoorMap.BoomLogic(5);
+                    }
+
+                }
             }
             if (StageIndex == 6)
             {
@@ -174,6 +183,15 @@ namespace Sprint2.TwoPlayer
                 if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
                 {
                     if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
+                    {
+                        _DoorMap.BoomLogic(6);
+                    }
+
+                }
+                Vector2 BoomCoords2 = _link2.GetBoomCoords();
+                if (BoomCoords2.X > 115 * _scale.X && BoomCoords2.X < 150 * _scale.X)
+                {
+                    if (BoomCoords2.Y < 125 * _scale.Y && BoomCoords2.Y > 75 * _scale.Y)
                     {
                         _DoorMap.BoomLogic(6);
                     }
@@ -212,7 +230,15 @@ namespace Sprint2.TwoPlayer
                 //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
-          
+            if (StageIndex == 16)
+            {
+                if (_EnemyItem.AreThereEnemies(StageIndex))
+                {
+
+                    _DoorMap.SpecialDoorLogic(StageIndex);
+                }
+            }
+
 
             if (MediaPlayer.State != MediaState.Playing)
             {
@@ -220,10 +246,7 @@ namespace Sprint2.TwoPlayer
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
-            {
-                currentGameStage = GameStage.End;
-            }
+           
 
             _link.SetExplosionCoords(Vector2.Zero);
         }

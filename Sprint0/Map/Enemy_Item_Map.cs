@@ -187,7 +187,10 @@ namespace Sprint2.Map
         public Boolean AreThereEnemies(int currentStage)
         {
             List<IEnemy> enemies = GetEnemies(currentStage);
-
+            if (enemies[0].GetState())
+            {
+                return false;
+            }
             foreach (IEnemy enemy in enemies)
             {
                 if (enemy.GetState())

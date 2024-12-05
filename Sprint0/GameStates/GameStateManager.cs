@@ -209,6 +209,10 @@ namespace Sprint2.GameStates
                 newStateIndex = -2;
             }
 
+            if (_link.win)
+            {
+                CurrentGameState = WinState;
+            }
             GameStateIndex = newStateIndex;
 
             
