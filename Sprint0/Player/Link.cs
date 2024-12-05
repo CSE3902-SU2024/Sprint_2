@@ -386,5 +386,24 @@ namespace Sprint0.Player
         {
             inventory.IncrementPotionCount();
         }
+
+        public void IncrementEnemyDefeatedCount()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine("Adding enemy count");
+            enemyDefeatedCount++;
+        }
+
+        public bool IsFirstBloodAchievementUnlocked()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
+            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            {
+                isFirstBloodAchievementUnlockedbool = true;
+                return true;
+            }
+            return false;
+        }
     }
 }
