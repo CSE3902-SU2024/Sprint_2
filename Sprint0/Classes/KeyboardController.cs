@@ -65,6 +65,7 @@ namespace Sprint0.Classes
                     break;
                 // Game state
                 case 1:
+                    previousIdx = 1;
                     if (state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.S))
                     {
                         _link.MoveDown();
@@ -131,7 +132,7 @@ namespace Sprint0.Classes
                         _link.UseBoomerang();
                     }
                   
-                    if (state.IsKeyDown(Keys.Space))
+                    if (state.IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space))
                     {
                         fromPause = true;
                         // Game => Pause
@@ -205,7 +206,7 @@ namespace Sprint0.Classes
 
 
                 case 4: // Two PlayerMode
-
+                    previousIdx = 4;
                     //Player2 Controls
                     if (state.IsKeyDown(Keys.Down))
                     {
@@ -374,6 +375,8 @@ namespace Sprint0.Classes
                     // RESTART LOGIC
                     if (state.IsKeyDown(Keys.R))
                     {
+                       
+                        fromPause = false;
                         if(previousIdx == 1)
                         {
                             returnVal = 8;
@@ -386,6 +389,7 @@ namespace Sprint0.Classes
 
                     if (state.IsKeyDown(Keys.S))
                     {
+                        fromPause = false;
                         returnVal = 0;
                     }
 
@@ -430,6 +434,36 @@ namespace Sprint0.Classes
                         {
                             returnVal = 4;
                         }
+                    }
+                    break;
+                case -1:
+                    if (state.IsKeyDown(Keys.R))
+                    {
+                        returnVal = 8;
+                    }
+                    else if (state.IsKeyDown(Keys.S))
+                    {
+                        returnVal = 0;
+                    }
+                    else if (state.IsKeyDown(Keys.Q))
+                    {
+                        return 100;
+                    }
+                    break;
+                case -2:
+                    if (state.IsKeyDown(Keys.R))
+                    { 
+                        returnVal = 9;                      
+                    }
+
+                    else if (state.IsKeyDown(Keys.S))
+                    {
+                        returnVal = 0;
+                    }
+
+                    else if (state.IsKeyDown(Keys.Q))
+                    {
+                        return 100;
                     }
                     break;
                 default:

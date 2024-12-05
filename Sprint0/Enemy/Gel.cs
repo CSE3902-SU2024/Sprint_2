@@ -5,6 +5,8 @@ using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Sprint0.Player;
+using Sprint0;
+using Sprint2.Map;
 
 namespace Sprint2.Enemy
 {
@@ -47,6 +49,10 @@ namespace Sprint2.Enemy
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
+        //private StageManager _stageManager;
+
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 8;
@@ -62,6 +68,8 @@ namespace Sprint2.Enemy
             randCount = 0;
             SetRandomDirection();
             _link = link;
+            //this.game = game;
+            //_stageManager = stageManager;
         }
 
         public enum Direction
@@ -105,6 +113,9 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        //game.enemyDefeatedCount++;
+                        //_stageManager.IncrementEnemyDefeatedCount();
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
             }

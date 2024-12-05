@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Sprint2.Classes;
 using System.Reflection.Metadata.Ecma335;
 using Sprint0.Classes;
+using Sprint2.GameStates;
 
 
 namespace Sprint2.Map
@@ -59,6 +60,14 @@ namespace Sprint2.Map
         public MovableBlock movableBlock8;
         private BulletManager bulletManager;
 
+        public AchievementManager achievementManager { get; private set; }
+        public int enemyDefeatedCount { get; private set; }
+        public int itemCollectedCount { get; private set; }
+        public bool isDungeonComplete { get; private set; }
+        private float achievementUpdateCooldown = 1f; // 1 second cooldown  
+        private float achievementUpdateTimer = 0f;
+        private bool isFirstBloodAchievementUnlockedbool = false;
+
 
         public StageManager(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, ContentManager content, Vector2 scale)
         {
@@ -76,14 +85,14 @@ namespace Sprint2.Map
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
-            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
+            _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link, null);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link, null);
 
             _nextStageDecider = new NextStageDecider(link, _scale, _DoorMap, this);
             _DrawDungeon = new DrawDungeon(sourceRectangles, texture, spriteBatch, _scale, _link, _DungeonMap, _DoorMap, _EnemyItem, _ItemMap);
             //currentStage = new Stage1(this, _DungeonMap, _DoorMap, _link, drawDungeon);
             GameHUD gameHUD = new GameHUD(spriteBatch, graphicsDevice, content, link, scale, this);
-            
+
             _DrawDungeon.SetHUDResources(gameHUD);
 
             Texture2D itemTexture = content.Load<Texture2D>("NES - The Legend of Zelda - Items & Weapons");
@@ -91,7 +100,7 @@ namespace Sprint2.Map
             titleScreen = content.Load<Texture2D>("TitleScreen");
             pauseScreen = content.Load<Texture2D>("Pause");
             endScreen = content.Load<Texture2D>("EndingofZelda");
-            font = content.Load<SpriteFont>("File");         
+            font = content.Load<SpriteFont>("File");
             timer = 0f;
             showText = true;
 
@@ -136,7 +145,7 @@ namespace Sprint2.Map
             }
             if (StageAnimating)
             {
-                AnimatingCount-=2;
+                AnimatingCount -= 2;
                 _StageAnimator.Update();
             }
             if (AnimatingCount <= 0)
@@ -167,26 +176,26 @@ namespace Sprint2.Map
                 }
             }
 
-            if(StageIndex == 5)
-            {
-                Vector2 BoomCoords = _link.GetBoomCoords();
-                if (BoomCoords.X > 115* _scale.X && BoomCoords.X < 150 * _scale.X)
-                {
-                    if(BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
-                    {
-                        _DoorMap.BoomLogic(5);
-                    }
-                    
-                }
-            }
-            if (StageIndex == 6)
+            if (StageIndex == 5)
             {
                 Vector2 BoomCoords = _link.GetBoomCoords();
                 if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
                 {
                     if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
                     {
-                        _DoorMap.BoomLogic(6);
+                        _DoorMap.BoomLogic(5);
+                    }
+
+                }
+            }
+            if (StageIndex == 7)
+            {
+                Vector2 BoomCoords = _link.GetBoomCoords();
+                if (BoomCoords.X > 115 * _scale.X && BoomCoords.X < 150 * _scale.X)
+                {
+                    if (BoomCoords.Y < 125 * _scale.Y && BoomCoords.Y > 75 * _scale.Y)
+                    {
+                        _DoorMap.BoomLogic(7);
                     }
 
                 }
@@ -223,6 +232,15 @@ namespace Sprint2.Map
                 //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
+            if (StageIndex == 16)
+            {
+                if (_EnemyItem.AreThereEnemies(16))
+                {
+                    Debug.WriteLine("Dragon slane");
+                    _DoorMap.SpecialDoorLogic(StageIndex);
+                }
+            }
+
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
                 MediaPlayer.Stop();
@@ -234,10 +252,7 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.G) || _link.win)
-            {
-                currentGameStage = GameStage.End;
-            }
+            
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
@@ -248,17 +263,17 @@ namespace Sprint2.Map
         }
         public void UpdateEnd(GameTime gameTime)
         {
-            
-                if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
-                {
-                    MediaPlayer.Stop();
-                }
-                if (MediaPlayer.State != MediaState.Playing)
-                {
-                    MediaPlayer.Play(endSequence);
-                    MediaPlayer.IsRepeating = true; // loop the music
-                }
-            
+
+            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == backgroundMusic)
+            {
+                MediaPlayer.Stop();
+            }
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(endSequence);
+                MediaPlayer.IsRepeating = true; // loop the music
+            }
+
         }
 
         public void NextStage()
@@ -280,10 +295,11 @@ namespace Sprint2.Map
                 {
                     if (movableBlock14 != null)
                     {
-                        movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
+                        Vector2 scaling = new Vector2(4f, 4f);
+                        movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition, scaling);
                         Debug.WriteLine("Drawing movable block 14");
                     }
-                        //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
+                    //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
                     //Debug.WriteLine("Drawing movable block 14");
                 }
 
@@ -291,8 +307,9 @@ namespace Sprint2.Map
                 {
                     if (movableBlock8 != null)
                     {
+                        Vector2 scaling = new Vector2(4f, 4f);
                         Console.WriteLine("Block position: " + movableBlock8.blockPosition);
-                        movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
+                        movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
                         Debug.WriteLine("Drawing movable block 8");
                         _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                     }
@@ -302,16 +319,17 @@ namespace Sprint2.Map
                     //_spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                 }
 
-            } else
+            }
+            else
             {
                 _StageAnimator.Draw();
-            }  
+            }
         }
         public void DrawEnd()
         {
             Vector2 position = new Vector2(100, 240);
             Vector2 scale = new Vector2(0.8f, 0.8f);
-            _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0 ,0f);
+            _spriteBatch.Draw(endScreen, position, null, Color.White, 0f, Vector2.Zero, scale, 0, 0f);
         }
         public void Animate(int currentStage, int nextStage, int direction)
         {
@@ -319,7 +337,8 @@ namespace Sprint2.Map
             if (direction <= 2)
             {
                 AnimatingCount = 255;
-            } else
+            }
+            else
             {
                 AnimatingCount = 176;
             }
@@ -336,5 +355,57 @@ namespace Sprint2.Map
         {
             return StageIndex;
         }
+        public bool IsFirstBloodAchievementUnlocked()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
+            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            {
+                isFirstBloodAchievementUnlockedbool = true;
+                return true;
+            }
+            return false;
+        }
+
+        public void InitializeAchievements()
+        {
+            Debug.WriteLine("Entering InitializeAchievements method");
+            Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            try
+            {
+                Debug.WriteLine("Entering InitializeAchievements method");
+                achievementManager = new AchievementManager(_link, _scale);
+                Debug.WriteLine("Initialize achievements");
+                achievementManager.AddAchievement(new Achievement(
+                    "First Blood",
+                    "Defeat your first enemy.",
+                    () => IsFirstBloodAchievementUnlocked()
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Treasure Hunter",
+                    "Collect 10 items.",
+                    () => itemCollectedCount >= 10
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Dungeon Master",
+                    "Complete the dungeon.",
+                    () => isDungeonComplete
+                ));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error initializing achievements: " + ex.Message);
+            }
+        }
+
+        //public void IncrementEnemyDefeatedCount()
+        //{
+        //    Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+        //    Debug.WriteLine("Adding enemy count");
+        //    enemyDefeatedCount++;
+        //}
+    
     }
 }

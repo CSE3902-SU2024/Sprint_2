@@ -46,6 +46,8 @@ namespace Sprint2.GameStates
         IGameState TwoPlayerMenu;
         IGameState SinglePlayerControls;
         IGameState TwoPlayerControls;
+        IGameState WinState;
+        IGameState GameOver;
        
         private GameHUD _gameHUD;
         private InventoryMenu _inventoryMenu;
@@ -105,6 +107,8 @@ namespace Sprint2.GameStates
             _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD, _link);
             CurrentGameState = _StartMenu;
             TwoPlayerMenu = new TwoPlayerMenu(_graphicsDevice,_spriteBatch,Content, _scale);
+            WinState = new WinState(_spriteBatch,_graphicsDevice,Content, _scale);
+            GameOver = new GameOver1(_spriteBatch, Content, _graphicsDevice);
             content = Content;
 
             _currentKeyboardController = _keyboardController;
@@ -124,7 +128,9 @@ namespace Sprint2.GameStates
                 switch (newStateIndex)
                 {
                     case 0:
-                        CurrentGameState = _StartMenu;
+                        CurrentGameState = new StartMenu(_graphicsDevice, _spriteBatch, content, _scale);
+                        levelCreated = false;
+                        
                         break;
                     case 1: //to game  
                         if (!levelCreated)
@@ -190,14 +196,24 @@ namespace Sprint2.GameStates
             }
             if (CurrentGameState == SinglePlayer && CurrentGameState.GetLinkHealth() <= 0)
             {
+                
                 ResetSinglePlayer();
-                CurrentGameState = SinglePlayer;
+                CurrentGameState = GameOver;
+                newStateIndex = -1;
+                linkDeath.Play();
             }
 
             if (CurrentGameState == TwoPlayer && CurrentGameState.GetLinkHealth() <= 0)
             {
                 ResetTwoPlayer(colorIndex);
-                CurrentGameState = TwoPlayer;
+                CurrentGameState = GameOver;
+                newStateIndex = -2;
+                linkDeath.Play();
+            }
+
+            if (_link.win)
+            {
+                CurrentGameState = WinState;
             }
             GameStateIndex = newStateIndex;
 

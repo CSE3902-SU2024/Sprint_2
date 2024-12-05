@@ -70,6 +70,11 @@ namespace Sprint0.Player
         private Vector2 BoomCoords;
         public BulletManager BulletManager { get; private set; }
 
+        public int enemyDefeatedCount { get; private set; }
+        public int itemCollectedCount { get; private set; }
+        public bool isDungeonComplete { get; private set; }
+        private bool isFirstBloodAchievementUnlockedbool = false;
+
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory, SoundEffect ak47Sound)
         {
@@ -380,6 +385,25 @@ namespace Sprint0.Player
         public void IncrementPotion()
         {
             inventory.IncrementPotionCount();
+        }
+
+        public void IncrementEnemyDefeatedCount()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine("Adding enemy count");
+            enemyDefeatedCount++;
+        }
+
+        public bool IsFirstBloodAchievementUnlocked()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
+            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            {
+                isFirstBloodAchievementUnlockedbool = true;
+                return true;
+            }
+            return false;
         }
     }
 }

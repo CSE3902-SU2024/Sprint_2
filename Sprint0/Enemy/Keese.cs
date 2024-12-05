@@ -5,6 +5,7 @@ using Sprint0.Classes;
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Sprint0.Player;
+using Sprint0;
 
 namespace Sprint2.Enemy
 {
@@ -41,7 +42,11 @@ namespace Sprint2.Enemy
         private bool isImmune;
         public Link _link;
 
-
+        private const float CHASE_SPEED = 2.5f; //chase speed
+        private const float MIN_DISTANCE = 1f;  
+        private const float STUCK_THRESHOLD = 0.1f; // stuck threshold
+        private Vector2 lastPosition;  
+        private float stuckTimer = 0f;
 
 
 
@@ -50,6 +55,9 @@ namespace Sprint2.Enemy
         private float deathFrameElapsed = 0f;
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
+
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
 
         public enum Direction
         {
@@ -64,7 +72,7 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Keese(Vector2 startPosition, Link link)
+        public Keese(Vector2 startPosition, Link link, Game1 game)
         {
             health = 2;
             position = startPosition;
@@ -73,7 +81,7 @@ namespace Sprint2.Enemy
             random = new Random();
             SetRandomDirection();
             _link = link;
-
+            this.game = game;
 
 
         }
@@ -106,6 +114,8 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        //zgame.enemyDefeatedCount = game.enemyDefeatedCount + 1;
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
             }
@@ -114,11 +124,7 @@ namespace Sprint2.Enemy
                 randCount++;
                 timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 damageColorTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (randCount > 60* random.Next(1, 3))
-                {
-                    SetRandomDirection();
-                    randCount = 0;
-                }
+                 
                 MoveKeese();
 
                 if (timeElapsed > timePerFrame)
@@ -126,7 +132,7 @@ namespace Sprint2.Enemy
                     currentFrame = (currentFrame + 1) % sourceRectangles.Length;
                     timeElapsed = 0f;
                 }
-                // Reset color after damage timer expires
+                // Reset color 
                 if (damageColorTimer <= 0)
                 {
                     currentColor = Color.White;
@@ -152,73 +158,74 @@ namespace Sprint2.Enemy
         {
             if (alive)
             {
-                switch (currentDirection)
+                Vector2 linkPosition = _link.GetLocation();
+                Vector2 direction = linkPosition - position;
+                float distanceToLink = direction.Length();
+
+                // check if stuck
+                float movementDelta = Vector2.Distance(position, lastPosition);
+                if (movementDelta < STUCK_THRESHOLD)
                 {
-
-                    case (Direction.Left):
-                        //if(!blocked){
-                        if (position.X - speed.X > 32 * _scale.X)
-                        {
-                            position.X -= speed.X;
-
-                            if (position.X <= (32))
-                            {
-                                position.X += 1f;
-                            }
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Right;
-                        }
-                        break;
-                    case (Direction.Right):
-                        if (position.X + speed.X < 214 * _scale.X)
-                        {
-                            position.X += speed.X;
-
-                            if (position.X <= (224))
-                            {
-                                position.X -= 1f;
-                            }
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Left;
-                        }
-                        break;
-                    case (Direction.Up):
-                        if (position.Y - speed.Y > 87 * _scale.Y)
-                        {
-                            position.Y -= speed.Y;
-
-                            if (position.X <= (224))
-                            {
-                                position.Y -= 1f;
-                            }
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Down;
-                        }
-                        break;
-                    case (Direction.Down):
-                        if (position.Y + speed.Y < 143 * _scale.Y)
-                        {
-                            position.Y += speed.Y;
-
-                            if (position.X <= (224))
-                            {
-                                position.Y -= 1f;
-                            }
-                        }
-                        else
-                        {
-                            currentDirection = Direction.Up;
-                        }
-
-                        break;
+                    stuckTimer += 0.016f;  
+                    if (stuckTimer > 1.0f) // if keese stuck here over 1s
+                    {
+                        //  bread out of stuck
+                        position += new Vector2(
+                            (float)(random.NextDouble() - 0.5) * 5f,
+                            (float)(random.NextDouble() - 0.5) * 5f
+                        );
+                        stuckTimer = 0f;
+                    }
+                }
+                else
+                {
+                    stuckTimer = 0f;
                 }
 
+               
+                if (distanceToLink > 0)
+                {
+                    direction.Normalize();
+
+                    // Calculate new position of Link
+                    Vector2 newPosition = position + direction * CHASE_SPEED;
+
+                    //   update position
+                    float boundaryBuffer = 4f;  
+                    if (newPosition.X > (32 + boundaryBuffer) * _scale.X &&
+                        newPosition.X < (214 - boundaryBuffer) * _scale.X &&
+                        newPosition.Y > (87 + boundaryBuffer) * _scale.Y &&
+                        newPosition.Y < (143 - boundaryBuffer) * _scale.Y)
+                    {
+                        position = newPosition;
+                    }
+                    else
+                    {
+                        // If hitting boundary, try moving only in valid direction
+                        if (newPosition.X >= (32 + boundaryBuffer) * _scale.X &&
+                            newPosition.X <= (214 - boundaryBuffer) * _scale.X)
+                        {
+                            position.X = newPosition.X;
+                        }
+                        if (newPosition.Y >= (87 + boundaryBuffer) * _scale.Y &&
+                            newPosition.Y <= (143 - boundaryBuffer) * _scale.Y)
+                        {
+                            position.Y = newPosition.Y;
+                        }
+                    }
+
+                    // Update direction 
+                    if (Math.Abs(direction.X) > Math.Abs(direction.Y))
+                    {
+                        currentDirection = direction.X > 0 ? Direction.Right : Direction.Left;
+                    }
+                    else
+                    {
+                        currentDirection = direction.Y > 0 ? Direction.Down : Direction.Up;
+                    }
+                }
+
+                lastPosition = position; // Update position for stuck
             }
         }
 

@@ -6,6 +6,7 @@ using Sprint0.Classes;
 using Sprint0.Collisions;
 using Sprint0.Player;
 using Sprint2.GameStates;
+using Sprint2.Map;
 
 namespace Sprint0
 {
@@ -19,6 +20,10 @@ namespace Sprint0
 
 
         private GameStateManager _GameStateManager;
+        public int enemyDefeatedCount = 0;
+        public int itemCollectedCount = 0;
+        public bool isDungeonComplete = false;
+        private StageManager _stageManager;
 
 
         public Game1()
@@ -63,7 +68,7 @@ namespace Sprint0
 
         protected override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Immediate);
             GraphicsDevice.Clear(Color.Black);
             _GameStateManager.Draw();
            _spriteBatch.End();

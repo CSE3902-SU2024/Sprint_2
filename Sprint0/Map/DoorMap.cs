@@ -78,6 +78,9 @@ namespace Sprint2.Map
                 case 6:
                     doors[6][2] = 3;
                     break;
+                case 16:
+                    doors[16][2] = 1;
+                    break;
                 default:
                     break;
 

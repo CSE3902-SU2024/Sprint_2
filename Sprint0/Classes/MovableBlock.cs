@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ namespace Sprint2.Classes
     {
         public Rectangle[] SourceRectangles;
         private float scale;
-        private Texture2D texture;
+        public Texture2D texture;
         private Rectangle boundingBox;
         private bool isMoving;
         private float speed = 1.0f;
@@ -59,58 +61,62 @@ namespace Sprint2.Classes
             Rectangle blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
             Rectangle playerBoundingBox = GetScaledRectangle((int)playerPosition.X, (int)playerPosition.Y, playerWidth, playerHeight, scale);
 
-            Rectangle topOfBlock = new Rectangle((int)blockPosition.X, (int)blockPosition.Y - 1, blockWidth, 1);
-            //Rectangle leftOfBlock = new Rectangle(blockBoundingBox.X - 1, blockBoundingBox.Y, 1, blockBoundingBox.Height);
-            //Rectangle rightOfBlock = new Rectangle(blockBoundingBox.Right, blockBoundingBox.Y, 1, blockBoundingBox.Height);
-            //Rectangle bottomOfBlock = new Rectangle(blockBoundingBox.X, blockBoundingBox.Bottom, blockBoundingBox.Width, 1);
-
             if (blockBoundingBox.Intersects(playerBoundingBox))
             {
+                Debug.Write("Actually colliding");
                 Rectangle intersection = Rectangle.Intersect(playerBoundingBox, blockBoundingBox);
 
-                // First, resolve vertical collisions
+                // First, resolve vertical collisions  
                 if (intersection.Height < intersection.Width)
                 {
-                    if (spritePosition.Y < blockBoundingBox.Y && !isMoving) // Coming from the top
+                    if (spritePosition.Y < blockBoundingBox.Y) // Coming from the top  
                     {
-                        //    spritePosition.Y = blockBoundingBox.Top - (playerHeight * scale.Y);
-                        //    //spritePosition.Y = blockBoundingBox.Top - (100);
-                        //    //spritePosition.Y -= intersection.Height;
-                        isMoving = true; 
+                        spritePosition.Y = blockBoundingBox.Top - (playerHeight * scale.Y);
+                        isMoving = true; // Set isMoving to true when player is on top of the block  
+                        Debug.Write("Top is colliding");
                     }
-                    else if (spritePosition.Y > blockBoundingBox.Y) // Coming from below
+                    else if (spritePosition.Y > blockBoundingBox.Y) // Coming from below  
                     {
                         spritePosition.Y = blockBoundingBox.Bottom;
                         isMoving = false;
-                    }
-
-                    if (isMoving)
-                    {
-                        blockPosition.Y += speed;
-                        boundingBox.Y = (int)blockPosition.Y; // Update the bounding box to match the new position
+                        Debug.Write("Bottom is colliding");
                     }
                 }
-                // Then, resolve horizontal collisions
+                // Then, resolve horizontal collisions  
                 else
                 {
-                    if (spritePosition.X < blockBoundingBox.X) // Coming from the left
+                    if (spritePosition.X < blockBoundingBox.X) // Coming from the left  
                     {
                         spritePosition.X -= intersection.Width;
                         isMoving = false;
-                        //spritePosition.X = blockBoundingBox.Left - (playerWidth * scale.X);
+                        Debug.Write("Left is colliding");
                     }
-                    else if (spritePosition.X > blockBoundingBox.X) // Coming from the right
+                    else if (spritePosition.X > blockBoundingBox.X) // Coming from the right  
                     {
                         spritePosition.X = blockBoundingBox.Right;
                         isMoving = false;
+                        Debug.Write("Right is colliding");
                     }
                 }
             }
+            else
+            {
+                isMoving = false;
+            }
+
+            // Update the block's position if the player is moving downwards and the block is not already moving  
+            if (isMoving)
+            {
+                blockPosition.Y += speed;
+                blockBoundingBox = GetScaledRectangle((int)blockPosition.X, (int)blockPosition.Y, blockWidth, blockHeight, scale);
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 blockPosition2)
+        public void Draw(SpriteBatch spriteBatch, Vector2 blockPosition2, Vector2 scale)
         {
-            spriteBatch.Draw(texture, blockPosition2, SourceRectangles[0], Color.White);
+            Debug.Write("drawing movable block");
+            spriteBatch.Draw(texture, blockPosition2, SourceRectangles[0], Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            //_spriteBatch.Draw(pauseScreen, position, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }

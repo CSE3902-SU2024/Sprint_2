@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint0;
 using Sprint0.Classes;
 using Sprint0.Player;
 using Sprint2.Enemy.Projectiles;
+using Sprint2.Map;
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +30,7 @@ namespace Sprint2.Enemy
         private bool waitingForBoomerang = false;
         private float boomerangWaitTime = 1.3f;
         private float boomerangTimer = 0f;
-
+        private Vector2 boomerangVelocity = new Vector2(200, 0);
         private float timeElapsed;
         private bool isFlipped = false;
         private bool alive;
@@ -54,6 +56,10 @@ namespace Sprint2.Enemy
         private Rectangle[] deathSourceRectangles = { new Rectangle(0, 0, 15, 15), new Rectangle(16, 0, 15, 15), new Rectangle(32, 0, 15, 15), new Rectangle(48, 0, 15, 15)
         };
 
+        //public int enemyDefeatedCount { get; private set; }
+        private Game1 game;
+        private StageManager _stageManager;
+
         public List<Boomerang> projectiles { get; private set; }
 
 
@@ -63,7 +69,7 @@ namespace Sprint2.Enemy
         public int Height { get; } = 16;
 
 
-        public Goriya(Vector2 startPosition, Link link)
+        public Goriya(Vector2 startPosition, Link link, Game1 game)
         {
             health = 4;
             alive = true;
@@ -71,6 +77,7 @@ namespace Sprint2.Enemy
             initialPosition = startPosition;
             projectiles = new List<Boomerang>();
             _link = link;
+            this.game = game;
 
         }
 
@@ -103,6 +110,8 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
+                        //_stageManager.IncrementEnemyDefeatedCount();
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
                 for (int i = 0; i < projectiles.Count; i++)
@@ -186,46 +195,62 @@ namespace Sprint2.Enemy
                 return;
             }
 
+            float movementSpeed = 1.5f; 
+
             if (movingRight)
             {
-                position.X += 1f;
-
+                position.X += movementSpeed;
                 if (position.X >= initialPosition.X + movementRange)
                 {
                     ShootBoomerang();
-                    if (waitingForBoomerang == false)
+                    if (!waitingForBoomerang)
                     {
                         movingRight = false;
                         movingUp = true;
                     }
                 }
-
             }
             else if (movingUp)
             {
-                position.Y -= 1f;
-
+                position.Y -= movementSpeed;
                 if (position.Y <= initialPosition.Y - movementRange)
-                    movingUp = false;
-                movingLeft = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingUp = false;
+                        movingLeft = true;
+                    }
+                }
             }
             else if (movingLeft)
             {
-                position.X -= 1f;
+                position.X -= movementSpeed;
                 if (position.X <= initialPosition.X - movementRange)
-                    movingLeft = false;
-                movingDown = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingLeft = false;
+                        movingDown = true;
+                    }
+                }
             }
             else if (movingDown)
             {
-                position.Y += 1f;
-
+                position.Y += movementSpeed;
                 if (position.Y >= initialPosition.Y + movementRange)
-                    movingRight = true;
+                {
+                    ShootBoomerang();
+                    if (!waitingForBoomerang)
+                    {
+                        movingDown = false;
+                        movingRight = true;
+                    }
+                }
             }
-
-
         }
+
 
 
 
@@ -234,12 +259,23 @@ namespace Sprint2.Enemy
             if (!hasThrownBoomerang)
             {
                 Vector2 projectilePosition = new Vector2(position.X, position.Y);
-                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, new Vector2(200, 0), SpriteSheetHelper.CreateBoomerangFrames(), 5.0f));
+                Vector2 direction = Vector2.Zero;
+
+                // direction based on move
+                if (movingRight)
+                    direction = new Vector2(200, 0);
+                else if (movingLeft)
+                    direction = new Vector2(-200, 0);
+                else if (movingUp)
+                    direction = new Vector2(0, -200);
+                else if (movingDown)
+                    direction = new Vector2(0, 200);
+
+                projectiles.Add(new Boomerang(spriteSheet, projectilePosition, direction, SpriteSheetHelper.CreateBoomerangFrames(), 5.0f));
                 hasThrownBoomerang = true;
                 waitingForBoomerang = true;
             }
         }
-
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -257,12 +293,7 @@ namespace Sprint2.Enemy
                 }
             }
 
-            //SpriteEffects spriteEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            //spriteBatch.Draw(spriteSheet, position, sourceRectangles[currentFrame], currentColor, 0f, Vector2.Zero, _scale, spriteEffect, 0f);
-            //foreach (var projectile in projectiles)
-            //{
-            //    projectile.Draw(spriteBatch);
-            //}
+           
         }
 
 
@@ -293,12 +324,6 @@ namespace Sprint2.Enemy
                 deathSound.Play();
             }
 
-            //if (health <= 0)
-            //{
-            //    alive = false;
-            //    position.X = 20000;
-            //    position.Y = 20000;
-            //}
         }
 
 
