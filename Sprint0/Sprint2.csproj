@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Classes\EnemyController.cs" />
+    <Compile Remove="GameStates\GameOver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Content\boxGhostSpriteSheet.gif" />

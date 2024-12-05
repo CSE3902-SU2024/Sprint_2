@@ -81,6 +81,7 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
+
             _StageManager.Update(gameTime);
             if (!_StageManager.GetAnimationState())
             {

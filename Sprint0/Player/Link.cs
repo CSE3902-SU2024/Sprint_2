@@ -297,6 +297,15 @@ namespace Sprint0.Player
         {
             return inventory.GetKeyCount();
         }
+        public int GetClockCount()
+        {
+            return inventory.GetClockCount();
+        }
+
+        public int GetPotionCount()
+        {
+            return inventory.GetPotionCount();
+        }
 
         public bool HasKey()
         {
@@ -358,23 +367,24 @@ namespace Sprint0.Player
             return inventory.GetGemCount();
         }
 
-        public void IncrementEnemyDefeatedCount()
+        public void DecrementClock()
         {
-            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-            Debug.WriteLine("Adding enemy count");
-            enemyDefeatedCount++;
+            inventory.DecrementClockCount();
         }
 
-        public bool IsFirstBloodAchievementUnlocked()
+        public void IncrementClock()
         {
-            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
-            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
-            {
-                isFirstBloodAchievementUnlockedbool = true;
-                return true;
-            }
-            return false;
+            inventory.IncrementClockCount();
+        }
+
+        public void DecrementPotion()
+        {
+            inventory.DecrementPotionCount();
+        }
+
+        public void IncrementPotion()
+        {
+            inventory.IncrementPotionCount();
         }
     }
 }

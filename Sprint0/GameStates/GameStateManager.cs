@@ -46,6 +46,8 @@ namespace Sprint2.GameStates
         IGameState TwoPlayerMenu;
         IGameState SinglePlayerControls;
         IGameState TwoPlayerControls;
+        IGameState WinState;
+        IGameState GameOver;
        
         private GameHUD _gameHUD;
         private InventoryMenu _inventoryMenu;
@@ -105,6 +107,8 @@ namespace Sprint2.GameStates
             _inventoryMenu = new InventoryMenu(_spriteBatch, _graphicsDevice, Content, _gameHUD, _link);
             CurrentGameState = _StartMenu;
             TwoPlayerMenu = new TwoPlayerMenu(_graphicsDevice,_spriteBatch,Content, _scale);
+            WinState = new WinState(_spriteBatch,_graphicsDevice,Content, _scale);
+            GameOver = new GameOver1(_spriteBatch, Content, _graphicsDevice);
             content = Content;
 
             _currentKeyboardController = _keyboardController;
@@ -113,17 +117,11 @@ namespace Sprint2.GameStates
         }
         public void Update(GameTime gameTime)
         {
+            
+
             int newStateIndex = _currentKeyboardController.Update(GameStateIndex);
 
-            if (_link.isPaused)
-            {
-                _link.pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (_link.pauseTimer <= 0f)
-                {
-                    _link.isPaused = false;
-                }
-                return;
-            }
+            
             //   state transitions
             if (newStateIndex != GameStateIndex)
             {
@@ -158,6 +156,7 @@ namespace Sprint2.GameStates
                         break;
                     case 5: // pause
                         CurrentGameState = PauseMenu;
+                        
                         break;
                     case 6:
                         CurrentGameState = SinglePlayerControls;
@@ -205,6 +204,8 @@ namespace Sprint2.GameStates
                 CurrentGameState = TwoPlayer;
             }
             GameStateIndex = newStateIndex;
+
+            
 
             CurrentGameState.Update(gameTime);
         }

@@ -35,7 +35,9 @@ namespace Sprint2.TwoPlayer
         public DrawDungeon2(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, Vector2 scale, Link link, Link link2, DungeonMap dungeon, DoorMap doorMap, Enemy_Item_Map enemy_Item_Map, ItemMap itemMap)
         {
             _sourceRectangles = sourceRectangles;
+            
             _texture = texture;
+           // _texture.Filter = TextureFilter.Linear;
             _spriteBatch = spriteBatch;
             _scale = scale;
             stage = 0;

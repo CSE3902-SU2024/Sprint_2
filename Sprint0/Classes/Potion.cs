@@ -24,7 +24,6 @@ namespace Sprint0.Classes
         private float timePerFrame = 0.5f; // 100ms per frame
         private float timeElapsed;
         private int currentFrame;
-
         public ItemType currentItemType { get; set; }
 
         public Potion(Vector2 position, Link link, Link link2)
@@ -72,19 +71,24 @@ namespace Sprint0.Classes
                 timeElapsed = 0f;
             }
 
+            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                _link.DecrementPotion();
+                _link.hasPotion = true;
+                if (TwoPlayer)
+                {
+                    _link2.hasPotion = true;
+                }
+            }
+
             Rectangle playerBoundingBox = GetScaledRectangle((int)_link._position.X, (int)_link._position.Y, 16, 16, _link._scale);
             Rectangle itemBoundingBox = GetScaledRectangle((int)Position.X, (int)Position.Y, 16, 16, _link._scale);
             if (playerBoundingBox.Intersects(itemBoundingBox))
             {
                 Position.X += 20000;
                 Position.Y += 20000;
+                _link.IncrementPotion();
                 _link.inventory.AddItem(this);
-                
-            }
-            if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
-            {
-                _link.hasPotion = true;
-
             }
             if (TwoPlayer)
             {
@@ -93,14 +97,8 @@ namespace Sprint0.Classes
                 {
                     Position.X += 20000;
                     Position.Y += 20000;
+                    _link.IncrementPotion();
                     _link.inventory.AddItem(this);
-
-                }
-                if (_link.inventory?.SelectedItem?.CurrentItemType == ItemType.potion && Keyboard.GetState().IsKeyDown(Keys.B))
-                {
-                    _link.hasPotion = true;
-                    _link2.hasPotion = true;
-
                 }
             }
 
