@@ -7,6 +7,7 @@ using Sprint0.Player;
 using Sprint2.UI;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Sprint2.Enemy
 {
@@ -33,7 +34,7 @@ namespace Sprint2.Enemy
         public int Width { get; } = 16;
         public int Height { get; } = 16;
 
-
+        private KeyboardState previousKeyboardState;
 
         private Dictionary<int, string[]> stageConversations = new Dictionary<int, string[]>
     {
@@ -85,7 +86,7 @@ namespace Sprint2.Enemy
            
             isPlayerNearby = false;
             _currentStage = currentStage;
-
+            previousKeyboardState = Keyboard.GetState();
 
         }
 
@@ -151,6 +152,26 @@ namespace Sprint2.Enemy
                 {
                     hasStartedConversation = false;
                 }
+
+                KeyboardState currentKeyboardState = Keyboard.GetState();
+                if (currentKeyboardState.IsKeyDown(Keys.F) && !previousKeyboardState.IsKeyDown(Keys.F))
+                {
+                    if (canInteract)
+                    {
+                        if (chatBox != null && chatBox.IsVisible)
+                        {
+                            AdvanceConversation();
+                        }
+                        else
+                        {
+                            StartConversation();
+                        }
+                    }
+                }
+                previousKeyboardState = currentKeyboardState;
+
+                chatBox?.Update();
+
                 chatBox?.Update();
 
 
