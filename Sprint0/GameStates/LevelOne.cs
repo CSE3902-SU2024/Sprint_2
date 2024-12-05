@@ -70,6 +70,7 @@ namespace Sprint2.GameStates
             }
 
             _gameHUD.Draw();
+            // do drawing for achievements here
         }
 
         public int GetLinkHealth()

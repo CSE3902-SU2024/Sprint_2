@@ -51,14 +51,14 @@ namespace Sprint2.Enemy
 
         //public int enemyDefeatedCount { get; private set; }
         private Game1 game;
-        private StageManager _stageManager;
+        //private StageManager _stageManager;
 
 
         public Vector2 Position { get => position; set => position = value; }
         public int Width { get; } = 8;
         public int Height { get; } = 16;
 
-        public Gel(Vector2 startPosition, Link link, StageManager stageManager)
+        public Gel(Vector2 startPosition, Link link)
         {
             Health = 2;
             position = startPosition;
@@ -69,7 +69,7 @@ namespace Sprint2.Enemy
             SetRandomDirection();
             _link = link;
             //this.game = game;
-            _stageManager = stageManager;
+            //_stageManager = stageManager;
         }
 
         public enum Direction
@@ -114,7 +114,8 @@ namespace Sprint2.Enemy
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
                         //game.enemyDefeatedCount++;
-                        _stageManager.IncrementEnemyDefeatedCount();
+                        //_stageManager.IncrementEnemyDefeatedCount();
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
             }

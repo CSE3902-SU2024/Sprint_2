@@ -108,7 +108,8 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
-                        game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
+                        //game.enemyDefeatedCount = game.enemyDefeatedCount + 1;
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
             }

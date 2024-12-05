@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Sprint2.Classes;
 using System.Reflection.Metadata.Ecma335;
 using Sprint2.Map;
+using Sprint2.GameStates;
 
 
 namespace Sprint2.TwoPlayer
@@ -45,6 +46,14 @@ namespace Sprint2.TwoPlayer
         public MovableBlock movableBlock14;
         public MovableBlock movableBlock8;
 
+        public AchievementManager achievementManager { get; private set; }
+        public int enemyDefeatedCount { get; private set; }
+        public int itemCollectedCount { get; private set; }
+        public bool isDungeonComplete { get; private set; }
+        private float achievementUpdateCooldown = 1f; // 1 second cooldown  
+        private float achievementUpdateTimer = 0f;
+        private bool isFirstBloodAchievementUnlockedbool = false;
+
         public StageManager2(Rectangle[] sourceRectangles, Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Link link, Link link2, ContentManager content, Vector2 scale)
         {
             Debug.WriteLine("load 2");
@@ -62,6 +71,7 @@ namespace Sprint2.TwoPlayer
             _graphicsDevice = graphicsDevice;
             _DungeonMap = new DungeonMap("../../../Map/DungeonMap2.csv");
             _DoorMap = new DoorMap("../../../Map/Dungeon_Doors.csv");
+
             _EnemyItem = new Enemy_Item_Map("../../../Map/EnemyItem_Map.csv", _scale, graphicsDevice, content, _link);
             _ItemMap = new ItemMap("../../../Map/ItemMap.csv", _scale, graphicsDevice, content, _link, _link2);
 
@@ -236,23 +246,25 @@ namespace Sprint2.TwoPlayer
 
                 if (StageIndex == 14)
                 {
-                    if (movableBlock14 != null)
-                    {
-                        movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
-                        Debug.WriteLine("Drawing movable block 14");
-                    }
+                    Vector2 scaling = new Vector2(4f, 4f);
+                    movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition, scaling);
+                    Debug.WriteLine("Drawing movable block 14");
 
                 }
 
                 if (StageIndex == 8)
                 {
-                    if (movableBlock8 != null)
-                    {
-                        Console.WriteLine("Block position: " + movableBlock8.blockPosition);
-                        movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
-                        Debug.WriteLine("Drawing movable block 8");
-                        _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
-                    }
+                    Vector2 scaling = new Vector2(4f, 4f);
+                    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
+                    movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
+
+                    //if (movableBlock8 != null)
+                    //{
+                    //    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
+                    //    movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
+                    //    Debug.WriteLine("Drawing movable block 8");
+                    //    _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
+                    //}
                 }
             }
             else

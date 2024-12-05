@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Sprint2.TwoPlayer;
 
 
 namespace Sprint2.Map
@@ -27,8 +28,9 @@ namespace Sprint2.Map
         public Link _link;
         public Game1 game;
         private StageManager _stageManager;
+        private StageManager2 stageManager2;
 
-        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, StageManager stageManager)
+        public Enemy_Item_Map(String filename, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -40,8 +42,8 @@ namespace Sprint2.Map
             _GraphicsDevice = graphicsDevice;
             _ContentManager = content;
             _link = link;
-            _stageManager = stageManager;
-
+            //_stageManager = stageManager;
+            //this.stageManager2 = stageManager2;
 
             int[,] currentRoom = new int[roomHeight, roomWidth];
             int row = 0;
@@ -84,6 +86,17 @@ namespace Sprint2.Map
 
 
         }
+
+        //public Enemy_Item_Map(string v, Vector2 scale, GraphicsDevice graphicsDevice, ContentManager content, Link link, StageManager2 stageManager2)
+        //{
+        //    this.v = v;
+        //    this.scale = scale;
+        //    this.graphicsDevice = graphicsDevice;
+        //    this.content = content;
+        //    this.link = link;
+        //    this.stageManager2 = stageManager2;
+        //}
+
         public List<IEnemy> GetEnemies(int roomNum)
         {
             if (roomNum < 0 || roomNum > _EnemyMap.Count)
@@ -138,7 +151,7 @@ namespace Sprint2.Map
                             break;
                         case 5:
                             //Gel gel = new Gel(EnemyPosition, _link, game
-                            Gel gel = new Gel(EnemyPosition, _link, _stageManager);
+                            Gel gel = new Gel(EnemyPosition, _link);
                             gel.LoadContent(_ContentManager, "Dungeon1", _GraphicsDevice, _scale);
                             EnemiesInRoom.Add(gel);
                             break;

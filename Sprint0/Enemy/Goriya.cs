@@ -110,7 +110,8 @@ namespace Sprint2.Enemy
                     {
                         isDying = false;
                         position = new Vector2(20000, 20000); // Move off screen
-                        _stageManager.IncrementEnemyDefeatedCount();
+                        //_stageManager.IncrementEnemyDefeatedCount();
+                        _link.IncrementEnemyDefeatedCount();
                     }
                 }
                 for (int i = 0; i < projectiles.Count; i++)
