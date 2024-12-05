@@ -68,7 +68,7 @@ namespace Sprint2.GameStates
                 showText = !showText;
                 timer = 0;
             }
-
+            
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(titleSequence);
