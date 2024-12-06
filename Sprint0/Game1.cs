@@ -68,7 +68,9 @@ namespace Sprint0
 
         protected override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin(SpriteSortMode.Immediate);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
+
+          //  _spriteBatch.Begin(SpriteSortMode.Immediate);
             GraphicsDevice.Clear(Color.Black);
             _GameStateManager.Draw();
            _spriteBatch.End();
