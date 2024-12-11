@@ -209,10 +209,7 @@ namespace Sprint2.Map
             {
                 if (movableBlock14 != null)
                 {
-                    Console.WriteLine("Updating movable block...");
-                    Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
                     movableBlock14.Update(ref _link._position, _scale);
-                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
                 }
 
             }
@@ -221,10 +218,7 @@ namespace Sprint2.Map
             {
                 if (movableBlock8 != null)
                 {
-                    Console.WriteLine("Updating movable block...");
-                    Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                    movableBlock8.Update(ref _link._position, _scale); // error right now
-                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+                    movableBlock8.Update(ref _link._position, _scale); 
                 }
             }
 
@@ -257,7 +251,7 @@ namespace Sprint2.Map
             if (achievementUpdateTimer >= achievementUpdateCooldown)
             {
                 achievementUpdateTimer -= achievementUpdateCooldown;
-                Debug.WriteLine("Updating achievements...");
+                //Debug.WriteLine("Updating achievements...");
                 achievementManager.Update(gameTime);
             }
 
