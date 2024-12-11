@@ -139,10 +139,12 @@ namespace Sprint2
         }
         private void DrawHearts()
         {
+            Health = _link.Health;
+            int maxHearts = 16; // Maximum number of hearts to display
+
             // Adjust heart positions to include offset
-            for (int i = 0; i < Health; i++)
+            for (int i = 0; i < maxHearts; i++)
             {
-                Health = _link.Health;
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
                 int heartValue = Health - (i * 2);
