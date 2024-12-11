@@ -64,7 +64,7 @@ namespace Sprint2.Map
         public int enemydefeatedCount { get; private set; }
         public int itemCollectedCount { get; private set; }
         public bool isDungeonComplete { get; private set; }
-        private float achievementUpdateCooldown = 1f; // 1 second cooldown  
+        private float achievementUpdateCooldown = 10f; // 1 second cooldown  
         private float achievementUpdateTimer = 0f;
         private bool isFirstBloodAchievementUnlockedbool = false;
 
@@ -112,7 +112,7 @@ namespace Sprint2.Map
             _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition14 = new Vector2(420, 445) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition14 = new Vector2(425, 469) + new Vector2(3, 3);
             movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
             movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
             if (texture == null)
@@ -126,7 +126,7 @@ namespace Sprint2.Map
 
 
             //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition8 = new Vector2(445, 540) + new Vector2(3, 3);
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
@@ -253,7 +253,15 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            achievementManager.Update(gameTime);
+            achievementUpdateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (achievementUpdateTimer >= achievementUpdateCooldown)
+            {
+                achievementUpdateTimer -= achievementUpdateCooldown;
+                Debug.WriteLine("Updating achievements...");
+                achievementManager.Update(gameTime);
+            }
+
+            //achievementManager.Update(gameTime);
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
@@ -287,7 +295,8 @@ namespace Sprint2.Map
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
-                Debug.WriteLine("Calling AchievementManager.Draw");
+
+                // Draw the achievements
                 achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
                 if (drawHitboxes)
                 {
@@ -300,10 +309,7 @@ namespace Sprint2.Map
                     {
                         Vector2 scaling = new Vector2(4f, 4f);
                         movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition, scaling);
-                        Debug.WriteLine("Drawing movable block 14");
                     }
-                    //movableBlock14.Draw(_spriteBatch, movableBlock14.blockPosition);
-                    //Debug.WriteLine("Drawing movable block 14");
                 }
 
                 if (StageIndex == 8)
@@ -311,9 +317,7 @@ namespace Sprint2.Map
                     if (movableBlock8 != null)
                     {
                         Vector2 scaling = new Vector2(4f, 4f);
-                        Console.WriteLine("Block position: " + movableBlock8.blockPosition);
                         movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
-                        Debug.WriteLine("Drawing movable block 8");
                         _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                     }
                 }
@@ -358,7 +362,6 @@ namespace Sprint2.Map
         {
             //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
             enemydefeatedCount = _link.enemyDefeatedCount;
-            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemydefeatedCount}");
             if (enemydefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
             {
                 isFirstBloodAchievementUnlockedbool = true;
@@ -369,14 +372,8 @@ namespace Sprint2.Map
 
         public void InitializeAchievements()
         {
-            Debug.WriteLine("Entering InitializeAchievements method");
-            Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
             try
             {
-                Debug.WriteLine("Entering InitializeAchievements method");
-                //achievementManager = new AchievementManager(_link, _scale);
-                Debug.WriteLine("Initialize achievements");
-                //Debug.WriteLine($"Number  of achievements: {achieve}");
                 achievementManager.AddAchievement(new Achievement(
                     "First Blood",
                     "Defeat your first enemy.",

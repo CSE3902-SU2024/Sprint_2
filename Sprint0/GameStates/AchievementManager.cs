@@ -16,7 +16,7 @@ namespace Sprint2.GameStates
         private List<Achievement> unlockedAchievements;
         private List<Achievement> alreadyPrintedAchievements;
         public int EnemyDefeatedCount { get; private set; }
-        private float achievementVisibleTime = 8f; // achievements are visible for 10 seconds   
+        private float achievementVisibleTime = 8f; // achievements are visible for 8 seconds   
         private float achievementTimer = 0f;
         private Link _link;
         public Vector2 _scale;
@@ -35,7 +35,6 @@ namespace Sprint2.GameStates
         public void AddAchievement(Achievement achievement)
         {
             achievements.Add(achievement);
-            Debug.WriteLine("number: " + achievements.Count);
         }
 
         public void Update(GameTime gameTime)
@@ -47,23 +46,23 @@ namespace Sprint2.GameStates
                 achievement.Update();
                 if (achievement.IsUnlocked && !unlockedAchievements.Contains(achievement) && !alreadyPrintedAchievements.Contains(achievement))
                 {
-                    Debug.WriteLine($"Achievement unlocked: {achievement.Name}");
+                    //Debug.WriteLine($"Achievement unlocked: {achievement.Name}");
                     unlockedAchievements.Add(achievement);
                     achievementTimers[achievement] = 0f; // Start the display timer
                 }
             }
 
             // Update timers for unlocked achievements
-            foreach (var achievement in unlockedAchievements.ToList()) // Use ToList to avoid modifying the list while iterating
+            foreach (var achievement in unlockedAchievements.ToList()) 
             {
                 achievementTimers[achievement] += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (achievementTimers[achievement] >= achievementVisibleTime)
                 {
-                    Debug.WriteLine($"Hiding achievement: {achievement.Name}");
+                    //Debug.WriteLine($"Hiding achievement: {achievement.Name}");
                     unlockedAchievements.Remove(achievement);
                     achievementTimers.Remove(achievement); // Clean up timer
-                    alreadyPrintedAchievements.Add(achievement); // Mark as displayed
+                    alreadyPrintedAchievements.Add(achievement); // to make sure achievement doesnt print again
                 }
             }
         }
@@ -81,7 +80,7 @@ namespace Sprint2.GameStates
 
                 foreach (var achievement in unlockedAchievements)
                 {
-                    Debug.WriteLine($"Drawing unlocked achievement: {achievement.Name}");
+                    //Debug.WriteLine($"Drawing unlocked achievement: {achievement.Name}");
                     spriteBatch.DrawString(font,
                         $"Achievement: {achievement.Name}",
                         basePosition + new Vector2(2, yOffset + 2),
