@@ -81,6 +81,7 @@ namespace Sprint0.Classes
                     Position.Y += 20000;
                     _link.Health += 2;
                     _link2.Health += 2;
+                    _link.IncrementItemCount();
                 }
             }
             else
@@ -91,6 +92,7 @@ namespace Sprint0.Classes
                     Position.X += 20000;
                     Position.Y += 20000;
                     _link.Health += 2;
+                    _link.IncrementItemCount();
                 }
             }
         }

@@ -237,6 +237,11 @@ namespace Sprint2.Map
                 }
             }
 
+            if (StageIndex == 17)
+            {
+                _link.GameComplete();
+            }
+
             if (MediaPlayer.State == MediaState.Playing && MediaPlayer.Queue.ActiveSong == titleSequence)
             {
                 MediaPlayer.Stop();
@@ -389,11 +394,16 @@ namespace Sprint2.Map
                     "Collect 5 items.",
                     () => _link.itemCollectedCount >= 5
                 ));
+                achievementManager.AddAchievement(new Achievement(
+                    "Treasure Collector",
+                    "Collect 10 items.",
+                    () => _link.itemCollectedCount >= 10
+                ));
 
                 achievementManager.AddAchievement(new Achievement(
                     "Dungeon Master",
                     "Complete the dungeon.",
-                    () => isDungeonComplete
+                    () => _link.isDungeonComplete
                 ));
             }
             catch (Exception ex)

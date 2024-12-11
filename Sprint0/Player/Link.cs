@@ -410,5 +410,10 @@ namespace Sprint0.Player
         {
             itemCollectedCount++;
         }
+
+        public void GameComplete()
+        {
+            isDungeonComplete = true;
+        }
     }
 }

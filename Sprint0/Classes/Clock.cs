@@ -106,6 +106,7 @@ namespace Sprint0.Classes
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
                             isPurchased = true;
+                            _link.IncrementItemCount();
                         }
                     }
                     
@@ -130,6 +131,7 @@ namespace Sprint0.Classes
                             _link.inventory.AddItem(this);
                             _link.pauseTimer = _link.pauseDuration;
                             isPurchased = true;
+                            _link.IncrementItemCount();
                         }
                     }
                 }

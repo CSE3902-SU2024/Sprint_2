@@ -76,7 +76,8 @@ namespace Sprint0.Classes
                     Position.Y += 20000;
                     _link.hasBow = true;
                     _link.inventory.AddItem(this);
-                }
+                _link.IncrementItemCount();
+            }
 
             if (TwoPlayer)
             {
@@ -88,6 +89,7 @@ namespace Sprint0.Classes
                     _link2.hasBow = true;
                     _link.hasBow = true;
                     _link2.inventory.AddItem(this);
+                    _link.IncrementItemCount();
                 }
             }
             }

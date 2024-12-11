@@ -80,6 +80,7 @@ namespace Sprint0.Classes
                 _link.IncrementKey();
                 _link.hasKey = true;
                 _link.inventory.AddItem(this);
+                _link.IncrementItemCount();
             }
             if (TwoPlayer)
             {
@@ -91,6 +92,7 @@ namespace Sprint0.Classes
                     _link.IncrementKey();
                     _link.hasKey = true;
                     _link.inventory.AddItem(this);
+                    _link.IncrementItemCount();
                 }
             }
         }

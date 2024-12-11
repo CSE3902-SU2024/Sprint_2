@@ -82,6 +82,7 @@ namespace Sprint0.Classes
                     Position.Y += 20000;
                     _link.IncrementBomb();
                     _link.inventory.AddItem(this);
+                    _link.IncrementItemCount();
                 }
             } else 
             {
@@ -92,6 +93,7 @@ namespace Sprint0.Classes
                     Position.Y += 20000;
                     _link.IncrementBomb();
                     _link.inventory.AddItem(this);
+                    _link.IncrementItemCount();
                 }
  
             }      

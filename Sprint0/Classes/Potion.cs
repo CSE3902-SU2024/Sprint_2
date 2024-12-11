@@ -89,6 +89,7 @@ namespace Sprint0.Classes
                 Position.Y += 20000;
                 _link.IncrementPotion();
                 _link.inventory.AddItem(this);
+                _link.IncrementItemCount();
             }
             if (TwoPlayer)
             {
@@ -99,6 +100,7 @@ namespace Sprint0.Classes
                     Position.Y += 20000;
                     _link.IncrementPotion();
                     _link.inventory.AddItem(this);
+                    _link.IncrementItemCount();
                 }
             }
 

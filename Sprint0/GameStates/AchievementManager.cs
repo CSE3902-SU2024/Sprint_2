@@ -75,11 +75,9 @@ namespace Sprint2.GameStates
             {
                 //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
                 //Vector2 basePosition = new Vector2(graphicsDevice.Viewport.Width - 300, 50);
-                Vector2 basePosition = new Vector2(623, 648);
+                Vector2 basePosition = new Vector2(600, 700);
                 //Vector2 basePosition = new Vector2(_link._position.X * _scale.X, _link._position.Y * _scale.Y);
                 int yOffset = 0;
-
-                spriteBatch.Draw(new Texture2D(graphicsDevice, 1, 1), new Rectangle((int)basePosition.X, (int)basePosition.Y, 50, 50), Color.Red);
 
                 foreach (var achievement in unlockedAchievements)
                 {
