@@ -39,14 +39,12 @@ namespace Sprint2.GameStates
 
         public void Update(GameTime gameTime)
         {
-            Debug.WriteLine($"Updating achievement: {achievements}");
 
             foreach (var achievement in achievements)
             {
                 achievement.Update();
                 if (achievement.IsUnlocked && !unlockedAchievements.Contains(achievement) && !alreadyPrintedAchievements.Contains(achievement))
                 {
-                    //Debug.WriteLine($"Achievement unlocked: {achievement.Name}");
                     unlockedAchievements.Add(achievement);
                     achievementTimers[achievement] = 0f; // Start the display timer
                 }
