@@ -214,10 +214,6 @@ namespace Sprint2.Map
                     movableBlock14.Update(ref _link._position, _scale);
                     Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
                 }
-                //Console.WriteLine("Updating movable block...");
-                //Console.WriteLine($"Position before update: {movableBlock14.blockPosition}");
-                //movableBlock14.Update(ref _link._position, _scale);
-                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
 
             }
 
@@ -230,10 +226,6 @@ namespace Sprint2.Map
                     movableBlock8.Update(ref _link._position, _scale); // error right now
                     Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
                 }
-                //Console.WriteLine("Updating movable block...");
-                //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                //movableBlock8.Update(ref _link._position, _scale); // error right now
-                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
             if (StageIndex == 16)
@@ -319,10 +311,6 @@ namespace Sprint2.Map
                         Debug.WriteLine("Drawing movable block 8");
                         _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                     }
-                    //    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
-                    //movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition);
-                    //Debug.WriteLine("Drawing movable block 8");
-                    //_spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
                 }
 
             }
@@ -330,7 +318,6 @@ namespace Sprint2.Map
             {
                 _StageAnimator.Draw();
             }
-            //achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
         }
         public void DrawEnd()
         {
@@ -388,14 +375,19 @@ namespace Sprint2.Map
                 achievementManager.AddAchievement(new Achievement(
                     "First Blood",
                     "Defeat your first enemy.",
-                    //() => _link.IsFirstBloodAchievementUnlocked()
                     () => IsFirstBloodAchievementUnlocked()
                 ));
 
                 achievementManager.AddAchievement(new Achievement(
+                    "Slayer",
+                    "Defeat 10 enemies.",
+                    () => _link.enemyDefeatedCount >= 10
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
                     "Treasure Hunter",
-                    "Collect 10 items.",
-                    () => itemCollectedCount >= 10
+                    "Collect 5 items.",
+                    () => _link.itemCollectedCount >= 5
                 ));
 
                 achievementManager.AddAchievement(new Achievement(
@@ -409,13 +401,6 @@ namespace Sprint2.Map
                 Debug.WriteLine("Error initializing achievements: " + ex.Message);
             }
         }
-
-        //public void IncrementEnemyDefeatedCount()
-        //{
-        //    Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-        //    Debug.WriteLine("Adding enemy count");
-        //    enemyDefeatedCount++;
-        //}
     
     }
 }

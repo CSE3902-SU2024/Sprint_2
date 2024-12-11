@@ -394,16 +394,21 @@ namespace Sprint0.Player
             enemyDefeatedCount++;
         }
 
-        public bool IsFirstBloodAchievementUnlocked()
+        //public bool IsFirstBloodAchievementUnlocked()
+        //{
+        //    //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+        //    Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
+        //    if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+        //    {
+        //        isFirstBloodAchievementUnlockedbool = true;
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        public void IncrementItemCount()
         {
-            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
-            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
-            {
-                isFirstBloodAchievementUnlockedbool = true;
-                return true;
-            }
-            return false;
+            itemCollectedCount++;
         }
     }
 }
