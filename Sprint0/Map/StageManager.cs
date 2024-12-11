@@ -255,7 +255,7 @@ namespace Sprint2.Map
             //    achievementManager.Update(gameTime);
             //}
 
-            achievementManager.Update(gameTime);
+            //achievementManager.Update(gameTime);
 
             _link.SetExplosionCoords(Vector2.Zero);
         }

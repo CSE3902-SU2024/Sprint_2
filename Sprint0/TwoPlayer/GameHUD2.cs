@@ -139,15 +139,18 @@ namespace Sprint2
         }
         private void DrawHearts()
         {
+            
+            int maxhearts = 16;
             // Adjust heart positions to include offset
-            for (int i = 0; i < health; i++)
+            for (int i = 0; i < maxhearts; i++)
             {
                 int row = i / heartsPerRow;
                 int column = i % heartsPerRow;
                 int tempHearts = Math.Min(_link.Health, _link2.Health);
+                
+                int heartValue = tempHearts - (i * 2);
                 _link.Health = tempHearts;
                 _link2.Health = tempHearts;
-                int heartValue = tempHearts - (i * 2);
 
                 Rectangle heartSource;
                 if (heartValue >= 2)
