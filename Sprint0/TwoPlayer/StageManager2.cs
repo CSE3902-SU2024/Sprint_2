@@ -47,7 +47,7 @@ namespace Sprint2.TwoPlayer
         public MovableBlock movableBlock8;
 
         public AchievementManager achievementManager { get; private set; }
-        public int enemyDefeatedCount { get; private set; }
+        public int enemydefeatedCount { get; private set; }
         public int itemCollectedCount { get; private set; }
         public bool isDungeonComplete { get; private set; }
         private float achievementUpdateCooldown = 1f; // 1 second cooldown  
@@ -92,12 +92,12 @@ namespace Sprint2.TwoPlayer
             _StageAnimator2 = new StageAnimator2(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon2);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition14 = new Vector2(420, 445) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition14 = new Vector2(380, 540) + new Vector2(3, 3);
             movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
             movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
             //MovableBlock movableblock8 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition8 = new Vector2(445, 540) + new Vector2(3, 3);
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
 
@@ -225,15 +225,8 @@ namespace Sprint2.TwoPlayer
             {
                 if (movableBlock8 != null)
                 {
-                    Console.WriteLine("Updating movable block...");
-                    Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                    movableBlock8.Update(ref _link._position, _scale); // error right now
-                    Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
+                    movableBlock8.Update(ref _link._position, _scale); 
                 }
-                //Console.WriteLine("Updating movable block...");
-                //Console.WriteLine($"Position before update: {movableBlock8.blockPosition}");
-                //movableBlock8.Update(ref _link._position, _scale); // error right now
-                //Console.WriteLine($"Position after update: {movableBlock14.blockPosition}");
             }
 
             if (StageIndex == 16)
@@ -252,7 +245,7 @@ namespace Sprint2.TwoPlayer
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-           
+            //achievementManager.Update(gameTime);
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
@@ -287,13 +280,6 @@ namespace Sprint2.TwoPlayer
                     Console.WriteLine("Block position: " + movableBlock8.blockPosition);
                     movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
 
-                    //if (movableBlock8 != null)
-                    //{
-                    //    Console.WriteLine("Block position: " + movableBlock8.blockPosition);
-                    //    movableBlock8.Draw(_spriteBatch, movableBlock8.blockPosition, scaling);
-                    //    Debug.WriteLine("Drawing movable block 8");
-                    //    _spriteBatch.Draw(new Texture2D(_graphicsDevice, 1, 1), new Rectangle((int)movableBlock8.blockPosition.X, (int)movableBlock8.blockPosition.Y, 50, 50), Color.Red);
-                    //}
                 }
             }
             else
@@ -326,6 +312,57 @@ namespace Sprint2.TwoPlayer
         public int GetCurrentStage()
         {
             return StageIndex;
+        }
+
+        public bool IsFirstBloodAchievementUnlocked()
+        {
+            //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
+            enemydefeatedCount = _link.enemyDefeatedCount;
+            if (enemydefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            {
+                isFirstBloodAchievementUnlockedbool = true;
+                return true;
+            }
+            return false;
+        }
+
+        public void InitializeAchievements()
+        {
+            try
+            {
+                achievementManager.AddAchievement(new Achievement(
+                    "First Blood",
+                    "Defeat your first enemy.",
+                    () => IsFirstBloodAchievementUnlocked()
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Slayer",
+                    "Defeat 10 enemies.",
+                    () => _link.enemyDefeatedCount >= 10
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Treasure Hunter",
+                    "Collect 5 items.",
+                    () => _link.itemCollectedCount >= 5
+                ));
+                achievementManager.AddAchievement(new Achievement(
+                    "Treasure Collector",
+                    "Collect 10 items.",
+                    () => _link.itemCollectedCount >= 10
+                ));
+
+                achievementManager.AddAchievement(new Achievement(
+                    "Dungeon Master",
+                    "Complete the dungeon.",
+                    () => _link.isDungeonComplete
+                ));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error initializing achievements: " + ex.Message);
+            }
         }
     }
 }
