@@ -28,6 +28,8 @@ namespace Sprint2.GameStates
         private int currentRoomNumber;
         private GameHUD _gameHUD;
         private MouseController _mouseController;
+        public AchievementManager achievementManager { get; private set; }
+        public SpriteFont font;
 
         public LevelOne(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 scale, GraphicsDevice graphicsDevice, Link link)
         {
@@ -36,6 +38,7 @@ namespace Sprint2.GameStates
             _scale = scale;
             _graphicsDevice = graphicsDevice;
             _link = link;
+            achievementManager = new AchievementManager(_link, _scale);
         }
 
         public void LoadContent(ContentManager Content)
@@ -70,6 +73,7 @@ namespace Sprint2.GameStates
             }
 
             _gameHUD.Draw();
+            //achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
             // do drawing for achievements here
         }
 

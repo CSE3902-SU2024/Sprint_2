@@ -61,7 +61,7 @@ namespace Sprint2.Map
         private BulletManager bulletManager;
 
         public AchievementManager achievementManager { get; private set; }
-        public int enemyDefeatedCount { get; private set; }
+        public int enemydefeatedCount { get; private set; }
         public int itemCollectedCount { get; private set; }
         public bool isDungeonComplete { get; private set; }
         private float achievementUpdateCooldown = 1f; // 1 second cooldown  
@@ -129,6 +129,10 @@ namespace Sprint2.Map
             Vector2 EasierAccessTilePosition8 = new Vector2(420, 445) + new Vector2(3, 3);
             movableBlock8 = new MovableBlock(_link._position, EasierAccessTilePosition8, 16, 16, 13, 13);
             movableBlock8.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
+
+            achievementManager = new AchievementManager(_link, _scale);
+            InitializeAchievements();
+            //enemydefeatedCount = _link.enemyDefeatedCount;
 
 
         }
@@ -252,7 +256,7 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            
+            achievementManager.Update(gameTime);
 
             _link.SetExplosionCoords(Vector2.Zero);
         }
@@ -286,6 +290,8 @@ namespace Sprint2.Map
             if (!StageAnimating)
             {
                 _DrawDungeon.Draw(Vector2.Zero, false, StageIndex);
+                Debug.WriteLine("Calling AchievementManager.Draw");
+                achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
                 if (drawHitboxes)
                 {
                     DebugDraw.DrawHitboxes(_spriteBatch, _link, _EnemyItem, StageIndex, _scale, _link.BulletManager);
@@ -324,6 +330,7 @@ namespace Sprint2.Map
             {
                 _StageAnimator.Draw();
             }
+            //achievementManager.Draw(_spriteBatch, font, _graphicsDevice);
         }
         public void DrawEnd()
         {
@@ -358,8 +365,9 @@ namespace Sprint2.Map
         public bool IsFirstBloodAchievementUnlocked()
         {
             //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
-            if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
+            enemydefeatedCount = _link.enemyDefeatedCount;
+            Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemydefeatedCount}");
+            if (enemydefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
             {
                 isFirstBloodAchievementUnlockedbool = true;
                 return true;
@@ -374,11 +382,13 @@ namespace Sprint2.Map
             try
             {
                 Debug.WriteLine("Entering InitializeAchievements method");
-                achievementManager = new AchievementManager(_link, _scale);
+                //achievementManager = new AchievementManager(_link, _scale);
                 Debug.WriteLine("Initialize achievements");
+                //Debug.WriteLine($"Number  of achievements: {achieve}");
                 achievementManager.AddAchievement(new Achievement(
                     "First Blood",
                     "Defeat your first enemy.",
+                    //() => _link.IsFirstBloodAchievementUnlocked()
                     () => IsFirstBloodAchievementUnlocked()
                 ));
 
