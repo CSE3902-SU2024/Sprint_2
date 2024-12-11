@@ -54,7 +54,7 @@ namespace Sprint0.Player
         private SpriteEffects spriteEffects;
 
         //for hud:
-        public int Health { get; set; } = 30; // each heart = 2 hp
+        public int Health { get; set; } = 16; // each heart = 2 hp
 
        // public int keyCount { get; set; } = 0; // start with 0 keys
 
