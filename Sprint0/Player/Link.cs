@@ -8,6 +8,7 @@ using System;
 using System.Reflection.Metadata;
 using static Sprint0.Player.ILinkState;
 using static Sprint2.Classes.Iitem;
+using Sprint2.GameStates;
 
 
 namespace Sprint0.Player
@@ -53,7 +54,7 @@ namespace Sprint0.Player
         private SpriteEffects spriteEffects;
 
         //for hud:
-        public int Health { get; set; } = 16; // each heart = 2 hp
+        public int Health { get; set; } = 30; // each heart = 2 hp
 
        // public int keyCount { get; set; } = 0; // start with 0 keys
 
@@ -74,6 +75,8 @@ namespace Sprint0.Player
         public int itemCollectedCount { get; private set; }
         public bool isDungeonComplete { get; private set; }
         private bool isFirstBloodAchievementUnlockedbool = false;
+        //public AchievementManager achievementManager { get; private set; }
+        //public GameTime gameTime;
 
 
         public Link(Rectangle[] sourceRectangles, Texture2D texture, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Vector2 scale, ContentManager content, SoundEffect swordSound, SoundEffect bowSound, SoundEffect bombSound, SoundEffect boomerangSound, Link_Inventory _inventory, SoundEffect ak47Sound)
@@ -390,21 +393,10 @@ namespace Sprint0.Player
         public void IncrementEnemyDefeatedCount()
         {
             //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-            Debug.WriteLine("Adding enemy count");
+            //Debug.WriteLine("Adding enemy count");
             enemyDefeatedCount++;
+            //achievementManager.Update(gameTime);
         }
-
-        //public bool IsFirstBloodAchievementUnlocked()
-        //{
-        //    //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
-        //    Debug.WriteLine($"Evaluating achievement condition: enemyDefeatedCount = {enemyDefeatedCount}");
-        //    if (enemyDefeatedCount > 0 && !isFirstBloodAchievementUnlockedbool)
-        //    {
-        //        isFirstBloodAchievementUnlockedbool = true;
-        //        return true;
-        //    }
-        //    return false;
-        //}
 
         public void IncrementItemCount()
         {

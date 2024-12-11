@@ -112,7 +112,7 @@ namespace Sprint2.Map
             _StageAnimator = new StageAnimator(_DungeonMap, _DoorMap, _scale, sourceRectangles, _texture, spriteBatch, _DrawDungeon);
 
             //MovableBlock movableblock14 = new MovableBlock(new Vector2(100, 100));
-            Vector2 EasierAccessTilePosition14 = new Vector2(425, 469) + new Vector2(3, 3);
+            Vector2 EasierAccessTilePosition14 = new Vector2(380, 540) + new Vector2(3, 3);
             movableBlock14 = new MovableBlock(_link._position, EasierAccessTilePosition14, 16, 16, 13, 13);
             movableBlock14.LoadContent(content, "DungeonSheet", new Rectangle(212, 323, 16, 16));
             if (texture == null)
@@ -247,13 +247,13 @@ namespace Sprint2.Map
                 MediaPlayer.IsRepeating = true; // loop the music
             }
 
-            achievementUpdateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (achievementUpdateTimer >= achievementUpdateCooldown)
-            {
-                achievementUpdateTimer -= achievementUpdateCooldown;
-                //Debug.WriteLine("Updating achievements...");
-                achievementManager.Update(gameTime);
-            }
+            //achievementUpdateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (achievementUpdateTimer >= achievementUpdateCooldown)
+            //{
+            //    achievementUpdateTimer -= achievementUpdateCooldown;
+            //    //Debug.WriteLine("Updating achievements...");
+            //    achievementManager.Update(gameTime);
+            //}
 
             achievementManager.Update(gameTime);
 
