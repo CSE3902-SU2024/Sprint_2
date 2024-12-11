@@ -249,6 +249,51 @@ namespace Sprint2.Enemy
                     }
                 }
             }
+
+            //wall Collision
+            //switch (currentDirection)
+            //{
+            //    case Direction.Left:
+            //        if (position.X - moveDistance > 32 * _scale.X)
+            //        {
+            //            newPosition.X -= moveDistance;
+            //        }
+            //        else
+            //        {
+            //            SetNewRandomDirection(); // Change direction if hitting boundary
+            //        }
+            //        break;
+            //    case Direction.Right:
+            //        if (position.X + moveDistance < 208 * _scale.X)
+            //        {
+            //            newPosition.X += moveDistance;
+            //        }
+            //        else
+            //        {
+            //            SetNewRandomDirection();
+            //        }
+            //        break;
+            //    case Direction.Up:
+            //        if (position.Y - moveDistance > 87 * _scale.Y)
+            //        {
+            //            newPosition.Y -= moveDistance;
+            //        }
+            //        else
+            //        {
+            //            SetNewRandomDirection();
+            //        }
+            //        break;
+            //    case Direction.Down:
+            //        if (position.Y + moveDistance < 143 * _scale.Y)
+            //        {
+            //            newPosition.Y += moveDistance;
+            //        }
+            //        else
+            //        {
+            //            SetNewRandomDirection();
+            //        }
+            //        break;
+            //}
         }
 
 

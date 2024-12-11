@@ -75,7 +75,7 @@ namespace Sprint2.GameStates
             {
                 //Debug.WriteLine($"Link's position: {_link._position.X}, {_link._position.Y}");
                 //Vector2 basePosition = new Vector2(graphicsDevice.Viewport.Width - 300, 50);
-                Vector2 basePosition = new Vector2(600, 700);
+                Vector2 basePosition = new Vector2(500, 750);
                 //Vector2 basePosition = new Vector2(_link._position.X * _scale.X, _link._position.Y * _scale.Y);
                 int yOffset = 0;
 
